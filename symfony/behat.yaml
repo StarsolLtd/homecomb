@@ -1,0 +1,14 @@
+default:
+  extensions:
+    FriendsOfBehat\SymfonyExtension: null
+    Imbo\BehatApiExtension:
+      apiClient:
+        base_uri: http://homecomb_nginx_1
+        timeout: 15.0
+        verify: false
+        allow_redirects: false
+  suites:
+    default:
+      contexts:
+        - App\Tests\Behat\ApiFeatureContext
+        - FeatureContext:
