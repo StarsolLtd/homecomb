@@ -29,12 +29,12 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $addressLine2;
+    private ?string $addressLine2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $addressLine3;
+    private ?string $addressLine3;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -54,7 +54,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $vendorPropertyId;
+    private ?string $vendorPropertyId;
 
     public function getId(): int
     {
@@ -78,7 +78,7 @@ class Property
         return $this->addressLine2;
     }
 
-    public function setAddressLine2(string $addressLine2): self
+    public function setAddressLine2(?string $addressLine2): self
     {
         $this->addressLine2 = $addressLine2;
 
@@ -90,7 +90,7 @@ class Property
         return $this->addressLine3;
     }
 
-    public function setAddressLine3(string $addressLine3): self
+    public function setAddressLine3(?string $addressLine3): self
     {
         $this->addressLine3 = $addressLine3;
 
@@ -133,12 +133,12 @@ class Property
         return $this;
     }
 
-    public function getVendorPropertyId(): string
+    public function getVendorPropertyId(): ?string
     {
         return $this->vendorPropertyId;
     }
 
-    public function setVendorPropertyId(string $vendorPropertyId): self
+    public function setVendorPropertyId(?string $vendorPropertyId): self
     {
         $this->vendorPropertyId = $vendorPropertyId;
 

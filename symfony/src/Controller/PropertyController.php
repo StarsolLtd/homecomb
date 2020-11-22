@@ -49,6 +49,25 @@ class PropertyController extends AbstractController
 
     /**
      * @Route (
+     *     "/api/property/lookup-id-from-vendor-id",
+     *     name="lookup-id-from-vendor-id",
+     *     methods={"GET"}
+     * )
+     */
+    public function lookupPropertyIdFromVendorId(Request $request): JsonResponse
+    {
+        $propertyId = $this->propertyService->determinePropertyIdFromVendorPropertyId($request->query->get('vendorPropertyId'));
+
+        return JsonResponse::create(
+            [
+                'propertyId' => $propertyId,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route (
      *     "/api/property/suggest-property",
      *     name="suggest-property",
      *     methods={"GET"}
@@ -56,16 +75,15 @@ class PropertyController extends AbstractController
      */
     public function suggestProperty(Request $request): JsonResponse
     {
-        /** @var SuggestPropertyInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), SuggestPropertyInput::class, 'json');
+        $input = new SuggestPropertyInput($request->query->get('term'));
 
         $suggestions = $this->propertyService->suggestProperty($input);
 
         $output = [];
         foreach ($suggestions as $suggestion) {
             $output[] = [
-                'address' => $suggestion->getAddress(),
-                'vendorId' => $suggestion->getVendorId(),
+                'value' => $suggestion->getAddress(),
+                'id' => $suggestion->getVendorId(),
             ];
         }
 

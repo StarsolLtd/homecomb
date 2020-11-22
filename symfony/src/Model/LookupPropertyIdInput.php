@@ -36,7 +36,7 @@ class LookupPropertyIdInput
         return $this->countryCode;
     }
 
-    public function getVendorPropertyId(): string
+    public function getVendorPropertyId(): ?string
     {
         return $this->vendorPropertyId;
     }
