@@ -99,6 +99,25 @@ class PropertyController extends AbstractController
 
     /**
      * @Route (
+     *     "/property/{propertyId}/review",
+     *     name="property-review",
+     *     methods={"GET", "HEAD"}
+     * )
+     */
+    public function review(int $propertyId): Response
+    {
+        $property = $this->propertyRepository->find($propertyId);
+
+        return $this->render(
+            'property/review.html.twig',
+            [
+                'property' => $property,
+            ]
+        );
+    }
+
+    /**
+     * @Route (
      *     "/property/{propertyId}",
      *     name="property-view",
      *     methods={"GET", "HEAD"}
@@ -111,7 +130,7 @@ class PropertyController extends AbstractController
         return $this->render(
             'property/view.html.twig',
             [
-                'property' => $property
+                'property' => $property,
             ]
         );
     }

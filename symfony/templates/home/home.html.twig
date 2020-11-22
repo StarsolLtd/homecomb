@@ -12,3 +12,20 @@
         </form>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $( function() {
+            $("#propertySearch").autocomplete({
+                source: "/api/property/suggest-property",
+                minLength: 3,
+                select: function(event, ui){
+                    console.log(ui.item.id);
+                    $.get('/api/property/lookup-id-from-vendor-id?vendorPropertyId=' + ui.item.id, function( data ) {
+                        location.href = '/property/' + data.propertyId;
+                    });
+                }
+            });
+        } );
+    </script>
+{% endblock %}

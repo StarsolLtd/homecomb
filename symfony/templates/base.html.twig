@@ -8,6 +8,8 @@
     <body>
         {% block navbar %}{% endblock %}
 
+        {% block breadcrumb %}{% endblock %}
+
         <div role="main" class="container h-100 d-flex">
             {% block content %}{% endblock %}
         </div>
@@ -20,21 +22,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/css/app.css" type="text/css" />
-
-        <script type="text/javascript">
-            $( function() {
-                $("#propertySearch").autocomplete({
-                    source: "/api/property/suggest-property",
-                    minLength: 3,
-                    select: function(event, ui){
-                        console.log(ui.item.id);
-                        $.get('/api/property/lookup-id-from-vendor-id?vendorPropertyId=' + ui.item.id, function( data ) {
-                            location.href = '/property/' + data.propertyId;
-                        });
-                    }
-                });
-            } );
-        </script>
 
         {% block javascripts %}{% endblock %}
     </body>

@@ -42,6 +42,11 @@ class Review
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private ?string $author;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private ?string $title;
 
     /**
@@ -103,6 +108,18 @@ class Review
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?string $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

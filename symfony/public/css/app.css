@@ -4,7 +4,6 @@ html, body {
 
 body {
     background-color: #DFDFDF;
-    font-size: 1.5em;
 }
 
 .navbar {
@@ -23,9 +22,29 @@ body {
     font-family: 'Libre Baskerville', serif;
 }
 
-.red {
+.breadcrumb a, .red {
     color: #862e2e;
 }
 .bronze {
     color: #8d6651;
+}
+
+.btn-primary {
+    background-color: #8d6651;
+    border-color: #8d6651;
+}
+
+.btn-primary:hover {
+    background-color: #862e2e;
+    border-color: #862e2e;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+label.error {
+    padding: 5px;
+    background-color: #e80000;
+    color: #ffffff;
 }
