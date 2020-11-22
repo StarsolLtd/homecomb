@@ -51,6 +51,11 @@ class Property
      */
     private string $countryCode;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private string $vendorId;
+
     public function getId(): int
     {
         return $this->id;

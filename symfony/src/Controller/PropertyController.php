@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\LookupPropertyIdInput;
+use App\Model\SuggestPropertyInput;
 use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,6 +43,34 @@ class PropertyController extends AbstractController
             [
                 'id' => $output->getId(),
             ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/api/property/suggest-property",
+     *     name="suggest-property",
+     *     methods={"GET"}
+     * )
+     */
+    public function suggestProperty(Request $request): JsonResponse
+    {
+        /** @var SuggestPropertyInput $input */
+        $input = $this->serializer->deserialize($request->getContent(), SuggestPropertyInput::class, 'json');
+
+        $suggestions = $this->propertyService->suggestProperty($input);
+
+        $output = [];
+        foreach ($suggestions as $suggestion) {
+            $output[] = [
+                'address' => $suggestion->getAddress(),
+                'vendorId' => $suggestion->getVendorId(),
+            ];
+        }
+
+        return JsonResponse::create(
+            $output,
             Response::HTTP_OK
         );
     }

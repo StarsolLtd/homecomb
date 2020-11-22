@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Property;
 use App\Model\LookupPropertyIdInput;
 use App\Model\LookupPropertyIdOutput;
+use App\Model\PropertySuggestion;
+use App\Model\SuggestPropertyInput;
 use App\Repository\PropertyRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,13 +15,25 @@ class PropertyService
 {
     private EntityManagerInterface $entityManager;
     private PropertyRepository $propertyRepository;
+    private GetAddressService $getAddressService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        PropertyRepository $propertyRepository
+        PropertyRepository $propertyRepository,
+        GetAddressService $getAddressService
     ) {
         $this->entityManager = $entityManager;
         $this->propertyRepository = $propertyRepository;
+        $this->getAddressService = $getAddressService;
+    }
+
+    /**
+     * @return PropertySuggestion[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function suggestProperty(SuggestPropertyInput $input): array
+    {
+        return $this->getAddressService->autocomplete($input->getSearch());
     }
 
     public function lookupPropertyId(LookupPropertyIdInput $input): LookupPropertyIdOutput
