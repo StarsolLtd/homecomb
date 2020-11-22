@@ -7,9 +7,19 @@ body {
     font-size: 1.5em;
 }
 
-.logo {
+.navbar {
+    background-color: #cdc3c0;
+    margin-bottom: 2%;
+}
+
+.logo-large {
     font-size: 5rem;
     line-height: 1.3;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.logo-medium {
+    font-size: 3rem;
     font-family: 'Libre Baskerville', serif;
 }
 
@@ -17,5 +27,5 @@ body {
     color: #862e2e;
 }
 .bronze {
-    color: #97705a;
+    color: #8d6651;
 }

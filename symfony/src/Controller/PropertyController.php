@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\LookupPropertyIdInput;
 use App\Model\SuggestPropertyInput;
+use App\Repository\PropertyRepository;
 use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,13 +15,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PropertyController extends AbstractController
 {
+    private PropertyRepository $propertyRepository;
     private PropertyService $propertyService;
     private SerializerInterface $serializer;
 
     public function __construct(
+        PropertyRepository $propertyRepository,
         PropertyService $propertyService,
         SerializerInterface $serializer
     ) {
+        $this->propertyRepository = $propertyRepository;
         $this->propertyService = $propertyService;
         $this->serializer = $serializer;
     }
@@ -90,6 +94,25 @@ class PropertyController extends AbstractController
         return JsonResponse::create(
             $output,
             Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/property/{propertyId}",
+     *     name="property-view",
+     *     methods={"GET", "HEAD"}
+     * )
+     */
+    public function view(int $propertyId): Response
+    {
+        $property = $this->propertyRepository->find($propertyId);
+
+        return $this->render(
+            'property/view.html.twig',
+            [
+                'property' => $property
+            ]
         );
     }
 }

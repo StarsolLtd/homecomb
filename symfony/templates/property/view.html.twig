@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}HomeComb{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand logo-medium"><a href="{{ path('home') }}"><span class="red">Home</span><span class="bronze">Comb</span></a></span>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>{{ property.addressLine1 }}, {{ property.postcode }}</h1>
+        </div>
+
+        <div class="row">
+            <p>
+                There are currently no reviews for this property.
+            </p>
+        </div>
+
+        <div class="row">
+            <h3>About this property:</h3>
+        </div>
+
+        <div class="row">
+            <p>
+                Address: {{ [property.addressLine1, property.addressLine2, property.addressLine3, property.city]|join(', ') }}<br>
+                Postcode: {{ property.postcode }}
+            </p>
+        </div>
+    </div>
+{% endblock %}
