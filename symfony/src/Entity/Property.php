@@ -54,7 +54,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $vendorId;
+    private string $vendorPropertyId;
 
     public function getId(): int
     {
@@ -129,6 +129,18 @@ class Property
     public function setCountryCode(string $countryCode): self
     {
         $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+    public function getVendorPropertyId(): string
+    {
+        return $this->vendorPropertyId;
+    }
+
+    public function setVendorPropertyId(string $vendorPropertyId): self
+    {
+        $this->vendorPropertyId = $vendorPropertyId;
 
         return $this;
     }

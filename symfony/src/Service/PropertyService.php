@@ -51,6 +51,8 @@ class PropertyService
                 ->setAddressLine1($input->getAddressLine1())
                 ->setPostcode($input->getPostcode())
                 ->setCountryCode($input->getCountryCode())
+                ->setCountryCode($input->getCountryCode())
+                ->setVendorPropertyId($input->getVendorPropertyId())
                 ->setCreatedAt(new DateTime())
                 ->setUpdatedAt(new DateTime());
             $this->entityManager->persist($property);
