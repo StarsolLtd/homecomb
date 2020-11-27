@@ -1,14 +1,36 @@
-html, body {
+html {
     height: 100%;
 }
 
 body {
+    height: 100%;
     background-color: #DFDFDF;
 }
 
 .navbar {
     background-color: #cdc3c0;
     margin-bottom: 2%;
+}
+
+footer.navbar {
+    margin-top: 2%;
+    margin-bottom: 0;
+    height: 60px;
+    line-height: 60px;
+}
+
+footer ul {
+    width: 100%;
+    text-align: center;
+    list-style: inside;
+    line-height: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+footer ul, footer ul li {
+    margin: 0;
+    padding: 0;
 }
 
 .logo-large {
@@ -22,7 +44,7 @@ body {
     font-family: 'Libre Baskerville', serif;
 }
 
-.breadcrumb a, .red {
+footer.navbar a, .breadcrumb a, .red {
     color: #862e2e;
 }
 .bronze {

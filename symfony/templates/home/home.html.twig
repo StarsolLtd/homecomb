@@ -2,13 +2,15 @@
 
 {% block title %}HomeComb{% endblock %}
 
+{% block navbar %}{% endblock %}
+
 {% block content %}
     <div class="container align-self-center text-center" style="padding-bottom: 15%;">
         <h1 class="logo-large"><span class="red">Home</span><span class="bronze">Comb</span></h1>
         <form>
             <label for="propertySearch">Find a property</label>
             <input type="text" class="form-control" id="propertySearch" aria-describedby="propertySearchHelp" placeholder="Start typing an address">
-            <small id="propertySearchHelp" class="form-text text-muted">After you've entered a few characters, you will see suggested results</small>
+            <p id="propertySearchHelp" class="form-text text-muted">After you've entered a few characters, you will see suggested results</p>
         </form>
     </div>
 {% endblock %}
