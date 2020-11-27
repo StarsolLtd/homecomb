@@ -9,9 +9,17 @@
         </div>
 
         <div class="row">
-            <p>
-                There are currently no reviews for this property.
-            </p>
+            {% for review in property.reviews %}
+                <p>
+                    Review by {{ review.author }} on {{ review.createdAt|date('jS F Y') }}:<br>
+                    {{ review.content }}<br>
+                    Stars: {{ review.stars }}
+                </p>
+            {% else %}
+                <p>
+                    There are currently no reviews for this property.
+                </p>
+            {% endfor %}
         </div>
 
         <div class="row">

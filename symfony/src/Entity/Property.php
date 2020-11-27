@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -55,6 +57,16 @@ class Property
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $vendorPropertyId;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="property")
+     */
+    private $reviews;
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -143,5 +155,10 @@ class Property
         $this->vendorPropertyId = $vendorPropertyId;
 
         return $this;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 }
