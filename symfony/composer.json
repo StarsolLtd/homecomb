@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "behat/behat": "^3.8",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friends-of-behat/symfony-extension": "^2.1",
         "friendsofphp/php-cs-fixer": "^2.16",
         "imbo/behat-api-extension": "^2.3",

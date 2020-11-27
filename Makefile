@@ -45,3 +45,12 @@ phpstan:
 
 follow-logs:
 	docker-compose --file=docker-compose.yml logs -f
+
+reset-database:
+	make empty-database migrate load-fixtures
+
+empty-database:
+	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate first
+
+load-fixtures:
+	docker exec -it homecomb_php_1 php bin/console doctrine:fixtures:load

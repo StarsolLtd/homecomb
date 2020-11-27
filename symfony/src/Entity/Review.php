@@ -141,7 +141,7 @@ class Review
         return $this->stars;
     }
 
-    public function withStars(?int $stars): self
+    public function setStars(?int $stars): self
     {
         $this->stars = $stars;
 
