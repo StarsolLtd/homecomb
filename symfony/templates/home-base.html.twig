@@ -1,5 +1,29 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    <style type="text/css">
+        label {
+            font-size: 170%;
+        }
+        p {
+            font-size: 130%;
+        }
+        input {
+            font-size: 120%;
+            margin: 30px 0 30px 0;
+        }
+        .container {
+            max-width: 800px !important;
+        }
+        h1 {
+            padding-bottom: 8px;
+        }
+        .form-group {
+            padding: 6px 0 6px 0;
+        }
+    </style>
+{% endblock %}
+
 {% block main %}
     <div role="main" class="container h-100 d-flex">
         {% block content %}{% endblock %}

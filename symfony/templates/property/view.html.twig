@@ -16,7 +16,6 @@
                             <h5 class="mb-1">Reviews from previous tenants</h5>
 
                             {% for review in property.reviews %}
-
                                 <div class="reviews-members pt-4 pb-4">
                                     <div class="media">
                                         <div class="media-body">
@@ -85,6 +84,7 @@
                                         <textarea required class="form-control" name="reviewContent" id="reviewContent" aria-describedby="reviewContentHelp" placeholder="Enter your review"></textarea>
                                         <small id="reviewContentHelp" class="form-text text-muted">Tell us all about your experience with the property, letting agent, landlord etc.</small>
                                     </div>
+                                    <hr>
                                     <button type="submit" class="btn btn-primary">Share your tenancy review</button>
                                 </form>
                             </div>
