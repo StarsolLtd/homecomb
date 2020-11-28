@@ -7,12 +7,21 @@ use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Util\PropertyHelper;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class DemoFixtures extends Fixture
 {
+    private PropertyHelper $propertyHelper;
+
+    public function __construct(
+        PropertyHelper $propertyHelper
+    ) {
+        $this->propertyHelper = $propertyHelper;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $agency = (new Agency())
@@ -40,6 +49,8 @@ class DemoFixtures extends Fixture
             ->setCountryCode('UK')
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+
+        $this->propertyHelper->generateSlug($property);
 
         $manager->persist($property);
 

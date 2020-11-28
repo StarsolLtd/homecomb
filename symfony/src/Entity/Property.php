@@ -59,6 +59,11 @@ class Property
     private ?string $vendorPropertyId;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $slug;
+
+    /**
      * @var Collection<int, Review>
      * @ORM\OneToMany(targetEntity="Review", mappedBy="property")
      */
@@ -154,6 +159,18 @@ class Property
     public function setVendorPropertyId(?string $vendorPropertyId): self
     {
         $this->vendorPropertyId = $vendorPropertyId;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

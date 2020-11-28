@@ -58,13 +58,32 @@ class PropertyController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function lookupPropertyIdFromVendorId(Request $request): JsonResponse
+    public function lookupIdFromVendorId(Request $request): JsonResponse
     {
         $propertyId = $this->propertyService->determinePropertyIdFromVendorPropertyId($request->query->get('vendorPropertyId'));
 
         return JsonResponse::create(
             [
                 'propertyId' => $propertyId,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/api/property/lookup-slug-from-vendor-id",
+     *     name="lookup-slug-from-vendor-id",
+     *     methods={"GET"}
+     * )
+     */
+    public function lookupSlugFromVendorId(Request $request): JsonResponse
+    {
+        $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($request->query->get('vendorPropertyId'));
+
+        return JsonResponse::create(
+            [
+                'slug' => $propertySlug,
             ],
             Response::HTTP_OK
         );
@@ -99,14 +118,33 @@ class PropertyController extends AbstractController
 
     /**
      * @Route (
-     *     "/property/{propertyId}",
-     *     name="property-view",
+     *     "/property/id/{propertyId}",
+     *     name="property-view-by-id",
      *     methods={"GET", "HEAD"}
      * )
      */
-    public function view(int $propertyId): Response
+    public function viewById(int $propertyId): Response
     {
         $property = $this->propertyRepository->find($propertyId);
+
+        return $this->render(
+            'property/view.html.twig',
+            [
+                'property' => $property,
+            ]
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/property/{slug}",
+     *     name="property-view-by-slug",
+     *     methods={"GET", "HEAD"}
+     * )
+     */
+    public function viewBySlug(string $slug): Response
+    {
+        $property = $this->propertyRepository->findOneBy(['slug' => $slug]);
 
         return $this->render(
             'property/view.html.twig',

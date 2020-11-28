@@ -24,9 +24,8 @@
                 source: "/api/property/suggest-property",
                 minLength: 3,
                 select: function(event, ui){
-                    console.log(ui.item.id);
-                    $.get('/api/property/lookup-id-from-vendor-id?vendorPropertyId=' + ui.item.id, function( data ) {
-                        location.href = '/property/' + data.propertyId;
+                    $.get('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + ui.item.id, function( data ) {
+                        location.href = '/property/' + data.slug;
                     });
                 }
             });
