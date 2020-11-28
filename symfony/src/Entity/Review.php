@@ -57,7 +57,22 @@ class Review
     /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
-    private ?int $stars;
+    private ?int $overallStars;
+
+    /**
+     * @ORM\Column(type="integer", length=1, nullable=true)
+     */
+    private ?int $propertyStars;
+
+    /**
+     * @ORM\Column(type="integer", length=1, nullable=true)
+     */
+    private ?int $agencyStars;
+
+    /**
+     * @ORM\Column(type="integer", length=1, nullable=true)
+     */
+    private ?int $landlordStars;
 
     public function getId(): ?int
     {
@@ -136,14 +151,50 @@ class Review
         return $this;
     }
 
-    public function getStars(): ?int
+    public function getOverallStars(): ?int
     {
-        return $this->stars;
+        return $this->overallStars;
     }
 
-    public function setStars(?int $stars): self
+    public function setOverallStars(?int $overallStars): self
     {
-        $this->stars = $stars;
+        $this->overallStars = $overallStars;
+
+        return $this;
+    }
+
+    public function getPropertyStars(): ?int
+    {
+        return $this->propertyStars;
+    }
+
+    public function setPropertyStars(?int $propertyStars): self
+    {
+        $this->propertyStars = $propertyStars;
+
+        return $this;
+    }
+
+    public function getAgencyStars(): ?int
+    {
+        return $this->agencyStars;
+    }
+
+    public function setAgencyStars(?int $agencyStars): self
+    {
+        $this->agencyStars = $agencyStars;
+
+        return $this;
+    }
+
+    public function getLandlordStars(): ?int
+    {
+        return $this->landlordStars;
+    }
+
+    public function setLandlordStars(?int $landlordStars): self
+    {
+        $this->landlordStars = $landlordStars;
 
         return $this;
     }

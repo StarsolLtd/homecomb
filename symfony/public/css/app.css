@@ -74,3 +74,11 @@ label.error {
     background-color: #e80000;
     color: #ffffff;
 }
+
+#reviewContent {
+    min-height: 150px;
+}
+
+.checked {
+    color: orange;
+}

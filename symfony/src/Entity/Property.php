@@ -59,9 +59,10 @@ class Property
     private ?string $vendorPropertyId;
 
     /**
+     * @var Collection<int, Review>
      * @ORM\OneToMany(targetEntity="Review", mappedBy="property")
      */
-    private $reviews;
+    private Collection $reviews;
 
     public function __construct()
     {
@@ -157,6 +158,9 @@ class Property
         return $this;
     }
 
+    /**
+     * @return Collection<int, Review>
+     */
     public function getReviews(): Collection
     {
         return $this->reviews;

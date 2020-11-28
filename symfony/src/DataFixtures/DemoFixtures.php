@@ -43,15 +43,15 @@ class DemoFixtures extends Fixture
 
         $manager->persist($property);
 
-        $user = (new User())
+        $user1 = (new User())
             ->setEmail('jack@starsol.co.uk')
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
-        $manager->persist($user);
+        $manager->persist($user1);
 
-        $review = (new Review())
-            ->setUser($user)
+        $review1 = (new Review())
+            ->setUser($user1)
             ->setProperty($property)
             ->setBranch($branch)
             ->setTitle('Pleasant two year stay in great location')
@@ -61,11 +61,41 @@ class DemoFixtures extends Fixture
                 .'agents were always pleasant when I dealt with them. The property was furnished, and while the '
                 .'kitchen fittings were pretty good, the rest of the decor I think had not changed since the 1970s.'
             )
-            ->setStars(4)
+            ->setOverallStars(4)
+            ->setAgencyStars(5)
+            ->setLandlordStars(null)
+            ->setPropertyStars(3)
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
-        $manager->persist($review);
+        $manager->persist($review1);
+
+        $user2 = (new User())
+            ->setEmail('andrea@starsol.co.uk')
+            ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
+            ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
+
+        $manager->persist($user2);
+
+        $review2 = (new Review())
+            ->setUser($user2)
+            ->setProperty($property)
+            ->setBranch($branch)
+            ->setTitle('I loved this place!')
+            ->setAuthor('Andrea Németh')
+            ->setContent(
+                'This was the first home I ever rented and had a great couple of years here. It is right in the '
+                .'middle of Cambridge, plenty of amenties within walking distance. It has a nice garden at the back '
+                .'and the landlord kindly allowed us to keep our pet dog here. It is a great home!'
+            )
+            ->setOverallStars(5)
+            ->setAgencyStars(null)
+            ->setLandlordStars(5)
+            ->setPropertyStars(5)
+            ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
+            ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
+
+        $manager->persist($review2);
 
         $manager->flush();
     }
