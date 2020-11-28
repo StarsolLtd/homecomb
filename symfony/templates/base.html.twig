@@ -5,7 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         {% block navbar %}
             <nav class="navbar navbar-dark">
             <div class="container">
@@ -16,11 +16,13 @@
 
         {% block breadcrumb %}{% endblock %}
 
-        <div role="main" class="container h-100 d-flex">
-            {% block content %}{% endblock %}
-        </div>
+        {% block main %}
+            <div class="wrapper flex-grow-1">
+                {% block content %}{% endblock %}
+            </div>
+        {% endblock %}
 
-        <footer class="navbar fixed-bottom navbar-expand-sm">
+        <footer class="mt-auto navbar navbar-expand-sm">
             <div class="container">
                 <ul class="list-inline text-center">
                     <li class="list-inline-item"><a class="nav-link" href="{{ path('about') }}">About</a></li>
