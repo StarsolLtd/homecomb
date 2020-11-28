@@ -42,6 +42,11 @@ class ReviewController extends AbstractController
 
         $output = $this->reviewService->submitReview($input);
 
+        $this->addFlash(
+            'notice',
+            'Your review was received successfully and will be checked by our moderation team shortly.'
+        );
+
         return JsonResponse::create(
             [
                 'id' => $output->getId(),

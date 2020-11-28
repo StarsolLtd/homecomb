@@ -82,3 +82,9 @@ label.error {
 .checked {
     color: orange;
 }
+
+.alert-primary {
+    background-color: firebrick;
+    border-color: gray;
+    color: #ffffff;
+}
