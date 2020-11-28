@@ -38,7 +38,7 @@
                                             </div>
                                         {%  endif %}
                                         {% if review.agencyStars %}
-                                            <div class="overall">
+                                            <div class="agency">
                                                 Agency:
                                                 <span class="fa fa-star {% if review.agencyStars >= 1 %} checked {% endif %}"></span>
                                                 <span class="fa fa-star {% if review.agencyStars >= 2 %} checked {% endif %}"></span>
@@ -48,7 +48,7 @@
                                             </div>
                                         {%  endif %}
                                         {% if review.landlordStars %}
-                                            <div class="overall">
+                                            <div class="landlord">
                                                 Landlord:
                                                 <span class="fa fa-star {% if review.landlordStars >= 1 %} checked {% endif %}"></span>
                                                 <span class="fa fa-star {% if review.landlordStars >= 2 %} checked {% endif %}"></span>
@@ -58,7 +58,7 @@
                                             </div>
                                         {%  endif %}
                                         {% if review.propertyStars %}
-                                            <div class="overall">
+                                            <div class="property">
                                                 Property:
                                                 <span class="fa fa-star {% if review.propertyStars >= 1 %} checked {% endif %}"></span>
                                                 <span class="fa fa-star {% if review.propertyStars >= 2 %} checked {% endif %}"></span>
