@@ -82,7 +82,8 @@
                             <p class="mb-2">Have you been a tenant at {{ property.addressLine1 }}? We'd love it if you could review your tenant experience!</p>
                             <hr>
                             <div class="w-100">
-                                <form id="reviewForm">
+                                <form id="submitReviewForm">
+                                    <input type="hidden" name="propertyId" id="propertyId" value="{{ property.id }}">
                                     <div class="form-group">
                                         <label for="reviewerName">Your name</label>
                                         <input required type="text" class="form-control" name="reviewerName" id="reviewerName" aria-describedby="reviewerNameHelp" placeholder="Enter your name">
@@ -183,4 +184,42 @@
                 </div>
             </div>
         </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $( function() {
+            $('#submitReviewForm').validate();
+
+            $('#submitReviewForm').submit(function(e) {
+                e.preventDefault();
+
+                const input = {
+                    propertyId: parseInt($('#propertyId').val()),
+                    reviewerName: $('#reviewerName').val(),
+                    reviewerEmail: $('#reviewerEmail').val(),
+                    agencyName: $('#agencyName').val(),
+                    agencyBranch: $('#agencyBranch').val(),
+                    reviewTitle: $('#reviewTitle').val(),
+                    reviewContent: $('#reviewContent').val(),
+                    overallStars: parseInt($('#overallStars').val()),
+                    agencyStars: parseInt($('#agencyStars').val()),
+                    landlordStars: parseInt($('#landlordStars').val()),
+                    propertyStars: parseInt($('#propertyStars').val())
+                };
+
+                $.ajax(
+                    {
+                       type: 'POST',
+                       url: '/api/submit-review',
+                       data: JSON.stringify(input),
+                       success: function(output)
+                       {
+                           console.log(output);
+                       }
+                     }
+                );
+            });
+        } );
+    </script>
 {% endblock %}
