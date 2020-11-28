@@ -5,7 +5,7 @@ Feature: Property
     Given the request body is:
     """
     {
-      "addressLine1": "219 Victoria Road",
+      "addressLine1": "249 Victoria Road",
       "postcode" : "CB4 3LF",
       "countryCode": "UK"
     }
@@ -18,4 +18,4 @@ Feature: Property
         "id": 1
       }
     """
-    And a Property should exist in the database with addressLine1 of "219 Victoria Road" and postcode of "CB4 3LF"
+    And a Property should exist in the database with addressLine1 of "249 Victoria Road" and postcode of "CB4 3LF"
