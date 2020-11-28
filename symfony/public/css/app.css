@@ -12,6 +12,10 @@ body {
     margin-bottom: 2%;
 }
 
+.navbar-brand a {
+    text-decoration: none;
+}
+
 footer.navbar {
     margin-top: 2%;
     margin-bottom: 0;
