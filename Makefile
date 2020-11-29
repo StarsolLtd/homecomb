@@ -29,7 +29,7 @@ behat:
 	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
 
 phpunit:
-	docker exec -it homecomb_php_1 vendor/bin/simple-phpunit --no-coverage tests/Unit/*
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
 
 test:
 	make behat phpunit
