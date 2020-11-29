@@ -4,6 +4,7 @@
 
 {% block content %}
     <div class="container">
+
         <div class="col-md-12" style="padding-bottom: 20px;">
             <h1>{{ property.addressLine1 }}, {{ property.postcode }}</h1>
         </div>
@@ -84,6 +85,7 @@
                             <div class="w-100">
                                 <form id="submitReviewForm">
                                     <input type="hidden" name="propertyId" id="propertyId" value="{{ property.id }}">
+                                    <input type="hidden" name="propertySlug" id="propertySlug" value="{{ property.slug }}">
                                     <div class="form-group">
                                         <label for="reviewerName">Your name</label>
                                         <input required type="text" class="form-control" name="reviewerName" id="reviewerName" aria-describedby="reviewerNameHelp" placeholder="Enter your name">
@@ -176,7 +178,7 @@
                                         </select>
                                         <small id="landlordStarsHelp" class="form-text text-muted">Rate the property itself</small></div>
                                     <hr>
-                                    <button type="submit" class="btn btn-primary">Share your tenancy review</button>
+                                    <button type="submit" class="btn btn-primary" data-action="submit">Share your tenancy review</button>
                                 </form>
                             </div>
                         </div>
@@ -215,7 +217,7 @@
                        data: JSON.stringify(input),
                        success: function(output)
                        {
-                           location.reload();
+                           location.href = '/property/' + $('#propertySlug').val();
                        }
                      }
                 );
