@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\SubmitReviewInput;
 use App\Repository\ReviewRepository;
+use App\Service\GoogleReCaptchaService;
 use App\Service\ReviewService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,15 +15,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ReviewController extends AbstractController
 {
+    private GoogleReCaptchaService $googleReCaptchaService;
     private ReviewRepository $reviewRepository;
     private ReviewService $reviewService;
     private SerializerInterface $serializer;
 
     public function __construct(
+        GoogleReCaptchaService $googleReCaptchaService,
         ReviewRepository $reviewRepository,
         ReviewService $reviewService,
         SerializerInterface $serializer
     ) {
+        $this->googleReCaptchaService = $googleReCaptchaService;
         $this->reviewRepository = $reviewRepository;
         $this->reviewService = $reviewService;
         $this->serializer = $serializer;
@@ -40,6 +44,12 @@ class ReviewController extends AbstractController
         /** @var SubmitReviewInput $input */
         $input = $this->serializer->deserialize($request->getContent(), SubmitReviewInput::class, 'json');
 
+        if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
+            $this->addFlash('error', 'Sorry, we were unable to process your review.');
+
+            return JsonResponse::create([], Response::HTTP_BAD_REQUEST);
+        }
+
         $output = $this->reviewService->submitReview($input);
 
         $this->addFlash(
@@ -53,5 +63,10 @@ class ReviewController extends AbstractController
             ],
             Response::HTTP_CREATED
         );
+    }
+
+    private function verifyReCaptcha(?string $token, Request $request): bool
+    {
+        return $this->googleReCaptchaService->verify($token, $request->getClientIp(), $request->getHost());
     }
 }

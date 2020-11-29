@@ -17,6 +17,14 @@
 
         {% block breadcrumb %}{% endblock %}
 
+        {% for message in app.flashes('error') %}
+            <div class="container">
+                <div class="alert alert-error" role="alert">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+
         {% for message in app.flashes('notice') %}
             <div class="container">
                 <div class="alert alert-primary" role="alert">

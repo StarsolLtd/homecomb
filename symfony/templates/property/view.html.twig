@@ -228,10 +228,10 @@
                                    type: 'POST',
                                    url: '/api/submit-review',
                                    data: JSON.stringify(input),
-                                   success: function(output)
+                                   complete: function(output, status)
                                    {
                                        location.href = '/property/' + $('#propertySlug').val();
-                                   }
+                                   },
                                  }
                             );
                         });

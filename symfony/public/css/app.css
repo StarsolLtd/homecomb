@@ -88,3 +88,9 @@ label.error {
     border-color: gray;
     color: #ffffff;
 }
+
+.alert-error {
+    background-color: #cc0000;
+    border-color: gray;
+    color: #ffffff;
+}
