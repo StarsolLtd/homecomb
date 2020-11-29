@@ -1,4 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
+        company_name: 'Starsol Ltd'
+        contact_email: 'contact@starsol.co.uk'
         google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+        site_domain: 'homecomb.co.uk'
+        site_name: 'HomeComb'
