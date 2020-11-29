@@ -11,13 +11,19 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ReviewService
 {
+    private AgencyService $agencyService;
+    private BranchService $branchService;
     private EntityManagerInterface $entityManager;
     private PropertyRepository $propertyRepository;
 
     public function __construct(
+        AgencyService $agencyService,
+        BranchService $branchService,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository
     ) {
+        $this->agencyService = $agencyService;
+        $this->branchService = $branchService;
         $this->entityManager = $entityManager;
         $this->propertyRepository = $propertyRepository;
     }
@@ -32,10 +38,16 @@ class ReviewService
             throw new \RuntimeException('Property with ID '.$propertyId.' not found.');
         }
 
-        // TODO find or create agency, branch and user
+        // TODO find or create user
+
+        $agencyName = $reviewInput->getAgencyName();
+        $agency = $agencyName ? $this->agencyService->findOrCreateByName($agencyName) : null;
+        $branchName = $reviewInput->getAgencyBranch();
+        $branch = $branchName ? $this->branchService->findOrCreate($branchName, $agency) : null;
 
         $review = (new Review())
             ->setProperty($property)
+            ->setBranch($branch)
             ->setAuthor($reviewInput->getReviewerName())
             ->setTitle($reviewInput->getReviewTitle())
             ->setContent($reviewInput->getReviewContent())
