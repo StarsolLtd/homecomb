@@ -15,7 +15,8 @@ Feature: Review
       "overallStars": 4,
       "agencyStars": 5,
       "landlordStars": null,
-      "propertyStars": 2
+      "propertyStars": 2,
+      "googleReCaptchaToken": "SAMPLE"
     }
     """
     When I request '/api/submit-review' using HTTP 'POST'
