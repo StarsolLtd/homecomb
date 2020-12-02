@@ -64,6 +64,11 @@ class Property
     private ?string $slug;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default": true})
+     */
+    private bool $published = true;
+
+    /**
      * @var Collection<int, Review>
      * @ORM\OneToMany(targetEntity="Review", mappedBy="property")
      */
@@ -175,11 +180,33 @@ class Property
         return $this;
     }
 
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Review>
      */
     public function getReviews(): Collection
     {
         return $this->reviews;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getPublishedReviews()
+    {
+        return $this->getReviews()->filter(function (Review $review) {
+            return $review->isPublished();
+        });
     }
 }

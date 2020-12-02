@@ -125,7 +125,12 @@ class PropertyController extends AbstractController
      */
     public function viewById(int $propertyId): Response
     {
-        $property = $this->propertyRepository->find($propertyId);
+        $property = $this->propertyRepository->findOneBy(
+            [
+                'id' => $propertyId,
+                'published' => true,
+            ]
+        );
 
         return $this->render(
             'property/view.html.twig',
@@ -144,7 +149,12 @@ class PropertyController extends AbstractController
      */
     public function viewBySlug(string $slug): Response
     {
-        $property = $this->propertyRepository->findOneBy(['slug' => $slug]);
+        $property = $this->propertyRepository->findOneBy(
+            [
+                'slug' => $slug,
+                'published' => true,
+            ]
+        );
 
         return $this->render(
             'property/view.html.twig',

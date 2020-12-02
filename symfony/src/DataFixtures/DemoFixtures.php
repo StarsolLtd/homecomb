@@ -33,6 +33,7 @@ class DemoFixtures extends Fixture
         $branch = (new Branch())
             ->setAgency($agency)
             ->setName('Arbury')
+            ->setPublished(true)
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
@@ -44,6 +45,7 @@ class DemoFixtures extends Fixture
             ->setCity('Cambridge')
             ->setPostcode('CB4 3LF')
             ->setCountryCode('UK')
+            ->setPublished(true)
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
@@ -73,6 +75,7 @@ class DemoFixtures extends Fixture
             ->setAgencyStars(5)
             ->setLandlordStars(null)
             ->setPropertyStars(3)
+            ->setPublished(true)
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
@@ -100,6 +103,7 @@ class DemoFixtures extends Fixture
             ->setAgencyStars(null)
             ->setLandlordStars(5)
             ->setPropertyStars(5)
+            ->setPublished(true)
             ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
 
@@ -120,10 +124,13 @@ class DemoFixtures extends Fixture
             (new Agency())->setName('Birmingham Rentals'),
         ];
 
+        /** @var Agency $agency */
         foreach ($agencies as $agency) {
             $agency->setCountryCode('UK')
+                ->setPublished(true)
                 ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
                 ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+
             $this->agencyHelper->generateSlug($agency);
             $manager->persist($agency);
         }

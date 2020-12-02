@@ -74,6 +74,11 @@ class Review
      */
     private ?int $landlordStars;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default": false})
+     */
+    private bool $published = false;
+
     public function getId(): int
     {
         return $this->id;
@@ -195,6 +200,18 @@ class Review
     public function setLandlordStars(?int $landlordStars): self
     {
         $this->landlordStars = $landlordStars;
+
+        return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
