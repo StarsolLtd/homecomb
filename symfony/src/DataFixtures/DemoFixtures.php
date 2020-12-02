@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Util\AgencyHelper;
 use App\Util\PropertyHelper;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -14,24 +15,20 @@ use Doctrine\Persistence\ObjectManager;
 
 class DemoFixtures extends Fixture
 {
+    private AgencyHelper $agencyHelper;
     private PropertyHelper $propertyHelper;
 
     public function __construct(
+        AgencyHelper $agencyHelper,
         PropertyHelper $propertyHelper
     ) {
+        $this->agencyHelper = $agencyHelper;
         $this->propertyHelper = $propertyHelper;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $agency = (new Agency())
-            ->setName('Cambridge Residential')
-            ->setPostcode('CB2 8PE')
-            ->setCountryCode('UK')
-            ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
-
-        $manager->persist($agency);
+        list($agency) = $this->loadAgencies($manager);
 
         $branch = (new Branch())
             ->setAgency($agency)
@@ -96,7 +93,7 @@ class DemoFixtures extends Fixture
             ->setAuthor('Andrea Németh')
             ->setContent(
                 'This was the first home I ever rented and had a great couple of years here. It is right in the '
-                .'middle of Cambridge, plenty of amenties within walking distance. It has a nice garden at the back '
+                .'middle of Cambridge, plenty of amenities within walking distance. It has a nice garden at the back '
                 .'and the landlord kindly allowed us to keep our pet dog here. It is a great home!'
             )
             ->setOverallStars(5)
@@ -109,5 +106,28 @@ class DemoFixtures extends Fixture
         $manager->persist($review2);
 
         $manager->flush();
+    }
+
+    /**
+     * @return Agency[]
+     */
+    private function loadAgencies(ObjectManager $manager): array
+    {
+        $agencies = [
+            (new Agency())->setName('Cambridge Residential'),
+            (new Agency())->setName('Norwich Homes'),
+            (new Agency())->setName('Clerkenwell Lettings'),
+            (new Agency())->setName('Birmingham Rentals'),
+        ];
+
+        foreach ($agencies as $agency) {
+            $agency->setCountryCode('UK')
+                ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
+                ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+            $this->agencyHelper->generateSlug($agency);
+            $manager->persist($agency);
+        }
+
+        return $agencies;
     }
 }
