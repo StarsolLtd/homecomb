@@ -63,4 +63,10 @@ class ReviewService
 
         return new SubmitReviewOutput($review->getId());
     }
+
+    public function publishReview(Review $review): void
+    {
+        $review->setPublished(true);
+        $this->entityManager->flush();
+    }
 }
