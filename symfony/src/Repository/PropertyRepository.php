@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Property;
+use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function sprintf;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,5 +19,21 @@ class PropertyRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Property::class);
+    }
+
+    public function findOnePublishedBySlug(string $slug): Property
+    {
+        $property = $this->findOneBy(
+            [
+                'slug' => $slug,
+                'published' => true,
+            ]
+        );
+
+        if (null === $property) {
+            throw new NotFoundException(sprintf('No published property with slug %s could be found.', $slug));
+        }
+
+        return $property;
     }
 }

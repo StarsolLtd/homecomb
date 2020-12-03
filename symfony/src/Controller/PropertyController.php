@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\LookupPropertyIdInput;
+use App\Exception\NotFoundException;
 use App\Model\SuggestPropertyInput;
 use App\Repository\PropertyRepository;
 use App\Service\PropertyService;
@@ -27,47 +27,6 @@ class PropertyController extends AbstractController
         $this->propertyRepository = $propertyRepository;
         $this->propertyService = $propertyService;
         $this->serializer = $serializer;
-    }
-
-    /**
-     * @Route (
-     *     "/api/property/lookup-id",
-     *     name="lookup-property-id",
-     *     methods={"POST"}
-     * )
-     */
-    public function lookupPropertyId(Request $request): JsonResponse
-    {
-        /** @var LookupPropertyIdInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), LookupPropertyIdInput::class, 'json');
-
-        $output = $this->propertyService->lookupPropertyId($input);
-
-        return JsonResponse::create(
-            [
-                'id' => $output->getId(),
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * @Route (
-     *     "/api/property/lookup-id-from-vendor-id",
-     *     name="lookup-id-from-vendor-id",
-     *     methods={"GET"}
-     * )
-     */
-    public function lookupIdFromVendorId(Request $request): JsonResponse
-    {
-        $propertyId = $this->propertyService->determinePropertyIdFromVendorPropertyId($request->query->get('vendorPropertyId'));
-
-        return JsonResponse::create(
-            [
-                'propertyId' => $propertyId,
-            ],
-            Response::HTTP_OK
-        );
     }
 
     /**
@@ -118,30 +77,6 @@ class PropertyController extends AbstractController
 
     /**
      * @Route (
-     *     "/property/id/{propertyId}",
-     *     name="property-view-by-id",
-     *     methods={"GET", "HEAD"}
-     * )
-     */
-    public function viewById(int $propertyId): Response
-    {
-        $property = $this->propertyRepository->findOneBy(
-            [
-                'id' => $propertyId,
-                'published' => true,
-            ]
-        );
-
-        return $this->render(
-            'property/view.html.twig',
-            [
-                'property' => $property,
-            ]
-        );
-    }
-
-    /**
-     * @Route (
      *     "/property/{slug}",
      *     name="property-view-by-slug",
      *     methods={"GET", "HEAD"}
@@ -149,12 +84,11 @@ class PropertyController extends AbstractController
      */
     public function viewBySlug(string $slug): Response
     {
-        $property = $this->propertyRepository->findOneBy(
-            [
-                'slug' => $slug,
-                'published' => true,
-            ]
-        );
+        try {
+            $property = $this->propertyRepository->findOnePublishedBySlug($slug);
+        } catch (NotFoundException $e) {
+            throw $this->createNotFoundException($e->getMessage());
+        }
 
         return $this->render(
             'property/view.html.twig',
