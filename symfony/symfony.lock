@@ -542,6 +542,9 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/twig-pack": {
+        "version": "v1.0.1"
+    },
     "symfony/var-dumper": {
         "version": "v5.0.1"
     },
@@ -553,6 +556,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
+    },
+    "twig/extra-bundle": {
+        "version": "v3.1.1"
     },
     "twig/twig": {
         "version": "v3.1.1"

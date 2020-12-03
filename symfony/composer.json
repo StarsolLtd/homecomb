@@ -28,7 +28,9 @@
         "symfony/routing": "5.0.*",
         "symfony/serializer": "5.0.*",
         "symfony/twig-bundle": "5.0.*",
-        "symfony/yaml": "5.0.*"
+        "symfony/yaml": "5.0.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "behat/behat": "^3.8",
