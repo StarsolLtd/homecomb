@@ -4,19 +4,23 @@ namespace App\Service;
 
 use App\Entity\Agency;
 use App\Repository\AgencyRepository;
+use App\Util\AgencyHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AgencyService
 {
     private EntityManagerInterface $entityManager;
+    private AgencyHelper $agencyHelper;
     private AgencyRepository $agencyRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        AgencyHelper $agencyHelper,
         AgencyRepository $agencyRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->agencyHelper = $agencyHelper;
         $this->agencyRepository = $agencyRepository;
     }
 
@@ -31,13 +35,22 @@ class AgencyService
             return $agency;
         }
 
+        $agency = $this->create($agencyName);
+
+        $this->entityManager->persist($agency);
+        $this->entityManager->flush();
+
+        return $agency;
+    }
+
+    private function create(string $agencyName): Agency
+    {
         $agency = (new Agency())
             ->setName($agencyName)
             ->setCreatedAt(new DateTime())
             ->setUpdatedAt(new DateTime());
 
-        $this->entityManager->persist($agency);
-        $this->entityManager->flush();
+        $this->agencyHelper->generateSlug($agency);
 
         return $agency;
     }
