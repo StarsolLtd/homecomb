@@ -84,6 +84,16 @@ class Review
         return $this->id;
     }
 
+    public function getAgency(): ?Agency
+    {
+        $branch = $this->getBranch();
+        if (null === $branch) {
+            return null;
+        }
+
+        return $branch->getAgency();
+    }
+
     public function getBranch(): ?Branch
     {
         return $this->branch;

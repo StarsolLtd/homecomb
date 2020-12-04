@@ -37,6 +37,15 @@
                                         <p class="font-weight-bold">{{ review.title }}</p>
 
                                         <p>{{ review.content }}</p>
+
+                                        {% if review.agency %}
+                                            <p>
+                                                Agency:
+                                                {% if review.agency.isPublished %}<a href="{{ path('agency-view-by-slug', {slug: review.agency.slug}) }}">{%  endif %}
+                                                    {{ review.agency.name }}
+                                                {% if review.agency.isPublished %}</a>{%  endif %}
+                                            </p>
+                                        {%  endif %}
                                     </div>
                                     <div class="review-stars">
                                         {% if review.overallStars %}
