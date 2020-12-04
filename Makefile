@@ -26,7 +26,10 @@ migrate:
 	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate
 
 behat:
+	docker exec -it homecomb_php_1 php bin/console cache:clear --env=test
+	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
 	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
 phpunit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
@@ -54,3 +57,6 @@ empty-database:
 
 load-fixtures:
 	docker exec -it homecomb_php_1 php bin/console doctrine:fixtures:load
+
+dump:
+	docker exec -it homecomb_php_1 php bin/console server:dump
