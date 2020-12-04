@@ -38,12 +38,21 @@
 
                                         <p>{{ review.content }}</p>
 
-                                        {% if review.agency %}
+                                        {% if (review.branch or review.agency) %}
                                             <p>
-                                                Agency:
-                                                {% if review.agency.isPublished %}<a href="{{ path('agency-view-by-slug', {slug: review.agency.slug}) }}">{%  endif %}
-                                                    {{ review.agency.name }}
-                                                {% if review.agency.isPublished %}</a>{%  endif %}
+                                                {% if review.agency %}
+                                                    Agency:
+                                                    {% if review.agency.isPublished %}<a href="{{ path('agency-view-by-slug', {slug: review.agency.slug}) }}">{%  endif %}
+                                                        {{ review.agency.name }}
+                                                    {% if review.agency.isPublished %}</a>{%  endif %}
+                                                    <br>
+                                                {%  endif %}
+                                                {% if review.branch %}
+                                                    Branch:
+                                                    {% if review.branch.isPublished %}<a href="{{ path('branch-view-by-slug', {slug: review.branch.slug}) }}">{%  endif %}
+                                                        {{ review.branch.name }}
+                                                    {% if review.branch.isPublished %}</a>{%  endif %}
+                                                {%  endif %}
                                             </p>
                                         {%  endif %}
                                     </div>
