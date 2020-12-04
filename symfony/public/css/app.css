@@ -102,3 +102,7 @@ label.error {
 .font-weight-bold {
     font-weight: bold;
 }
+
+.btn-ellipsis {
+    border: 1px solid #DDDDDD;
+}

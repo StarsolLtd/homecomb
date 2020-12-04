@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}HomeComb{% endblock %}
+{% block title %}{{ property.addressLine1 }} | {{ property.postcode }} | HomeComb{% endblock %}
 
 {% block headJavascripts %}
     <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
@@ -27,6 +27,12 @@
 
                             {% for review in property.publishedReviews %}
                                 <div class="reviews-members pt-4 pb-4">
+                                    <div class="dropdown float-right">
+                                      <button class="btn btn-light btn-ellipsis" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&hellip;</button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item flag-review-link" data-entity-id="{{ review.id }}" href="#" data-toggle="modal" data-target="#flag-review-modal"><span class="fa fa-flag"></span> Report this</a>
+                                      </div>
+                                    </div>
                                     <div class="reviews-members-header">
                                         <p class="mb-1 font-weight-bold">
                                             <span class="author">{{ review.author }}</span>
@@ -191,6 +197,36 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal" tabindex="-1" id="flag-review-modal" data-backdrop="static">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Report inappropriate content</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form id="flag-review-form">
+                <input type="hidden" name="flag-review-entity-name" id="flag-review-entity-name" value="Review">
+                <input type="hidden" name="flag-review-entity-id" id="flag-review-entity-id" value="">
+                  <div class="modal-body">
+                    <p>If this review is inappropriate, you can flag it to our moderation team. <label for="flag-review-entity-content">Please enter an explanation below:</label></p>
+                    <input type="text" name="flag-review-entity-content" id="flag-review-entity-content" class="form-control" placeholder="Enter an explanation..." required>
+                  </div>
+                  <div class="modal-footer">
+                  <button type="submit"
+                    class="btn btn-primary g-recaptcha"
+                    data-sitekey="reCAPTCHA_site_key"
+                    data-callback="onSubmit"
+                    data-action="submit">Send report</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -232,6 +268,41 @@
                     return false;
                 }
             });
+
+            $('.flag-review-link').click(function() {
+                var entityId = $(this).attr('data-entity-id');
+                $('#flag-review-entity-id').val(entityId);
+            });
+
+            $('#flag-review-form').validate({
+                submitHandler: function (form) {
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('{{ google_recaptcha_site_key }}', {action: 'submit'}).then(function(token) {
+                            const input = {
+                                entityId: parseInt($('#flag-review-entity-id').val()),
+                                entityName: $('#flag-review-entity-name').val(),
+                                content: $('#flag-review-entity-content').val(),
+                                googleReCaptchaToken: token
+                            };
+
+                            $.ajax(
+                                {
+                                   type: 'POST',
+                                   url: '/api/flag',
+                                   data: JSON.stringify(input),
+                                   complete: function(output, status)
+                                   {
+                                       location.href = '/property/' + $('#propertySlug').val();
+                                   },
+                                 }
+                            );
+                        });
+                    });
+
+                    return false;
+                }
+            });
+
         } );
     </script>
 {% endblock %}
