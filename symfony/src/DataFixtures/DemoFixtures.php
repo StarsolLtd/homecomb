@@ -8,6 +8,7 @@ use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Util\AgencyHelper;
+use App\Util\BranchHelper;
 use App\Util\PropertyHelper;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,13 +17,16 @@ use Doctrine\Persistence\ObjectManager;
 class DemoFixtures extends Fixture
 {
     private AgencyHelper $agencyHelper;
+    private BranchHelper $branchHelper;
     private PropertyHelper $propertyHelper;
 
     public function __construct(
         AgencyHelper $agencyHelper,
+        BranchHelper $branchHelper,
         PropertyHelper $propertyHelper
     ) {
         $this->agencyHelper = $agencyHelper;
+        $this->branchHelper = $branchHelper;
         $this->propertyHelper = $propertyHelper;
     }
 
@@ -36,6 +40,8 @@ class DemoFixtures extends Fixture
             ->setPublished(true)
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+
+        $this->branchHelper->generateSlug($branch);
 
         $manager->persist($branch);
 

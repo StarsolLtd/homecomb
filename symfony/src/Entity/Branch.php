@@ -37,6 +37,11 @@ class Branch
      */
     private bool $published = false;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $slug;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +79,18 @@ class Branch
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
