@@ -4,16 +4,16 @@ namespace App\Model;
 
 class SubmitReviewOutput
 {
-    private int $id;
+    private bool $success;
 
     public function __construct(
-        int $id
+        bool $success
     ) {
-        $this->id = $id;
+        $this->success = $success;
     }
 
-    public function getId(): int
+    public function isSuccess(): bool
     {
-        return $this->id;
+        return $this->success;
     }
 }

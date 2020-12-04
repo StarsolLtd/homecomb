@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat;
 
+use App\Repository\FlagRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
 use Behat\Behat\Context\Context;
@@ -13,13 +14,16 @@ use Webmozart\Assert\Assert;
 class ApiFeatureContext implements Context
 {
     private BufferedOutput $output;
+    private FlagRepository $flagRepository;
     private PropertyRepository $propertyRepository;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
+        FlagRepository $flagRepository,
         PropertyRepository $propertyRepository,
         ReviewRepository $reviewRepository
     ) {
+        $this->flagRepository = $flagRepository;
         $this->propertyRepository = $propertyRepository;
         $this->reviewRepository = $reviewRepository;
         $this->output = new BufferedOutput();
@@ -53,5 +57,20 @@ class ApiFeatureContext implements Context
             ]
         );
         Assert::notNull($review);
+    }
+
+    /**
+     * @Then a Flag should exist in the database with an entityName of :arg1, an entityId of :arg2, and content of :arg3
+     */
+    public function aRFlagShouldExistInTheDatabase(string $arg1, string $arg2, string $arg3)
+    {
+        $flag = $this->flagRepository->findOneBy(
+            [
+                'entityName' => $arg1,
+                'entityId' => $arg2,
+                'content' => $arg3,
+            ]
+        );
+        Assert::notNull($flag);
     }
 }

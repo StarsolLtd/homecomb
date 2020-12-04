@@ -24,7 +24,7 @@ Feature: Review
     Then the response body contains JSON:
     """
       {
-        "id": 1
+        "success": true
       }
     """
     And a Review should exist in the database with propertyId of 1 and title of "Test review title"

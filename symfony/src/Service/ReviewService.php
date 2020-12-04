@@ -61,7 +61,7 @@ class ReviewService
         $this->entityManager->persist($review);
         $this->entityManager->flush();
 
-        return new SubmitReviewOutput($review->getId());
+        return new SubmitReviewOutput(true);
     }
 
     public function publishReview(Review $review): void

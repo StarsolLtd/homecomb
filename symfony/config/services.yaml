@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    validation.not_robot_check: true
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +31,7 @@ services:
     ReCaptcha\ReCaptcha:
         arguments:
             - '%env(GOOGLE_RECAPTCHA_SECRET_KEY)%'
+
+    App\Service\GoogleReCaptchaService:
+        arguments:
+            - '%validation.not_robot_check%'
