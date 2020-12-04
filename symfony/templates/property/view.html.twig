@@ -58,44 +58,16 @@
                                     </div>
                                     <div class="review-stars">
                                         {% if review.overallStars %}
-                                            <div class="overall">
-                                                Overall:
-                                                <span class="fa fa-star {% if review.overallStars >= 1 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.overallStars >= 2 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.overallStars >= 3 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.overallStars >= 4 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.overallStars >= 5 %} checked {% endif %}"></span>
-                                            </div>
+                                            {% include 'snippets/stars.html.twig' with {'label': 'Overall', 'stars': review.overallStars} %}
                                         {%  endif %}
                                         {% if review.agencyStars %}
-                                            <div class="agency">
-                                                Agency:
-                                                <span class="fa fa-star {% if review.agencyStars >= 1 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.agencyStars >= 2 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.agencyStars >= 3 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.agencyStars >= 4 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.agencyStars >= 5 %} checked {% endif %}"></span>
-                                            </div>
+                                            {% include 'snippets/stars.html.twig' with {'label': 'Agency', 'stars': review.agencyStars} %}
                                         {%  endif %}
                                         {% if review.landlordStars %}
-                                            <div class="landlord">
-                                                Landlord:
-                                                <span class="fa fa-star {% if review.landlordStars >= 1 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.landlordStars >= 2 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.landlordStars >= 3 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.landlordStars >= 4 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.landlordStars >= 5 %} checked {% endif %}"></span>
-                                            </div>
+                                            {% include 'snippets/stars.html.twig' with {'label': 'Landlord', 'stars': review.landlordStars} %}
                                         {%  endif %}
                                         {% if review.propertyStars %}
-                                            <div class="property">
-                                                Property:
-                                                <span class="fa fa-star {% if review.propertyStars >= 1 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.propertyStars >= 2 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.propertyStars >= 3 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.propertyStars >= 4 %} checked {% endif %}"></span>
-                                                <span class="fa fa-star {% if review.propertyStars >= 5 %} checked {% endif %}"></span>
-                                            </div>
+                                            {% include 'snippets/stars.html.twig' with {'label': 'Property', 'stars': review.propertyStars} %}
                                         {%  endif %}
                                     </div>
                                 </div>
