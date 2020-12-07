@@ -1,10 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'login-base.html.twig' %}
 
 {% block title %}Password Reset Email Sent{% endblock %}
 
-{% block content %}
-    <div class="container">
-        <p>An email has been sent that contains a link that you can click to reset your password. This link will expire in {{ tokenLifetime|date('g') }} hour(s).</p>
-        <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+{% block body %}
+    <div class="login-form">
+        <form>
+            <div class="avatar">
+                <img src="/images/avatar.png">
+            </div>
+
+            <h2 class="text-center">Email Sent</h2>
+
+            <p>An email has been sent that contains a link that you can click to reset your password. This link will expire in {{ tokenLifetime|date('g') }} hour(s).</p>
+            <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+
+            <div class="bottom-action clearfix">
+                <a href="{{ path('app_login') }}" class="float-right">Back to Log In</a>
+            </div>
+        </form>
     </div>
 {% endblock %}

@@ -1,10 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'login-base.html.twig' %}
 
-{% block title %}Log In | HomeComb{% endblock %}
+{% block title %}HomeComb{% endblock %}
 
-{% block content %}
-    <div class="container">
+{% block body %}
+    <div class="login-form">
         <form method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div class="avatar">
+                <img src="/images/avatar.png">
+            </div>
+
+            <h2 class="text-center">HomeComb Log In</h2>
+
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -15,29 +22,20 @@
                 </div>
             {% endif %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Log in to HomeComb</h1>
-
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-            <p>
-                <a href="{{ path('app_forgot_password_request') }}">Reset password</a>
-            </p>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
+            <div class="form-group">
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
             </div>
-
-            <button class="btn btn-lg btn-primary" type="submit">
-                Log in
-            </button>
+            <div class="form-group">
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Log in</button>
+            </div>
+            <div class="bottom-action clearfix">
+                <label class="float-left form-check-label"><input type="checkbox" name="_remember_me"> Remember me</label>
+                <a href="{{ path('app_forgot_password_request') }}" class="float-right">Forgot Password?</a>
+            </div>
         </form>
+        <!-- <p class="text-center small">Don't have an account? <a href="#">Sign up here!</a></p> -->
     </div>
 {% endblock %}

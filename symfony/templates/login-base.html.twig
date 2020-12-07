@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}HomeComb{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" />
+    <link rel="stylesheet" href="/css/login.css" type="text/css" />
+</head>
+<body>
+    {% block body %}{% endblock %}
+
+    <footer class="container text-center">
+        <a href="{{ path('app_home') }}">Back to HomeComb</a>
+    </footer>
+</body>
+</html>

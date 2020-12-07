@@ -19,6 +19,7 @@ class ResetPasswordRequestFormType extends AbstractType
                         'message' => 'Please enter your email',
                     ]),
                 ],
+                'help' => 'We will send a link to reset your password to this email',
             ])
         ;
     }
