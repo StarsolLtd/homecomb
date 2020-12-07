@@ -11,7 +11,7 @@ security:
           - App\Security\LoginFormAuthenticator
       logout:
         path: app_logout
-        target: home
+        target: app_home
 
   access_control:
     - { path: '^/admin/users', roles: ROLE_SUPER_ADMIN }

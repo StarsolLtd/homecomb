@@ -36,7 +36,7 @@ class HomeController extends AbstractController
     /**
      * @Route (
      *     "/",
-     *     name="home",
+     *     name="app_home",
      *     methods={"GET"}
      * )
      */
