@@ -13,21 +13,26 @@ use App\Util\PropertyHelper;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DemoFixtures extends Fixture
 {
     private AgencyHelper $agencyHelper;
     private BranchHelper $branchHelper;
     private PropertyHelper $propertyHelper;
+    private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(
         AgencyHelper $agencyHelper,
         BranchHelper $branchHelper,
-        PropertyHelper $propertyHelper
+        PropertyHelper $propertyHelper,
+        UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->agencyHelper = $agencyHelper;
         $this->branchHelper = $branchHelper;
         $this->propertyHelper = $propertyHelper;
+        $this->propertyHelper = $propertyHelper;
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     public function load(ObjectManager $manager): void
@@ -60,9 +65,10 @@ class DemoFixtures extends Fixture
         $manager->persist($property);
 
         $user1 = (new User())
-            ->setEmail('jack@starsol.co.uk')
+            ->setEmail('jack@mimas.io')
             ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, 'To_The_Moon_2020'));
 
         $manager->persist($user1);
 
@@ -91,6 +97,7 @@ class DemoFixtures extends Fixture
             ->setEmail('andrea@starsol.co.uk')
             ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
             ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
+        $user2->setPassword($this->userPasswordEncoder->encodePassword($user1, 'Fire_Dragon_2020'));
 
         $manager->persist($user2);
 
