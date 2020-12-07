@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Model\Flag\SubmitInput;
 use App\Service\FlagService;
 use App\Service\GoogleReCaptchaService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class FlagController extends AbstractController
+class FlagController extends AppController
 {
     private GoogleReCaptchaService $googleReCaptchaService;
     private FlagService $flagService;
@@ -46,7 +45,7 @@ class FlagController extends AbstractController
             return JsonResponse::create([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->flagService->submitFlag($input);
+        $output = $this->flagService->submitFlag($input, $this->getUserInterface());
 
         $this->addFlash(
             'notice',

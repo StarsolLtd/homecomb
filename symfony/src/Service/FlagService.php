@@ -9,20 +9,24 @@ use App\Model\Flag\SubmitOutput;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use function in_array;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class FlagService
 {
     private const VALID_ENTITY_NAMES = ['Agency', 'Branch', 'Property', 'Review'];
 
     private EntityManagerInterface $entityManager;
+    private UserService $userService;
 
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserService $userService
     ) {
         $this->entityManager = $entityManager;
+        $this->userService = $userService;
     }
 
-    public function submitFlag(SubmitInput $submitInput): SubmitOutput
+    public function submitFlag(SubmitInput $submitInput, ?UserInterface $user): SubmitOutput
     {
         $entityName = $submitInput->getEntityName();
 
@@ -30,12 +34,11 @@ class FlagService
             throw new UnexpectedValueException(sprintf('%s is not a valid flag entity name.', $entityName));
         }
 
-        // TODO find or create user
-
         $flag = (new Flag())
             ->setEntityName($submitInput->getEntityName())
             ->setEntityId($submitInput->getEntityId())
             ->setContent($submitInput->getContent())
+            ->setUser($this->userService->getUserEntityFromUserInterface($user))
             ->setCreatedAt(new DateTime())
             ->setUpdatedAt(new DateTime());
 
