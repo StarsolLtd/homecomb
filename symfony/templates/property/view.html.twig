@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ property.addressLine1 }} | {{ property.postcode }} | HomeComb{% endblock %}
+{% block title %}{{ property.addressLine1 }} | {{ property.postcode }} | {{ site_name }}{% endblock %}
 
 {% block headJavascripts %}
     <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
