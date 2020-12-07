@@ -42,6 +42,11 @@
         <footer class="mt-auto navbar navbar-expand-sm">
             <div class="container">
                 <ul class="list-inline text-center">
+                    {% if app.user %}
+                        <li class="list-inline-item"><a class="nav-link" href="{{ path('app_logout') }}">Log Out</a></li>
+                    {%  else %}
+                        <li class="list-inline-item"><a class="nav-link" href="{{ path('app_login') }}">Log In</a></li>
+                    {%  endif %}
                     <li class="list-inline-item"><a class="nav-link" href="{{ path('about') }}">About</a></li>
                     <li class="list-inline-item"><a class="nav-link" href="{{ path('contact') }}">Contact Us</a></li>
                     <li class="list-inline-item"><a class="nav-link" href="{{ path('privacyPolicy') }}">Privacy Policy</a></li>
