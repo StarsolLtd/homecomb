@@ -44,7 +44,7 @@ php-cs-fixer:
 	docker exec -it homecomb_php_1 vendor/bin/php-cs-fixer fix --verbose
 
 phpstan:
-	docker exec -it homecomb_php_1 vendor/bin/phpstan analyse src --level max
+	docker exec -it homecomb_php_1 vendor/bin/phpstan analyse -c phpstan.neon src --level max
 
 follow-logs:
 	docker-compose --file=docker-compose.yml logs -f
