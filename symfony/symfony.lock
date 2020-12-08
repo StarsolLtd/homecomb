@@ -17,6 +17,9 @@
     "composer/xdebug-handler": {
         "version": "1.4.5"
     },
+    "dg/bypass-finals": {
+        "version": "v1.3.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -268,6 +271,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "scienta/doctrine-json-functions": {
+        "version": "4.2.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"

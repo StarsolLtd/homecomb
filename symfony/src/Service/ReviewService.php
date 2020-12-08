@@ -13,17 +13,20 @@ class ReviewService
 {
     private AgencyService $agencyService;
     private BranchService $branchService;
+    private NotificationService $notificationService;
     private EntityManagerInterface $entityManager;
     private PropertyRepository $propertyRepository;
 
     public function __construct(
         AgencyService $agencyService,
         BranchService $branchService,
+        NotificationService $notificationService,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository
     ) {
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
+        $this->notificationService = $notificationService;
         $this->entityManager = $entityManager;
         $this->propertyRepository = $propertyRepository;
     }
@@ -60,6 +63,8 @@ class ReviewService
 
         $this->entityManager->persist($review);
         $this->entityManager->flush();
+
+        $this->notificationService->sendReviewModerationNotification($review);
 
         return new SubmitReviewOutput(true);
     }

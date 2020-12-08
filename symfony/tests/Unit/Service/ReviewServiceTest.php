@@ -6,6 +6,7 @@ use App\Entity\Review;
 use App\Repository\PropertyRepository;
 use App\Service\AgencyService;
 use App\Service\BranchService;
+use App\Service\NotificationService;
 use App\Service\ReviewService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +23,7 @@ class ReviewServiceTest extends TestCase
         $this->reviewService = new ReviewService(
             $this->prophesize(AgencyService::class)->reveal(),
             $this->prophesize(BranchService::class)->reveal(),
+            $this->prophesize(NotificationService::class)->reveal(),
             $this->prophesize(EntityManager::class)->reveal(),
             $this->prophesize(PropertyRepository::class)->reveal(),
         );

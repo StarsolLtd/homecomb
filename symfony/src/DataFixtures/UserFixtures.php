@@ -31,7 +31,7 @@ class UserFixtures extends Fixture
 
         $user2 = (new User())
             ->setEmail('gina@starsol.co.uk')
-            ->setRoles(['ROLE_ADMIN'])
+            ->setRoles(['ROLE_ADMIN', 'ROLE_MODERATOR'])
             ->setCreatedAt(new DateTime())
             ->setUpdatedAt(new DateTime());
 
