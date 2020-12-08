@@ -47,7 +47,7 @@ class ReviewController extends AbstractController
         if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
 
-            return JsonResponse::create([], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
         $output = $this->reviewService->submitReview($input);
@@ -57,7 +57,7 @@ class ReviewController extends AbstractController
             'Your review was received successfully and will be checked by our moderation team shortly.'
         );
 
-        return JsonResponse::create(
+        return new JsonResponse(
             [
                 'success' => $output->isSuccess(),
             ],

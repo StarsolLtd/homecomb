@@ -38,9 +38,14 @@ class PropertyController extends AbstractController
      */
     public function lookupSlugFromVendorId(Request $request): JsonResponse
     {
-        $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($request->query->get('vendorPropertyId'));
+        $vendorPropertyId = $request->query->get('vendorPropertyId');
+        if (null === $vendorPropertyId) {
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
 
-        return JsonResponse::create(
+        $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($vendorPropertyId);
+
+        return new JsonResponse(
             [
                 'slug' => $propertySlug,
             ],
@@ -57,7 +62,12 @@ class PropertyController extends AbstractController
      */
     public function suggestProperty(Request $request): JsonResponse
     {
-        $input = new SuggestPropertyInput($request->query->get('term'));
+        $term = $request->query->get('term');
+        if (null === $term) {
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $input = new SuggestPropertyInput($term);
 
         $suggestions = $this->propertyService->suggestProperty($input);
 
@@ -69,7 +79,7 @@ class PropertyController extends AbstractController
             ];
         }
 
-        return JsonResponse::create(
+        return new JsonResponse(
             $output,
             Response::HTTP_OK
         );

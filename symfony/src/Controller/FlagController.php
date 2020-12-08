@@ -42,7 +42,7 @@ class FlagController extends AppController
         if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
 
-            return JsonResponse::create([], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
         $output = $this->flagService->submitFlag($input, $this->getUserInterface());
@@ -52,7 +52,7 @@ class FlagController extends AppController
             'Your report was received successfully and will be checked by our moderation team shortly.'
         );
 
-        return JsonResponse::create(
+        return new JsonResponse(
             [
                 'success' => $output->isSuccess(),
             ],
