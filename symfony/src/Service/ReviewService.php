@@ -6,7 +6,6 @@ use App\Entity\Review;
 use App\Model\SubmitReviewInput;
 use App\Model\SubmitReviewOutput;
 use App\Repository\PropertyRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReviewService
@@ -57,9 +56,7 @@ class ReviewService
             ->setOverallStars($reviewInput->getOverallStars())
             ->setAgencyStars($reviewInput->getAgencyStars())
             ->setLandlordStars($reviewInput->getLandlordStars())
-            ->setPropertyStars($reviewInput->getPropertyStars())
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime());
+            ->setPropertyStars($reviewInput->getPropertyStars());
 
         $this->entityManager->persist($review);
         $this->entityManager->flush();

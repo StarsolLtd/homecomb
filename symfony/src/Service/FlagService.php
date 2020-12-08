@@ -6,7 +6,6 @@ use App\Entity\Flag;
 use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInput;
 use App\Model\Flag\SubmitOutput;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use function in_array;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -41,9 +40,7 @@ class FlagService
             ->setEntityName($submitInput->getEntityName())
             ->setEntityId($submitInput->getEntityId())
             ->setContent($submitInput->getContent())
-            ->setUser($this->userService->getUserEntityFromUserInterface($user))
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime());
+            ->setUser($this->userService->getUserEntityFromUserInterface($user));
 
         $this->entityManager->persist($flag);
         $this->entityManager->flush();

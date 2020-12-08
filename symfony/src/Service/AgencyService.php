@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Agency;
 use App\Repository\AgencyRepository;
 use App\Util\AgencyHelper;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AgencyService
@@ -46,9 +45,7 @@ class AgencyService
     private function create(string $agencyName): Agency
     {
         $agency = (new Agency())
-            ->setName($agencyName)
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime());
+            ->setName($agencyName);
 
         $this->agencyHelper->generateSlug($agency);
 

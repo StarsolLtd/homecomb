@@ -5,7 +5,6 @@ namespace App\Factory;
 use App\Entity\Property;
 use App\Model\VendorProperty;
 use App\Util\PropertyHelper;
-use DateTime;
 
 class PropertyFactory
 {
@@ -26,9 +25,7 @@ class PropertyFactory
             ->setCity($vendorProperty->getCity())
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode('UK')
-            ->setVendorPropertyId($vendorProperty->getVendorPropertyId())
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime());
+            ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
 
         $this->propertyHelper->generateSlug($property);
 

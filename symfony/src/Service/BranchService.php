@@ -7,7 +7,6 @@ use App\Entity\Branch;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BranchService
@@ -53,9 +52,7 @@ class BranchService
     {
         $branch = (new Branch())
             ->setAgency($agency)
-            ->setName($branchName)
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime());
+            ->setName($branchName);
 
         $this->branchHelper->generateSlug($branch);
 
