@@ -84,7 +84,7 @@ class Review
     /**
      * Use only for testing.
      */
-    public function setId(int $id): self
+    public function setIdForTest(int $id): self
     {
         $this->id = $id;
 

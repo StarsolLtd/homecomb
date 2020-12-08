@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInput;
 use App\Service\FlagService;
+use App\Service\NotificationService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -20,15 +21,18 @@ class FlagServiceTest extends TestCase
     private FlagService $flagService;
 
     private $entityManagerMock;
+    private $notificationServiceMock;
     private $userServiceMock;
 
     public function setUp(): void
     {
         $this->entityManagerMock = $this->prophesize(EntityManagerInterface::class);
+        $this->notificationServiceMock = $this->prophesize(NotificationService::class);
         $this->userServiceMock = $this->prophesize(UserService::class);
 
         $this->flagService = new FlagService(
             $this->entityManagerMock->reveal(),
+            $this->notificationServiceMock->reveal(),
             $this->userServiceMock->reveal(),
         );
     }
@@ -39,6 +43,8 @@ class FlagServiceTest extends TestCase
 
         $this->entityManagerMock->persist(Argument::type(Flag::class))->shouldBeCalledOnce();
         $this->entityManagerMock->flush()->shouldBeCalledOnce();
+
+        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(Flag::class))->shouldBeCalledOnce();
 
         $output = $this->flagService->submitFlag($input, null);
 
@@ -64,6 +70,8 @@ class FlagServiceTest extends TestCase
         $this->entityManagerMock->flush()->shouldBeCalledOnce();
 
         $this->userServiceMock->getUserEntityFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(Flag::class))->shouldBeCalledOnce();
 
         $output = $this->flagService->submitFlag($input, $user);
 

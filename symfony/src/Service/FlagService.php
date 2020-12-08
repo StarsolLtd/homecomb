@@ -16,13 +16,16 @@ class FlagService
     private const VALID_ENTITY_NAMES = ['Agency', 'Branch', 'Property', 'Review'];
 
     private EntityManagerInterface $entityManager;
+    private NotificationService $notificationService;
     private UserService $userService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
         UserService $userService
     ) {
         $this->entityManager = $entityManager;
+        $this->notificationService = $notificationService;
         $this->userService = $userService;
     }
 
@@ -44,6 +47,8 @@ class FlagService
 
         $this->entityManager->persist($flag);
         $this->entityManager->flush();
+
+        $this->notificationService->sendFlagModerationNotification($flag);
 
         return new SubmitOutput(true);
     }

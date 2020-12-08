@@ -49,6 +49,16 @@ class Flag
      */
     private ?bool $valid = null;
 
+    /**
+     * Use only for testing.
+     */
+    public function setIdForTest(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

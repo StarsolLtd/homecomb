@@ -2,7 +2,9 @@
 
 namespace App\Tests\Unit\Util;
 
+use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
+use App\Entity\Flag;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -44,7 +46,7 @@ class NotificationServiceTest extends TestCase
 
     public function testSendReviewModerationNotification(): void
     {
-        $review = (new Review())->setId(42);
+        $review = (new Review())->setIdForTest(42);
 
         $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
 
@@ -64,5 +66,29 @@ class NotificationServiceTest extends TestCase
         $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
 
         $this->notificationService->sendReviewModerationNotification($review);
+    }
+
+    public function testFlagReviewModerationNotification(): void
+    {
+        $flag = (new Flag())->setIdForTest(77);
+
+        $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
+
+        $this->crudUrlGeneratorMock->build()->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setController(FlagCrudController::class)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setAction(Action::EDIT)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setEntityId(77)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->generateUrl()->shouldBeCalledOnce()->willReturn('http://homecomb/test');
+
+        $this->userRepositoryMock
+            ->findUsersWithRole('ROLE_MODERATOR')
+            ->shouldBeCalledOnce()
+            ->willReturn([
+                (new User())->setEmail('gina@starsol.co.uk'),
+            ]);
+
+        $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
+
+        $this->notificationService->sendFlagModerationNotification($flag);
     }
 }
