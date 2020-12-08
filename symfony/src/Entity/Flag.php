@@ -19,7 +19,7 @@ class Flag
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reviews")
@@ -30,7 +30,7 @@ class Flag
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $entityName;
+    private string $entityName = '';
 
     /**
      * @ORM\Column(type="integer")
