@@ -44,6 +44,11 @@ class Branch
      */
     private ?string $slug;
 
+    public function __toString(): string
+    {
+        return implode(', ', [$this->getAgency(), $this->getName()]);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

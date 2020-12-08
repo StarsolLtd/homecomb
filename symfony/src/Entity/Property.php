@@ -81,6 +81,11 @@ class Property
         $this->reviews = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->getAddressLine1().', '.$this->getPostcode();
+    }
+
     public function getId(): int
     {
         return $this->id;

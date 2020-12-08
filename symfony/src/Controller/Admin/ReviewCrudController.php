@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Review;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -19,6 +20,8 @@ class ReviewCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            AssociationField::new('property')->setRequired(true)->autocomplete(),
+            AssociationField::new('branch')->setRequired(false)->autocomplete(),
             TextField::new('author'),
             TextField::new('title'),
             TextareaField::new('content'),

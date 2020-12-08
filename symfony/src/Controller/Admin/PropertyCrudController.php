@@ -23,8 +23,8 @@ class PropertyCrudController extends AbstractCrudController
             TextField::new('city'),
             TextField::new('postcode'),
             TextField::new('countryCode'),
-            TextField::new('vendorPropertyId'),
-            TextField::new('slug'),
+            TextField::new('vendorPropertyId')->hideOnIndex()->hideOnForm(),
+            TextField::new('slug')->hideOnIndex()->hideOnForm(),
             BooleanField::new('published'),
         ];
     }

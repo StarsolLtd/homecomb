@@ -19,7 +19,7 @@ class AgencyCrudController extends AbstractCrudController
         return [
             TextField::new('name'),
             TextField::new('countryCode'),
-            TextField::new('slug'),
+            TextField::new('slug')->hideOnIndex()->hideOnForm(),
             BooleanField::new('published'),
         ];
     }

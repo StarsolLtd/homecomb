@@ -10,6 +10,7 @@ use App\Entity\Review;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +21,11 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        /** @var CrudUrlGenerator $crudUrlGenerator */
+        $crudUrlGenerator = $this->get(CrudUrlGenerator::class);
+        $routeBuilder = $crudUrlGenerator->build();
+
+        return $this->redirect($routeBuilder->setController(ReviewCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -32,7 +37,9 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::section('Content'),
+            MenuItem::linkToCrud('Reviews', 'fa fa-comment', Review::class),
+            MenuItem::linkToCrud('Flags', 'fa fa-flag', Flag::class),
 
             MenuItem::section('Agencies'),
             MenuItem::linkToCrud('Agencies', 'fa fa-building', Agency::class),
@@ -40,10 +47,6 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Properties'),
             MenuItem::linkToCrud('Properties', 'fa fa-home', Property::class),
-
-            MenuItem::section('Content'),
-            MenuItem::linkToCrud('Reviews', 'fa fa-comment', Review::class),
-            MenuItem::linkToCrud('Flags', 'fa fa-flag', Flag::class),
         ];
     }
 }

@@ -48,6 +48,11 @@ class Agency
      */
     private bool $published = false;
 
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
