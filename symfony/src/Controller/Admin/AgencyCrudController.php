@@ -3,23 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Agency;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class AgencyCrudController extends AbstractCrudController
+class AgencyCrudController extends AppCrudController
 {
     public static function getEntityFqcn(): string
     {
         return Agency::class;
     }
-
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
 }
