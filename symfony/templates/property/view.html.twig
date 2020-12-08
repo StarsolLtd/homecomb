@@ -14,218 +14,135 @@
 {% block content %}
     <div class="container">
 
-        <div class="col-md-12" style="padding-bottom: 20px;">
+        <div class="col-md-12 page-title">
             <h1>{{ property.addressLine1 }}, {{ property.postcode }}</h1>
         </div>
 
         <div class="col-md-12">
-            <div class="offer-dedicated-body-left">
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade active show" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
-                        <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-                            <h5 class="mb-1">Reviews from previous tenants</h5>
+            <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+                <h5 class="mb-1">Reviews from tenants</h5>
 
-                            {% for review in property.publishedReviews %}
-                                <div class="reviews-members pt-4 pb-4">
-                                    <div class="dropdown float-right">
-                                      <button class="btn btn-light btn-ellipsis" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&hellip;</button>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item flag-review-link" data-entity-id="{{ review.id }}" href="#" data-toggle="modal" data-target="#flag-review-modal"><span class="fa fa-flag"></span> Report this</a>
-                                      </div>
-                                    </div>
-                                    <div class="reviews-members-header">
-                                        <p class="mb-1 font-weight-bold">
-                                            <span class="author">{{ review.author }}</span>
-                                        </p>
-                                        <p class="text-gray">{{ review.createdAt|date('jS F Y') }}</p>
-                                    </div>
-                                    <div class="reviews-members-body">
-                                        <p class="font-weight-bold">{{ review.title }}</p>
+                {% for review in property.publishedReviews %}
+                    {% include 'snippets/review.html.twig' with {'review': review, 'hideProperty': true} %}
+                    {{ not loop.last ? '<hr>' }}
+                {% else %}
+                    <p>
+                        There are currently no reviews for this property.
+                    </p>
+                {% endfor %}
+            </div>
 
-                                        <p>{{ review.content }}</p>
-
-                                        {% if (review.branch or review.agency) %}
-                                            <p>
-                                                {% if review.agency %}
-                                                    Agency:
-                                                    {% if review.agency.isPublished %}<a href="{{ path('agency-view-by-slug', {slug: review.agency.slug}) }}">{%  endif %}
-                                                        {{ review.agency.name }}
-                                                    {% if review.agency.isPublished %}</a>{%  endif %}
-                                                    <br>
-                                                {%  endif %}
-                                                {% if review.branch %}
-                                                    Branch:
-                                                    {% if review.branch.isPublished %}<a href="{{ path('branch-view-by-slug', {slug: review.branch.slug}) }}">{%  endif %}
-                                                        {{ review.branch.name }}
-                                                    {% if review.branch.isPublished %}</a>{%  endif %}
-                                                {%  endif %}
-                                            </p>
-                                        {%  endif %}
-                                    </div>
-                                    <div class="review-stars">
-                                        {% if review.overallStars %}
-                                            {% include 'snippets/stars.html.twig' with {'label': 'Overall', 'stars': review.overallStars} %}
-                                        {%  endif %}
-                                        {% if review.agencyStars %}
-                                            {% include 'snippets/stars.html.twig' with {'label': 'Agency', 'stars': review.agencyStars} %}
-                                        {%  endif %}
-                                        {% if review.landlordStars %}
-                                            {% include 'snippets/stars.html.twig' with {'label': 'Landlord', 'stars': review.landlordStars} %}
-                                        {%  endif %}
-                                        {% if review.propertyStars %}
-                                            {% include 'snippets/stars.html.twig' with {'label': 'Property', 'stars': review.propertyStars} %}
-                                        {%  endif %}
-                                    </div>
-                                </div>
-                                {{ not loop.last ? '<hr>' }}
-                            {% else %}
-                                <p>
-                                    There are currently no reviews for this property.
-                                </p>
-                            {% endfor %}
+            <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+                <h5 class="mb-4">Review your tenancy here</h5>
+                <p class="mb-2">Are you a current or past tenant at {{ property.addressLine1 }}? We'd love it if you could review your tenant experience!</p>
+                <hr>
+                <div class="w-100">
+                    <form id="submitReviewForm">
+                        <input type="hidden" name="propertyId" id="propertyId" value="{{ property.id }}">
+                        <input type="hidden" name="propertySlug" id="propertySlug" value="{{ property.slug }}">
+                        <div class="form-group">
+                            <label for="reviewerName">Your name</label>
+                            <input required type="text" class="form-control" name="reviewerName" id="reviewerName" aria-describedby="reviewerNameHelp" placeholder="Enter your name">
+                            <small id="reviewerNameHelp" class="form-text text-muted">We will publish this. It doesn't have to be your full name if you don't want.</small>
                         </div>
-
-                        <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-                            <h5 class="mb-4">Review your tenancy here</h5>
-                            <p class="mb-2">Have you been a tenant at {{ property.addressLine1 }}? We'd love it if you could review your tenant experience!</p>
-                            <hr>
-                            <div class="w-100">
-                                <form id="submitReviewForm">
-                                    <input type="hidden" name="propertyId" id="propertyId" value="{{ property.id }}">
-                                    <input type="hidden" name="propertySlug" id="propertySlug" value="{{ property.slug }}">
-                                    <div class="form-group">
-                                        <label for="reviewerName">Your name</label>
-                                        <input required type="text" class="form-control" name="reviewerName" id="reviewerName" aria-describedby="reviewerNameHelp" placeholder="Enter your name">
-                                        <small id="reviewerNameHelp" class="form-text text-muted">We will publish this. It doesn't have to be your full name if you don't want.</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="reviewerEmail">Your email</label>
-                                        <input required type="email" class="form-control" name="reviewerEmail" id="reviewerEmail" aria-describedby="reviewerEmailHelp" placeholder="Enter your email">
-                                        <small id="reviewerEmailHelp" class="form-text text-muted">We won't publish this, and will only use it if we need to contact you.</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="agencyName">Agency company name</label>
-                                        <input type="text" class="form-control" name="agencyName" id="agencyName" aria-describedby="agencyNameHelp" placeholder="Enter agency company name">
-                                        <small id="agencyNameHelp" class="form-text text-muted">Example: Winkworth. Leave blank if unknown or private landlord.</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="agencyBranch">Agency branch location</label>
-                                        <input type="text" class="form-control" name="agencyBranch" id="agencyBranch" aria-describedby="agencyBranchHelp" placeholder="Enter agency branch">
-                                        <small id="agencyBranchHelp" class="form-text text-muted">Example: Coventry. Leave blank if unknown or private landlord.</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="reviewTitle">Review title</label>
-                                        <input required type="text" class="form-control" name="reviewTitle" id="reviewTitle" aria-describedby="reviewTitleHelp" placeholder="Enter review title">
-                                        <small id="reviewTitleHelp" class="form-text text-muted">A short sentence or two summarising your experience.</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="reviewContent">Your review</label>
-                                        <textarea required class="form-control" name="reviewContent" id="reviewContent" aria-describedby="reviewContentHelp" placeholder="Enter your review"></textarea>
-                                        <small id="reviewContentHelp" class="form-text text-muted">Tell us all about your experience with the property, letting agent, landlord etc.</small>
-                                    </div>
-                                    <hr>
-                                    <h2>Star ratings</h2>
-                                    <div class="form-group">
-                                        <label for="overallStars">Overall</label>
-                                        <select class="form-control" name="overallStars" id="overallStars">
-                                            <option>Select rating (optional)</option>
-                                            <option value="5">5 stars - best</option>
-                                            <option value="4">4 stars</option>
-                                            <option value="3">3 stars</option>
-                                            <option value="2">2 stars</option>
-                                            <option value="1">1 star - worst</option>
-                                            <option>Don't know/prefer not to rate</option>
-                                        </select>
-                                        <small id="overallStarsHelp" class="form-text text-muted">Rate your overall tenant experience</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="agencyStars">Agency</label>
-                                        <select class="form-control" name="agencyStars" id="agencyStars">
-                                            <option>Select rating (optional)</option>
-                                            <option value="5">5 stars - best</option>
-                                            <option value="4">4 stars</option>
-                                            <option value="3">3 stars</option>
-                                            <option value="2">2 stars</option>
-                                            <option value="1">1 star - worst</option>
-                                            <option>No agency/don't know/prefer not to rate</option>
-                                        </select>
-                                        <small id="agencyStarsHelp" class="form-text text-muted">Rate the agency that managed your tenancy, leave blank if there was no agency</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="landlordStars">Landlord</label>
-                                        <select class="form-control" name="landlordStars" id="landlordStars">
-                                            <option>Select rating (optional)</option>
-                                            <option value="5">5 stars - best</option>
-                                            <option value="4">4 stars</option>
-                                            <option value="3">3 stars</option>
-                                            <option value="2">2 stars</option>
-                                            <option value="1">1 star - worst</option>
-                                            <option>Don't know/prefer not to rate</option>
-                                        </select>
-                                        <small id="landlordStarsHelp" class="form-text text-muted">Rate the landlord, leave blank if you never dealt with them</small>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="propertyStars">Property</label>
-                                        <select class="form-control" name="propertyStars" id="propertyStars">
-                                            <option>Select rating (optional)</option>
-                                            <option value="5">5 stars - best</option>
-                                            <option value="4">4 stars</option>
-                                            <option value="3">3 stars</option>
-                                            <option value="2">2 stars</option>
-                                            <option value="1">1 star - worst</option>
-                                            <option>Don't know/prefer not to rate</option>
-                                        </select>
-                                        <small id="landlordStarsHelp" class="form-text text-muted">Rate the property itself</small></div>
-                                    <hr>
-                                    <button type="submit"
-                                        class="btn btn-primary g-recaptcha"
-                                        data-sitekey="reCAPTCHA_site_key"
-                                        data-callback="onSubmit"
-                                        data-action="submit">Share your tenancy review</button>
-                                </form>
-                            </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="reviewerEmail">Your email</label>
+                            <input required type="email" class="form-control" name="reviewerEmail" id="reviewerEmail" aria-describedby="reviewerEmailHelp" placeholder="Enter your email">
+                            <small id="reviewerEmailHelp" class="form-text text-muted">We won't publish this, and will only use it if we need to contact you.</small>
                         </div>
-                    </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="agencyName">Agency company name</label>
+                            <input type="text" class="form-control" name="agencyName" id="agencyName" aria-describedby="agencyNameHelp" placeholder="Enter agency company name">
+                            <small id="agencyNameHelp" class="form-text text-muted">Example: Winkworth. Leave blank if unknown or private landlord.</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="agencyBranch">Agency branch location</label>
+                            <input type="text" class="form-control" name="agencyBranch" id="agencyBranch" aria-describedby="agencyBranchHelp" placeholder="Enter agency branch">
+                            <small id="agencyBranchHelp" class="form-text text-muted">Example: Coventry. Leave blank if unknown or private landlord.</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="reviewTitle">Review title</label>
+                            <input required type="text" class="form-control" name="reviewTitle" id="reviewTitle" aria-describedby="reviewTitleHelp" placeholder="Enter review title">
+                            <small id="reviewTitleHelp" class="form-text text-muted">A short sentence or two summarising your experience.</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="reviewContent">Your review</label>
+                            <textarea required class="form-control" name="reviewContent" id="reviewContent" aria-describedby="reviewContentHelp" placeholder="Enter your review"></textarea>
+                            <small id="reviewContentHelp" class="form-text text-muted">Tell us all about your experience with the property, letting agent, landlord etc.</small>
+                        </div>
+                        <hr>
+                        <h2>Star ratings</h2>
+                        <div class="form-group">
+                            <label for="overallStars">Overall</label>
+                            <select class="form-control" name="overallStars" id="overallStars">
+                                <option>Select rating (optional)</option>
+                                <option value="5">5 stars - best</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star - worst</option>
+                                <option>Don't know/prefer not to rate</option>
+                            </select>
+                            <small id="overallStarsHelp" class="form-text text-muted">Rate your overall tenant experience</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="agencyStars">Agency</label>
+                            <select class="form-control" name="agencyStars" id="agencyStars">
+                                <option>Select rating (optional)</option>
+                                <option value="5">5 stars - best</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star - worst</option>
+                                <option>No agency/don't know/prefer not to rate</option>
+                            </select>
+                            <small id="agencyStarsHelp" class="form-text text-muted">Rate the agency that managed your tenancy, leave blank if there was no agency</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="landlordStars">Landlord</label>
+                            <select class="form-control" name="landlordStars" id="landlordStars">
+                                <option>Select rating (optional)</option>
+                                <option value="5">5 stars - best</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star - worst</option>
+                                <option>Don't know/prefer not to rate</option>
+                            </select>
+                            <small id="landlordStarsHelp" class="form-text text-muted">Rate the landlord, leave blank if you never dealt with them</small>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="propertyStars">Property</label>
+                            <select class="form-control" name="propertyStars" id="propertyStars">
+                                <option>Select rating (optional)</option>
+                                <option value="5">5 stars - best</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star - worst</option>
+                                <option>Don't know/prefer not to rate</option>
+                            </select>
+                            <small id="landlordStarsHelp" class="form-text text-muted">Rate the property itself</small></div>
+                        <hr>
+                        <button type="submit"
+                            class="btn btn-primary g-recaptcha"
+                            data-sitekey="reCAPTCHA_site_key"
+                            data-callback="onSubmit"
+                            data-action="submit">Share your tenancy review</button>
+                    </form>
                 </div>
             </div>
         </div>
 
-
-        <div class="modal" tabindex="-1" id="flag-review-modal" data-backdrop="static">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Report inappropriate content</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form id="flag-review-form">
-                <input type="hidden" name="flag-review-entity-name" id="flag-review-entity-name" value="Review">
-                <input type="hidden" name="flag-review-entity-id" id="flag-review-entity-id" value="">
-                  <div class="modal-body">
-                    <p>If this review is inappropriate, you can flag it to our moderation team. <label for="flag-review-entity-content">Please enter an explanation below:</label></p>
-                    <input type="text" name="flag-review-entity-content" id="flag-review-entity-content" class="form-control" placeholder="Enter an explanation..." required>
-                  </div>
-                  <div class="modal-footer">
-                  <button type="submit"
-                    class="btn btn-primary g-recaptcha"
-                    data-sitekey="reCAPTCHA_site_key"
-                    data-callback="onSubmit"
-                    data-action="submit">Send report</button>
-                  </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        {% include 'snippets/flag-review-form.html.twig' %}
     </div>
 {% endblock %}
 
@@ -269,40 +186,7 @@
                 }
             });
 
-            $('.flag-review-link').click(function() {
-                var entityId = $(this).attr('data-entity-id');
-                $('#flag-review-entity-id').val(entityId);
-            });
-
-            $('#flag-review-form').validate({
-                submitHandler: function (form) {
-                    grecaptcha.ready(function() {
-                        grecaptcha.execute('{{ google_recaptcha_site_key }}', {action: 'submit'}).then(function(token) {
-                            const input = {
-                                entityId: parseInt($('#flag-review-entity-id').val()),
-                                entityName: $('#flag-review-entity-name').val(),
-                                content: $('#flag-review-entity-content').val(),
-                                googleReCaptchaToken: token
-                            };
-
-                            $.ajax(
-                                {
-                                   type: 'POST',
-                                   url: '/api/flag',
-                                   data: JSON.stringify(input),
-                                   complete: function(output, status)
-                                   {
-                                       location.href = '/property/' + $('#propertySlug').val();
-                                   },
-                                 }
-                            );
-                        });
-                    });
-
-                    return false;
-                }
-            });
-
+            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/property/' ~ property.slug} %}
         } );
     </script>
 {% endblock %}

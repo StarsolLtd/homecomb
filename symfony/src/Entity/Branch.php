@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -43,6 +45,17 @@ class Branch
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $slug;
+
+    /**
+     * @var Collection<int, Review>
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="branch")
+     */
+    private Collection $reviews;
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -100,5 +113,23 @@ class Branch
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getPublishedReviews(): Collection
+    {
+        return $this->getReviews()->filter(function (Review $review) {
+            return $review->isPublished();
+        });
     }
 }

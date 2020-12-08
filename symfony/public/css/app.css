@@ -106,3 +106,7 @@ label.error {
 .btn-ellipsis {
     border: 1px solid #DDDDDD;
 }
+
+.page-title {
+    padding-bottom: 20px;
+}

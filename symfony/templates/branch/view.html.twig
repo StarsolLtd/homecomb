@@ -4,10 +4,36 @@
 
 {% block content %}
     <div class="container">
-        {% if agency %}
-            <h1>{{ agency.name }} - {{ branch.name }}</h1>
-        {% else %}
-            <h1>{{ branch.name }}</h1>
-        {%  endif %}
+
+        <div class="col-md-12 page-title">
+            {% if agency %}
+                <h1>{{ agency.name }} - {{ branch.name }}</h1>
+            {% else %}
+                <h1>{{ branch.name }}</h1>
+            {%  endif %}
+        </div>
+
+        <div class="bg-white rounded shadow-sm p-4 mb-4">
+            <h5 class="mb-1">Reviews from tenants</h5>
+
+            {% for review in branch.publishedReviews %}
+                {% include 'snippets/review.html.twig' with {'review': review, 'hideAgency': true, 'hideBranch': true} %}
+                {{ not loop.last ? '<hr>' }}
+            {% else %}
+                <p>
+                    There are currently no reviews for {{ agency.name }}, {{ branch.name }}.
+                </p>
+            {% endfor %}
+        </div>
+
+        {% include 'snippets/flag-review-form.html.twig' %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $( function() {
+            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/branch/' ~ branch.slug} %}
+        } );
+    </script>
 {% endblock %}
