@@ -2,6 +2,10 @@
 
 {% block title %}{% if agency %}{{ agency.name }} {%  endif %}{{ branch.name }} | Lettings Agent Reviews | {{ site_name }}{% endblock %}
 
+{% block headJavascripts %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
 

@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -26,6 +27,7 @@ class NotificationServiceTest extends TestCase
     private NotificationService $notificationService;
 
     private $crudUrlGeneratorMock;
+    private $loggerMock;
     private $mailerMock;
     private $userRepositoryMock;
 
@@ -34,11 +36,13 @@ class NotificationServiceTest extends TestCase
         BypassFinals::enable();
 
         $this->crudUrlGeneratorMock = $this->prophesize(CrudUrlGenerator::class);
+        $this->loggerMock = $this->prophesize(LoggerInterface::class);
         $this->mailerMock = $this->prophesize(MailerInterface::class);
         $this->userRepositoryMock = $this->prophesize(UserRepository::class);
 
         $this->notificationService = new NotificationService(
             $this->crudUrlGeneratorMock->reveal(),
+            $this->loggerMock->reveal(),
             $this->mailerMock->reveal(),
             $this->userRepositoryMock->reveal(),
         );
@@ -65,6 +69,8 @@ class NotificationServiceTest extends TestCase
 
         $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
 
+        $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
+
         $this->notificationService->sendReviewModerationNotification($review);
     }
 
@@ -88,6 +94,8 @@ class NotificationServiceTest extends TestCase
             ]);
 
         $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
+
+        $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
         $this->notificationService->sendFlagModerationNotification($flag);
     }
