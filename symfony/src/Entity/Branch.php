@@ -12,6 +12,11 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BranchRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
+ * @ORM\Table(
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="branch_unique", columns={"agency_id", "name"})
+ *    }
+ * )
  */
 class Branch
 {
@@ -32,7 +37,7 @@ class Branch
     private ?Agency $agency = null;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private string $name;
 

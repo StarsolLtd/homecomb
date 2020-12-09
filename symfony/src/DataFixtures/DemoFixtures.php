@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
@@ -37,45 +38,20 @@ class DemoFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        list($agency) = $this->loadAgencies($manager);
+        $this->loadLocales($manager);
+        $agencies = $this->loadAgencies($manager);
+        $branches = $this->loadBranches($manager, $agencies);
 
-        $branch = (new Branch())
-            ->setAgency($agency)
-            ->setName('Arbury')
-            ->setPublished(true)
-            ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+        $properties = $this->loadProperties($manager);
 
-        $this->branchHelper->generateSlug($branch);
+        $users = $this->loadUsers($manager);
 
-        $manager->persist($branch);
+        $reviews = [];
 
-        $property = (new Property())
-            ->setVendorPropertyId('ZmM5Yzc5MzMyODAyZTc4IDE3MDQ0OTcyIDMzZjhlNDFkNGU1MzY0Mw==')
-            ->setAddressLine1('249 Victoria Road')
-            ->setCity('Cambridge')
-            ->setPostcode('CB4 3LF')
-            ->setCountryCode('UK')
-            ->setPublished(true)
-            ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
-
-        $this->propertyHelper->generateSlug($property);
-
-        $manager->persist($property);
-
-        $user1 = (new User())
-            ->setEmail('jack@mimas.io')
-            ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
-        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, 'To_The_Moon_2020'));
-
-        $manager->persist($user1);
-
-        $review1 = (new Review())
-            ->setUser($user1)
-            ->setProperty($property)
-            ->setBranch($branch)
+        $reviews[] = (new Review())
+            ->setUser($users[0])
+            ->setProperty($properties[0])
+            ->setBranch($branches[0])
             ->setTitle('Pleasant two year stay in great location')
             ->setAuthor('Jack Parnell')
             ->setContent(
@@ -87,24 +63,12 @@ class DemoFixtures extends Fixture
             ->setAgencyStars(5)
             ->setLandlordStars(null)
             ->setPropertyStars(3)
-            ->setPublished(true)
-            ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
+            ->setPublished(true);
 
-        $manager->persist($review1);
-
-        $user2 = (new User())
-            ->setEmail('andrea@starsol.co.uk')
-            ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
-        $user2->setPassword($this->userPasswordEncoder->encodePassword($user1, 'Fire_Dragon_2020'));
-
-        $manager->persist($user2);
-
-        $review2 = (new Review())
-            ->setUser($user2)
-            ->setProperty($property)
-            ->setBranch($branch)
+        $reviews[] = (new Review())
+            ->setUser($users[1])
+            ->setProperty($properties[0])
+            ->setBranch($branches[0])
             ->setTitle('I loved this place!')
             ->setAuthor('Andrea Németh')
             ->setContent(
@@ -116,11 +80,11 @@ class DemoFixtures extends Fixture
             ->setAgencyStars(null)
             ->setLandlordStars(5)
             ->setPropertyStars(5)
-            ->setPublished(true)
-            ->setCreatedAt(new DateTime('2020-11-28 12:00:00'))
-            ->setUpdatedAt(new DateTime('2020-11-28 12:00:00'));
+            ->setPublished(true);
 
-        $manager->persist($review2);
+        foreach ($reviews as $review) {
+            $manager->persist($review);
+        }
 
         $manager->flush();
     }
@@ -132,6 +96,7 @@ class DemoFixtures extends Fixture
     {
         $agencies = [
             (new Agency())->setName('Cambridge Residential'),
+            (new Agency())->setName('Abbey & Shelford'),
             (new Agency())->setName('Norwich Homes'),
             (new Agency())->setName('Clerkenwell Lettings'),
             (new Agency())->setName('Birmingham Rentals'),
@@ -149,5 +114,140 @@ class DemoFixtures extends Fixture
         }
 
         return $agencies;
+    }
+
+    /**
+     * @param Agency[] $agencies
+     *
+     * @return Branch[]
+     */
+    private function loadBranches(ObjectManager $manager, array $agencies): array
+    {
+        $branches = [];
+
+        list($cambridgeAgency, $abbeyAgency, $norwichAgency) = $agencies;
+
+        $cambridgeBranchNames = ['Arbury', 'Chesterton', 'Cherry Hinton'];
+        foreach ($cambridgeBranchNames as $branchName) {
+            $branches[] = (new Branch())
+                ->setAgency($cambridgeAgency)
+                ->setName($branchName)
+                ->setPublished(true);
+        }
+
+        $abbeyBranchNames = ['Chesterton', 'Great Shelford', 'Waterbeach', 'Willingham'];
+        foreach ($abbeyBranchNames as $branchName) {
+            $branches[] = (new Branch())
+                ->setAgency($abbeyAgency)
+                ->setName($branchName)
+                ->setPublished(true);
+        }
+
+        $norwichBranchNames = ['Drayton', 'Golden Triangle'];
+        foreach ($norwichBranchNames as $branchName) {
+            $branches[] = (new Branch())
+                ->setAgency($norwichAgency)
+                ->setName($branchName)
+                ->setPublished(true);
+        }
+
+        foreach ($branches as $branch) {
+            $this->branchHelper->generateSlug($branch);
+            $manager->persist($branch);
+        }
+
+        $manager->flush();
+
+        return $branches;
+    }
+
+    /**
+     * @return Locale[]
+     */
+    private function loadLocales(ObjectManager $manager): array
+    {
+        $locales = [
+            (new Locale())->setName('Birmingham'),
+            (new Locale())->setName('Cambridge'),
+            (new Locale())->setName('Clerkenwell'),
+            (new Locale())->setName('Norwich'),
+        ];
+
+        /** @var Locale $locale */
+        foreach ($locales as $locale) {
+            $locale->setPublished(true);
+            $manager->persist($locale);
+        }
+
+        $manager->flush();
+
+        return $locales;
+    }
+
+    /**
+     * @return Property[]
+     */
+    private function loadProperties(ObjectManager $manager): array
+    {
+        $properties = [];
+
+        $properties[] = (new Property())
+            ->setVendorPropertyId('ZmM5Yzc5MzMyODAyZTc4IDE3MDQ0OTcyIDMzZjhlNDFkNGU1MzY0Mw==')
+            ->setAddressLine1('249 Victoria Road')
+            ->setCity('Cambridge')
+            ->setPostcode('CB4 3LF');
+
+        $properties[] = (new Property())
+            ->setVendorPropertyId('MjgwNjUwNjUwY2M3M2ViIDE2NTQ2NTY0IDMzZjhlNDFkNGU1MzY0Mw==')
+            ->setAddressLine1('25 Bateman Street')
+            ->setCity('Cambridge')
+            ->setPostcode('CB2 1NB');
+
+        $properties[] = (new Property())
+            ->setVendorPropertyId('OWM3ODAxYzFiYTEzMzE3IDE2MzkxMzg2IDMzZjhlNDFkNGU1MzY0Mw==')
+            ->setAddressLine1('44 Fanshawe Road')
+            ->setCity('Cambridge')
+            ->setPostcode('CB1 3QY');
+
+        $properties[] = (new Property())
+            ->setVendorPropertyId('NGViYmZiZjY5YjBiYTAyIDE2NjYxMjMzIDMzZjhlNDFkNGU1MzY0Mw==')
+            ->setAddressLine1('22 Mingle Lane')
+            ->setAddressLine2('Great Shelford')
+            ->setCity('Cambridge')
+            ->setPostcode('CB22 5BG');
+
+        foreach ($properties as $property) {
+            $property->setPublished(true);
+            $property->setCountryCode('UK');
+            $this->propertyHelper->generateSlug($property);
+            $manager->persist($property);
+        }
+
+        $manager->flush();
+
+        return $properties;
+    }
+
+    /**
+     * @return User[]
+     */
+    private function loadUsers(ObjectManager $manager): array
+    {
+        $data = [
+            ['email' => 'jack@mimas.io', 'password' => 'To_The_Moon_2020'],
+            ['email' => 'andrea@starsol.co.uk', 'password' => 'Fire_Dragon_2020'],
+        ];
+
+        $users = [];
+        foreach ($data as $row) {
+            $user = (new User())->setEmail($row['email']);
+            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $row['password']));
+            $manager->persist($user);
+            $users[] = $user;
+        }
+
+        $manager->flush();
+
+        return $users;
     }
 }
