@@ -23,6 +23,11 @@ class DemoFixtures extends Fixture
     private PropertyHelper $propertyHelper;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
+    private CONST USER_1 = 'jack@mimas.io';
+    private CONST USER_2 = 'andrea@starsol.co.uk';
+    private CONST USER_3 = 'lauren@starsol.co.uk';
+    private CONST USER_4 = 'zora@starsol.co.uk';
+
     public function __construct(
         AgencyHelper $agencyHelper,
         BranchHelper $branchHelper,
@@ -49,7 +54,7 @@ class DemoFixtures extends Fixture
         $reviews = [];
 
         $reviews[] = (new Review())
-            ->setUser($users[0])
+            ->setUser($users[self::USER_1])
             ->setProperty($properties[0])
             ->setBranch($branches[0])
             ->setTitle('Pleasant two year stay in great location')
@@ -66,7 +71,7 @@ class DemoFixtures extends Fixture
             ->setPublished(true);
 
         $reviews[] = (new Review())
-            ->setUser($users[1])
+            ->setUser($users[self::USER_2])
             ->setProperty($properties[0])
             ->setBranch($branches[0])
             ->setTitle('I loved this place!')
@@ -80,6 +85,57 @@ class DemoFixtures extends Fixture
             ->setAgencyStars(null)
             ->setLandlordStars(5)
             ->setPropertyStars(5)
+            ->setPublished(true);
+
+        $reviews[] = (new Review())
+            ->setUser($users[self::USER_3])
+            ->setProperty($properties[0])
+            ->setBranch($branches[4])
+            ->setTitle('I loved this place!')
+            ->setAuthor('Lauren Marie')
+            ->setContent(
+                'I rented this place from January 2017 to March 2020. The landlord redecorated it before I moved '
+                . 'in which gave it a really fresh feel. If work was not taking me away from Cambridge, I could have '
+                . 'happily stayed here for years.'
+            )
+            ->setOverallStars(5)
+            ->setAgencyStars(4)
+            ->setLandlordStars(5)
+            ->setPropertyStars(5)
+            ->setPublished(true);
+
+        $reviews[] = (new Review())
+            ->setUser($users[self::USER_3])
+            ->setProperty($properties[1])
+            ->setBranch($branches[3])
+            ->setTitle('Small flat suitable for student')
+            ->setAuthor('Lauren Martin')
+            ->setContent(
+                'I rented this place for a few months when I first moved to Cambridge. It was very small and '
+                . ' I felt a bit cramped here. The bedroom was barely wider than a double bed. I think it would be a '
+                . ' great place for a student who is not brining many possessions to Cambridge. '
+            )
+            ->setOverallStars(3)
+            ->setAgencyStars(4)
+            ->setLandlordStars(null)
+            ->setPropertyStars(3)
+            ->setPublished(true);
+
+        $reviews[] = (new Review())
+            ->setUser($users[self::USER_4])
+            ->setProperty($properties[2])
+            ->setBranch($branches[4])
+            ->setTitle('Nice location but landlord never dealt with problems')
+            ->setAuthor('Zora Smith')
+            ->setContent(
+                'This house is in a nice part of Cambridge, but the landlord was difficult. The power shower  '
+                . 'stopped working after a month, and despite sending multiple emails and leaving voicemails over the '
+                . 'course of several months, the landlord never arranged for it to be repaired or replaced. '
+            )
+            ->setOverallStars(3)
+            ->setAgencyStars(5)
+            ->setLandlordStars(1)
+            ->setPropertyStars(4)
             ->setPublished(true);
 
         foreach ($reviews as $review) {
@@ -234,8 +290,10 @@ class DemoFixtures extends Fixture
     private function loadUsers(ObjectManager $manager): array
     {
         $data = [
-            ['email' => 'jack@mimas.io', 'password' => 'To_The_Moon_2020'],
-            ['email' => 'andrea@starsol.co.uk', 'password' => 'Fire_Dragon_2020'],
+            ['email' => self::USER_1, 'password' => 'To_The_Moon_2020'],
+            ['email' => self::USER_2, 'password' => 'Fire_Dragon_2020'],
+            ['email' => self::USER_3, 'password' => 'Ride_A_Bicycle_2020'],
+            ['email' => self::USER_4, 'password' => 'South_Tyrol_2020'],
         ];
 
         $users = [];
@@ -243,7 +301,7 @@ class DemoFixtures extends Fixture
             $user = (new User())->setEmail($row['email']);
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, $row['password']));
             $manager->persist($user);
-            $users[] = $user;
+            $users[$row['email']] = $user;
         }
 
         $manager->flush();
