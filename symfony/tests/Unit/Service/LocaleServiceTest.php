@@ -38,27 +38,28 @@ class LocaleServiceTest extends TestCase
 
         $output = $this->localeService->getAgencyReviewsSummary($locale);
 
-        $this->assertEquals(3.5, $output->getAgencyReviewSummaries()[0]->getMeanRating());
-        $this->assertEquals(2, $output->getAgencyReviewSummaries()[0]->getRatedCount());
-        $this->assertEquals(1, $output->getAgencyReviewSummaries()[0]->getFiveStarCount());
-        $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getFourStarCount());
+        // Agencies should be ordered by mean rating descending, so the higher rated Agency 2 should be first
+        $this->assertEquals('Agency 2', $output->getAgencyReviewSummaries()[0]->getAgencyName());
+        $this->assertEquals('ag2', $output->getAgencyReviewSummaries()[0]->getAgencySlug());
+        $this->assertEquals(4, $output->getAgencyReviewSummaries()[0]->getMeanRating());
+        $this->assertEquals(1, $output->getAgencyReviewSummaries()[0]->getRatedCount());
+        $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getFiveStarCount());
+        $this->assertEquals(1, $output->getAgencyReviewSummaries()[0]->getFourStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getThreeStarCount());
-        $this->assertEquals(1, $output->getAgencyReviewSummaries()[0]->getTwoStarCount());
+        $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getTwoStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getOneStarCount());
-        $this->assertEquals(0, $output->getAgencyReviewSummaries()[0]->getUnratedCount());
-        $this->assertEquals('Agency 1', $output->getAgencyReviewSummaries()[0]->getAgencyName());
-        $this->assertEquals('ag1', $output->getAgencyReviewSummaries()[0]->getAgencySlug());
+        $this->assertEquals(1, $output->getAgencyReviewSummaries()[0]->getUnratedCount());
 
-        $this->assertEquals(4, $output->getAgencyReviewSummaries()[1]->getMeanRating());
-        $this->assertEquals(1, $output->getAgencyReviewSummaries()[1]->getRatedCount());
-        $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getFiveStarCount());
-        $this->assertEquals(1, $output->getAgencyReviewSummaries()[1]->getFourStarCount());
+        $this->assertEquals('Agency 1', $output->getAgencyReviewSummaries()[1]->getAgencyName());
+        $this->assertEquals('ag1', $output->getAgencyReviewSummaries()[1]->getAgencySlug());
+        $this->assertEquals(3.5, $output->getAgencyReviewSummaries()[1]->getMeanRating());
+        $this->assertEquals(2, $output->getAgencyReviewSummaries()[1]->getRatedCount());
+        $this->assertEquals(1, $output->getAgencyReviewSummaries()[1]->getFiveStarCount());
+        $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getFourStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getThreeStarCount());
-        $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getTwoStarCount());
+        $this->assertEquals(1, $output->getAgencyReviewSummaries()[1]->getTwoStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getOneStarCount());
-        $this->assertEquals(1, $output->getAgencyReviewSummaries()[1]->getUnratedCount());
-        $this->assertEquals('Agency 2', $output->getAgencyReviewSummaries()[1]->getAgencyName());
-        $this->assertEquals('ag2', $output->getAgencyReviewSummaries()[1]->getAgencySlug());
+        $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getUnratedCount());
 
         $this->assertEquals(3, $output->getReviewsCount());
         $this->assertEquals(2, $output->getAgenciesCount());

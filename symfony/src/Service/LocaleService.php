@@ -64,6 +64,9 @@ class LocaleService
             );
         }
 
+        // Order agencies by mean rating, descending
+        usort($agencyReviewSummaries, fn ($a, $b) => strcmp($b->getMeanRating(), $a->getMeanRating()));
+
         return new AgencyReviewsSummary($agencyReviewSummaries, $reviewsCount, count($agencies));
     }
 }
