@@ -31,12 +31,6 @@ class Postcode
     private string $postcode;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Locale", inversedBy="postcodes")
-     * @ORM\JoinColumn(name="agency_id", referencedColumnName="id", nullable=true)
-     */
-    private ?Agency $agency = null;
-
-    /**
      * @var Collection<int, Locale>
      * @ORM\ManyToMany(targetEntity="Locale", mappedBy="postcodes")
      * @ORM\JoinTable(name="locale_postcode")

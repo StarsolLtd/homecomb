@@ -53,6 +53,13 @@ class Locale
      */
     private Collection $postcodes;
 
+    /**
+     * @var Collection<int, Review>
+     * @ORM\ManyToMany(targetEntity="Review", inversedBy="locales", cascade={"persist"})
+     * @ORM\JoinTable(name="locale_review")
+     */
+    private Collection $reviews;
+
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
@@ -124,6 +131,25 @@ class Locale
         }
         $postcode->addLocale($this);
         $this->postcodes[] = $postcode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            return $this;
+        }
+        $review->addLocale($this);
+        $this->reviews[] = $review;
 
         return $this;
     }

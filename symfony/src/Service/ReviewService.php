@@ -2,10 +2,15 @@
 
 namespace App\Service;
 
+use App\Entity\Locale;
+use App\Entity\Postcode;
 use App\Entity\Review;
 use App\Model\SubmitReviewInput;
 use App\Model\SubmitReviewOutput;
+use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReviewService
@@ -14,6 +19,7 @@ class ReviewService
     private BranchService $branchService;
     private NotificationService $notificationService;
     private EntityManagerInterface $entityManager;
+    private PostcodeRepository $postcodeRepository;
     private PropertyRepository $propertyRepository;
 
     public function __construct(
@@ -21,12 +27,14 @@ class ReviewService
         BranchService $branchService,
         NotificationService $notificationService,
         EntityManagerInterface $entityManager,
+        PostcodeRepository $postcodeRepository,
         PropertyRepository $propertyRepository
     ) {
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
         $this->notificationService = $notificationService;
         $this->entityManager = $entityManager;
+        $this->postcodeRepository = $postcodeRepository;
         $this->propertyRepository = $propertyRepository;
     }
 
@@ -70,5 +78,57 @@ class ReviewService
     {
         $review->setPublished(true);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @return Collection<int, Locale>
+     */
+    public function generateLocales(Review $review): Collection
+    {
+        /** @var Collection<int, Locale> $locales */
+        $locales = new ArrayCollection();
+
+        $property = $review->getProperty();
+        if (!$property) {
+            return $locales;
+        }
+        $fullPostcode = $property->getPostcode();
+        if (!$fullPostcode) {
+            return $locales;
+        }
+
+        list($first, $second) = explode(' ', $fullPostcode);
+
+        $findBeginningWithString = [$first];
+        // TODO also find beginning with parts of $second. For example, "CB4 3", "CB4 3L" and "CB4 3LF".
+
+        /** @var Collection<int, Postcode> $postcodes */
+        $postcodes = new ArrayCollection();
+        foreach ($findBeginningWithString as $string) {
+            foreach ($this->postcodeRepository->findBeginningWith($string) as $postcode) {
+                if ($postcodes->contains($postcode)) {
+                    continue;
+                }
+                $postcodes->add($postcode);
+            }
+        }
+
+        /** @var Postcode $postcode */
+        foreach ($postcodes as $postcode) {
+            foreach ($postcode->getLocales() as $locale) {
+                if ($locales->contains($locale)) {
+                    continue;
+                }
+                $locales->add($locale);
+            }
+        }
+
+        foreach ($locales as $locale) {
+            $locale->addReview($review);
+        }
+
+        $this->entityManager->flush();
+
+        return $locales;
     }
 }

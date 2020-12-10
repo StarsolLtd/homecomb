@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -80,6 +82,18 @@ class Review
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
      */
     private bool $published = false;
+
+    /**
+     * @var Collection<int, Locale>
+     * @ORM\ManyToMany(targetEntity="Locale", mappedBy="reviews")
+     * @ORM\JoinTable(name="locale_review")
+     */
+    private Collection $locales;
+
+    public function __construct()
+    {
+        $this->locales = new ArrayCollection();
+    }
 
     /**
      * Use only for testing.
@@ -234,6 +248,24 @@ class Review
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Locale>
+     */
+    public function getLocales(): Collection
+    {
+        return $this->locales;
+    }
+
+    public function addLocale(Locale $locale): self
+    {
+        if ($this->locales->contains($locale)) {
+            return $this;
+        }
+        $this->locales[] = $locale;
 
         return $this;
     }
