@@ -164,4 +164,14 @@ class Locale
             return $review->isPublished();
         });
     }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getPublishedReviewsWithPublishedAgency(): Collection
+    {
+        return $this->getReviews()->filter(function (Review $review) {
+            return $review->isPublished() && null !== $review->getAgency() && $review->getAgency()->isPublished();
+        });
+    }
 }
