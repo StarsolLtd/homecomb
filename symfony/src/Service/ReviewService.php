@@ -88,11 +88,7 @@ class ReviewService
         /** @var Collection<int, Locale> $locales */
         $locales = new ArrayCollection();
 
-        $property = $review->getProperty();
-        if (!$property) {
-            return $locales;
-        }
-        $fullPostcode = $property->getPostcode();
+        $fullPostcode = $review->getProperty()->getPostcode();
         if (!$fullPostcode) {
             return $locales;
         }

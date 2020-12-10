@@ -132,7 +132,7 @@ class Review
         return $this;
     }
 
-    public function getProperty(): ?Property
+    public function getProperty(): Property
     {
         return $this->property;
     }

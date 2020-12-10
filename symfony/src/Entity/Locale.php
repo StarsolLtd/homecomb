@@ -63,6 +63,7 @@ class Locale
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function __toString(): string

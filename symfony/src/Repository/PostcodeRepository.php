@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Postcode;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,21 +21,19 @@ class PostcodeRepository extends ServiceEntityRepository
         parent::__construct($registry, Postcode::class);
     }
 
-    public function findBeginningWith(string $partialPostcode): array
+    /**
+     * @return Collection<int, Postcode>
+     */
+    public function findBeginningWith(string $partialPostcode): Collection
     {
-        dump($this->createQueryBuilder('p')
-            ->where('p.postcode LIKE :postcode')
-            ->orWhere('p.postcode = :postcode')
-            ->setParameter('postcode', $partialPostcode.'%')
-            ->getQuery()
-            ->getSQL());
-
-        return $this->createQueryBuilder('p')
+        $results = $this->createQueryBuilder('p')
             ->where('p.postcode LIKE :postcodeLike')
             ->orWhere('p.postcode = :postcode')
             ->setParameter('postcodeLike', $partialPostcode.'%')
             ->setParameter('postcode', $partialPostcode)
             ->getQuery()
             ->getResult();
+
+        return new ArrayCollection($results);
     }
 }
