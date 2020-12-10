@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -43,6 +45,18 @@ class Locale
      * @ORM\Column(type="boolean", nullable=false, options={"default": true})
      */
     private bool $published = true;
+
+    /**
+     * @var Collection<int, Postcode>
+     * @ORM\ManyToMany(targetEntity="Postcode", inversedBy="locales", cascade={"persist"})
+     * @ORM\JoinTable(name="locale_postcode")
+     */
+    private Collection $postcodes;
+
+    public function __construct()
+    {
+        $this->postcodes = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -91,6 +105,25 @@ class Locale
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Postcode>
+     */
+    public function getPostcodes(): Collection
+    {
+        return $this->postcodes;
+    }
+
+    public function addPostcode(Postcode $postcode): self
+    {
+        if ($this->postcodes->contains($postcode)) {
+            return $this;
+        }
+        $postcode->addLocale($this);
+        $this->postcodes[] = $postcode;
 
         return $this;
     }

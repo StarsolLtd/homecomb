@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
@@ -23,10 +22,10 @@ class DemoFixtures extends Fixture
     private PropertyHelper $propertyHelper;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    private CONST USER_1 = 'jack@mimas.io';
-    private CONST USER_2 = 'andrea@starsol.co.uk';
-    private CONST USER_3 = 'lauren@starsol.co.uk';
-    private CONST USER_4 = 'zora@starsol.co.uk';
+    private const USER_1 = 'jack@mimas.io';
+    private const USER_2 = 'andrea@starsol.co.uk';
+    private const USER_3 = 'lauren@starsol.co.uk';
+    private const USER_4 = 'zora@starsol.co.uk';
 
     public function __construct(
         AgencyHelper $agencyHelper,
@@ -43,7 +42,6 @@ class DemoFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $this->loadLocales($manager);
         $agencies = $this->loadAgencies($manager);
         $branches = $this->loadBranches($manager, $agencies);
 
@@ -95,8 +93,8 @@ class DemoFixtures extends Fixture
             ->setAuthor('Lauren Marie')
             ->setContent(
                 'I rented this place from January 2017 to March 2020. The landlord redecorated it before I moved '
-                . 'in which gave it a really fresh feel. If work was not taking me away from Cambridge, I could have '
-                . 'happily stayed here for years.'
+                .'in which gave it a really fresh feel. If work was not taking me away from Cambridge, I could have '
+                .'happily stayed here for years.'
             )
             ->setOverallStars(5)
             ->setAgencyStars(4)
@@ -112,8 +110,8 @@ class DemoFixtures extends Fixture
             ->setAuthor('Lauren Martin')
             ->setContent(
                 'I rented this place for a few months when I first moved to Cambridge. It was very small and '
-                . ' I felt a bit cramped here. The bedroom was barely wider than a double bed. I think it would be a '
-                . ' great place for a student who is not brining many possessions to Cambridge. '
+                .' I felt a bit cramped here. The bedroom was barely wider than a double bed. I think it would be a '
+                .' great place for a student who is not brining many possessions to Cambridge. '
             )
             ->setOverallStars(3)
             ->setAgencyStars(4)
@@ -129,8 +127,8 @@ class DemoFixtures extends Fixture
             ->setAuthor('Zora Smith')
             ->setContent(
                 'This house is in a nice part of Cambridge, but the landlord was difficult. The power shower  '
-                . 'stopped working after a month, and despite sending multiple emails and leaving voicemails over the '
-                . 'course of several months, the landlord never arranged for it to be repaired or replaced. '
+                .'stopped working after a month, and despite sending multiple emails and leaving voicemails over the '
+                .'course of several months, the landlord never arranged for it to be repaired or replaced. '
             )
             ->setOverallStars(3)
             ->setAgencyStars(5)
@@ -215,29 +213,6 @@ class DemoFixtures extends Fixture
         $manager->flush();
 
         return $branches;
-    }
-
-    /**
-     * @return Locale[]
-     */
-    private function loadLocales(ObjectManager $manager): array
-    {
-        $locales = [
-            (new Locale())->setName('Birmingham'),
-            (new Locale())->setName('Cambridge'),
-            (new Locale())->setName('Clerkenwell'),
-            (new Locale())->setName('Norwich'),
-        ];
-
-        /** @var Locale $locale */
-        foreach ($locales as $locale) {
-            $locale->setPublished(true);
-            $manager->persist($locale);
-        }
-
-        $manager->flush();
-
-        return $locales;
     }
 
     /**
