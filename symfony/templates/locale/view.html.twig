@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ locale.name }} | Lettings Agent Reviews | {{ site_name }}{% endblock %}
+
+{% block headJavascripts %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="col-md-12 page-title">
+            <h1>{{ locale.name }}</h1>
+        </div>
+
+        <div class="bg-white rounded shadow-sm p-4 mb-4">
+            <h5 class="mb-1">Reviews from tenants</h5>
+
+            {% for review in locale.publishedReviews %}
+                {% include 'snippets/review.html.twig' with {'review': review} %}
+                {{ not loop.last ? '<hr>' }}
+            {% else %}
+                <p>
+                    There are currently no reviews in {{ locale.name }}.
+                </p>
+            {% endfor %}
+        </div>
+
+        {% include 'snippets/flag-review-form.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $( function() {
+            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/l/' ~ locale.slug} %}
+        } );
+    </script>
+{% endblock %}

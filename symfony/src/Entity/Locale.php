@@ -154,4 +154,14 @@ class Locale
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getPublishedReviews(): Collection
+    {
+        return $this->getReviews()->filter(function (Review $review) {
+            return $review->isPublished();
+        });
+    }
 }

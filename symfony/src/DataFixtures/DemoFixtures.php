@@ -7,19 +7,20 @@ use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Service\ReviewService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
-use App\Util\PropertyHelper;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class DemoFixtures extends Fixture
+class DemoFixtures extends Fixture implements DependentFixtureInterface
 {
     private AgencyHelper $agencyHelper;
     private BranchHelper $branchHelper;
-    private PropertyHelper $propertyHelper;
+    private ReviewService $reviewService;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     private const USER_1 = 'jack@mimas.io';
@@ -30,13 +31,12 @@ class DemoFixtures extends Fixture
     public function __construct(
         AgencyHelper $agencyHelper,
         BranchHelper $branchHelper,
-        PropertyHelper $propertyHelper,
+        ReviewService $reviewService,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->agencyHelper = $agencyHelper;
         $this->branchHelper = $branchHelper;
-        $this->propertyHelper = $propertyHelper;
-        $this->propertyHelper = $propertyHelper;
+        $this->reviewService = $reviewService;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -45,15 +45,20 @@ class DemoFixtures extends Fixture
         $agencies = $this->loadAgencies($manager);
         $branches = $this->loadBranches($manager, $agencies);
 
-        $properties = $this->loadProperties($manager);
-
         $users = $this->loadUsers($manager);
 
         $reviews = [];
 
+        /** @var Property $property249 */
+        $property249 = $this->getReference('property-'.PropertyFixtures::PROPERTY_249_VENDOR_PROPERTY_ID);
+        /** @var Property $property25 */
+        $property25 = $this->getReference('property-'.PropertyFixtures::PROPERTY_25_VENDOR_PROPERTY_ID);
+        /** @var Property $property44 */
+        $property44 = $this->getReference('property-'.PropertyFixtures::PROPERTY_44_VENDOR_PROPERTY_ID);
+
         $reviews[] = (new Review())
             ->setUser($users[self::USER_1])
-            ->setProperty($properties[0])
+            ->setProperty($property249)
             ->setBranch($branches[0])
             ->setTitle('Pleasant two year stay in great location')
             ->setAuthor('Jack Parnell')
@@ -70,7 +75,7 @@ class DemoFixtures extends Fixture
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_2])
-            ->setProperty($properties[0])
+            ->setProperty($property249)
             ->setBranch($branches[0])
             ->setTitle('I loved this place!')
             ->setAuthor('Andrea Németh')
@@ -87,9 +92,9 @@ class DemoFixtures extends Fixture
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_3])
-            ->setProperty($properties[0])
+            ->setProperty($property249)
             ->setBranch($branches[4])
-            ->setTitle('I loved this place!')
+            ->setTitle('Great three years here')
             ->setAuthor('Lauren Marie')
             ->setContent(
                 'I rented this place from January 2017 to March 2020. The landlord redecorated it before I moved '
@@ -104,7 +109,7 @@ class DemoFixtures extends Fixture
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_3])
-            ->setProperty($properties[1])
+            ->setProperty($property25)
             ->setBranch($branches[3])
             ->setTitle('Small flat suitable for student')
             ->setAuthor('Lauren Martin')
@@ -121,7 +126,7 @@ class DemoFixtures extends Fixture
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_4])
-            ->setProperty($properties[2])
+            ->setProperty($property44)
             ->setBranch($branches[4])
             ->setTitle('Nice location but landlord never dealt with problems')
             ->setAuthor('Zora Smith')
@@ -137,10 +142,19 @@ class DemoFixtures extends Fixture
             ->setPublished(true);
 
         foreach ($reviews as $review) {
+            $this->reviewService->generateLocales($review);
             $manager->persist($review);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            LocaleFixtures::class,
+            PropertyFixtures::class,
+        ];
     }
 
     /**
@@ -213,50 +227,6 @@ class DemoFixtures extends Fixture
         $manager->flush();
 
         return $branches;
-    }
-
-    /**
-     * @return Property[]
-     */
-    private function loadProperties(ObjectManager $manager): array
-    {
-        $properties = [];
-
-        $properties[] = (new Property())
-            ->setVendorPropertyId('ZmM5Yzc5MzMyODAyZTc4IDE3MDQ0OTcyIDMzZjhlNDFkNGU1MzY0Mw==')
-            ->setAddressLine1('249 Victoria Road')
-            ->setCity('Cambridge')
-            ->setPostcode('CB4 3LF');
-
-        $properties[] = (new Property())
-            ->setVendorPropertyId('MjgwNjUwNjUwY2M3M2ViIDE2NTQ2NTY0IDMzZjhlNDFkNGU1MzY0Mw==')
-            ->setAddressLine1('25 Bateman Street')
-            ->setCity('Cambridge')
-            ->setPostcode('CB2 1NB');
-
-        $properties[] = (new Property())
-            ->setVendorPropertyId('OWM3ODAxYzFiYTEzMzE3IDE2MzkxMzg2IDMzZjhlNDFkNGU1MzY0Mw==')
-            ->setAddressLine1('44 Fanshawe Road')
-            ->setCity('Cambridge')
-            ->setPostcode('CB1 3QY');
-
-        $properties[] = (new Property())
-            ->setVendorPropertyId('NGViYmZiZjY5YjBiYTAyIDE2NjYxMjMzIDMzZjhlNDFkNGU1MzY0Mw==')
-            ->setAddressLine1('22 Mingle Lane')
-            ->setAddressLine2('Great Shelford')
-            ->setCity('Cambridge')
-            ->setPostcode('CB22 5BG');
-
-        foreach ($properties as $property) {
-            $property->setPublished(true);
-            $property->setCountryCode('UK');
-            $this->propertyHelper->generateSlug($property);
-            $manager->persist($property);
-        }
-
-        $manager->flush();
-
-        return $properties;
     }
 
     /**
