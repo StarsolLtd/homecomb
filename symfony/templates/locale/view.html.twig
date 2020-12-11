@@ -15,18 +15,24 @@
 
         <div class="bg-white rounded shadow-sm p-4 mb-4">
 
-            <h5 class="mb-1">Top rated agencies for lettings in {{ locale.name }}</h5>
+            <div class="row">
+                {% include 'locale/content/' ~ locale.slug ~ '.html.twig' ignore missing  %}
 
-            {% for summary in agencyReviewsSummary.agencyReviewSummaries %}
-                <p>
-                    <a href="{{ path('agency-view-by-slug', {slug: summary.agencySlug}) }}">{{ summary.agencyName }}</a><br>
-                    Average rating: {{ summary.meanRating }} stars from {{ summary.ratedCount }} review{% if summary.ratedCount > 1 %}{% endif %}
-                </p>
-            {% else %}
-                <p>
-                    There are currently no rated agencies in {{ locale.name }}.
-                </p>
-            {% endfor %}
+                <div class="col-md-6">
+                    <h5 class="mb-1">Top rated agencies for lettings in {{ locale.name }}</h5>
+
+                    {% for summary in agencyReviewsSummary.agencyReviewSummaries %}
+                        <p>
+                            <a href="{{ path('agency-view-by-slug', {slug: summary.agencySlug}) }}">{{ summary.agencyName }}</a><br>
+                            Average rating: {{ summary.meanRating }} stars from {{ summary.ratedCount }} review{% if summary.ratedCount > 1 %}{% endif %}
+                        </p>
+                    {% else %}
+                        <p>
+                            There are currently no rated agencies in {{ locale.name }}.
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
 
             <hr>
 
