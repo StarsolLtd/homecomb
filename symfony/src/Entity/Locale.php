@@ -60,10 +60,28 @@ class Locale
      */
     private Collection $reviews;
 
+    /**
+     * @var Collection<int, Locale>
+     * @ORM\ManyToMany(targetEntity="Locale", mappedBy="relatedLocales")
+     */
+    private Collection $localesRelating;
+
+    /**
+     * @var Collection<int, Locale>
+     * @ORM\ManyToMany(targetEntity="Locale", inversedBy="locatedRelating")
+     * @ORM\JoinTable(name="locale_related",
+     *      joinColumns={@ORM\JoinColumn(name="locale_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="related_locale_id", referencedColumnName="id")}
+     *      )
+     */
+    private Collection $relatedLocales;
+
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->localesRelating = new ArrayCollection();
+        $this->relatedLocales = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -173,5 +191,35 @@ class Locale
         return $this->getReviews()->filter(function (Review $review) {
             return $review->isPublished() && null !== $review->getAgency() && $review->getAgency()->isPublished();
         });
+    }
+
+    /**
+     * @return Collection<int, Locale>
+     */
+    public function getRelatedLocales(): Collection
+    {
+        return $this->relatedLocales;
+    }
+
+    public function addRelatedLocale(Locale $locale): self
+    {
+        if ($this->relatedLocales->contains($locale)) {
+            return $this;
+        }
+        $this->relatedLocales[] = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @param Locale[] $locales
+     */
+    public function addRelatedLocales(array $locales): self
+    {
+        foreach ($locales as $locale) {
+            $this->addRelatedLocale($locale);
+        }
+
+        return $this;
     }
 }

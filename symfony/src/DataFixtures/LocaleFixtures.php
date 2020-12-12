@@ -30,8 +30,13 @@ class LocaleFixtures extends Fixture
             'Birmingham',
             'Cambridge',
             'Clerkenwell',
+            'Coventry',
+            'Ely',
             'Girton',
+            'Holborn',
             'Norwich',
+            'Saffron Walden',
+            'Shoreditch',
         ];
 
         $locales = [];
@@ -39,13 +44,29 @@ class LocaleFixtures extends Fixture
             $locales[$localeName] = (new Locale())->setName($localeName);
         }
 
+        $locales['Birmingham']->addRelatedLocales([$locales['Coventry']]);
+
         foreach (self::CAMBRIDGE_POSTCODES as $postcode) {
             $locales['Cambridge']->addPostcode((new Postcode())->setPostcode($postcode));
         }
+        $locales['Cambridge']->addRelatedLocales([$locales['Ely'], $locales['Saffron Walden']]);
+
+        $locales['Coventry']->addRelatedLocales([$locales['Birmingham']]);
+
+        $locales['Ely']->addRelatedLocales([$locales['Cambridge']]);
 
         foreach (self::GIRTON_POSTCODES as $postcode) {
             $locales['Girton']->addPostcode((new Postcode())->setPostcode($postcode));
         }
+        $locales['Girton']->addRelatedLocales([$locales['Cambridge']]);
+
+        $locales['Clerkenwell']->addRelatedLocales([$locales['Holborn'], $locales['Shoreditch']]);
+
+        $locales['Holborn']->addRelatedLocales([$locales['Clerkenwell']]);
+
+        $locales['Saffron Walden']->addRelatedLocales([$locales['Cambridge']]);
+
+        $locales['Shoreditch']->addRelatedLocales([$locales['Clerkenwell']]);
 
         /** @var Locale $locale */
         foreach ($locales as $locale) {

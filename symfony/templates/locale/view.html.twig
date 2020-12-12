@@ -36,7 +36,7 @@
 
             <hr>
 
-            <h5 class="mb-1">Reviews from tenants</h5>
+            <h5 class="mb-1">Reviews from tenants in {{ locale.name }}</h5>
 
             {% for review in locale.publishedReviews %}
                 {% include 'snippets/review.html.twig' with {'review': review} %}
