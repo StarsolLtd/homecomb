@@ -75,5 +75,10 @@ class LocaleFixtures extends Fixture
         }
 
         $manager->flush();
+
+        /** @var Locale $locale */
+        foreach ($locales as $locale) {
+            $this->addReference('locale-'.$locale->getSlug(), $locale);
+        }
     }
 }
