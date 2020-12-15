@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Image;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -28,6 +29,11 @@ class ImageCrudController extends AbstractCrudController
                 ->setUploadDir('public/images/images'),
             TextField::new('description'),
             TextField::new('type'),
+            AssociationField::new('agency'),
+            AssociationField::new('branch'),
+            AssociationField::new('locale'),
+            AssociationField::new('review'),
+            AssociationField::new('user'),
         ];
     }
 }

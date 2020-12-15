@@ -102,6 +102,11 @@ class Review
         $this->images = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return 'Review '.$this->getId().' by '.$this->getAuthor();
+    }
+
     /**
      * Use only for testing.
      */
