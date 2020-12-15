@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -47,6 +49,17 @@ class Agency
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
      */
     private bool $published = false;
+
+    /**
+     * @var Collection<int, Image>
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="agency")
+     */
+    private Collection $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -114,6 +127,24 @@ class Agency
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            return $this;
+        }
+        $this->images[] = $image;
 
         return $this;
     }

@@ -57,9 +57,16 @@ class Branch
      */
     private Collection $reviews;
 
+    /**
+     * @var Collection<int, Image>
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="branch")
+     */
+    private Collection $images;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -136,5 +143,23 @@ class Branch
         return $this->getReviews()->filter(function (Review $review) {
             return $review->isPublished();
         });
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            return $this;
+        }
+        $this->images[] = $image;
+
+        return $this;
     }
 }

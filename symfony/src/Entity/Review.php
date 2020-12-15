@@ -90,9 +90,16 @@ class Review
      */
     private Collection $locales;
 
+    /**
+     * @var Collection<int, Image>
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="review")
+     */
+    private Collection $images;
+
     public function __construct()
     {
         $this->locales = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -266,6 +273,24 @@ class Review
             return $this;
         }
         $this->locales[] = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            return $this;
+        }
+        $this->images[] = $image;
 
         return $this;
     }

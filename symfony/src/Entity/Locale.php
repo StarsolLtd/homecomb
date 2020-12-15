@@ -76,12 +76,19 @@ class Locale
      */
     private Collection $relatedLocales;
 
+    /**
+     * @var Collection<int, Image>
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="locale")
+     */
+    private Collection $images;
+
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->localesRelating = new ArrayCollection();
         $this->relatedLocales = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -219,6 +226,24 @@ class Locale
         foreach ($locales as $locale) {
             $this->addRelatedLocale($locale);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            return $this;
+        }
+        $this->images[] = $image;
 
         return $this;
     }
