@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Flag;
+use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -47,6 +48,9 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Properties'),
             MenuItem::linkToCrud('Properties', 'fa fa-home', Property::class),
+
+            MenuItem::section('Assets'),
+            MenuItem::linkToCrud('Images', 'fa fa-image', Image::class),
         ];
     }
 }
