@@ -140,6 +140,7 @@ class User implements UserInterface
             return $this;
         }
         $this->images[] = $image;
+        $image->setUser($this);
 
         return $this;
     }

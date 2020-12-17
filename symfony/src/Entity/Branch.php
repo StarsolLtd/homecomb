@@ -159,6 +159,7 @@ class Branch
             return $this;
         }
         $this->images[] = $image;
+        $image->setBranch($this);
 
         return $this;
     }

@@ -244,6 +244,7 @@ class Locale
             return $this;
         }
         $this->images[] = $image;
+        $image->setLocale($this);
 
         return $this;
     }

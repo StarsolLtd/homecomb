@@ -296,6 +296,7 @@ class Review
             return $this;
         }
         $this->images[] = $image;
+        $image->setReview($this);
 
         return $this;
     }

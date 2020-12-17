@@ -52,7 +52,7 @@ class Agency
 
     /**
      * @var Collection<int, Image>
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="agency")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="agency", cascade={"persist"})
      */
     private Collection $images;
 
@@ -145,6 +145,7 @@ class Agency
             return $this;
         }
         $this->images[] = $image;
+        $image->setAgency($this);
 
         return $this;
     }

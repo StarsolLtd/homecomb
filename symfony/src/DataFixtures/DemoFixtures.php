@@ -4,12 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Service\ReviewService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
+use function copy;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -162,12 +164,27 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
      */
     private function loadAgencies(ObjectManager $manager): array
     {
+        $cambridgeResidentialLogo = (new Image())->setImage('cambridge-residential.png')->setType(Image::TYPE_LOGO);
+        $this->copyDemoImageToPublic('cambridge-residential.png');
+
+        $abbeyShelfordLogo = (new Image())->setImage('abbey-shelford.png')->setType(Image::TYPE_LOGO);
+        $this->copyDemoImageToPublic('abbey-shelford.png');
+
+        $norwichHomesLogo = (new Image())->setImage('norwich-homes.png')->setType(Image::TYPE_LOGO);
+        $this->copyDemoImageToPublic('norwich-homes.png');
+
+        $clerkenwellLettingsLogo = (new Image())->setImage('clerkenwell-lettings.png')->setType(Image::TYPE_LOGO);
+        $this->copyDemoImageToPublic('clerkenwell-lettings.png');
+
+        $birminghamRentalsLogo = (new Image())->setImage('birmingham-rentals.png')->setType(Image::TYPE_LOGO);
+        $this->copyDemoImageToPublic('birmingham-rentals.png');
+
         $agencies = [
-            (new Agency())->setName('Cambridge Residential'),
-            (new Agency())->setName('Abbey & Shelford'),
-            (new Agency())->setName('Norwich Homes'),
-            (new Agency())->setName('Clerkenwell Lettings'),
-            (new Agency())->setName('Birmingham Rentals'),
+            (new Agency())->setName('Cambridge Residential')->addImage($cambridgeResidentialLogo),
+            (new Agency())->setName('Abbey & Shelford')->addImage($abbeyShelfordLogo),
+            (new Agency())->setName('Norwich Homes')->addImage($norwichHomesLogo),
+            (new Agency())->setName('Clerkenwell Lettings')->addImage($clerkenwellLettingsLogo),
+            (new Agency())->setName('Birmingham Rentals')->addImage($birminghamRentalsLogo),
         ];
 
         /** @var Agency $agency */
@@ -252,5 +269,20 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         return $users;
+    }
+
+    private function getDemoImageFixturesPath(): string
+    {
+        return '/var/www/symfony/assets/demo/images/';
+    }
+
+    private function getPublicImagesPath(): string
+    {
+        return '/var/www/symfony/public/images/images/';
+    }
+
+    private function copyDemoImageToPublic(string $filename): void
+    {
+        copy($this->getDemoImageFixturesPath().$filename, $this->getPublicImagesPath().$filename);
     }
 }
