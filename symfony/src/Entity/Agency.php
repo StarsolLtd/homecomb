@@ -148,4 +148,24 @@ class Agency
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getLogoImages(): Collection
+    {
+        return $this->getImages()->filter(function (Image $image) {
+            return Image::TYPE_LOGO === $image->getType();
+        });
+    }
+
+    public function getLogoImage(): ?Image
+    {
+        $logoImage = $this->getLogoImages()->first();
+        if (false === $logoImage) {
+            return null;
+        }
+
+        return $logoImage;
+    }
 }

@@ -6,6 +6,7 @@ class ReviewsSummary
 {
     private string $agencySlug;
     private string $agencyName;
+    private ?string $agencyLogoImageFilename;
     private int $fiveStarCount;
     private int $fourStarCount;
     private int $threeStarCount;
@@ -18,6 +19,7 @@ class ReviewsSummary
     public function __construct(
         string $agencySlug,
         string $agencyName,
+        ?string $agencyLogoImageFilename,
         int $fiveStarCount,
         int $fourStarCount,
         int $threeStarCount,
@@ -29,6 +31,7 @@ class ReviewsSummary
     ) {
         $this->agencySlug = $agencySlug;
         $this->agencyName = $agencyName;
+        $this->agencyLogoImageFilename = $agencyLogoImageFilename;
         $this->ratedCount = $ratedCount;
         $this->fiveStarCount = $fiveStarCount;
         $this->fourStarCount = $fourStarCount;
@@ -47,6 +50,11 @@ class ReviewsSummary
     public function getAgencyName(): string
     {
         return $this->agencyName;
+    }
+
+    public function getAgencyLogoImageFilename(): ?string
+    {
+        return $this->agencyLogoImageFilename;
     }
 
     public function getRatedCount(): int

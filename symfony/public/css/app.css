@@ -110,3 +110,13 @@ label.error {
 .page-title {
     padding-bottom: 20px;
 }
+
+.top-rated-agencies .agency-logo {
+    width: 120px;
+    max-height: 120px;
+}
+
+.top-rated-agencies .agency-logo-container {
+    width: 120px;
+    margin: 0 10px 5px 0;
+}

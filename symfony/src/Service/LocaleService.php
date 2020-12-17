@@ -22,8 +22,11 @@ class LocaleService
 
             $slug = $agency->getSlug();
             if (!isset($agencies[$slug])) {
+                $logoImage = $agency->getLogoImage();
+                $logoImageFilename = $logoImage ? $logoImage->getImage() : null;
                 $agencies[$slug] = [
                     'name' => $agency->getName(),
+                    'logoImageFilename' => $logoImageFilename,
                     '5' => 0,
                     '4' => 0,
                     '3' => 0,
@@ -53,6 +56,7 @@ class LocaleService
             $agencyReviewSummaries[] = new ReviewsSummary(
                 $agencySlug,
                 $agency['name'],
+                $agency['logoImageFilename'],
                 $agency['5'],
                 $agency['4'],
                 $agency['3'],

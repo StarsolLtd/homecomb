@@ -18,6 +18,8 @@ class Image
     use SoftDeleteableEntity;
     use TimestampableEntity;
 
+    public const TYPE_LOGO = 'logo';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

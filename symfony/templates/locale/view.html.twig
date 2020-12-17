@@ -18,14 +18,27 @@
             <div class="row">
                 {% include 'locale/content/' ~ locale.slug ~ '.html.twig' ignore missing  %}
 
-                <div class="col-md-6">
+                <div class="col-md-6 top-rated-agencies">
                     <h5 class="mb-1">Top rated agencies for lettings in {{ locale.name }}</h5>
 
                     {% for summary in agencyReviewsSummary.agencyReviewSummaries %}
-                        <p>
-                            <a href="{{ path('agency-view-by-slug', {slug: summary.agencySlug}) }}">{{ summary.agencyName }}</a><br>
-                            Average rating: {{ summary.meanRating }} stars from {{ summary.ratedCount }} review{% if summary.ratedCount > 1 %}{% endif %}
-                        </p>
+                        <div class="agency clearfix">
+                            <div class="float-left agency-logo-container">
+                                {% if summary.agencyLogoImageFilename %}
+                                    <a href="{{ path('agency-view-by-slug', {slug: summary.agencySlug}) }}">
+                                        <img src="/images/images/{{ summary.agencyLogoImageFilename }}" class="agency-logo float-left" alt="{{ summary.agencyName }} Logo">
+                                    </a>
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </div>
+                            <div>
+                                <p>
+                                    <a href="{{ path('agency-view-by-slug', {slug: summary.agencySlug}) }}">{{ summary.agencyName }}</a><br>
+                                    Average rating: {{ summary.meanRating }} stars from {{ summary.ratedCount }} review{% if summary.ratedCount > 1 %}s{% endif %}
+                                </p>
+                            </div>
+                        </div>
                     {% else %}
                         <p>
                             There are currently no rated agencies in {{ locale.name }}.
