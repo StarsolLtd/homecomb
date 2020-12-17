@@ -16,6 +16,7 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use function preg_replace;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DemoFixtures extends Fixture implements DependentFixtureInterface
@@ -213,11 +214,13 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
         list($cambridgeAgency, $abbeyAgency, $norwichAgency) = $agencies;
 
         $cambridgeBranchNames = ['Arbury', 'Chesterton', 'Cherry Hinton'];
-        foreach ($cambridgeBranchNames as $branchName) {
+        foreach ($cambridgeBranchNames as $i => $branchName) {
             $branches[] = (new Branch())
                 ->setAgency($cambridgeAgency)
                 ->setName($branchName)
-                ->setPublished(true);
+                ->setPublished(true)
+                ->setTelephone('01223 '.$i.'00 0'.$i.'0')
+                ->setEmail($this->getDemoEmail($branchName, $cambridgeAgency));
         }
 
         $abbeyBranchNames = ['Chesterton', 'Great Shelford', 'Waterbeach', 'Willingham'];
@@ -225,7 +228,9 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
             $branches[] = (new Branch())
                 ->setAgency($abbeyAgency)
                 ->setName($branchName)
-                ->setPublished(true);
+                ->setPublished(true)
+                ->setTelephone('01423 '.$i.'00 0'.$i.'0')
+                ->setEmail($this->getDemoEmail($branchName, $abbeyAgency));
         }
 
         $norwichBranchNames = ['Drayton', 'Golden Triangle'];
@@ -233,7 +238,9 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
             $branches[] = (new Branch())
                 ->setAgency($norwichAgency)
                 ->setName($branchName)
-                ->setPublished(true);
+                ->setPublished(true)
+                ->setTelephone('01603 '.$i.'00 0'.$i.'0')
+                ->setEmail($this->getDemoEmail($branchName, $norwichAgency));
         }
 
         foreach ($branches as $branch) {
@@ -284,5 +291,15 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
     private function copyDemoImageToPublic(string $filename): void
     {
         copy($this->getDemoImageFixturesPath().$filename, $this->getPublicImagesPath().$filename);
+    }
+
+    private function getDemoEmail(string $branchName, Agency $agency): string
+    {
+        return strtolower(
+            preg_replace('/[^A-Za-z0-9]/', '', $branchName)
+            .'@'
+            .preg_replace('/[^A-Za-z0-9]/', '', $agency->getName() ?? '')
+            .'.com'
+        );
     }
 }

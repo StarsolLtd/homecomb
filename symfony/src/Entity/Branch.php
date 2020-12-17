@@ -42,6 +42,16 @@ class Branch
     private string $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $telephone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $email;
+
+    /**
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
      */
     private bool $published = false;
@@ -87,6 +97,30 @@ class Branch
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

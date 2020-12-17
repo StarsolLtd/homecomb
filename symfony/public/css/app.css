@@ -114,9 +114,22 @@ label.error {
 .top-rated-agencies .agency-logo {
     width: 120px;
     max-height: 120px;
+    border: 1px solid #CCCCCC;
 }
 
 .top-rated-agencies .agency-logo-container {
     width: 120px;
     margin: 0 10px 5px 0;
+}
+
+.branch-agency {
+    border-left: 1px solid #CCCCCC;
+}
+
+.branch-reviews {
+    padding-right: 25px;
+}
+.branch-agency .agency-logo {
+    width: 160px;
+    max-height: 160px;
 }

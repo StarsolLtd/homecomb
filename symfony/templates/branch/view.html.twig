@@ -18,16 +18,36 @@
         </div>
 
         <div class="bg-white rounded shadow-sm p-4 mb-4">
-            <h5 class="mb-1">Reviews from tenants</h5>
+            <div class="row">
+                <div class="col-xs-12 col-md-8 branch-reviews">
+                    <h5 class="mb-1">Reviews from tenants</h5>
 
-            {% for review in branch.publishedReviews %}
-                {% include 'snippets/review.html.twig' with {'review': review, 'hideAgency': true, 'hideBranch': true} %}
-                {{ not loop.last ? '<hr>' }}
-            {% else %}
-                <p>
-                    There are currently no reviews for {{ agency.name }}, {{ branch.name }}.
-                </p>
-            {% endfor %}
+                    {% for review in branch.publishedReviews %}
+                        {% include 'snippets/review.html.twig' with {'review': review, 'hideAgency': true, 'hideBranch': true} %}
+                        {{ not loop.last ? '<hr>' }}
+                    {% else %}
+                        <p>
+                            There are currently no reviews for {{ agency.name }}, {{ branch.name }}.
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4 d-sm-none d-md-block branch-agency">
+                    {% if agency.logoImage %}
+                        <img src="/images/images/{{ agency.logoImage.image }}" alt="{{ agency.name }} Logo" class="agency-logo">
+                    {% endif %}
+
+                    <h5 class="mb-1">{{ branch.name }} contact details</h5>
+
+                    <p>
+                        {% if branch.telephone %}
+                            Telephone: {{ branch.telephone }}<br>
+                        {% endif %}
+                        {% if branch.email %}
+                            Email: <a href="mailto:{{ branch.email }}">{{ branch.email }}</a><br>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
         </div>
 
         {% include 'snippets/flag-review-form.html.twig' %}
