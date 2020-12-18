@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Controller\Admin\AgencyCrudController;
 use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
+use App\Entity\Agency;
 use App\Entity\Flag;
 use App\Entity\Review;
 use App\Entity\User;
@@ -64,6 +66,26 @@ class NotificationService
 
             foreach ($moderators as $moderator) {
                 $this->notifyModerator($moderator, 'New flag on HomeComb', 'Go to '.$url.' to moderate.');
+            }
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
+
+    public function sendAgencyModerationNotification(Agency $agency): void
+    {
+        try {
+            $url = $this->crudUrlGenerator
+                ->build()
+                ->setController(AgencyCrudController::class)
+                ->setAction(Action::EDIT)
+                ->setEntityId($agency->getId())
+                ->generateUrl();
+
+            $moderators = $this->userRepository->findUsersWithRole('ROLE_MODERATOR');
+
+            foreach ($moderators as $moderator) {
+                $this->notifyModerator($moderator, 'New agency on HomeComb', 'Go to '.$url.' to moderate.');
             }
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());

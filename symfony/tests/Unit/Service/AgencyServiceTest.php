@@ -3,8 +3,13 @@
 namespace App\Tests\Unit\Util;
 
 use App\Entity\Agency;
+use App\Entity\User;
+use App\Factory\AgencyFactory;
+use App\Model\Agency\CreateAgencyInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
+use App\Service\NotificationService;
+use App\Service\UserService;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -17,20 +22,29 @@ class AgencyServiceTest extends TestCase
 
     private AgencyService $agencyService;
 
-    private $entityManagerMock;
-    private $agencyHelperMock;
-    private $agencyRepositoryMock;
+    private $notificationService;
+    private $userService;
+    private $entityManager;
+    private $agencyFactory;
+    private $agencyHelper;
+    private $agencyRepository;
 
     public function setUp(): void
     {
-        $this->entityManagerMock = $this->prophesize(EntityManagerInterface::class);
-        $this->agencyHelperMock = $this->prophesize(AgencyHelper::class);
-        $this->agencyRepositoryMock = $this->prophesize(AgencyRepository::class);
+        $this->notificationService = $this->prophesize(NotificationService::class);
+        $this->userService = $this->prophesize(UserService::class);
+        $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->agencyFactory = $this->prophesize(AgencyFactory::class);
+        $this->agencyHelper = $this->prophesize(AgencyHelper::class);
+        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
 
         $this->agencyService = new AgencyService(
-            $this->entityManagerMock->reveal(),
-            $this->agencyHelperMock->reveal(),
-            $this->agencyRepositoryMock->reveal()
+            $this->notificationService->reveal(),
+            $this->userService->reveal(),
+            $this->entityManager->reveal(),
+            $this->agencyFactory->reveal(),
+            $this->agencyHelper->reveal(),
+            $this->agencyRepository->reveal()
         );
     }
 
@@ -38,12 +52,12 @@ class AgencyServiceTest extends TestCase
     {
         $agencyName = 'Devon Homes';
 
-        $this->agencyRepositoryMock->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn(null);
+        $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn(null);
 
-        $this->agencyHelperMock->generateSlug(Argument::type(Agency::class))->shouldBeCalledOnce();
+        $this->agencyHelper->generateSlug(Argument::type(Agency::class))->shouldBeCalledOnce();
 
-        $this->entityManagerMock->persist(Argument::type(Agency::class))->shouldBeCalledOnce();
-        $this->entityManagerMock->flush()->shouldBeCalledTimes(1);
+        $this->entityManager->persist(Argument::type(Agency::class))->shouldBeCalledOnce();
+        $this->entityManager->flush()->shouldBeCalledTimes(1);
 
         $result = $this->agencyService->findOrCreateByName($agencyName);
 
@@ -56,12 +70,43 @@ class AgencyServiceTest extends TestCase
 
         $agency = (new Agency())->setName($agencyName);
 
-        $this->agencyRepositoryMock->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn($agency);
+        $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn($agency);
 
-        $this->entityManagerMock->flush()->shouldNotBeCalled();
+        $this->entityManager->flush()->shouldNotBeCalled();
 
         $result = $this->agencyService->findOrCreateByName($agencyName);
 
         $this->assertEquals($agencyName, $result->getName());
+    }
+
+    public function testCreateAgency(): void
+    {
+        $createAgencyInput = new CreateAgencyInput(
+            'Test Agency Name',
+            'https://test.com/welcome',
+            null,
+            null
+        );
+        $user = new User();
+        $agency = new Agency();
+
+        $this->userService->getEntityFromInterface($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($user);
+
+        $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput)
+            ->shouldBeCalledOnce()
+            ->willReturn($agency);
+
+        $this->entityManager->persist($agency)->shouldBeCalledOnce();
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $this->notificationService->sendAgencyModerationNotification($agency)->shouldBeCalledOnce();
+
+        $output = $this->agencyService->createAgency($createAgencyInput, $user);
+
+        $this->assertContains($user, $agency->getAdminUsers());
+        $this->assertEquals($user->getAdminAgency(), $agency);
+        $this->assertTrue($output->isSuccess());
     }
 }
