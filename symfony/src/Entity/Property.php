@@ -56,6 +56,16 @@ class Property
     private string $countryCode;
 
     /**
+     * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
+     */
+    private ?float $latitude;
+
+    /**
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private ?float $longitude;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $vendorPropertyId;
@@ -163,6 +173,30 @@ class Property
         return $this;
     }
 
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
     public function getVendorPropertyId(): ?string
     {
         return $this->vendorPropertyId;
@@ -210,7 +244,7 @@ class Property
     /**
      * @return Collection<int, Review>
      */
-    public function getPublishedReviews()
+    public function getPublishedReviews(): Collection
     {
         return $this->getReviews()->filter(function (Review $review) {
             return $review->isPublished();

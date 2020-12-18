@@ -25,6 +25,8 @@ class PropertyFactory
             ->setCity($vendorProperty->getCity())
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode('UK')
+            ->setLatitude($vendorProperty->getLatitude())
+            ->setLongitude($vendorProperty->getLongitude())
             ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
 
         $this->propertyHelper->generateSlug($property);
