@@ -30,6 +30,7 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
     private const USER_2 = 'andrea@starsol.co.uk';
     private const USER_3 = 'lauren@starsol.co.uk';
     private const USER_4 = 'zora@starsol.co.uk';
+    private const USER_5 = 'jo@cambridgeresidential.com';
 
     public function __construct(
         AgencyHelper $agencyHelper,
@@ -45,10 +46,10 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
+        $users = $this->loadUsers($manager);
+
         $agencies = $this->loadAgencies($manager);
         $branches = $this->loadBranches($manager, $agencies);
-
-        $users = $this->loadUsers($manager);
 
         $reviews = [];
 
@@ -180,8 +181,11 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
         $birminghamRentalsLogo = (new Image())->setImage('birmingham-rentals.png')->setType(Image::TYPE_LOGO);
         $this->copyDemoImageToPublic('birmingham-rentals.png');
 
+        /** @var User $cambridgeResidentialAdmin */
+        $cambridgeResidentialAdmin = $this->getReference('user-'.self::USER_5);
+
         $agencies = [
-            (new Agency())->setName('Cambridge Residential')->addImage($cambridgeResidentialLogo),
+            (new Agency())->setName('Cambridge Residential')->addImage($cambridgeResidentialLogo)->addAdminUser($cambridgeResidentialAdmin),
             (new Agency())->setName('Abbey & Shelford')->addImage($abbeyShelfordLogo),
             (new Agency())->setName('Norwich Homes')->addImage($norwichHomesLogo),
             (new Agency())->setName('Clerkenwell Lettings')->addImage($clerkenwellLettingsLogo),
@@ -263,6 +267,7 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
             ['email' => self::USER_2, 'password' => 'Fire_Dragon_2020'],
             ['email' => self::USER_3, 'password' => 'Ride_A_Bicycle_2020'],
             ['email' => self::USER_4, 'password' => 'South_Tyrol_2020'],
+            ['email' => self::USER_5, 'password' => 'Cambridge_Residential_2020'],
         ];
 
         $users = [];
@@ -270,6 +275,7 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
             $user = (new User())->setEmail($row['email']);
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, $row['password']));
             $manager->persist($user);
+            $this->addReference('user-'.$user->getEmail(), $user);
             $users[$row['email']] = $user;
         }
 

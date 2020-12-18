@@ -43,6 +43,11 @@ class Agency
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private ?string $externalUrl;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private ?string $slug;
 
     /**
@@ -56,9 +61,16 @@ class Agency
      */
     private Collection $images;
 
+    /**
+     * @var Collection<int, User>
+     * @ORM\OneToMany(targetEntity="User", mappedBy="adminAgency")
+     */
+    private Collection $adminUsers;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->adminUsers = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -103,6 +115,18 @@ class Agency
     public function setCountryCode(?string $countryCode): self
     {
         $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+    public function getExternalUrl(): ?string
+    {
+        return $this->externalUrl;
+    }
+
+    public function setExternalUrl(?string $externalUrl): self
+    {
+        $this->externalUrl = $externalUrl;
 
         return $this;
     }
@@ -168,5 +192,24 @@ class Agency
         }
 
         return $logoImage;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getAdminUsers(): Collection
+    {
+        return $this->adminUsers;
+    }
+
+    public function addAdminUser(User $user): self
+    {
+        if ($this->adminUsers->contains($user)) {
+            return $this;
+        }
+        $this->adminUsers[] = $user;
+        $user->setAdminAgency($this);
+
+        return $this;
     }
 }

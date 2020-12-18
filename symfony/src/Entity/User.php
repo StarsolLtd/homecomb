@@ -68,6 +68,12 @@ class User implements UserInterface
     private Collection $images;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Agency", inversedBy="adminUsers")
+     * @ORM\JoinColumn(name="admin_agency_id", referencedColumnName="id", nullable=true)
+     */
+    private ?Agency $adminAgency = null;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;
@@ -199,6 +205,18 @@ class User implements UserInterface
         }
         $this->images[] = $image;
         $image->setUser($this);
+
+        return $this;
+    }
+
+    public function getAdminAgency(): ?Agency
+    {
+        return $this->adminAgency;
+    }
+
+    public function setAdminAgency(?Agency $adminAgency): self
+    {
+        $this->adminAgency = $adminAgency;
 
         return $this;
     }
