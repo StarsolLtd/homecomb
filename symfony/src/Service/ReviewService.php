@@ -12,12 +12,14 @@ use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewService
 {
     private AgencyService $agencyService;
     private BranchService $branchService;
     private NotificationService $notificationService;
+    private UserService $userService;
     private EntityManagerInterface $entityManager;
     private PostcodeRepository $postcodeRepository;
     private PropertyRepository $propertyRepository;
@@ -26,6 +28,7 @@ class ReviewService
         AgencyService $agencyService,
         BranchService $branchService,
         NotificationService $notificationService,
+        UserService $userService,
         EntityManagerInterface $entityManager,
         PostcodeRepository $postcodeRepository,
         PropertyRepository $propertyRepository
@@ -33,12 +36,13 @@ class ReviewService
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
         $this->notificationService = $notificationService;
+        $this->userService = $userService;
         $this->entityManager = $entityManager;
         $this->postcodeRepository = $postcodeRepository;
         $this->propertyRepository = $propertyRepository;
     }
 
-    public function submitReview(SubmitReviewInput $reviewInput): SubmitReviewOutput
+    public function submitReview(SubmitReviewInput $reviewInput, ?UserInterface $user): SubmitReviewOutput
     {
         $propertyId = $reviewInput->getPropertyId();
 
@@ -48,12 +52,11 @@ class ReviewService
             throw new \RuntimeException('Property with ID '.$propertyId.' not found.');
         }
 
-        // TODO find or create user
-
         $agencyName = $reviewInput->getAgencyName();
         $agency = $agencyName ? $this->agencyService->findOrCreateByName($agencyName) : null;
         $branchName = $reviewInput->getAgencyBranch();
         $branch = $branchName ? $this->branchService->findOrCreate($branchName, $agency) : null;
+        $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
         $review = (new Review())
             ->setProperty($property)
@@ -64,7 +67,8 @@ class ReviewService
             ->setOverallStars($reviewInput->getOverallStars())
             ->setAgencyStars($reviewInput->getAgencyStars())
             ->setLandlordStars($reviewInput->getLandlordStars())
-            ->setPropertyStars($reviewInput->getPropertyStars());
+            ->setPropertyStars($reviewInput->getPropertyStars())
+            ->setUser($userEntity);
 
         $this->entityManager->persist($review);
         $this->entityManager->flush();

@@ -6,14 +6,13 @@ use App\Model\SubmitReviewInput;
 use App\Repository\ReviewRepository;
 use App\Service\GoogleReCaptchaService;
 use App\Service\ReviewService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ReviewController extends AbstractController
+class ReviewController extends AppController
 {
     private GoogleReCaptchaService $googleReCaptchaService;
     private ReviewRepository $reviewRepository;
@@ -50,7 +49,7 @@ class ReviewController extends AbstractController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->reviewService->submitReview($input);
+        $output = $this->reviewService->submitReview($input, $this->getUserInterface());
 
         $this->addFlash(
             'notice',

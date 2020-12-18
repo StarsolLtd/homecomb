@@ -17,7 +17,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function getUserEntityFromUserInterface(?UserInterface $user): ?User
+    public function getUserEntityOrNullFromUserInterface(?UserInterface $user): ?User
     {
         if (null === $user) {
             return null;
@@ -31,7 +31,7 @@ class UserService
 
     public function getEntityFromInterface(?UserInterface $user): User
     {
-        $userEntity = $this->getUserEntityFromUserInterface($user);
+        $userEntity = $this->getUserEntityOrNullFromUserInterface($user);
         if (null === $userEntity) {
             throw new RuntimeException('User entity not found.');
         }

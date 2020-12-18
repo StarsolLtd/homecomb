@@ -69,7 +69,7 @@ class FlagServiceTest extends TestCase
         $this->entityManagerMock->persist(Argument::type(Flag::class))->shouldBeCalledOnce();
         $this->entityManagerMock->flush()->shouldBeCalledOnce();
 
-        $this->userServiceMock->getUserEntityFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
+        $this->userServiceMock->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
 
         $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(Flag::class))->shouldBeCalledOnce();
 

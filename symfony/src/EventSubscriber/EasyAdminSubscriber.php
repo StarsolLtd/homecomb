@@ -34,7 +34,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Flag) {
             if (!$entity->getUser()) {
-                $userEntity = $this->userService->getUserEntityFromUserInterface($this->security->getUser());
+                $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($this->security->getUser());
                 $entity->setUser($userEntity);
             }
         }

@@ -36,11 +36,13 @@ class FlagService
             throw new UnexpectedValueException(sprintf('%s is not a valid flag entity name.', $entityName));
         }
 
+        $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
+
         $flag = (new Flag())
             ->setEntityName($submitInput->getEntityName())
             ->setEntityId($submitInput->getEntityId())
             ->setContent($submitInput->getContent())
-            ->setUser($this->userService->getUserEntityFromUserInterface($user));
+            ->setUser($userEntity);
 
         $this->entityManager->persist($flag);
         $this->entityManager->flush();
