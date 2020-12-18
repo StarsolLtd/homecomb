@@ -6,26 +6,29 @@ use App\Exception\NotFoundException;
 use App\Model\SuggestPropertyInput;
 use App\Repository\PropertyRepository;
 use App\Service\PropertyService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class PropertyController extends AbstractController
+class PropertyController extends AppController
 {
     private PropertyRepository $propertyRepository;
     private PropertyService $propertyService;
+    private UserService $userService;
     private SerializerInterface $serializer;
 
     public function __construct(
         PropertyRepository $propertyRepository,
         PropertyService $propertyService,
+        UserService $userService,
         SerializerInterface $serializer
     ) {
         $this->propertyRepository = $propertyRepository;
         $this->propertyService = $propertyService;
+        $this->userService = $userService;
         $this->serializer = $serializer;
     }
 
@@ -100,10 +103,13 @@ class PropertyController extends AbstractController
             throw $this->createNotFoundException($e->getMessage());
         }
 
+        $user = $this->userService->getUserEntityOrNullFromUserInterface($this->getUserInterface());
+
         return $this->render(
             'property/view.html.twig',
             [
                 'property' => $property,
+                'user' => $user,
             ]
         );
     }

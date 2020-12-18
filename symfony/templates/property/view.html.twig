@@ -40,16 +40,27 @@
                     <form id="submitReviewForm">
                         <input type="hidden" name="propertyId" id="propertyId" value="{{ property.id }}">
                         <input type="hidden" name="propertySlug" id="propertySlug" value="{{ property.slug }}">
+                        {% if user %}
+                            <div class="form-group">
+                                <label for="reviewerEmail">Your email</label>
+                                <input required disabled type="email" class="form-control" name="reviewerEmail" id="reviewerEmail" value="{{ user.email }}">
+                                <small id="reviewerEmailHelp" class="form-text text-muted">
+                                    We won't publish this, and will only use it if we need to contact you.
+                                    <a href="{{ path('app_logout') }}">Log out as {{ user.email }}</a> if you would like to associate your review with a different {{ site_name }} account.
+                                </small>
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label for="reviewerEmail">Your email</label>
+                                <input required type="email" class="form-control" name="reviewerEmail" id="reviewerEmail" aria-describedby="reviewerEmailHelp" placeholder="Enter your email">
+                                <small id="reviewerEmailHelp" class="form-text text-muted">We won't publish this, and will only use it if we need to contact you.</small>
+                            </div>
+                        {% endif %}
+                        <hr>
                         <div class="form-group">
                             <label for="reviewerName">Your name</label>
                             <input required type="text" class="form-control" name="reviewerName" id="reviewerName" aria-describedby="reviewerNameHelp" placeholder="Enter your name">
                             <small id="reviewerNameHelp" class="form-text text-muted">We will publish this. It doesn't have to be your full name if you don't want.</small>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <label for="reviewerEmail">Your email</label>
-                            <input required type="email" class="form-control" name="reviewerEmail" id="reviewerEmail" aria-describedby="reviewerEmailHelp" placeholder="Enter your email">
-                            <small id="reviewerEmailHelp" class="form-text text-muted">We won't publish this, and will only use it if we need to contact you.</small>
                         </div>
                         <hr>
                         <div class="form-group">
