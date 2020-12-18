@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AgencyControllerTest extends WebTestCase
 {
-    public function testViewBySlug()
+    public function testViewBySlug(): void
     {
         $client = static::createClient();
 
@@ -19,14 +19,12 @@ class AgencyControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
-    public function testCreateAgency()
+    public function testCreateAgency(): void
     {
         $client = static::createClient();
 
         $userRepository = static::$container->get(UserRepository::class);
-
         $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-
         $client->loginUser($testUser);
 
         $client->request(
@@ -52,7 +50,7 @@ class AgencyControllerTest extends WebTestCase
         $this->assertEquals('https://swaffhamlettings.com', $agency->getExternalUrl());
     }
 
-    public function testCreateAgencyFailsWhenNotLoggedIn()
+    public function testCreateAgencyFailsWhenNotLoggedIn(): void
     {
         $client = static::createClient();
 

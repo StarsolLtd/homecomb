@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PropertyControllerTest extends WebTestCase
 {
-    public function testViewBySlug()
+    public function testViewBySlug(): void
     {
         $client = static::createClient();
 
@@ -17,7 +17,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
-    public function testLookupSlugFromVendorId()
+    public function testLookupSlugFromVendorId(): void
     {
         $client = static::createClient();
 
