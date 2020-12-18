@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use RuntimeException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService
@@ -26,5 +27,15 @@ class UserService
         }
 
         return $this->userRepository->loadUserByUsername($user->getUsername()) ?? null;
+    }
+
+    public function getEntityFromInterface(?UserInterface $user): User
+    {
+        $userEntity = $this->getUserEntityFromUserInterface($user);
+        if (null === $userEntity) {
+            throw new RuntimeException('User entity not found.');
+        }
+
+        return $userEntity;
     }
 }

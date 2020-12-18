@@ -17,7 +17,7 @@
 
         {{ form_widget(requestForm.email, { 'attr': {'class': 'form-control', 'placeholder': 'Enter your email'} }) }}
 
-        <small>{{ form_help(requestForm.email) }}</small>
+        <p>{{ form_help(requestForm.email) }}</p>
 
         <div class="form-error">
             {{ form_errors(requestForm.email) }}

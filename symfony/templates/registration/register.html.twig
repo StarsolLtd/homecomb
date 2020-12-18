@@ -1,6 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register for {{ site_name }}{% endblock %}
+
+{% block headJavascripts %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById('registration_form').submit();
+        }
+    </script>
+{% endblock %}
 
 {% block main %}
     {% for flashError in app.flashes('verify_email_error') %}
@@ -15,17 +24,55 @@
 
         <div class="bg-white rounded shadow-sm p-4 mb-4">
             <div class="row">
-                {{ form_start(registrationForm) }}
+                {{ form_start(registrationForm, {'attr': {'id': 'registration_form'}}) }}
+                <div class="g-reCAPTCHA" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                {{ form_row(registrationForm.googleReCaptchaToken) }}
                 {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.firstName) }}
+                {{ form_row(registrationForm.lastName) }}
                 {{ form_row(registrationForm.plainPassword, {
                     label: 'Password'
                 }) }}
                 {{ form_row(registrationForm.agreeTerms) }}
 
-                <button type="submit" class="btn">Register</button>
+                <button type="submit"
+                        class="btn btn-primary g-recaptcha"
+                        data-sitekey="reCAPTCHA_site_key"
+                        data-callback="onSubmit"
+                        data-action="submit">Register for {{ site_name }}</button>
+
                 {{ form_end(registrationForm) }}
             </div>
         </div>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $( function() {
+            $('#registration_form').validate({
+                submitHandler: function (form) {
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('{{ google_recaptcha_site_key }}', {action: 'submit'}).then(function(token) {
+                            $('#registration_form_googleReCaptchaToken').val(token);
+                            $.ajax(
+                                {
+                                    type: 'POST',
+                                    url: '/api/register',
+                                    data: $('#registration_form').serialize(),
+                                    complete: function(output, status)
+                                    {
+                                        location.href = '/';
+                                    },
+                                }
+                            );
+                        });
+                    });
+
+                    return false;
+                }
+            });
+        } );
+    </script>
 {% endblock %}
