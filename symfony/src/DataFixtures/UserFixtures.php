@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
             ->setTitle('Mr')
             ->setFirstName('Jack')
             ->setLastName('Parnell')
+            ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
 
         $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, 'Long_Foggy_Drive_2020'));
@@ -34,6 +35,7 @@ class UserFixtures extends Fixture
             ->setTitle('Ms')
             ->setFirstName('Gina')
             ->setLastName('Pawel')
+            ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN', 'ROLE_MODERATOR']);
 
         $user2->setPassword($this->userPasswordEncoder->encodePassword($user2, 'Juggling_2020'));
