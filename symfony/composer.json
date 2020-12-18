@@ -50,6 +50,8 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "imbo/behat-api-extension": "^2.3",
         "phpstan/phpstan": "^0.12.57",
+        "symfony/browser-kit": "5.2.*",
+        "symfony/css-selector": "5.2.*",
         "symfony/debug-bundle": "5.2.*",
         "symfony/maker-bundle": "^1.23",
         "symfony/stopwatch": "^5.0",

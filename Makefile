@@ -34,8 +34,15 @@ behat:
 phpunit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
 
+test-functional:
+	make load-fixtures
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Controller
+
+test-unit:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
+
 test:
-	make behat phpunit
+	make test-functional test-unit
 
 analyse:
 	make php-cs-fixer phpstan

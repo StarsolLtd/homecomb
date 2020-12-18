@@ -356,6 +356,9 @@
     "symfony/asset": {
         "version": "v5.1.9"
     },
+    "symfony/browser-kit": {
+        "version": "v5.2.1"
+    },
     "symfony/cache": {
         "version": "v5.0.1"
     },
@@ -378,6 +381,9 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.2.1"
+    },
     "symfony/debug-bundle": {
         "version": "4.1",
         "recipe": {
@@ -398,6 +404,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.0.1"
+    },
+    "symfony/dom-crawler": {
+        "version": "v5.2.1"
     },
     "symfony/dotenv": {
         "version": "v5.0.1"
