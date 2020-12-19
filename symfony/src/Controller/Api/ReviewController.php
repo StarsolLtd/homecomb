@@ -1,43 +1,48 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
-use App\Model\Flag\SubmitInput;
-use App\Service\FlagService;
+use App\Controller\AppController;
+use App\Model\SubmitReviewInput;
+use App\Repository\ReviewRepository;
 use App\Service\GoogleReCaptchaService;
+use App\Service\ReviewService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class FlagController extends AppController
+class ReviewController extends AppController
 {
     private GoogleReCaptchaService $googleReCaptchaService;
-    private FlagService $flagService;
+    private ReviewRepository $reviewRepository;
+    private ReviewService $reviewService;
     private SerializerInterface $serializer;
 
     public function __construct(
         GoogleReCaptchaService $googleReCaptchaService,
-        FlagService $flagService,
+        ReviewRepository $reviewRepository,
+        ReviewService $reviewService,
         SerializerInterface $serializer
     ) {
         $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->flagService = $flagService;
+        $this->reviewRepository = $reviewRepository;
+        $this->reviewService = $reviewService;
         $this->serializer = $serializer;
     }
 
     /**
      * @Route (
-     *     "/api/flag",
-     *     name="flag",
+     *     "/api/submit-review",
+     *     name="submit-review",
      *     methods={"POST"}
      * )
      */
-    public function submitFlag(Request $request): JsonResponse
+    public function submitReview(Request $request): JsonResponse
     {
-        /** @var SubmitInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), SubmitInput::class, 'json');
+        /** @var SubmitReviewInput $input */
+        $input = $this->serializer->deserialize($request->getContent(), SubmitReviewInput::class, 'json');
 
         if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
@@ -45,11 +50,11 @@ class FlagController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->flagService->submitFlag($input, $this->getUserInterface());
+        $output = $this->reviewService->submitReview($input, $this->getUserInterface());
 
         $this->addFlash(
             'notice',
-            'Your report was received successfully and will be checked by our moderation team shortly.'
+            'Your review was received successfully and will be checked by our moderation team shortly.'
         );
 
         return new JsonResponse(
