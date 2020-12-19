@@ -4,8 +4,10 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Branch\CreateBranchInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
+use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,17 +19,20 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AgencyAdminController extends AppController
 {
     private AgencyService $agencyService;
+    private BranchService $branchService;
     private GoogleReCaptchaService $googleReCaptchaService;
     private AgencyRepository $agencyRepository;
     private SerializerInterface $serializer;
 
     public function __construct(
         AgencyService $agencyService,
+        BranchService $branchService,
         GoogleReCaptchaService $googleReCaptchaService,
         AgencyRepository $agencyRepository,
         SerializerInterface $serializer
     ) {
         $this->agencyService = $agencyService;
+        $this->branchService = $branchService;
         $this->googleReCaptchaService = $googleReCaptchaService;
         $this->agencyRepository = $agencyRepository;
         $this->serializer = $serializer;
@@ -63,6 +68,51 @@ class AgencyAdminController extends AppController
         }
 
         $output = $this->agencyService->createAgency($input, $this->getUserInterface());
+
+        $this->addFlash(
+            'notice',
+            'Your agency was received successfully and will be reviewed by our moderation team before being '
+            .'published shortly. You can now add branches, upload a logo etc.'
+        );
+
+        return new JsonResponse(
+            [
+                'success' => $output->isSuccess(),
+            ],
+            Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/api/verified/branch",
+     *     name="create-branch",
+     *     methods={"POST"}
+     * )
+     */
+    public function createBranch(Request $request): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (Exception $e) {
+            return new JsonResponse(
+                [
+                    'success' => false,
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        /** @var CreateBranchInput $input */
+        $input = $this->serializer->deserialize($request->getContent(), CreateBranchInput::class, 'json');
+
+        if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
+            $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
+
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $output = $this->branchService->createBranch($input, $this->getUserInterface());
 
         $this->addFlash(
             'notice',

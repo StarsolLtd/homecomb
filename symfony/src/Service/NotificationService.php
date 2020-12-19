@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Controller\Admin\AgencyCrudController;
+use App\Controller\Admin\BranchCrudController;
 use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
 use App\Entity\Agency;
+use App\Entity\Branch;
 use App\Entity\Flag;
 use App\Entity\Review;
 use App\Entity\User;
@@ -86,6 +88,26 @@ class NotificationService
 
             foreach ($moderators as $moderator) {
                 $this->notifyModerator($moderator, 'New agency on HomeComb', 'Go to '.$url.' to moderate.');
+            }
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
+
+    public function sendBranchModerationNotification(Branch $branch): void
+    {
+        try {
+            $url = $this->crudUrlGenerator
+                ->build()
+                ->setController(BranchCrudController::class)
+                ->setAction(Action::EDIT)
+                ->setEntityId($branch->getId())
+                ->generateUrl();
+
+            $moderators = $this->userRepository->findUsersWithRole('ROLE_MODERATOR');
+
+            foreach ($moderators as $moderator) {
+                $this->notifyModerator($moderator, 'New branch on HomeComb', 'Go to '.$url.' to moderate.');
             }
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
