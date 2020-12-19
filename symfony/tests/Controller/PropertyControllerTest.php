@@ -15,6 +15,7 @@ class PropertyControllerTest extends WebTestCase
         $client->request('GET', '/property/ccc5382816c1');
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('html h1', '249 Victoria Road, CB4 3LF');
     }
 
     public function testLookupSlugFromVendorId(): void

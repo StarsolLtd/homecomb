@@ -17,6 +17,7 @@ class AgencyControllerTest extends WebTestCase
         $client->request('GET', '/agency/f66a03fd63bbee');
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('html h1', 'Cambridge Residential');
     }
 
     public function testCreateAgency(): void
