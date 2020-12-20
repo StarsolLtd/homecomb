@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Util;
+namespace App\Tests\Unit\Factory;
 
 use App\Entity\Property;
 use App\Factory\PropertyFactory;

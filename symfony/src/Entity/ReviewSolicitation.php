@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use LogicException;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReviewSolicationRepository")
@@ -57,6 +58,16 @@ class ReviewSolicitation
     private string $recipientLastName;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private string $recipientEmail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private string $code;
+
+    /**
      * @ORM\OneToOne(targetEntity="Review")
      * @ORM\JoinColumn(name="review_id", referencedColumnName="id")
      */
@@ -67,18 +78,6 @@ class ReviewSolicitation
         return $this->id;
     }
 
-    public function getSenderUser(): User
-    {
-        return $this->senderUser;
-    }
-
-    public function setSenderUser(User $senderUser): self
-    {
-        $this->senderUser = $senderUser;
-
-        return $this;
-    }
-
     public function getBranch(): Branch
     {
         return $this->branch;
@@ -87,6 +86,26 @@ class ReviewSolicitation
     public function setBranch(Branch $branch): self
     {
         $this->branch = $branch;
+
+        return $this;
+    }
+
+    public function getSenderUser(): User
+    {
+        return $this->senderUser;
+    }
+
+    public function setSenderUser(User $senderUser): self
+    {
+        if (null == $senderUser->getAdminAgency()) {
+            throw new LogicException('Attempted to set ReviewSolicitation SenderUser as User that is not an agency admin.');
+        }
+
+        if ($senderUser->getAdminAgency() !== $this->getBranch()->getAgency()) {
+            throw new LogicException('Attempted to set ReviewSolicitation SenderUser as User that is not associated with Branch Agency.');
+        }
+
+        $this->senderUser = $senderUser;
 
         return $this;
     }
@@ -135,6 +154,30 @@ class ReviewSolicitation
     public function setRecipientLastName(string $recipientLastName): self
     {
         $this->recipientLastName = $recipientLastName;
+
+        return $this;
+    }
+
+    public function getRecipientEmail(): string
+    {
+        return $this->recipientEmail;
+    }
+
+    public function setRecipientEmail(string $recipientEmail): self
+    {
+        $this->recipientEmail = $recipientEmail;
+
+        return $this;
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
