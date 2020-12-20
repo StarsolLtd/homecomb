@@ -110,7 +110,6 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
-
     public function testCreateBranchFailsWhenNotLoggedIn(): void
     {
         $client = static::createClient();
