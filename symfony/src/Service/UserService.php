@@ -3,17 +3,21 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use RuntimeException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService
 {
+    private BranchRepository $branchRepository;
     private UserRepository $userRepository;
 
     public function __construct(
+        BranchRepository $branchRepository,
         UserRepository $userRepository
     ) {
+        $this->branchRepository = $branchRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -37,5 +41,25 @@ class UserService
         }
 
         return $userEntity;
+    }
+
+    public function isUserBranchAdmin(string $branchSlug, ?UserInterface $user): bool
+    {
+        $user = $this->getEntityFromInterface($user);
+        $agency = $user->getAdminAgency();
+        if (null === $agency) {
+            return false;
+        }
+
+        $branch = $this->branchRepository->findOnePublishedBySlug($branchSlug);
+        $branchAgency = $branch->getAgency();
+        if (null == $branchAgency) {
+            return false;
+        }
+        if ($branchAgency->getId() !== $agency->getId()) {
+            return false;
+        }
+
+        return true;
     }
 }
