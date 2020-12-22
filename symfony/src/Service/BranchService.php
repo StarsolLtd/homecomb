@@ -7,11 +7,14 @@ use App\Entity\Branch;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
+use App\Model\Branch\UpdateBranchInput;
+use App\Model\Branch\UpdateBranchOutput;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class BranchService
@@ -60,6 +63,20 @@ class BranchService
         $this->notificationService->sendBranchModerationNotification($branch);
 
         return new CreateBranchOutput(true);
+    }
+
+    public function updateBranch(string $slug, UpdateBranchInput $updateBranchInput, ?UserInterface $user): UpdateBranchOutput
+    {
+        $user = $this->userService->getEntityFromInterface($user);
+
+        $branch = $this->branchRepository->findOneBySlugUserCanManage($slug, $user);
+
+        $branch->setTelephone($updateBranchInput->getTelephone())
+            ->setEmail($updateBranchInput->getEmail());
+
+        $this->entityManager->flush();
+
+        return new UpdateBranchOutput(true);
     }
 
     public function findOrCreate(string $branchName, ?Agency $agency): Branch

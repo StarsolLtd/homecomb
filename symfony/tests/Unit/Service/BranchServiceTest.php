@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\User;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\UpdateBranchInput;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Service\BranchService;
@@ -78,6 +79,33 @@ class BranchServiceTest extends TestCase
 
         $output = $this->branchService->createBranch($createBranchInput, $user);
 
+        $this->assertTrue($output->isSuccess());
+    }
+
+    public function testUpdateBranch(): void
+    {
+        $slug = 'testbranchslug';
+        $updateBranchInput = new UpdateBranchInput(
+            '0555 555 555',
+            'updated.branch@starsol.co.uk',
+            'SAMPLE'
+        );
+
+        $user = new User();
+        $branch = new Branch();
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->branchRepository->findOneBySlugUserCanManage('testbranchslug', $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($branch);
+
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $output = $this->branchService->updateBranch($slug, $updateBranchInput, $user);
+
+        $this->assertEquals('0555 555 555', $branch->getTelephone());
+        $this->assertEquals('updated.branch@starsol.co.uk', $branch->getEmail());
         $this->assertTrue($output->isSuccess());
     }
 }
