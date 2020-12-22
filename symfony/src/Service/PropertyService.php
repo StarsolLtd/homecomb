@@ -3,8 +3,6 @@
 namespace App\Service;
 
 use App\Factory\PropertyFactory;
-use App\Model\PropertySuggestion;
-use App\Model\SuggestPropertyInput;
 use App\Model\VendorProperty;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,16 +24,6 @@ class PropertyService
         $this->propertyFactory = $propertyFactory;
         $this->propertyRepository = $propertyRepository;
         $this->getAddressService = $getAddressService;
-    }
-
-    /**
-     * @return PropertySuggestion[]
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function suggestProperty(SuggestPropertyInput $input): array
-    {
-        return $this->getAddressService->autocomplete($input->getSearch());
     }
 
     public function determinePropertySlugFromVendorPropertyId(string $vendorPropertyId): ?string

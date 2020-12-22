@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Model\SuggestPropertyInput;
+use App\Service\GetAddressService;
 use App\Service\PropertyService;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,15 +15,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PropertyController extends AppController
 {
+    private GetAddressService $getAddressService;
     private PropertyService $propertyService;
     private UserService $userService;
     private SerializerInterface $serializer;
 
     public function __construct(
+        GetAddressService $getAddressService,
         PropertyService $propertyService,
         UserService $userService,
         SerializerInterface $serializer
     ) {
+        $this->getAddressService = $getAddressService;
         $this->propertyService = $propertyService;
         $this->userService = $userService;
         $this->serializer = $serializer;
@@ -68,7 +72,7 @@ class PropertyController extends AppController
 
         $input = new SuggestPropertyInput($term);
 
-        $suggestions = $this->propertyService->suggestProperty($input);
+        $suggestions = $this->getAddressService->autocomplete($input->getSearch());
 
         $output = [];
         foreach ($suggestions as $suggestion) {
