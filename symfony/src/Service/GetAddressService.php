@@ -4,23 +4,22 @@ namespace App\Service;
 
 use App\Model\PropertySuggestion;
 use App\Model\VendorProperty;
-use GuzzleHttp\Client;
 use function json_decode;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetAddressService
 {
-    private Client $client;
+    private HttpClientInterface $client;
     private string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280';
 
-    public function __construct()
-    {
-        $this->client = new Client();
+    public function __construct(
+        HttpClientInterface $client
+    ) {
+        $this->client = $client;
     }
 
     /**
      * @return PropertySuggestion[]
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function autocomplete(string $term): array
     {
@@ -28,7 +27,7 @@ class GetAddressService
 
         $response = $this->client->request('GET', $uri);
 
-        $results = json_decode($response->getBody()->getContents(), true)['suggestions'];
+        $results = json_decode($response->getContent(), true)['suggestions'];
 
         $suggestions = [];
 
@@ -48,7 +47,7 @@ class GetAddressService
 
         $response = $this->client->request('GET', $uri);
 
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = json_decode($response->getContent(), true);
 
         return new VendorProperty(
             $vendorId,
