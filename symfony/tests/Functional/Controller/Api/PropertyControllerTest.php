@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Api;
+namespace App\Tests\Functional\Controller\Api;
 
 use function json_decode;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

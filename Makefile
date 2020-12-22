@@ -36,7 +36,7 @@ phpunit:
 
 test-functional:
 	make load-fixtures
-	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Controller
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
 
 test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit

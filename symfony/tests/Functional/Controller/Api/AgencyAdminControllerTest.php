@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Api;
+namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use App\Repository\AgencyRepository;
