@@ -5,12 +5,13 @@ namespace App\Tests\Controller\Api;
 use App\DataFixtures\TestFixtures;
 use App\Entity\Flag;
 use App\Repository\FlagRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class FlagControllerTest extends WebTestCase
 {
+    use LoginUserTrait;
+
     public function testSubmitFlagNotLoggedIn(): void
     {
         $client = static::createClient();
@@ -38,9 +39,7 @@ class FlagControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $loggedInUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($loggedInUser);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $client->request(
             'POST',

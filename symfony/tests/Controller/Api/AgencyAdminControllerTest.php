@@ -3,25 +3,23 @@
 namespace App\Tests\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
-use App\Entity\User;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewSolicitationRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgencyAdminControllerTest extends WebTestCase
 {
+    use LoginUserTrait;
+
     public function testCreateAgency(): void
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($testUser);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $client->request(
             'POST',
@@ -59,13 +57,11 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($testUser);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
         $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
-        $agency->addAdminUser($testUser);
+        $agency->addAdminUser($loggedInUser);
 
         $entityManager = static::$container->get(EntityManagerInterface::class);
         $entityManager->flush();
@@ -97,9 +93,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($testUser);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $client->request(
             'POST',
@@ -122,17 +116,48 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateBranch(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'PUT',
+            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_SLUG,
+            [],
+            [],
+            [],
+            '{"telephone":"020 2020 3030","email":"new.email@starsol.co.uk","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
+        $branchRepository = static::$container->get(BranchRepository::class);
+        $branch = $branchRepository->findOneBySlug(TestFixtures::TEST_BRANCH_SLUG);
+        $this->assertNotNull($branch);
+        $this->assertEquals('020 2020 3030', $branch->getTelephone());
+        $this->assertEquals('new.email@starsol.co.uk', $branch->getEmail());
+    }
+
+    public function testUpdateBranchFailsWhenNotLoggedIn(): void
+    {
+        $client = static::createClient();
+
+        $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_SLUG);
+
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
     public function testSolicitReview(): void
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($testUser);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
         $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
-        $agency->addAdminUser($testUser);
+        $agency->addAdminUser($loggedInUser);
 
         $branchRepository = static::$container->get(BranchRepository::class);
         $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_SLUG]);
@@ -170,9 +195,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        /** @var User $loggedInUser */
-        $loggedInUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
         $loggedInUser->setAdminAgency(null);
 
         $entityManager = static::$container->get(EntityManagerInterface::class);

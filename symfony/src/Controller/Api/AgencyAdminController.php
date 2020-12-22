@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\UpdateBranchInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
@@ -80,7 +81,7 @@ class AgencyAdminController extends AppController
 
         $this->addFlash(
             'notice',
-            'Your agency was received successfully and will be reviewed by our moderation team before being '
+            'Your agency was created successfully and will be reviewed by our moderation team before being '
             .'published shortly. You can now add branches, upload a logo etc.'
         );
 
@@ -125,8 +126,7 @@ class AgencyAdminController extends AppController
 
         $this->addFlash(
             'notice',
-            'Your agency was received successfully and will be reviewed by our moderation team before being '
-            .'published shortly. You can now add branches, upload a logo etc.'
+            'Your new branch was created successfully.'
         );
 
         return new JsonResponse(
@@ -134,6 +134,50 @@ class AgencyAdminController extends AppController
                 'success' => $output->isSuccess(),
             ],
             Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/api/verified/branch/{slug}",
+     *     name="update-branch",
+     *     methods={"PUT"}
+     * )
+     */
+    public function updateBranch(string $slug, Request $request): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (Exception $e) {
+            return new JsonResponse(
+                [
+                    'success' => false,
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        /** @var UpdateBranchInput $input */
+        $input = $this->serializer->deserialize($request->getContent(), UpdateBranchInput::class, 'json');
+
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
+            $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
+
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $output = $this->branchService->updateBranch($slug, $input, $this->getUserInterface());
+
+        $this->addFlash(
+            'notice',
+            'Your branch was updated successfully.'
+        );
+
+        return new JsonResponse(
+            [
+                'success' => $output->isSuccess(),
+            ],
+            Response::HTTP_OK
         );
     }
 

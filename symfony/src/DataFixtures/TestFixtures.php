@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class TestFixtures extends Fixture
 {
     public const TEST_USER_STANDARD_EMAIL = 'test.user.standard@starsol.co.uk';
+    public const TEST_USER_AGENCY_ADMIN_EMAIL = 'test.agency.admin@starsol.co.uk';
 
     public const TEST_AGENCY_SLUG = 'testerton';
     public const TEST_BRANCH_SLUG = 'branchslug';
@@ -37,6 +38,16 @@ class TestFixtures extends Fixture
         $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, 'Password1'));
         $manager->persist($user1);
 
+        $user2 = (new User())
+            ->setEmail(self::TEST_USER_AGENCY_ADMIN_EMAIL)
+            ->setTitle('Ms')
+            ->setFirstName('Fiona')
+            ->setLastName('Dutton')
+            ->setIsVerified(true);
+
+        $user2->setPassword($this->userPasswordEncoder->encodePassword($user2, 'Password2'));
+        $manager->persist($user2);
+
         $agency = (new Agency())
             ->setName('Testerton Lettings')
             ->setPublished(true)
@@ -56,6 +67,8 @@ class TestFixtures extends Fixture
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_SLUG);
         $manager->persist($property);
+
+        $agency->addAdminUser($user2);
 
         $manager->flush();
     }

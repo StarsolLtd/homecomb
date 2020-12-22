@@ -5,19 +5,18 @@ namespace App\Tests\Controller\Api;
 use App\DataFixtures\TestFixtures;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReviewControllerTest extends WebTestCase
 {
+    use LoginUserTrait;
+
     public function testSubmitReview(): void
     {
         $client = static::createClient();
 
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail(TestFixtures::TEST_USER_STANDARD_EMAIL);
-        $client->loginUser($testUser);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $propertyRepository = static::$container->get(PropertyRepository::class);
         $property = $propertyRepository->findOneBy(['slug' => 'ccc5382816c1']);
@@ -43,6 +42,6 @@ class ReviewControllerTest extends WebTestCase
         $this->assertEquals('ccc5382816c1', $review->getProperty()->getSlug());
         $this->assertEquals('New Agency Company', $review->getAgency()->getName());
         $this->assertEquals('Duxford', $review->getBranch()->getName());
-        $this->assertEquals($testUser, $review->getUser());
+        $this->assertEquals($loggedInUser, $review->getUser());
     }
 }

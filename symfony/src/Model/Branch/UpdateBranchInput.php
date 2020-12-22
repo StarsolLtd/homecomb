@@ -6,16 +6,16 @@ class UpdateBranchInput
 {
     private ?string $telephone;
     private ?string $email;
-    private ?string $googleReCaptchaToken;
+    private ?string $captchaToken;
 
     public function __construct(
         ?string $telephone = null,
         ?string $email = null,
-        ?string $googleReCaptchaToken = null
+        ?string $captchaToken = null
     ) {
         $this->telephone = $telephone;
         $this->email = $email;
-        $this->googleReCaptchaToken = $googleReCaptchaToken;
+        $this->captchaToken = $captchaToken;
     }
 
     public function getTelephone(): ?string
@@ -28,8 +28,8 @@ class UpdateBranchInput
         return $this->email;
     }
 
-    public function getGoogleReCaptchaToken(): ?string
+    public function getCaptchaToken(): ?string
     {
-        return $this->googleReCaptchaToken;
+        return $this->captchaToken;
     }
 }
