@@ -3,17 +3,17 @@
 namespace App\Tests\Repository;
 
 use App\DataFixtures\TestFixtures;
-use App\Entity\Property;
+use App\Entity\Branch;
 use App\Exception\NotFoundException;
-use App\Repository\PropertyRepository;
+use App\Repository\BranchRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class PropertyRepositoryTest extends KernelTestCase
+class BranchRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 
-    private PropertyRepository $repository;
+    private BranchRepository $repository;
 
     protected function setUp(): void
     {
@@ -23,16 +23,16 @@ class PropertyRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
-        $this->repository = $this->entityManager->getRepository(Property::class);
+        $this->repository = $this->entityManager->getRepository(Branch::class);
     }
 
     public function testFindOnePublishedBySlug()
     {
-        $property = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_PROPERTY_SLUG);
+        $branch = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_BRANCH_SLUG);
 
-        $this->assertNotNull($property);
-        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $property->getSlug());
-        $this->assertTrue($property->isPublished());
+        $this->assertNotNull($branch);
+        $this->assertEquals(TestFixtures::TEST_BRANCH_SLUG, $branch->getSlug());
+        $this->assertTrue($branch->isPublished());
     }
 
     public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()

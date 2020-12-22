@@ -3,17 +3,17 @@
 namespace App\Tests\Repository;
 
 use App\DataFixtures\TestFixtures;
-use App\Entity\Property;
+use App\Entity\Agency;
 use App\Exception\NotFoundException;
-use App\Repository\PropertyRepository;
+use App\Repository\AgencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class PropertyRepositoryTest extends KernelTestCase
+class AgencyRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 
-    private PropertyRepository $repository;
+    private AgencyRepository $repository;
 
     protected function setUp(): void
     {
@@ -23,16 +23,16 @@ class PropertyRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
-        $this->repository = $this->entityManager->getRepository(Property::class);
+        $this->repository = $this->entityManager->getRepository(Agency::class);
     }
 
     public function testFindOnePublishedBySlug()
     {
-        $property = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_PROPERTY_SLUG);
+        $agency = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_AGENCY_SLUG);
 
-        $this->assertNotNull($property);
-        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $property->getSlug());
-        $this->assertTrue($property->isPublished());
+        $this->assertNotNull($agency);
+        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $agency->getSlug());
+        $this->assertTrue($agency->isPublished());
     }
 
     public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()
