@@ -7,18 +7,18 @@ class CreateAgencyInput
     private string $agencyName;
     private ?string $externalUrl;
     private ?string $postcode;
-    private ?string $googleReCaptchaToken;
+    private ?string $captchaToken;
 
     public function __construct(
         string $agencyName,
         ?string $externalUrl = null,
         ?string $postcode = null,
-        ?string $googleReCaptchaToken = null
+        ?string $captchaToken = null
     ) {
         $this->agencyName = $agencyName;
         $this->externalUrl = $externalUrl;
         $this->postcode = $postcode;
-        $this->googleReCaptchaToken = $googleReCaptchaToken;
+        $this->captchaToken = $captchaToken;
     }
 
     public function getAgencyName(): string
@@ -36,8 +36,8 @@ class CreateAgencyInput
         return $this->postcode;
     }
 
-    public function getGoogleReCaptchaToken(): ?string
+    public function getCaptchaToken(): ?string
     {
-        return $this->googleReCaptchaToken;
+        return $this->captchaToken;
     }
 }

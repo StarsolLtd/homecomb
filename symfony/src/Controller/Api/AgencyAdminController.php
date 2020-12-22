@@ -22,9 +22,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AgencyAdminController extends AppController
 {
+    use VerifyCaptchaTrait;
+
     private AgencyService $agencyService;
     private BranchService $branchService;
-    private GoogleReCaptchaService $googleReCaptchaService;
     private ReviewSolicitationService $reviewSolicitationService;
     private UserService $userService;
     private AgencyRepository $agencyRepository;
@@ -71,7 +72,7 @@ class AgencyAdminController extends AppController
         /** @var CreateAgencyInput $input */
         $input = $this->serializer->deserialize($request->getContent(), CreateAgencyInput::class, 'json');
 
-        if (!$this->verifyCaptcha($input->getGoogleReCaptchaToken(), $request)) {
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your agency creation.');
 
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
@@ -116,7 +117,7 @@ class AgencyAdminController extends AppController
         /** @var CreateBranchInput $input */
         $input = $this->serializer->deserialize($request->getContent(), CreateBranchInput::class, 'json');
 
-        if (!$this->verifyCaptcha($input->getGoogleReCaptchaToken(), $request)) {
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
 
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
@@ -230,10 +231,5 @@ class AgencyAdminController extends AppController
             ],
             Response::HTTP_CREATED
         );
-    }
-
-    private function verifyCaptcha(?string $token, Request $request): bool
-    {
-        return $this->googleReCaptchaService->verify($token, $request->getClientIp(), $request->getHost());
     }
 }

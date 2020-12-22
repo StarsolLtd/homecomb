@@ -7,18 +7,18 @@ class SubmitInput
     private string $entityName;
     private int $entityId;
     private ?string $content;
-    private ?string $googleReCaptchaToken;
+    private ?string $captchaToken;
 
     public function __construct(
         string $entityName,
         int $entityId,
         ?string $content = null,
-        ?string $googleReCaptchaToken = null
+        ?string $captchaToken = null
     ) {
         $this->entityName = $entityName;
         $this->entityId = $entityId;
         $this->content = $content;
-        $this->googleReCaptchaToken = $googleReCaptchaToken;
+        $this->captchaToken = $captchaToken;
     }
 
     public function getEntityName(): string
@@ -36,8 +36,8 @@ class SubmitInput
         return $this->content;
     }
 
-    public function getGoogleReCaptchaToken(): ?string
+    public function getCaptchaToken(): ?string
     {
-        return $this->googleReCaptchaToken;
+        return $this->captchaToken;
     }
 }

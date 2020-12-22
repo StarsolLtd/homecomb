@@ -15,7 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ReviewController extends AppController
 {
-    private GoogleReCaptchaService $googleReCaptchaService;
+    use VerifyCaptchaTrait;
+
     private ReviewRepository $reviewRepository;
     private ReviewService $reviewService;
     private SerializerInterface $serializer;
@@ -44,7 +45,7 @@ class ReviewController extends AppController
         /** @var SubmitReviewInput $input */
         $input = $this->serializer->deserialize($request->getContent(), SubmitReviewInput::class, 'json');
 
-        if (!$this->verifyReCaptcha($input->getGoogleReCaptchaToken(), $request)) {
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
 
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
@@ -63,10 +64,5 @@ class ReviewController extends AppController
             ],
             Response::HTTP_CREATED
         );
-    }
-
-    private function verifyReCaptcha(?string $token, Request $request): bool
-    {
-        return $this->googleReCaptchaService->verify($token, $request->getClientIp(), $request->getHost());
     }
 }

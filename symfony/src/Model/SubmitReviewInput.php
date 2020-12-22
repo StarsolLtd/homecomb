@@ -15,7 +15,7 @@ class SubmitReviewInput
     private ?int $agencyStars;
     private ?int $landlordStars;
     private ?int $propertyStars;
-    private ?string $googleReCaptchaToken;
+    private ?string $captchaToken;
 
     public function __construct(
         int $propertyId,
@@ -29,7 +29,7 @@ class SubmitReviewInput
         ?int $agencyStars = null,
         ?int $landlordStars = null,
         ?int $propertyStars = null,
-        ?string $googleReCaptchaToken = null
+        ?string $captchaToken = null
     ) {
         $this->propertyId = $propertyId;
         $this->reviewerName = $reviewerName;
@@ -42,7 +42,7 @@ class SubmitReviewInput
         $this->agencyStars = $agencyStars;
         $this->landlordStars = $landlordStars;
         $this->propertyStars = $propertyStars;
-        $this->googleReCaptchaToken = $googleReCaptchaToken;
+        $this->captchaToken = $captchaToken;
     }
 
     public function getPropertyId(): int
@@ -100,8 +100,8 @@ class SubmitReviewInput
         return $this->propertyStars;
     }
 
-    public function getGoogleReCaptchaToken(): ?string
+    public function getCaptchaToken(): ?string
     {
-        return $this->googleReCaptchaToken;
+        return $this->captchaToken;
     }
 }

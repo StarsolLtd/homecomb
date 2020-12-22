@@ -7,18 +7,18 @@ class CreateBranchInput
     private string $branchName;
     private ?string $telephone;
     private ?string $email;
-    private ?string $googleReCaptchaToken;
+    private ?string $captchaToken;
 
     public function __construct(
         string $branchName,
         ?string $telephone = null,
         ?string $email = null,
-        ?string $googleReCaptchaToken = null
+        ?string $captchaToken = null
     ) {
         $this->branchName = $branchName;
         $this->telephone = $telephone;
         $this->email = $email;
-        $this->googleReCaptchaToken = $googleReCaptchaToken;
+        $this->captchaToken = $captchaToken;
     }
 
     public function getBranchName(): string
@@ -36,8 +36,8 @@ class CreateBranchInput
         return $this->email;
     }
 
-    public function getGoogleReCaptchaToken(): ?string
+    public function getCaptchaToken(): ?string
     {
-        return $this->googleReCaptchaToken;
+        return $this->captchaToken;
     }
 }
