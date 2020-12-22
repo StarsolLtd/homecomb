@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Util;
 
 use App\Service\GetAddressService;
+use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -26,21 +27,40 @@ class GetAddressServiceTest extends TestCase
         );
     }
 
-    public function testGetAddress(): void
+    public function testAutocomplete(): void
     {
-        $vendorId = 'testvendorid';
-
         $response = $this->prophesize(ResponseInterface::class);
 
         $response->getContent()
             ->shouldBeCalledOnce()
-            ->willReturn('{"postcode":"B63 4PT","latitude":52.443748474121094,"longitude":-2.0535950660705566,"formatted_address":["28 Fairfield Road","","","Halesowen","West Midlands"],"thoroughfare":"Fairfield Road","building_name":"","sub_building_name":"","sub_building_number":"","building_number":"28","line_1":"28 Fairfield Road","line_2":"","line_3":"","line_4":"","locality":"","town_or_city":"Halesowen","county":"West Midlands","district":"Dudley","country":"England","residential":true}');
+            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_autocomplete_response.json'));
 
         $this->client->request('GET', Argument::type('string'))
             ->shouldBeCalledOnce()
             ->willReturn($response);
 
-        $vendorProperty = $this->getAddressService->getAddress($vendorId);
+        $propertySuggestions = $this->getAddressService->autocomplete('Loke Road');
+
+        $this->assertCount(10, $propertySuggestions);
+        $this->assertEquals("Well King's Lynn - Loke Road, Loke Road, King's Lynn", $propertySuggestions[0]->getAddress());
+        $this->assertEquals('ODk3M2YyZDhkNTMzY2JmIENoSUppWDdLM3pPTDEwY1JQb2wtRWF2Z3JVdyAzM2Y4ZTQxZDRlNTM2NDM=', $propertySuggestions[0]->getVendorId());
+        $this->assertEquals("Well King's Lynn - Loke Road, 38 Loke Road, King's Lynn, Norfolk", $propertySuggestions[1]->getAddress());
+        $this->assertEquals('ZjI4M2FhYzgwOTVkNWFiIDUxMDkwMDQ4IDMzZjhlNDFkNGU1MzY0Mw==', $propertySuggestions[1]->getVendorId());
+    }
+
+    public function testGetAddress(): void
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+
+        $response->getContent()
+            ->shouldBeCalledOnce()
+            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_get_response.json'));
+
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willReturn($response);
+
+        $vendorProperty = $this->getAddressService->getAddress('testvendorid');
 
         $this->assertEquals('28 Fairfield Road', $vendorProperty->getAddressLine1());
         $this->assertEmpty($vendorProperty->getAddressLine2());
