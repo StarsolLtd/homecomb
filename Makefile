@@ -35,8 +35,10 @@ phpunit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
 
 test-functional:
+	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
 	make load-fixtures
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
 test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
@@ -63,7 +65,7 @@ empty-database:
 	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate first
 
 load-fixtures:
-	docker exec -it homecomb_php_1 php bin/console doctrine:fixtures:load
+	docker exec -it homecomb_php_1 php bin/console doctrine:fixtures:load -n
 
 dump:
 	docker exec -it homecomb_php_1 php bin/console server:dump
