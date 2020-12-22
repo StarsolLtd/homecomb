@@ -32,25 +32,34 @@ class PropertyFactoryTest extends TestCase
         $vendorPropertyModel = new VendorProperty(
             789,
             '249 Victoria Road',
+            '',
+            '',
+            '',
             'Arbury',
-            null,
             'Cambridge',
+            'Cambridgeshire',
+            'Cambridge',
+            'England',
             'CB4 3LF',
             52.10101,
-            -0.47261
+            -0.47261,
+            true
         );
 
         $this->propertyHelper->generateSlug(Argument::type(Property::class))
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
 
-        $property = $this->propertyFactory->createPropertyEntityFromVendorPropertyModel($vendorPropertyModel);
+        $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel);
 
         $this->assertEquals(789, $property->getVendorPropertyId());
         $this->assertEquals('249 Victoria Road', $property->getAddressLine1());
-        $this->assertEquals('Arbury', $property->getAddressLine2());
-        $this->assertNull($property->getAddressLine3());
+        $this->assertEquals('', $property->getAddressLine2());
+        $this->assertEquals('', $property->getAddressLine3());
+        $this->assertEquals('', $property->getAddressLine4());
+        $this->assertEquals('Arbury', $property->getLocality());
         $this->assertEquals('Cambridge', $property->getCity());
+        $this->assertEquals('Cambridgeshire', $property->getCounty());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());

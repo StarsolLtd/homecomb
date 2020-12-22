@@ -16,13 +16,16 @@ class PropertyFactory
         $this->propertyHelper = $propertyHelper;
     }
 
-    public function createPropertyEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property
+    public function createEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property
     {
         $property = (new Property())
             ->setAddressLine1($vendorProperty->getAddressLine1())
             ->setAddressLine2($vendorProperty->getAddressLine2())
             ->setAddressLine3($vendorProperty->getAddressLine3())
+            ->setAddressLine4($vendorProperty->getAddressLine4())
+            ->setLocality($vendorProperty->getLocality())
             ->setCity($vendorProperty->getCity())
+            ->setCounty($vendorProperty->getCounty())
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode('UK')
             ->setLatitude($vendorProperty->getLatitude())

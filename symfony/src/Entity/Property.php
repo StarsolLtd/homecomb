@@ -43,7 +43,22 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private ?string $addressLine4;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $locality;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private string $city;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $county;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -137,6 +152,30 @@ class Property
         return $this;
     }
 
+    public function getAddressLine4(): ?string
+    {
+        return $this->addressLine4;
+    }
+
+    public function setAddressLine4(?string $addressLine4): self
+    {
+        $this->addressLine4 = $addressLine4;
+
+        return $this;
+    }
+
+    public function getLocality(): ?string
+    {
+        return $this->locality;
+    }
+
+    public function setLocality(?string $locality): self
+    {
+        $this->locality = $locality;
+
+        return $this;
+    }
+
     public function getCity(): string
     {
         return $this->city;
@@ -145,6 +184,18 @@ class Property
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCounty(): ?string
+    {
+        return $this->county;
+    }
+
+    public function setCounty(?string $county): self
+    {
+        $this->county = $county;
 
         return $this;
     }

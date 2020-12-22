@@ -60,7 +60,7 @@ class PropertyService
         );
 
         if (null === $property) {
-            $property = $this->propertyFactory->createPropertyEntityFromVendorPropertyModel($vendorProperty);
+            $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorProperty);
             $this->entityManager->persist($property);
             $this->entityManager->flush();
         }

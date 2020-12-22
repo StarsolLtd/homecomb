@@ -55,10 +55,16 @@ class GetAddressService
             $result['line_1'],
             $result['line_2'],
             $result['line_3'],
+            $result['line_4'],
+            $result['locality'],
             $result['town_or_city'],
+            $result['county'],
+            $result['district'],
+            $result['country'],
             $result['postcode'],
             $result['latitude'],
-            $result['longitude']
+            $result['longitude'],
+            $result['residential']
         );
     }
 }
