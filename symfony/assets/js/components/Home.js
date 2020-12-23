@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropertyAutocomplete from "./PropertyAutocomplete";
 
 class Home extends React.Component {
     constructor() {
@@ -15,8 +16,11 @@ class Home extends React.Component {
                 <form>
                     <label htmlFor="propertySearch">Find a property</label>
                     <div className="form-group">
-                        <input type="text" className="form-control" id="propertySearch"
-                               aria-describedby="propertySearchHelp" placeholder="Start typing an address" />
+                        <PropertyAutocomplete
+                            inputId="propertySearch"
+                            source="/api/property/suggest-property"
+                            placeholder="Start typing an address..."
+                        />
                     </div>
                     <p id="propertySearchHelp" className="text-muted">After you've entered a few characters, you
                         will see suggested results</p>

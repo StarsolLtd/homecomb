@@ -13,17 +13,4 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('home') }}
-    <script type="text/javascript">
-        $( function() {
-            $("#propertySearch").autocomplete({
-                source: "/api/property/suggest-property",
-                minLength: 3,
-                select: function(event, ui){
-                    $.get('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + ui.item.id, function( data ) {
-                        location.href = '/property/' + data.slug;
-                    });
-                }
-            });
-        } );
-    </script>
 {% endblock %}

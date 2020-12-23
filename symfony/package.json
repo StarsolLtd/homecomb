@@ -19,7 +19,12 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "jquery": "^3.5.1",
+        "jquery-autocomplete": "^1.2.8",
+        "jquery-ui": "^1.12.1",
+        "jquery-ui-bundle": "^1.12.1-migrate",
         "node-sass": "^4.14.1",
+        "popper": "^1.0.1",
         "prop-types": "^15.7.2",
         "react": "^17.0.1",
         "react-dom": "^17.0.1"
