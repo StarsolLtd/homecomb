@@ -69,3 +69,6 @@ load-fixtures:
 
 dump:
 	docker exec -it homecomb_php_1 php bin/console server:dump
+
+yarn-build:
+	docker exec -it homecomb_php_1 yarn encore dev
