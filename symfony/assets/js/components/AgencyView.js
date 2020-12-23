@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AgencyBranch from "./AgencyBranch";
 
 class AgencyView extends React.Component {
     constructor() {
@@ -27,7 +28,19 @@ class AgencyView extends React.Component {
                 </div>
                 }
                 {!this.state.agencyLoading && this.state.agencyLoaded &&
-                    <h1 className="display-5">{this.state.agency.name}</h1>
+                    <div>
+                        <h1 className="display-5">{this.state.agency.name}</h1>
+                        {this.state.agencyLoaded && this.state.agency.branches.map(
+                            ({ slug, name }) => (
+                                <AgencyBranch
+                                    key={slug}
+                                    slug={slug}
+                                    name={name}
+                                >
+                                </AgencyBranch>
+                            )
+                        )}
+                    </div>
                 }
             </div>
         );
