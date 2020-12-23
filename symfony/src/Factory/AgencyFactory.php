@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Agency;
+use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Util\AgencyHelper;
 
@@ -26,5 +27,13 @@ class AgencyFactory
         $this->agencyHelper->generateSlug($agency);
 
         return $agency;
+    }
+
+    public function createViewFromEntity(Agency $agency): AgencyView
+    {
+        return new AgencyView(
+            $agency->getSlug() ?? '',
+            $agency->getName() ?? '',
+        );
     }
 }
