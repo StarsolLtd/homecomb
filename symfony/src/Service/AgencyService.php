@@ -4,10 +4,14 @@ namespace App\Service;
 
 use App\Entity\Agency;
 use App\Exception\ConflictException;
+use App\Exception\ForbiddenException;
+use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\CreateAgencyOutput;
+use App\Model\Agency\UpdateAgencyInput;
+use App\Model\Agency\UpdateAgencyOutput;
 use App\Repository\AgencyRepository;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +47,7 @@ class AgencyService
         $user = $this->userService->getEntityFromInterface($user);
 
         if (null !== $user->getAdminAgency()) {
-            throw new ConflictException(sprintf('User %s is already an agency admin.', $user->getUsername()));
+            throw new ConflictException(sprintf('User is already an agency admin.'));
         }
 
         $agency = $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput);
@@ -55,6 +59,27 @@ class AgencyService
         $this->notificationService->sendAgencyModerationNotification($agency);
 
         return new CreateAgencyOutput(true);
+    }
+
+    public function updateAgency(string $slug, UpdateAgencyInput $updateAgencyInput, ?UserInterface $user): UpdateAgencyOutput
+    {
+        $user = $this->userService->getEntityFromInterface($user);
+
+        $agency = $user->getAdminAgency();
+
+        if (null === $agency) {
+            throw new NotFoundException('No agency found for user.');
+        }
+        if ($agency->getSlug() !== $slug) {
+            throw new ForbiddenException('User does not have permission to manage agency.');
+        }
+
+        $agency->setExternalUrl($updateAgencyInput->getExternalUrl())
+            ->setPostcode($updateAgencyInput->getPostcode());
+
+        $this->entityManager->flush();
+
+        return new UpdateAgencyOutput(true);
     }
 
     public function getViewBySlug(string $agencySlug): AgencyView

@@ -5,8 +5,11 @@ namespace App\Tests\Unit\Util;
 use App\Entity\Agency;
 use App\Entity\User;
 use App\Exception\ConflictException;
+use App\Exception\ForbiddenException;
+use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\UpdateAgencyInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
 use App\Service\NotificationService;
@@ -130,5 +133,68 @@ class AgencyServiceTest extends TestCase
         $this->entityManager->flush()->shouldNotBeCalled();
 
         $this->agencyService->createAgency($createAgencyInput, $user);
+    }
+
+    public function testUpdateAgency(): void
+    {
+        $slug = 'testagencyslug';
+        $updateAgencyInput = new UpdateAgencyInput(
+            'https://updated.com/here',
+            'NR21 4SF',
+            'SAMPLE'
+        );
+
+        $user = new User();
+        $agency = (new Agency())->setSlug($slug)->addAdminUser($user);
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $output = $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
+
+        $this->assertEquals('https://updated.com/here', $agency->getExternalUrl());
+        $this->assertEquals('NR21 4SF', $agency->getPostcode());
+        $this->assertTrue($output->isSuccess());
+    }
+
+    public function testUpdateAgencyThrowsExceptionWhenUserNotAgencyAdmin(): void
+    {
+        $slug = 'testagencyslug';
+        $updateAgencyInput = new UpdateAgencyInput(
+            'https://updated.com/here',
+            'NR21 4SF',
+            'SAMPLE'
+        );
+
+        $user = new User();
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->expectException(NotFoundException::class);
+        $this->entityManager->flush()->shouldNotBeCalled();
+
+        $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
+    }
+
+    public function testUpdateAgencyThrowsExceptionWhenUserAdminOfDifferentAgency(): void
+    {
+        $slug = 'testagencyslug';
+        $updateAgencyInput = new UpdateAgencyInput(
+            'https://updated.com/here',
+            'NR21 4SF',
+            'SAMPLE'
+        );
+
+        $user = new User();
+        $agency = (new Agency())->setSlug($slug);
+        $differentAgency = (new Agency())->setSlug('different')->addAdminUser($user);
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->expectException(ForbiddenException::class);
+        $this->entityManager->flush()->shouldNotBeCalled();
+
+        $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
     }
 }
