@@ -49,7 +49,9 @@ class AgencyFactory
     {
         return new AgencyBranch(
             $branch->getSlug() ?? '',
-            $branch->getName() ?? ''
+            $branch->getName() ?? '',
+            $branch->getTelephone(),
+            $branch->getEmail()
         );
     }
 }

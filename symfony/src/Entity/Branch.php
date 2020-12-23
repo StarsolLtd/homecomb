@@ -44,12 +44,12 @@ class Branch
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $telephone;
+    private ?string $telephone = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})

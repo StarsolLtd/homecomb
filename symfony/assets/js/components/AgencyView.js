@@ -14,7 +14,7 @@ class AgencyView extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.fetchAgencyData();
     }
 
     render() {
@@ -29,25 +29,29 @@ class AgencyView extends React.Component {
                 }
                 {!this.state.agencyLoading && this.state.agencyLoaded &&
                     <div>
-                        <h1 className="display-5">{this.state.agency.name}</h1>
-                        {this.state.agencyLoaded && this.state.agency.branches.map(
-                            ({ slug, name }) => (
-                                <AgencyBranch
-                                    key={slug}
-                                    slug={slug}
-                                    name={name}
-                                >
-                                </AgencyBranch>
-                            )
-                        )}
+                        <div className="col-md-12 page-title">
+                            <h1>{this.state.agency.name}</h1>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+                                {this.state.agencyLoaded && this.state.agency.branches.map(
+                                    ({ slug, name, telephone, email }) => (
+                                        <AgencyBranch
+                                            key={slug}
+                                            slug={slug}
+                                            name={name}
+                                            telephone={telephone}
+                                            email={email}
+                                        >
+                                        </AgencyBranch>
+                                    )
+                                )}
+                            </div>
+                        </div>
                     </div>
                 }
             </div>
         );
-    }
-
-    fetchData() {
-        this.fetchAgencyData();
     }
 
     fetchAgencyData() {

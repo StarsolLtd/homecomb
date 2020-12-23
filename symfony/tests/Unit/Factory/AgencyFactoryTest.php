@@ -61,7 +61,11 @@ class AgencyFactoryTest extends TestCase
         $this->assertCount(2, $view->getBranches());
         $this->assertEquals('Holt', $view->getBranches()[0]->getName());
         $this->assertEquals('holtslug111', $view->getBranches()[0]->getSlug());
+        $this->assertNull($view->getBranches()[0]->getTelephone());
+        $this->assertNull($view->getBranches()[0]->getEmail());
         $this->assertEquals('Sheringham', $view->getBranches()[1]->getName());
         $this->assertEquals('sheringhamslug222', $view->getBranches()[1]->getSlug());
+        $this->assertNull($view->getBranches()[1]->getTelephone());
+        $this->assertNull($view->getBranches()[1]->getEmail());
     }
 }
