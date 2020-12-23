@@ -2,20 +2,17 @@
 
 namespace App\Model\Agency;
 
-class AgencyView
+class AgencyBranch
 {
     private string $slug;
     private string $name;
-    private array $branches;
 
     public function __construct(
         string $slug,
-        string $name,
-        array $branches
+        string $name
     ) {
         $this->slug = $slug;
         $this->name = $name;
-        $this->branches = $branches;
     }
 
     public function getSlug(): string
@@ -26,13 +23,5 @@ class AgencyView
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return AgencyBranch[]
-     */
-    public function getBranches(): array
-    {
-        return $this->branches;
     }
 }

@@ -56,6 +56,12 @@ class Agency
     private bool $published = false;
 
     /**
+     * @var Collection<int, Branch>
+     * @ORM\OneToMany(targetEntity="Branch", mappedBy="agency", cascade={"persist"})
+     */
+    private Collection $branches;
+
+    /**
      * @var Collection<int, Image>
      * @ORM\OneToMany(targetEntity="Image", mappedBy="agency", cascade={"persist"})
      */
@@ -69,6 +75,7 @@ class Agency
 
     public function __construct()
     {
+        $this->branches = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->adminUsers = new ArrayCollection();
     }
@@ -151,6 +158,25 @@ class Agency
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Branch>
+     */
+    public function getBranches(): Collection
+    {
+        return $this->branches;
+    }
+
+    public function addBranch(Branch $branch): self
+    {
+        if ($this->branches->contains($branch)) {
+            return $this;
+        }
+        $this->branches[] = $branch;
+        $branch->setAgency($this);
 
         return $this;
     }

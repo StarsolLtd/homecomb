@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
+use App\Entity\Branch;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\CreateAgencyInput;
 use App\Util\AgencyHelper;
@@ -49,11 +50,18 @@ class AgencyFactoryTest extends TestCase
 
     public function testCreateViewFromEntity(): void
     {
-        $agency = (new Agency())->setName('Gresham Homes')->setSlug('abcdef123456');
+        $branch1 = (new Branch())->setName('Holt')->setSlug('holtslug111');
+        $branch2 = (new Branch())->setName('Sheringham')->setSlug('sheringhamslug222');
+        $agency = (new Agency())->setName('Gresham Homes')->setSlug('abcdef123456')->addBranch($branch1)->addBranch($branch2);
 
         $view = $this->agencyFactory->createViewFromEntity($agency);
 
         $this->assertEquals('Gresham Homes', $view->getName());
         $this->assertEquals('abcdef123456', $view->getSlug());
+        $this->assertCount(2, $view->getBranches());
+        $this->assertEquals('Holt', $view->getBranches()[0]->getName());
+        $this->assertEquals('holtslug111', $view->getBranches()[0]->getSlug());
+        $this->assertEquals('Sheringham', $view->getBranches()[1]->getName());
+        $this->assertEquals('sheringhamslug222', $view->getBranches()[1]->getSlug());
     }
 }
