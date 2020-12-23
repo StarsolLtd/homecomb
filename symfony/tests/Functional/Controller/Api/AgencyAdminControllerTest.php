@@ -75,6 +75,46 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateAgency(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'PUT',
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            [],
+            [],
+            [],
+            '{"externalUrl":"https://chipsticks.com","postcode":"CB1 1AA","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
+        $agencyRepository = static::$container->get(AgencyRepository::class);
+        $agency = $agencyRepository->findOneBySlug(TestFixtures::TEST_AGENCY_SLUG);
+        $this->assertNotNull($agency);
+        $this->assertEquals('https://chipsticks.com', $agency->getExternalUrl());
+        $this->assertEquals('CB1 1AA', $agency->getPostcode());
+    }
+
+    public function testUpdateAgencyFailsWhenNotLoggedIn(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'PUT',
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            [],
+            [],
+            [],
+            '{"externalUrl":"https://chipsticks.com","postcode":"CB1 1AA","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
     public function testCreateBranch(): void
     {
         $client = static::createClient();

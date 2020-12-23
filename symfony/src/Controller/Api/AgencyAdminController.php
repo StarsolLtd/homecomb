@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use App\Exception\ConflictException;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
@@ -90,6 +91,40 @@ class AgencyAdminController extends AppController
         );
 
         return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Route (
+     *     "/api/verified/agency/{slug}",
+     *     name="update-agency",
+     *     methods={"PUT"}
+     * )
+     */
+    public function updateAgency(string $slug, Request $request): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
+        }
+
+        /** @var UpdateAgencyInput $input */
+        $input = $this->serializer->deserialize($request->getContent(), UpdateAgencyInput::class, 'json');
+
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
+            $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
+
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $output = $this->agencyService->updateAgency($slug, $input, $this->getUserInterface());
+
+        $this->addFlash(
+            'notice',
+            'Your agency was updated successfully.'
+        );
+
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
     }
 
     /**
