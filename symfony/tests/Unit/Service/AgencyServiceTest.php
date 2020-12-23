@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Util;
 
 use App\Entity\Agency;
 use App\Entity\User;
+use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\CreateAgencyInput;
 use App\Repository\AgencyRepository;
@@ -108,5 +109,26 @@ class AgencyServiceTest extends TestCase
         $this->assertContains($user, $agency->getAdminUsers());
         $this->assertEquals($user->getAdminAgency(), $agency);
         $this->assertTrue($output->isSuccess());
+    }
+
+    public function testCreateAgencyThrowsConflictExceptionWhenUserIsAlreadyAgencyAdmin(): void
+    {
+        $createAgencyInput = new CreateAgencyInput(
+            'Test Agency Name',
+            'https://test.com/welcome',
+            null,
+            null
+        );
+        $agency = new Agency();
+        $user = (new User())->setAdminAgency($agency);
+
+        $this->userService->getEntityFromInterface($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($user);
+
+        $this->expectException(ConflictException::class);
+        $this->entityManager->flush()->shouldNotBeCalled();
+
+        $this->agencyService->createAgency($createAgencyInput, $user);
     }
 }

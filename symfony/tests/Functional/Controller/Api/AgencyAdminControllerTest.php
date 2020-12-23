@@ -44,6 +44,28 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals('https://swaffhamlettings.com', $agency->getExternalUrl());
     }
 
+    public function testCreateAgencyFailsWhenUserAlreadyAgencyAdmin(): void
+    {
+        $client = static::createClient();
+
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+
+        $agencyRepository = static::$container->get(AgencyRepository::class);
+        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
+        $agency->addAdminUser($loggedInUser);
+
+        $client->request(
+            'POST',
+            '/api/verified/agency',
+            [],
+            [],
+            [],
+            '{"agencyName":"Wroxham Lettings","postcode":"NR14 8RW","externalUrl":"https://wroxhamlettings.com","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_CONFLICT, $client->getResponse()->getStatusCode());
+    }
+
     public function testCreateAgencyFailsWhenNotLoggedIn(): void
     {
         $client = static::createClient();

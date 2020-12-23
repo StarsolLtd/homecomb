@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Agency;
+use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
@@ -40,6 +41,10 @@ class AgencyService
     public function createAgency(CreateAgencyInput $createAgencyInput, ?UserInterface $user): CreateAgencyOutput
     {
         $user = $this->userService->getEntityFromInterface($user);
+
+        if (null !== $user->getAdminAgency()) {
+            throw new ConflictException(sprintf('User %s is already an agency admin.', $user->getUsername()));
+        }
 
         $agency = $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput);
         $agency->addAdminUser($user);

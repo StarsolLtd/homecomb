@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\ConflictException;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
@@ -13,11 +14,13 @@ use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
-use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AgencyAdminController extends AppController
@@ -60,13 +63,8 @@ class AgencyAdminController extends AppController
     {
         try {
             $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (Exception $e) {
-            return new JsonResponse(
-                [
-                    'success' => false,
-                ],
-                Response::HTTP_FORBIDDEN
-            );
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
         }
 
         /** @var CreateAgencyInput $input */
@@ -78,7 +76,12 @@ class AgencyAdminController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->agencyService->createAgency($input, $this->getUserInterface());
+        try {
+            $output = $this->agencyService->createAgency($input, $this->getUserInterface());
+        } catch (ConflictException $e) {
+            $this->addFlash('error', 'Sorry, we were unable to process your agency as you are already an agency admin.');
+            throw new ConflictHttpException($e->getMessage());
+        }
 
         $this->addFlash(
             'notice',
@@ -86,12 +89,7 @@ class AgencyAdminController extends AppController
             .'published shortly. You can now add branches, upload a logo etc.'
         );
 
-        return new JsonResponse(
-            [
-                'success' => $output->isSuccess(),
-            ],
-            Response::HTTP_CREATED
-        );
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
     }
 
     /**
@@ -105,13 +103,8 @@ class AgencyAdminController extends AppController
     {
         try {
             $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (Exception $e) {
-            return new JsonResponse(
-                [
-                    'success' => false,
-                ],
-                Response::HTTP_FORBIDDEN
-            );
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
         }
 
         /** @var CreateBranchInput $input */
@@ -130,12 +123,7 @@ class AgencyAdminController extends AppController
             'Your new branch was created successfully.'
         );
 
-        return new JsonResponse(
-            [
-                'success' => $output->isSuccess(),
-            ],
-            Response::HTTP_CREATED
-        );
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
     }
 
     /**
@@ -149,13 +137,8 @@ class AgencyAdminController extends AppController
     {
         try {
             $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (Exception $e) {
-            return new JsonResponse(
-                [
-                    'success' => false,
-                ],
-                Response::HTTP_FORBIDDEN
-            );
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
         }
 
         /** @var UpdateBranchInput $input */
@@ -174,12 +157,7 @@ class AgencyAdminController extends AppController
             'Your branch was updated successfully.'
         );
 
-        return new JsonResponse(
-            [
-                'success' => $output->isSuccess(),
-            ],
-            Response::HTTP_OK
-        );
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
     }
 
     /**
@@ -193,13 +171,8 @@ class AgencyAdminController extends AppController
     {
         try {
             $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (Exception $e) {
-            return new JsonResponse(
-                [
-                    'success' => false,
-                ],
-                Response::HTTP_FORBIDDEN
-            );
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
         }
 
         /** @var CreateReviewSolicitationInput $input */
@@ -225,11 +198,6 @@ class AgencyAdminController extends AppController
             'An email will be sent to '.$input->getRecipientEmail().' shortly asking them to review their tenancy.'
         );
 
-        return new JsonResponse(
-            [
-                'success' => $output->isSuccess(),
-            ],
-            Response::HTTP_CREATED
-        );
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
     }
 }
