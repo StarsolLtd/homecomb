@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Constants from "../Constants";
 
 class CreateAgency extends React.Component {
     constructor() {
@@ -8,7 +9,7 @@ class CreateAgency extends React.Component {
             agencyName: '',
             externalUrl: '',
             postcode: '',
-            recaptchaToken: ''
+            captchaToken: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,15 +53,24 @@ class CreateAgency extends React.Component {
     }
 
     handleSubmit() {
-        fetch(`/api/verified/agency`, {
-            method: 'POST',
-            body: JSON.stringify(this.state),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.error("Error:", err));
+        let payload = {
+            ...this.state, ...{captchaToken: null}
+        };
+        grecaptcha.ready(function() {
+            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
+                payload.captchaToken = captchaToken;
+                fetch(`/api/verified/agency`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => res.json())
+                    .then(data => console.log(data))
+                    .catch(err => console.error("Error:", err));
+            });
+        });
+        event.preventDefault();
     }
 }
 

@@ -28,7 +28,7 @@ class GoogleReCaptchaService
             return true;
         }
 
-        if (null == $token) {
+        if (null === $token) {
             return false;
         }
 

@@ -38,7 +38,7 @@ test-functional:
 	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
 	make load-fixtures
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
-	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
+	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
 
 test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
