@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Agency;
 use App\Factory\AgencyFactory;
+use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\CreateAgencyOutput;
 use App\Repository\AgencyRepository;
@@ -49,6 +50,13 @@ class AgencyService
         $this->notificationService->sendAgencyModerationNotification($agency);
 
         return new CreateAgencyOutput(true);
+    }
+
+    public function getViewBySlug(string $agencySlug): AgencyView
+    {
+        $agency = $this->agencyRepository->findOnePublishedBySlug($agencySlug);
+
+        return $this->agencyFactory->createViewFromEntity($agency);
     }
 
     public function findOrCreateByName(string $agencyName): Agency

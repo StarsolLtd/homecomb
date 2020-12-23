@@ -46,4 +46,14 @@ class AgencyFactoryTest extends TestCase
         $this->assertEquals('https://test.com/welcome', $agency->getExternalUrl());
         $this->assertNull($agency->getPostcode());
     }
+
+    public function testCreateViewFromEntity(): void
+    {
+        $agency = (new Agency())->setName('Gresham Homes')->setSlug('abcdef123456');
+
+        $view = $this->agencyFactory->createViewFromEntity($agency);
+
+        $this->assertEquals('Gresham Homes', $view->getName());
+        $this->assertEquals('abcdef123456', $view->getSlug());
+    }
 }
