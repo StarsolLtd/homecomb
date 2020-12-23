@@ -6,18 +6,13 @@
 
 {% block content %}
     <div class="w-100 align-self-center text-center" style="padding-bottom: 15%;">
-        <h1 class="logo-large"><span class="red">Home</span><span class="bronze">Comb</span></h1>
-        <form>
-            <label for="propertySearch">Find a property</label>
-            <div class="form-group">
-                <input type="text" class="form-control" id="propertySearch" aria-describedby="propertySearchHelp" placeholder="Start typing an address">
-            </div>
-            <p id="propertySearchHelp" class="text-muted">After you've entered a few characters, you will see suggested results</p>
-        </form>
+        <div id="home-root"></div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('home') }}
     <script type="text/javascript">
         $( function() {
             $("#propertySearch").autocomplete({
