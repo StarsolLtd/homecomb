@@ -50,4 +50,28 @@ class BranchFactoryTest extends TestCase
         $this->assertEquals('0700 100 200', $branch->getTelephone());
         $this->assertNull($branch->getEmail());
     }
+
+    public function testCreateViewFromEntity(): void
+    {
+        $branch = (new Branch())
+            ->setName('Test Name')
+            ->setSlug('branchslug')
+            ->setTelephone('0500 500 500')
+            ->setEmail('test@branch.starsol.co.uk');
+
+        $agency = (new Agency())
+            ->setName('Test Agency')
+            ->setSlug('agencyslug')
+            ->addBranch($branch);
+
+        $view = $this->branchFactory->createViewFromEntity($branch);
+
+        $this->assertEquals('Test Name', $view->getBranch()->getName());
+        $this->assertEquals('branchslug', $view->getBranch()->getSlug());
+        $this->assertEquals('0500 500 500', $view->getBranch()->getTelephone());
+        $this->assertEquals('test@branch.starsol.co.uk', $view->getBranch()->getEmail());
+        $this->assertEquals('Test Agency', $view->getAgency()->getName());
+        $this->assertEquals('agencyslug', $view->getAgency()->getSlug());
+        $this->assertNull($view->getAgency()->getLogoImageFilename());
+    }
 }

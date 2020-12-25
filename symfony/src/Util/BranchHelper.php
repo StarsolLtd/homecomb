@@ -11,7 +11,7 @@ class BranchHelper
 {
     public function generateSlug(Branch $branch): string
     {
-        if (null === $branch->getName()) {
+        if ('' === $branch->getName()) {
             throw new LogicException('Unable to generate a slug for a Branch without a name.');
         }
 

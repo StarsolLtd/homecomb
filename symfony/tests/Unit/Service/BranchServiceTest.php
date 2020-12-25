@@ -6,8 +6,10 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
 use App\Factory\BranchFactory;
+use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
+use App\Model\Branch\View;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Service\BranchService;
@@ -107,5 +109,25 @@ class BranchServiceTest extends TestCase
         $this->assertEquals('0555 555 555', $branch->getTelephone());
         $this->assertEquals('updated.branch@starsol.co.uk', $branch->getEmail());
         $this->assertTrue($output->isSuccess());
+    }
+
+    public function testGetViewBySlug(): void
+    {
+        $branch = (new Branch());
+        $view = (new View(new BranchModel('branchslug', 'Test Branch Name', null, null), null, []));
+
+        $this->branchRepository->findOnePublishedBySlug('branchslug')
+            ->shouldBeCalledOnce()
+            ->willReturn($branch);
+
+        $this->branchFactory->createViewFromEntity($branch)
+            ->shouldBeCalledOnce()
+            ->willReturn($view);
+
+        $view = $this->branchService->getViewBySlug('branchslug');
+
+        $this->assertEquals('branchslug', $view->getBranch()->getSlug());
+        $this->assertEquals('Test Branch Name', $view->getBranch()->getName());
+        $this->assertNull($view->getAgency());
     }
 }

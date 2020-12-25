@@ -11,7 +11,7 @@ class AgencyHelper
 {
     public function generateSlug(Agency $agency): string
     {
-        if (null === $agency->getName()) {
+        if ('' === $agency->getName()) {
             throw new LogicException('Unable to generate a slug for a Agency without a name.');
         }
         $slug = substr(md5($agency->getName()), 0, 14);

@@ -46,9 +46,9 @@ class Agency
     private ?string $externalUrl;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
@@ -90,7 +90,7 @@ class Agency
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -138,12 +138,12 @@ class Agency
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 

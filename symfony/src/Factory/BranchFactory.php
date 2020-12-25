@@ -4,7 +4,10 @@ namespace App\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Model\Branch\Agency as AgencyModel;
+use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\View;
 use App\Util\BranchHelper;
 
 class BranchFactory
@@ -29,5 +32,34 @@ class BranchFactory
         $this->branchHelper->generateSlug($branch);
 
         return $branch;
+    }
+
+    public function createViewFromEntity(Branch $branchEntity): View
+    {
+        $agency = null;
+        $agencyEntity = $branchEntity->getAgency();
+        if (null !== $agencyEntity) {
+            $logoImage = $agencyEntity->getLogoImage();
+            $agency = new AgencyModel(
+                $agencyEntity->getSlug(),
+                $agencyEntity->getName(),
+                $logoImage ? $logoImage->getImage() : null
+            );
+        }
+
+        $branch = new BranchModel(
+            $branchEntity->getSlug(),
+            $branchEntity->getName(),
+            $branchEntity->getTelephone(),
+            $branchEntity->getEmail()
+        );
+
+        $reviews = []; // TODO
+
+        return new View(
+            $branch,
+            $agency,
+            $reviews
+        );
     }
 }

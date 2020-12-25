@@ -9,6 +9,7 @@ use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\UpdateBranchOutput;
+use App\Model\Branch\View;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
@@ -77,6 +78,13 @@ class BranchService
         $this->entityManager->flush();
 
         return new UpdateBranchOutput(true);
+    }
+
+    public function getViewBySlug(string $slug): View
+    {
+        $branch = $this->branchRepository->findOnePublishedBySlug($slug);
+
+        return $this->branchFactory->createViewFromEntity($branch);
     }
 
     public function findOrCreate(string $branchName, ?Agency $agency): Branch

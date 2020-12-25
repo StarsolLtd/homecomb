@@ -1,63 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{% if agency %}{{ agency.name }} {%  endif %}{{ branch.name }} | Lettings Agent Reviews | {{ site_name }}{% endblock %}
-
-{% block headJavascripts %}
-    <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
-{% endblock %}
+{% block title %}{{ branch.name }} | Lettings Agent Reviews | {{ site_name }}{% endblock %}
 
 {% block content %}
+    <script>
+        window.branchSlug = '{{ branch.slug }}';
+    </script>
     <div class="container">
-
-        <div class="col-md-12 page-title">
-            {% if agency %}
-                <h1>{{ agency.name }} - {{ branch.name }}</h1>
-            {% else %}
-                <h1>{{ branch.name }}</h1>
-            {%  endif %}
-        </div>
-
-        <div class="bg-white rounded shadow-sm p-4 mb-4">
-            <div class="row">
-                <div class="col-xs-12 col-md-8 branch-reviews">
-                    <h5 class="mb-1">Reviews from tenants</h5>
-
-                    {% for review in branch.publishedReviews %}
-                        {% include 'snippets/review.html.twig' with {'review': review, 'hideAgency': true, 'hideBranch': true} %}
-                        {{ not loop.last ? '<hr>' }}
-                    {% else %}
-                        <p>
-                            There are currently no reviews for {{ agency.name }}, {{ branch.name }}.
-                        </p>
-                    {% endfor %}
-                </div>
-                <div class="col-md-4 d-sm-none d-md-block branch-agency">
-                    {% if agency.logoImage %}
-                        <img src="/images/images/{{ agency.logoImage.image }}" alt="{{ agency.name }} Logo" class="agency-logo">
-                    {% endif %}
-
-                    <h5 class="mb-1">{{ branch.name }} contact details</h5>
-
-                    <p>
-                        {% if branch.telephone %}
-                            Telephone: {{ branch.telephone }}<br>
-                        {% endif %}
-                        {% if branch.email %}
-                            Email: <a href="mailto:{{ branch.email }}">{{ branch.email }}</a><br>
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        {% include 'snippets/flag-review-form.html.twig' %}
+        <div id="branch-view-root"></div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        $( function() {
-            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/branch/' ~ branch.slug} %}
-        } );
-    </script>
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('branch-view') }}
 {% endblock %}

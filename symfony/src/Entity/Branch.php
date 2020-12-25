@@ -57,9 +57,9 @@ class Branch
     private bool $published = false;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $slug;
+    private string $slug;
 
     /**
      * @var Collection<int, Review>
@@ -89,7 +89,7 @@ class Branch
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -149,12 +149,12 @@ class Branch
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
