@@ -1,9 +1,13 @@
 build:
+	make pull
 	docker-compose rm -vsf
 	docker-compose -v --remove-orphans
 	docker-compose --file=docker-compose.yml build
 	docker-compose --file=docker-compose.yml up -d
 	docker exec -it homecomb_php_1 composer install --no-interaction
+	docker exec -it homecomb_php_1 bash -c "mkdir /var/www/symfony/var/cache/dev/vich_uploader"
+	docker exec -it homecomb_php_1 bash -c "npm install --force"
+	make yarn-build
 	docker-compose --file=docker-compose.yml logs -f
 
 pull:
