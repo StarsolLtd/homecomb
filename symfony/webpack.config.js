@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('login', './assets/login.js')
+    .addEntry('about', './assets/js/components/About.js')
     .addEntry('agency-view', './assets/js/components/AgencyView.js')
     .addEntry('create-agency', './assets/js/components/CreateAgency.js')
     .addEntry('home', './assets/js/components/Home.js')
