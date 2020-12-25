@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import PropertyAutocomplete from "./PropertyAutocomplete";
+import TextLogo from "./TextLogo";
+import {Form, FormGroup, Label} from "reactstrap";
+import '../../styles/home.scss';
 
 class Home extends React.Component {
     constructor() {
@@ -10,22 +13,21 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1 className="logo-large"><span className="red">Home</span><span className="bronze">Comb</span>
-                </h1>
-                <form>
-                    <label htmlFor="propertySearch">Find a property</label>
-                    <div className="form-group">
+            <Fragment>
+                <TextLogo />
+                <Form>
+                    <FormGroup>
+                        <Label for="propertySearch">Find a property</Label>
                         <PropertyAutocomplete
                             inputId="propertySearch"
                             source="/api/property/suggest-property"
                             placeholder="Start typing an address..."
                         />
-                    </div>
+                    </FormGroup>
                     <p id="propertySearchHelp" className="text-muted">After you've entered a few characters, you
                         will see suggested results</p>
-                </form>
-            </div>
+                </Form>
+            </Fragment>
         );
     }
 }
