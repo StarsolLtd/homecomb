@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Input, Label, FormGroup, Form, Button} from 'reactstrap';
 import Constants from "../Constants";
 
 class CreateAgency extends React.Component {
@@ -27,28 +28,26 @@ class CreateAgency extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="agencyName">Agency name</label>
-                        <input className="form-control" name="agencyName" required onChange={this.handleChange} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="externalUrl">Website URL</label>
-                        <input className="form-control" name="externalUrl" onChange={this.handleChange} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="externalUrl">Postcode</label>
-                        <input className="form-control" name="postcode" onChange={this.handleChange} />
-                    </div>
-                    <button type="submit"
-                            className="btn btn-primary g-recaptcha"
-                            data-sitekey="reCAPTCHA_site_key"
-                            data-callback="onSubmit"
-                            data-action="submit">Create an agency
-                    </button>
-                </form>
-            </div>
+            <Form onSubmit={this.handleSubmit}>
+                <FormGroup>
+                    <Label for="agencyName">Agency name</Label>
+                    <Input name="agencyName" required onChange={this.handleChange} />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="externalUrl">Website URL</Label>
+                    <Input name="externalUrl" placeholder="http://yoursite.com" onChange={this.handleChange} />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="postcode">Postcode</Label>
+                    <Input name="postcode" onChange={this.handleChange} />
+                </FormGroup>
+                <Button type="submit"
+                        className="btn btn-primary g-recaptcha"
+                        data-sitekey="reCAPTCHA_site_key"
+                        data-callback="onSubmit"
+                        data-action="submit">Create an agency
+                </Button>
+            </Form>
         );
     }
 
