@@ -4,7 +4,7 @@ namespace App\Model;
 
 class SubmitReviewInput
 {
-    private int $propertyId;
+    private string $propertySlug;
     private ?string $reviewerName;
     private ?string $reviewerEmail;
     private ?string $agencyName;
@@ -18,7 +18,7 @@ class SubmitReviewInput
     private ?string $captchaToken;
 
     public function __construct(
-        int $propertyId,
+        string $propertySlug,
         ?string $reviewerName = null,
         ?string $reviewerEmail = null,
         ?string $agencyName = null,
@@ -31,7 +31,7 @@ class SubmitReviewInput
         ?int $propertyStars = null,
         ?string $captchaToken = null
     ) {
-        $this->propertyId = $propertyId;
+        $this->propertySlug = $propertySlug;
         $this->reviewerName = $reviewerName;
         $this->reviewerEmail = $reviewerEmail;
         $this->agencyName = $agencyName;
@@ -45,9 +45,9 @@ class SubmitReviewInput
         $this->captchaToken = $captchaToken;
     }
 
-    public function getPropertyId(): int
+    public function getPropertySlug(): string
     {
-        return $this->propertyId;
+        return $this->propertySlug;
     }
 
     public function getReviewerName(): ?string

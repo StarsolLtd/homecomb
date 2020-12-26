@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row} from 'reactstrap';
 import Review from "../components/Review";
+import ReviewTenancyForm from "../components/ReviewTenancyForm";
 
 class PropertyView extends React.Component {
     constructor() {
@@ -62,6 +63,17 @@ class PropertyView extends React.Component {
                                         </Fragment>
                                     )
                                 )}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
+                                <h5 className="mb-4">Review your tenancy here</h5>
+                                <p className="mb-2">
+                                    Are you a current or past tenant at {this.state.addressLine1}?
+                                    We'd love it if you could review your tenant experience!
+                                </p>
+                                <hr />
+                                <ReviewTenancyForm propertySlug={this.state.propertySlug} />
                             </Col>
                         </Row>
                     </div>

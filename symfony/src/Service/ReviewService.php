@@ -44,13 +44,7 @@ class ReviewService
 
     public function submitReview(SubmitReviewInput $reviewInput, ?UserInterface $user): SubmitReviewOutput
     {
-        $propertyId = $reviewInput->getPropertyId();
-
-        $property = $this->propertyRepository->find($propertyId);
-
-        if (null === $property) {
-            throw new \RuntimeException('Property with ID '.$propertyId.' not found.');
-        }
+        $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
 
         $agencyName = $reviewInput->getAgencyName();
         $agency = $agencyName ? $this->agencyService->findOrCreateByName($agencyName) : null;

@@ -19,7 +19,7 @@ class ReviewControllerTest extends WebTestCase
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $propertyRepository = static::$container->get(PropertyRepository::class);
-        $property = $propertyRepository->findOneBy(['slug' => 'ccc5382816c1']);
+        $property = $propertyRepository->findOneBy(['slug' => TestFixtures::TEST_PROPERTY_SLUG]);
 
         $client->request(
             'POST',
@@ -27,7 +27,7 @@ class ReviewControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"propertyId":'.$property->getId().',"reviewerName":"Jack Harper","reviewerEmail":"test.reviewer@starsol.co.uk","agencyName":"New Agency Company","agencyBranch":"Duxford","reviewTitle":"I lived here and it was adequate","reviewContent":"I lived here, the carpet was lovely.\n\nBut the front door was orange and I would have preferred purple.","overallStars":3,"agencyStars":4,"landlordStars":null,"propertyStars":3,"googleReCaptchaToken":"SAMPLE"}'
+            '{"propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","reviewerName":"Jack Harper","reviewerEmail":"test.reviewer@starsol.co.uk","agencyName":"New Agency Company","agencyBranch":"Duxford","reviewTitle":"I lived here and it was adequate","reviewContent":"I lived here, the carpet was lovely.\n\nBut the front door was orange and I would have preferred purple.","overallStars":3,"agencyStars":4,"landlordStars":null,"propertyStars":3,"googleReCaptchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -39,7 +39,7 @@ class ReviewControllerTest extends WebTestCase
         ]);
         $this->assertNotNull($review);
         $this->assertEquals('Jack Harper', $review->getAuthor());
-        $this->assertEquals('ccc5382816c1', $review->getProperty()->getSlug());
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $review->getProperty()->getSlug());
         $this->assertEquals('New Agency Company', $review->getAgency()->getName());
         $this->assertEquals('Duxford', $review->getBranch()->getName());
         $this->assertEquals($loggedInUser, $review->getUser());

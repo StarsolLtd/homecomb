@@ -103,7 +103,7 @@ class ReviewServiceTest extends TestCase
     public function testSubmitReview(): void
     {
         $reviewInput = new SubmitReviewInput(
-            789,
+            'propertyslug',
             'Jo Smith',
             'jo.smith@starsol.co.uk',
             'Test Agency Name',
@@ -122,7 +122,7 @@ class ReviewServiceTest extends TestCase
         $agency = (new Agency());
         $branch = (new Branch());
 
-        $this->propertyRepository->find(789)->shouldBeCalledOnce()->willReturn($property);
+        $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
         $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
         $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
         $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
