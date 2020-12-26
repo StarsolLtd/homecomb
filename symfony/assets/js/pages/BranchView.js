@@ -34,7 +34,12 @@ class BranchView extends React.Component {
                     <div>
                         <Row>
                             <Col md="12" className="page-title">
-                                <h1>{this.state.branch.name}</h1>
+                                <h1>
+                                    {this.state.branch.name}
+                                    {this.state.agency &&
+                                        <span className="agency-name"> - {this.state.agency.name}</span>
+                                    }
+                                </h1>
                             </Col>
                         </Row>
                         <div className="bg-white rounded shadow-sm p-4 mb-4">
