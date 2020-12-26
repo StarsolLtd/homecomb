@@ -26,6 +26,7 @@ Encore
     .addEntry('agency-view', './assets/js/pages/AgencyView.js')
     .addEntry('branch-view', './assets/js/pages/BranchView.js')
     .addEntry('create-agency', './assets/js/pages/CreateAgency.js')
+    .addEntry('property-view', './assets/js/pages/PropertyView.js')
     .addEntry('home', './assets/js/pages/Home.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
