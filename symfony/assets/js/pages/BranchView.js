@@ -43,17 +43,22 @@ class BranchView extends React.Component {
                                     <h5 className="mb-1">Reviews from tenants</h5>
 
                                     {this.state.reviews.map(
-                                        ({ id, author, title, content, property, branch, agency }) => (
-                                            <Review
-                                                key={id}
-                                                author={author}
-                                                title={title}
-                                                content={content}
-                                                property={property}
-                                                branch={branch}
-                                                agency={agency}
-                                            >
-                                            </Review>
+                                        ({ id, author, title, content, property, branch, agency, stars }) => (
+                                            <Fragment>
+                                                <Review
+                                                    key={id}
+                                                    author={author}
+                                                    title={title}
+                                                    content={content}
+                                                    property={property}
+                                                    branch={branch}
+                                                    agency={agency}
+                                                    stars={stars}
+                                                    showBranch={false}
+                                                >
+                                                </Review>
+                                                <hr />
+                                            </Fragment>
                                         )
                                     )}
 

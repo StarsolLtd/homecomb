@@ -58,7 +58,7 @@ class BranchFactory
         );
 
         $reviews = [];
-        foreach ($branchEntity->getReviews() as $reviewEntity) {
+        foreach ($branchEntity->getPublishedReviews() as $reviewEntity) {
             $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
         }
 

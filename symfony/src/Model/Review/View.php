@@ -15,6 +15,7 @@ class View
     private string $author;
     private string $title;
     private string $content;
+    private Stars $stars;
 
     public function __construct(
         ?FlatBranch $branch,
@@ -23,7 +24,8 @@ class View
         int $id,
         string $author,
         string $title,
-        string $content
+        string $content,
+        Stars $stars
     ) {
         $this->branch = $branch;
         $this->agency = $agency;
@@ -32,6 +34,7 @@ class View
         $this->author = $author;
         $this->title = $title;
         $this->content = $content;
+        $this->stars = $stars;
     }
 
     public function getBranch(): ?FlatBranch
@@ -67,5 +70,10 @@ class View
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function getStars(): Stars
+    {
+        return $this->stars;
     }
 }

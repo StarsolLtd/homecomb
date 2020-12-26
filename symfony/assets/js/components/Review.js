@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import ReviewStars from "./ReviewStars";
 
 class Review extends React.Component {
 
@@ -12,9 +13,10 @@ class Review extends React.Component {
             property: this.props.property,
             branch: this.props.branch,
             agency: this.props.agency,
-            showProperty: this.props.showProperty || true,
-            showBranch: this.props.showBranch || true,
-            showAgency: this.props.showAgency || true
+            stars: this.props.stars,
+            showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
+            showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
+            showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
         };
     }
 
@@ -67,6 +69,13 @@ class Review extends React.Component {
                     </p>
                     }
                 </div>
+
+                <ReviewStars
+                    overall={this.state.stars.overall}
+                    agency={this.state.stars.agency}
+                    landlord={this.state.stars.landlord}
+                    property={this.state.stars.property}
+                />
             </div>
         );
     }

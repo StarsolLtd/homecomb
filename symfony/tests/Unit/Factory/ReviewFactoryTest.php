@@ -57,7 +57,12 @@ class ReviewFactoryTest extends TestCase
             ->setIdForTest(789)
             ->setAuthor('Gina Gee')
             ->setTitle('Test Title')
-            ->setContent('I lived here, it was nice.');
+            ->setContent('I lived here, it was nice.')
+            ->setOverallStars(4)
+            ->setLandlordStars(3)
+            ->setAgencyStars(null)
+            ->setPropertyStars(5)
+        ;
 
         $view = $this->reviewFactory->createViewFromEntity($review);
 
@@ -69,5 +74,9 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals('Gina Gee', $view->getAuthor());
         $this->assertEquals('Test Title', $view->getTitle());
         $this->assertEquals('I lived here, it was nice.', $view->getContent());
+        $this->assertEquals(4, $view->getStars()->getOverall());
+        $this->assertEquals(3, $view->getStars()->getLandlord());
+        $this->assertNull($view->getStars()->getAgency());
+        $this->assertEquals(5, $view->getStars()->getProperty());
     }
 }

@@ -64,6 +64,7 @@ class BranchFactoryTest extends TestCase
             ->setAuthor('Jack Harper')
             ->setTitle('I was a tenant here')
             ->setContent('I liked the colour of the sink')
+            ->setPublished(true)
         ;
 
         $review1View = $this->prophesize(View::class);
@@ -73,6 +74,7 @@ class BranchFactoryTest extends TestCase
             ->setAuthor('Andrea Smith')
             ->setTitle('I stayed here 2 years')
             ->setContent('I liked the colour of the curtains')
+            ->setPublished(true)
         ;
 
         $review2View = $this->prophesize(View::class);

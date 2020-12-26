@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Review;
+use App\Model\Review\Stars;
 use App\Model\Review\View;
 
 class ReviewFactory
@@ -35,6 +36,8 @@ class ReviewFactory
             $property = $this->flatModelFactory->getPropertyFlatModel($propertyEntity);
         }
 
+        $stars = $this->createStarsFromEntity($entity);
+
         return new View(
             $branch,
             $agency,
@@ -42,7 +45,18 @@ class ReviewFactory
             $entity->getId() ?? 0,
             $entity->getAuthor() ?? '',
             $entity->getTitle() ?? '',
-            $entity->getContent() ?? ''
+            $entity->getContent() ?? '',
+            $stars
+        );
+    }
+
+    private function createStarsFromEntity(Review $entity): Stars
+    {
+        return new Stars(
+            $entity->getOverallStars(),
+            $entity->getPropertyStars(),
+            $entity->getAgencyStars(),
+            $entity->getLandlordStars(),
         );
     }
 }
