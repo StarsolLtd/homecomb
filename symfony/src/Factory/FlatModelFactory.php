@@ -16,6 +16,7 @@ class FlatModelFactory
         return new FlatBranch(
             $entity->getSlug(),
             $entity->getName(),
+            $entity->isPublished(),
             $entity->getTelephone(),
             $entity->getEmail()
         );
@@ -29,6 +30,7 @@ class FlatModelFactory
         return new FlatAgency(
             $entity->getSlug(),
             $entity->getName(),
+            $entity->isPublished(),
             $logoImageFilename
         );
     }

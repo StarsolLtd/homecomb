@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row} from 'reactstrap';
+import Review from "../components/Review";
 
 class BranchView extends React.Component {
     constructor() {
@@ -41,6 +42,21 @@ class BranchView extends React.Component {
                                 <Col xs="12" md="8">
                                     <h5 className="mb-1">Reviews from tenants</h5>
 
+                                    {this.state.reviews.map(
+                                        ({ id, author, title, content, property, branch, agency }) => (
+                                            <Review
+                                                key={id}
+                                                author={author}
+                                                title={title}
+                                                content={content}
+                                                property={property}
+                                                branch={branch}
+                                                agency={agency}
+                                            >
+                                            </Review>
+                                        )
+                                    )}
+
                                 </Col>
 
                                 <Col md="4" className="d-sm-none d-md-block branch-agency">
@@ -52,10 +68,10 @@ class BranchView extends React.Component {
 
                                     <p>
                                         {this.state.branch.telephone &&
-                                            <span>Telephone: {this.state.branch.telephone}</span>
+                                            <span>Telephone: {this.state.branch.telephone}<br /></span>
                                         }
                                         {this.state.branch.email &&
-                                            <span>Email: <a href={'mailto:' + this.state.branch.email}>{this.state.branch.email}</a></span>
+                                            <span>Email: <a href={'mailto:' + this.state.branch.email}>{this.state.branch.email}</a><br /></span>
                                         }
                                     </p>
                                 </Col>

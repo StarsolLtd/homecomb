@@ -24,12 +24,14 @@ class FlatModelFactoryTest extends TestCase
     {
         $agency = (new Agency())
             ->setSlug('agencyslug')
-            ->setName('Surrey Lets');
+            ->setName('Surrey Lets')
+            ->setPublished(true);
 
         $model = $this->flatModelFactory->getAgencyFlatModel($agency);
 
         $this->assertEquals('agencyslug', $model->getSlug());
         $this->assertEquals('Surrey Lets', $model->getName());
+        $this->assertTrue($model->isPublished());
         $this->assertNull($model->getLogoImageFilename());
     }
 
@@ -37,12 +39,14 @@ class FlatModelFactoryTest extends TestCase
     {
         $branch = (new Branch())
             ->setSlug('branchslug')
-            ->setName('Chessington');
+            ->setName('Chessington')
+            ->setPublished(true);
 
         $model = $this->flatModelFactory->getBranchFlatModel($branch);
 
         $this->assertEquals('branchslug', $model->getSlug());
         $this->assertEquals('Chessington', $model->getName());
+        $this->assertTrue($model->isPublished());
         $this->assertNull($model->getTelephone());
         $this->assertNull($model->getEmail());
     }
