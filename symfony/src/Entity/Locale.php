@@ -101,7 +101,7 @@ class Locale
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -125,9 +125,16 @@ class Locale
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    public function setSlugForTest(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function isPublished(): bool

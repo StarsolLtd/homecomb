@@ -1,16 +1,46 @@
 <?php
 
-namespace App\Service;
+namespace App\Factory;
 
 use App\Entity\Locale;
 use App\Entity\Review;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
+use App\Model\Locale\View;
+use function count;
 use LogicException;
+use function round;
+use function sprintf;
+use function strcmp;
+use function usort;
 
-class LocaleService
+class LocaleFactory
 {
-    // TODO replace with version in factory
+    private ReviewFactory $reviewFactory;
+
+    public function __construct(
+        ReviewFactory $reviewFactory
+    ) {
+        $this->reviewFactory = $reviewFactory;
+    }
+
+    public function createViewFromEntity(Locale $entity): View
+    {
+        $reviews = [];
+        foreach ($entity->getPublishedReviews() as $reviewEntity) {
+            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        }
+
+        $agencyReviewsSummary = $this->getAgencyReviewsSummary($entity);
+
+        return new View(
+            $entity->getSlug(),
+            $entity->getName(),
+            $reviews,
+            $agencyReviewsSummary
+        );
+    }
+
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary
     {
         $agencies = [];
