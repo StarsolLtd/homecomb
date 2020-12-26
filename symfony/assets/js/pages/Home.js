@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import PropertyAutocomplete from "./PropertyAutocomplete";
-import TextLogo from "./TextLogo";
+import PropertyAutocomplete from "../components/PropertyAutocomplete";
+import TextLogo from "../components/TextLogo";
 import {Form, FormGroup, Label} from "reactstrap";
 import '../../styles/home.scss';
 

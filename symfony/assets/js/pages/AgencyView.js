@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AgencyBranch from "./AgencyBranch";
+import AgencyBranch from "../components/AgencyBranch";
 
 class AgencyView extends React.Component {
     constructor() {

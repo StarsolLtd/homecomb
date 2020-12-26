@@ -22,11 +22,11 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('login', './assets/login.js')
-    .addEntry('about', './assets/js/components/About.js')
-    .addEntry('agency-view', './assets/js/components/AgencyView.js')
-    .addEntry('branch-view', './assets/js/components/BranchView.js')
-    .addEntry('create-agency', './assets/js/components/CreateAgency.js')
-    .addEntry('home', './assets/js/components/Home.js')
+    .addEntry('about', './assets/js/pages/About.js')
+    .addEntry('agency-view', './assets/js/pages/AgencyView.js')
+    .addEntry('branch-view', './assets/js/pages/BranchView.js')
+    .addEntry('create-agency', './assets/js/pages/CreateAgency.js')
+    .addEntry('home', './assets/js/pages/Home.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
