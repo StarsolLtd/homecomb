@@ -68,17 +68,4 @@ class AgencyFactoryTest extends TestCase
         $this->assertNull($view->getBranches()[1]->getTelephone());
         $this->assertNull($view->getBranches()[1]->getEmail());
     }
-
-    public function testCreateFlatModelFromEntity(): void
-    {
-        $agency = (new Agency())
-            ->setSlug('agencyslug')
-            ->setName('Surrey Lets');
-
-        $model = $this->agencyFactory->createFlatModelFromEntity($agency);
-
-        $this->assertEquals('agencyslug', $model->getSlug());
-        $this->assertEquals('Surrey Lets', $model->getName());
-        $this->assertNull($model->getLogoImageFilename());
-    }
 }

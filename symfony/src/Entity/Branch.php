@@ -169,6 +169,17 @@ class Branch
         return $this->reviews;
     }
 
+    public function addReview(Review $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            return $this;
+        }
+        $this->reviews[] = $review;
+        $review->setBranch($this);
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Review>
      */

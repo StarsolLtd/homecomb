@@ -7,7 +7,6 @@ use App\Entity\Branch;
 use App\Model\Agency\AgencyBranch;
 use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
-use App\Model\Agency\Flat;
 use App\Util\AgencyHelper;
 
 class AgencyFactory
@@ -53,18 +52,6 @@ class AgencyFactory
             $branch->getName() ?? '',
             $branch->getTelephone(),
             $branch->getEmail()
-        );
-    }
-
-    public function createFlatModelFromEntity(Agency $entity): Flat
-    {
-        $logoImage = $entity->getLogoImage();
-        $logoImageFilename = $logoImage ? $logoImage->getImage() : null;
-
-        return new Flat(
-            $entity->getSlug(),
-            $entity->getName(),
-            $logoImageFilename
         );
     }
 }

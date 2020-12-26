@@ -3,7 +3,6 @@
 namespace App\Factory;
 
 use App\Entity\Property;
-use App\Model\Property\Flat;
 use App\Model\VendorProperty;
 use App\Util\PropertyHelper;
 
@@ -36,14 +35,5 @@ class PropertyFactory
         $this->propertyHelper->generateSlug($property);
 
         return $property;
-    }
-
-    public function createFlatModelFromEntity(Property $entity): Flat
-    {
-        return new Flat(
-            $entity->getSlug(),
-            $entity->getAddressLine1() ?? '',
-            $entity->getPostcode()
-        );
     }
 }

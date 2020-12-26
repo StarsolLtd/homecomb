@@ -7,18 +7,12 @@ use App\Model\Review\View;
 
 class ReviewFactory
 {
-    private AgencyFactory $agencyFactory;
-    private BranchFactory $branchFactory;
-    private PropertyFactory $propertyFactory;
+    private FlatModelFactory $flatModelFactory;
 
     public function __construct(
-        AgencyFactory $agencyFactory,
-        BranchFactory $branchFactory,
-        PropertyFactory $propertyFactory
+        FlatModelFactory $flatModelFactory
     ) {
-        $this->agencyFactory = $agencyFactory;
-        $this->branchFactory = $branchFactory;
-        $this->propertyFactory = $propertyFactory;
+        $this->flatModelFactory = $flatModelFactory;
     }
 
     public function createViewFromEntity(Review $entity): View
@@ -26,19 +20,19 @@ class ReviewFactory
         $agency = null;
         $agencyEntity = $entity->getAgency();
         if (null !== $agencyEntity) {
-            $agency = $this->agencyFactory->createFlatModelFromEntity($agencyEntity);
+            $agency = $this->flatModelFactory->getAgencyFlatModel($agencyEntity);
         }
 
         $branch = null;
         $branchEntity = $entity->getbranch();
         if (null !== $branchEntity) {
-            $branch = $this->branchFactory->createFlatModelFromEntity($branchEntity);
+            $branch = $this->flatModelFactory->getBranchFlatModel($branchEntity);
         }
 
         $property = null;
         $propertyEntity = $entity->getproperty();
         if (null !== $propertyEntity) {
-            $property = $this->propertyFactory->createFlatModelFromEntity($propertyEntity);
+            $property = $this->flatModelFactory->getPropertyFlatModel($propertyEntity);
         }
 
         return new View(

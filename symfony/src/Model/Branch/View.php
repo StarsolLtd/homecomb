@@ -2,6 +2,8 @@
 
 namespace App\Model\Branch;
 
+use App\Model\Review\View as ReviewView;
+
 class View
 {
     private Branch $branch;
@@ -28,6 +30,9 @@ class View
         return $this->agency;
     }
 
+    /**
+     * @return ReviewView[]
+     */
     public function getReviews(): array
     {
         return $this->reviews;

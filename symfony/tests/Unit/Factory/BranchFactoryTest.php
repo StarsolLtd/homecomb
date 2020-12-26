@@ -4,8 +4,11 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Review;
 use App\Factory\BranchFactory;
+use App\Factory\ReviewFactory;
 use App\Model\Branch\CreateBranchInput;
+use App\Model\Review\View;
 use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -18,13 +21,16 @@ class BranchFactoryTest extends TestCase
     private BranchFactory $branchFactory;
 
     private $branchHelper;
+    private $reviewFactory;
 
     public function setUp(): void
     {
         $this->branchHelper = $this->prophesize(BranchHelper::class);
+        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
 
         $this->branchFactory = new BranchFactory(
             $this->branchHelper->reveal(),
+            $this->reviewFactory->reveal(),
         );
     }
 
@@ -53,16 +59,48 @@ class BranchFactoryTest extends TestCase
 
     public function testCreateViewFromEntity(): void
     {
+        $review1 = (new Review())
+            ->setIdForTest(42)
+            ->setAuthor('Jack Harper')
+            ->setTitle('I was a tenant here')
+            ->setContent('I liked the colour of the sink')
+        ;
+
+        $review1View = $this->prophesize(View::class);
+
+        $review2 = (new Review())
+            ->setIdForTest(43)
+            ->setAuthor('Andrea Smith')
+            ->setTitle('I stayed here 2 years')
+            ->setContent('I liked the colour of the curtains')
+        ;
+
+        $review2View = $this->prophesize(View::class);
+
         $branch = (new Branch())
             ->setName('Test Name')
             ->setSlug('branchslug')
             ->setTelephone('0500 500 500')
-            ->setEmail('test@branch.starsol.co.uk');
+            ->setEmail('test@branch.starsol.co.uk')
+            ->addReview($review1)
+            ->addReview($review2)
+        ;
 
         $agency = (new Agency())
             ->setName('Test Agency')
             ->setSlug('agencyslug')
-            ->addBranch($branch);
+            ->addBranch($branch)
+        ;
+
+        $this->reviewFactory->createViewFromEntity($review1)
+            ->shouldBeCalledOnce()
+            ->willReturn($review1View)
+        ;
+
+        $this->reviewFactory->createViewFromEntity($review2)
+            ->shouldBeCalledOnce()
+            ->willReturn($review2View)
+        ;
 
         $view = $this->branchFactory->createViewFromEntity($branch);
 
@@ -73,19 +111,5 @@ class BranchFactoryTest extends TestCase
         $this->assertEquals('Test Agency', $view->getAgency()->getName());
         $this->assertEquals('agencyslug', $view->getAgency()->getSlug());
         $this->assertNull($view->getAgency()->getLogoImageFilename());
-    }
-
-    public function testCreateFlatModelFromEntity(): void
-    {
-        $branch = (new Branch())
-            ->setSlug('branchslug')
-            ->setName('Chessington');
-
-        $model = $this->branchFactory->createFlatModelFromEntity($branch);
-
-        $this->assertEquals('branchslug', $model->getSlug());
-        $this->assertEquals('Chessington', $model->getName());
-        $this->assertNull($model->getTelephone());
-        $this->assertNull($model->getEmail());
     }
 }

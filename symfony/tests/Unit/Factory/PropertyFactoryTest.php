@@ -64,18 +64,4 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());
     }
-
-    public function testCreateFlatModelFromEntity(): void
-    {
-        $property = (new Property())
-            ->setSlug('propertyslug')
-            ->setAddressLine1('28 Bateman Street')
-            ->setPostcode('CB2 2TG');
-
-        $model = $this->propertyFactory->createFlatModelFromEntity($property);
-
-        $this->assertEquals('propertyslug', $model->getSlug());
-        $this->assertEquals('28 Bateman Street', $model->getAddressLine1());
-        $this->assertEquals('CB2 2TG', $model->getPostcode());
-    }
 }

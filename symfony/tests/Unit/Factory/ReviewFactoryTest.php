@@ -6,9 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\Review;
-use App\Factory\AgencyFactory;
-use App\Factory\BranchFactory;
-use App\Factory\PropertyFactory;
+use App\Factory\FlatModelFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
@@ -22,20 +20,14 @@ class ReviewFactoryTest extends TestCase
 
     private ReviewFactory $reviewFactory;
 
-    private $agencyFactory;
-    private $branchFactory;
-    private $propertyFactory;
+    private $flatModelFactory;
 
     public function setUp(): void
     {
-        $this->agencyFactory = $this->prophesize(AgencyFactory::class);
-        $this->branchFactory = $this->prophesize(BranchFactory::class);
-        $this->propertyFactory = $this->prophesize(PropertyFactory::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
 
         $this->reviewFactory = new ReviewFactory(
-            $this->agencyFactory->reveal(),
-            $this->branchFactory->reveal(),
-            $this->propertyFactory->reveal()
+            $this->flatModelFactory->reveal()
         );
     }
 
@@ -49,13 +41,13 @@ class ReviewFactoryTest extends TestCase
         $flatAgency = (new FlatAgency('agencyslug', 'Test Agency Name'));
         $flatProperty = (new FlatProperty('propertyslug', '123 Test Street', 'CB4 3LF'));
 
-        $this->agencyFactory->createFlatModelFromEntity($agency)
+        $this->flatModelFactory->getAgencyFlatModel($agency)
             ->shouldBeCalledOnce()
             ->willReturn($flatAgency);
-        $this->branchFactory->createFlatModelFromEntity($branch)
+        $this->flatModelFactory->getBranchFlatModel($branch)
             ->shouldBeCalledOnce()
             ->willReturn($flatBranch);
-        $this->propertyFactory->createFlatModelFromEntity($property)
+        $this->flatModelFactory->getPropertyFlatModel($property)
             ->shouldBeCalledOnce()
             ->willReturn($flatProperty);
 
