@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import ReviewStars from "./ReviewStars";
 import Moment from 'react-moment';
+import ReviewOptions from "./ReviewOptions";
 
 class Review extends React.Component {
 
@@ -26,10 +27,7 @@ class Review extends React.Component {
         return (
             <div className="reviews-members pt-4 pb-4">
                 <div className="dropdown float-right">
-                    <button className="btn btn-light btn-ellipsis" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&hellip;</button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a className="dropdown-item flag-review-link" data-entity-id="{{ review.id }}" href="#" data-toggle="modal" data-target="#flag-review-modal"><i className="fa fa-flag" /> Report this</a>
-                    </div>
+                    <ReviewOptions reviewId={this.state.id} />
                 </div>
 
                 <div className="reviews-members-header">
