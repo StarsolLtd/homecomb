@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
@@ -18,6 +19,7 @@ class TestFixtures extends Fixture
 
     public const TEST_AGENCY_SLUG = 'testerton';
     public const TEST_BRANCH_SLUG = 'branchslug';
+    public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_PROPERTY_SLUG = 'propertyslug';
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
@@ -88,6 +90,13 @@ class TestFixtures extends Fixture
             ->setPropertyStars(5)
             ->setPublished(true);
         $manager->persist($review);
+
+        $locale = (new Locale())
+            ->setName('Fakenham')
+            ->setPublished(true)
+            ->addReview($review)
+        ;
+        $manager->persist($locale);
 
         $manager->flush();
     }

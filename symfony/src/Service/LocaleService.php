@@ -73,7 +73,9 @@ class LocaleService
         $reviewsCount = 0;
         foreach ($agencies as $agencySlug => $agency) {
             $reviewsCount += $agency['totalRated'];
-            $meanRating = round($agency['score'] / $agency['totalRated'], 2);
+            $meanRating = 0 < $agency['totalRated']
+                ? round($agency['score'] / $agency['totalRated'], 2)
+                : 0;
 
             $agencyReviewSummaries[] = new ReviewsSummary(
                 $agencySlug,
