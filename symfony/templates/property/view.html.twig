@@ -138,8 +138,6 @@
                 </form>
             </div>
         </div>
-
-        {% include 'snippets/flag-review-form.html.twig' %}
     </div>
 {% endblock %}
 
@@ -185,7 +183,6 @@
                 }
             });
 
-            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/property/' ~ property.slug} %}
         } );
     </script>
 {% endblock %}
