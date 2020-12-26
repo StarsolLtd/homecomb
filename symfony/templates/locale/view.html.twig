@@ -60,15 +60,5 @@
                 </p>
             {% endfor %}
         </div>
-
-        {% include 'snippets/flag-review-form.html.twig' %}
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-        $( function() {
-            {% include 'snippets/flag-review-jquery.js.twig' with {'successUrl': '/l/' ~ locale.slug} %}
-        } );
-    </script>
 {% endblock %}
