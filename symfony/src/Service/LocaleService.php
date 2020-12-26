@@ -4,12 +4,33 @@ namespace App\Service;
 
 use App\Entity\Locale;
 use App\Entity\Review;
+use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
+use App\Model\Locale\View;
+use App\Repository\LocaleRepository;
 use LogicException;
 
 class LocaleService
 {
+    private LocaleFactory $localeFactory;
+    private LocaleRepository $localeRepository;
+
+    public function __construct(
+        LocaleFactory $localeFactory,
+        LocaleRepository $localeRepository
+    ) {
+        $this->localeFactory = $localeFactory;
+        $this->localeRepository = $localeRepository;
+    }
+
+    public function getViewBySlug(string $slug): View
+    {
+        $locale = $this->localeRepository->findOnePublishedBySlug($slug);
+
+        return $this->localeFactory->createViewFromEntity($locale);
+    }
+
     // TODO replace with version in factory
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary
     {

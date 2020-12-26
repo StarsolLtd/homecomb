@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Tests\Unit\Util;
+namespace App\Tests\Unit\Service;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Locale;
 use App\Entity\Review;
+use App\Factory\LocaleFactory;
+use App\Model\Locale\View;
+use App\Repository\LocaleRepository;
 use App\Service\LocaleService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -16,9 +19,36 @@ class LocaleServiceTest extends TestCase
 
     private LocaleService $localeService;
 
+    private $localeFactory;
+    private $localeRepository;
+
     public function setUp(): void
     {
-        $this->localeService = new LocaleService();
+        $this->localeFactory = $this->prophesize(LocaleFactory::class);
+        $this->localeRepository = $this->prophesize(LocaleRepository::class);
+
+        $this->localeService = new LocaleService(
+            $this->localeFactory->reveal(),
+            $this->localeRepository->reveal(),
+        );
+    }
+
+    public function testGetViewBySlug(): void
+    {
+        $locale = (new Locale());
+        $view = new View('localeslug', 'Alton');
+
+        $this->localeRepository->findOnePublishedBySlug('localeslug')
+            ->shouldBeCalledOnce()
+            ->willReturn($locale);
+
+        $this->localeFactory->createViewFromEntity($locale)
+            ->shouldBeCalledOnce()
+            ->willReturn($view);
+
+        $output = $this->localeService->getViewBySlug('localeslug');
+
+        $this->assertEquals($view, $output);
     }
 
     public function testGetAgencyReviewsSummary(): void
