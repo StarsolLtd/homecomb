@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row} from 'reactstrap';
 import Review from "../components/Review";
+import RatedAgencies from "../components/RatedAgencies";
 
 class LocaleView extends React.Component {
     constructor() {
@@ -32,6 +33,14 @@ class LocaleView extends React.Component {
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>
+                        <Row>
+                            <Col md="6">
+                                <RatedAgencies
+                                    heading={'Top rated agencies for lettings in ' + this.state.name}
+                                    agencyReviewsSummary={this.state.agencyReviewsSummary}
+                                />
+                            </Col>
+                        </Row>
                         <Row>
                             <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                                 <h5 className="mb-1">Reviews from tenants</h5>
