@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import ReviewStars from "./ReviewStars";
+import Moment from 'react-moment';
 
 class Review extends React.Component {
 
@@ -14,6 +15,7 @@ class Review extends React.Component {
             branch: this.props.branch,
             agency: this.props.agency,
             stars: this.props.stars,
+            createdAt: this.props.createdAt,
             showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
             showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
             showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
@@ -36,6 +38,9 @@ class Review extends React.Component {
                         {this.state.property && this.state.showProperty &&
                             <span>&nbsp;review of <a href={'/property/' + this.state.property.slug}>{this.state.property.addressLine1}, {this.state.property.postcode}</a></span>
                         }
+                    </p>
+                    <p className="text-gray">
+                        <Moment format="Do MMMM YYYY">{this.state.createdAt}</Moment>
                     </p>
                 </div>
 

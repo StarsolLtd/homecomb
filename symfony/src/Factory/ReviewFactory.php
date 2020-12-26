@@ -46,7 +46,8 @@ class ReviewFactory
             $entity->getAuthor() ?? '',
             $entity->getTitle() ?? '',
             $entity->getContent() ?? '',
-            $stars
+            $stars,
+            $entity->getCreatedAt()
         );
     }
 

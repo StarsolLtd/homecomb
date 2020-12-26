@@ -5,6 +5,7 @@ namespace App\Model\Review;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
+use DateTime;
 
 class View
 {
@@ -16,6 +17,7 @@ class View
     private string $title;
     private string $content;
     private Stars $stars;
+    private DateTime $createdAt;
 
     public function __construct(
         ?FlatBranch $branch,
@@ -25,7 +27,8 @@ class View
         string $author,
         string $title,
         string $content,
-        Stars $stars
+        Stars $stars,
+        DateTime $createdAt
     ) {
         $this->branch = $branch;
         $this->agency = $agency;
@@ -35,6 +38,7 @@ class View
         $this->title = $title;
         $this->content = $content;
         $this->stars = $stars;
+        $this->createdAt = $createdAt;
     }
 
     public function getBranch(): ?FlatBranch
@@ -75,5 +79,10 @@ class View
     public function getStars(): Stars
     {
         return $this->stars;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
     }
 }

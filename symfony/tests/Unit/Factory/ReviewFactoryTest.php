@@ -11,6 +11,7 @@ use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -62,6 +63,7 @@ class ReviewFactoryTest extends TestCase
             ->setLandlordStars(3)
             ->setAgencyStars(null)
             ->setPropertyStars(5)
+            ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
         ;
 
         $view = $this->reviewFactory->createViewFromEntity($review);
@@ -78,5 +80,6 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals(3, $view->getStars()->getLandlord());
         $this->assertNull($view->getStars()->getAgency());
         $this->assertEquals(5, $view->getStars()->getProperty());
+        $this->assertEquals('2020-02-02', $view->getCreatedAt()->format('Y-m-d'));
     }
 }
