@@ -74,4 +74,18 @@ class BranchFactoryTest extends TestCase
         $this->assertEquals('agencyslug', $view->getAgency()->getSlug());
         $this->assertNull($view->getAgency()->getLogoImageFilename());
     }
+
+    public function testCreateFlatModelFromEntity(): void
+    {
+        $branch = (new Branch())
+            ->setSlug('branchslug')
+            ->setName('Chessington');
+
+        $model = $this->branchFactory->createFlatModelFromEntity($branch);
+
+        $this->assertEquals('branchslug', $model->getSlug());
+        $this->assertEquals('Chessington', $model->getName());
+        $this->assertNull($model->getTelephone());
+        $this->assertNull($model->getEmail());
+    }
 }

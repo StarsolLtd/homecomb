@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Model\Branch\Agency as AgencyModel;
 use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\Flat;
 use App\Model\Branch\View;
 use App\Util\BranchHelper;
 
@@ -60,6 +61,16 @@ class BranchFactory
             $branch,
             $agency,
             $reviews
+        );
+    }
+
+    public function createFlatModelFromEntity(Branch $entity): Flat
+    {
+        return new Flat(
+            $entity->getSlug(),
+            $entity->getName(),
+            $entity->getTelephone(),
+            $entity->getEmail()
         );
     }
 }
