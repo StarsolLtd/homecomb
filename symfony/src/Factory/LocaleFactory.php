@@ -36,6 +36,7 @@ class LocaleFactory
         return new View(
             $entity->getSlug(),
             $entity->getName(),
+            $entity->getContent(),
             $reviews,
             $agencyReviewsSummary
         );

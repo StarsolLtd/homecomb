@@ -6,6 +6,7 @@ use App\Entity\Locale;
 use App\Entity\Postcode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use function file_get_contents;
 
 class LocaleFixtures extends Fixture
 {
@@ -50,6 +51,7 @@ class LocaleFixtures extends Fixture
             $locales['Cambridge']->addPostcode((new Postcode())->setPostcode($postcode));
         }
         $locales['Cambridge']->addRelatedLocales([$locales['Ely'], $locales['Saffron Walden']]);
+        $locales['Cambridge']->setContent($this->getLocaleContent('cambridge'));
 
         $locales['Coventry']->addRelatedLocales([$locales['Birmingham']]);
 
@@ -80,5 +82,15 @@ class LocaleFixtures extends Fixture
         foreach ($locales as $locale) {
             $this->addReference('locale-'.$locale->getSlug(), $locale);
         }
+    }
+
+    private function getLocaleContent(string $slug): ?string
+    {
+        $content = file_get_contents(__DIR__.'/files/locales/content/cambridge.html');
+        if (false === $content) {
+            $content = null;
+        }
+
+        return $content;
     }
 }

@@ -14,7 +14,7 @@ class RatedAgencies extends React.Component {
     render() {
         return (
             <div className="top-rated-agencies">
-                <h5 className="mb-1">{this.state.heading}</h5>
+                <h5 className="mb-3">{this.state.heading}</h5>
 
                 {this.state.agencyReviewsSummary.agencyReviewSummaries.map(
                     ({ agencySlug, agencyName, agencyLogoImageFilename, meanRating, ratedCount }) => (

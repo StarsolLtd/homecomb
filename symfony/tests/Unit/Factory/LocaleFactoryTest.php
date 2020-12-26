@@ -38,6 +38,7 @@ class LocaleFactoryTest extends TestCase
         $locale = (new Locale())
             ->setName('Penzance')
             ->setSlugForTest('penzance')
+            ->setContent('There arrrrre some pirates here.')
             ->addReview($review)
         ;
 
@@ -49,6 +50,7 @@ class LocaleFactoryTest extends TestCase
         $view = $this->localeFactory->createViewFromEntity($locale);
 
         $this->assertEquals('Penzance', $view->getName());
+        $this->assertEquals('There arrrrre some pirates here.', $view->getContent());
         $this->assertCount(1, $view->getReviews());
     }
 

@@ -14,6 +14,5 @@ class LocaleControllerTest extends WebTestCase
         $client->request('GET', '/l/cambridge');
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('html h1', 'Cambridge');
     }
 }

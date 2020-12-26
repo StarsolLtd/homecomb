@@ -12,6 +12,7 @@ class LocaleView extends React.Component {
             loading: false,
             loaded: false,
             name: '',
+            content: '',
             reviews: [],
             agencyReviewsSummary: null
         };
@@ -34,7 +35,13 @@ class LocaleView extends React.Component {
                 {!this.state.loading && this.state.loaded &&
                     <div>
                         <Row>
-                            <Col md="6">
+                            <Col md="12" className="page-title">
+                                <h1>{this.state.name}</h1>
+                            </Col>
+                        </Row>
+                        <Row className="bg-white rounded shadow-sm mb-4">
+                            <Col md="6" className="p-4" dangerouslySetInnerHTML={{ __html: this.state.content }} />
+                            <Col md="6" className="p-4">
                                 <RatedAgencies
                                     heading={'Top rated agencies for lettings in ' + this.state.name}
                                     agencyReviewsSummary={this.state.agencyReviewsSummary}
@@ -88,6 +95,7 @@ class LocaleView extends React.Component {
             .then(data => {
                 this.setState({
                     name: data.name,
+                    content: data.content,
                     reviews: data.reviews,
                     agencyReviewsSummary: data.agencyReviewsSummary,
                     loading: false,

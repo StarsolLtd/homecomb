@@ -11,21 +11,7 @@
         window.localeSlug = '{{ locale.slug }}';
     </script>
     <div class="container">
-
-        <div class="col-md-12 page-title">
-            <h1>{{ locale.name }}</h1>
-        </div>
-
-        <div class="bg-white rounded shadow-sm p-4 mb-4">
-
-            <div class="row">
-                {% include 'locale/content/' ~ locale.slug ~ '.html.twig' ignore missing  %}
-            </div>
-
-            <hr>
-
-            <div id="locale-view-root"></div>
-        </div>
+        <div id="locale-view-root"></div>
     </div>
 {% endblock %}
 

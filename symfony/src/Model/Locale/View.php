@@ -8,17 +8,20 @@ class View
 {
     private string $slug;
     private string $name;
+    private ?string $content;
     private array $reviews;
     private ?AgencyReviewsSummary $agencyReviewsSummary;
 
     public function __construct(
         string $slug,
         string $name,
+        ?string $content = null,
         array $reviews = [],
         ?AgencyReviewsSummary $agencyReviewsSummary = null
     ) {
         $this->slug = $slug;
         $this->name = $name;
+        $this->content = $content;
         $this->reviews = $reviews;
         $this->agencyReviewsSummary = $agencyReviewsSummary;
     }
@@ -31,6 +34,11 @@ class View
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
     }
 
     /**
