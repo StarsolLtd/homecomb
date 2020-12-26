@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Controller\Api;
 
+use App\DataFixtures\TestFixtures;
 use App\Model\PropertySuggestion;
 use App\Service\GetAddressService;
 use function json_decode;
@@ -55,5 +56,22 @@ class PropertyControllerTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function testView(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/property/'.TestFixtures::TEST_PROPERTY_SLUG);
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $content['slug']);
+        $this->assertEquals('Testerton Hall', $content['addressLine1']);
+        $this->assertEquals('NR21 7ES', $content['postcode']);
+        $this->assertEquals('Terrence S.', $content['reviews'][0]['author']);
+        $this->assertEquals(5, $content['reviews'][0]['stars']['overall']);
     }
 }

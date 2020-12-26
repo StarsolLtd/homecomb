@@ -3,17 +3,21 @@
 namespace App\Factory;
 
 use App\Entity\Property;
+use App\Model\Property\View;
 use App\Model\VendorProperty;
 use App\Util\PropertyHelper;
 
 class PropertyFactory
 {
     private PropertyHelper $propertyHelper;
+    private ReviewFactory $reviewFactory;
 
     public function __construct(
-        PropertyHelper $propertyHelper
+        PropertyHelper $propertyHelper,
+        ReviewFactory $reviewFactory
     ) {
         $this->propertyHelper = $propertyHelper;
+        $this->reviewFactory = $reviewFactory;
     }
 
     public function createEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property
@@ -35,5 +39,20 @@ class PropertyFactory
         $this->propertyHelper->generateSlug($property);
 
         return $property;
+    }
+
+    public function createViewFromEntity(Property $entity): View
+    {
+        $reviews = [];
+        foreach ($entity->getPublishedReviews() as $reviewEntity) {
+            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        }
+
+        return new View(
+            $entity->getSlug(),
+            $entity->getAddressLine1(),
+            $entity->getPostcode(),
+            $reviews
+        );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Factory\PropertyFactory;
+use App\Model\Property\View;
 use App\Model\VendorProperty;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,5 +55,12 @@ class PropertyService
         }
 
         return $property->getSlug();
+    }
+
+    public function getViewBySlug(string $slug): View
+    {
+        $branch = $this->propertyRepository->findOnePublishedBySlug($slug);
+
+        return $this->propertyFactory->createViewFromEntity($branch);
     }
 }

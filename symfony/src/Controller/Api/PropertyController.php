@@ -87,4 +87,23 @@ class PropertyController extends AppController
             Response::HTTP_OK
         );
     }
+
+    /**
+     * @Route (
+     *     "/api/property/{slug}",
+     *     name="api-property-view",
+     *     methods={"GET"}
+     * )
+     */
+    public function view(string $slug, Request $request): JsonResponse
+    {
+        $view = $this->propertyService->getViewBySlug($slug);
+
+        return new JsonResponse(
+            $this->serializer->serialize($view, 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
 }

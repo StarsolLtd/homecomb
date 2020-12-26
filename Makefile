@@ -35,29 +35,32 @@ behat:
 	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
 	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
-phpunit:
-	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
+php-analyse:
+	make php-cs-fixer phpstan
 
-test-functional:
+php-check:
+	make php-cs-fixer php-test phpstan
+
+php-cs-fixer:
+	docker exec -it homecomb_php_1 vendor/bin/php-cs-fixer fix --verbose
+
+php-test:
+	make php-test-unit php-test-functional
+
+php-test-functional:
 	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
 	make load-fixtures
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
 	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
 
-test-unit:
+php-test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
-
-test:
-	make test-functional test-unit
-
-analyse:
-	make php-cs-fixer phpstan
-
-php-cs-fixer:
-	docker exec -it homecomb_php_1 vendor/bin/php-cs-fixer fix --verbose
 
 phpstan:
 	docker exec -it homecomb_php_1 vendor/bin/phpstan analyse -c phpstan.neon src --level max
+
+phpunit:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage
 
 follow-logs:
 	docker-compose --file=docker-compose.yml logs -f
