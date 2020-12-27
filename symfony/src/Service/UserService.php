@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Factory\FlatModelFactory;
+use App\Model\User\Flat;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use RuntimeException;
@@ -12,13 +14,16 @@ class UserService
 {
     private BranchRepository $branchRepository;
     private UserRepository $userRepository;
+    private FlatModelFactory $flatModelFactory;
 
     public function __construct(
         BranchRepository $branchRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        FlatModelFactory $flatModelFactory
     ) {
         $this->branchRepository = $branchRepository;
         $this->userRepository = $userRepository;
+        $this->flatModelFactory = $flatModelFactory;
     }
 
     public function getUserEntityOrNullFromUserInterface(?UserInterface $user): ?User
@@ -61,5 +66,12 @@ class UserService
         }
 
         return true;
+    }
+
+    public function getFlatModelFromUserInterface(?UserInterface $user): Flat
+    {
+        $user = $this->getEntityFromInterface($user);
+
+        return $this->flatModelFactory->getUserFlatModel($user);
     }
 }
