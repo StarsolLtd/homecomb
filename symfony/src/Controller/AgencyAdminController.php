@@ -31,4 +31,20 @@ class AgencyAdminController extends AppController
             'agency_admin/create_agency.html.twig',
         );
     }
+
+    /**
+     * @Route (
+     *     "/verified/request-review",
+     *     name="request-review",
+     *     methods={"GET"}
+     * )
+     */
+    public function reviewSolicitationForm(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $this->render(
+            'agency_admin/create_review_solicitation.html.twig',
+        );
+    }
 }

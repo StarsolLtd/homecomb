@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Request Review | {{ site_name }}{% endblock %}
+
+{% block headJavascripts %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div id="create-review-solicitation-root"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('create-review-solicitation') }}
+{% endblock %}
