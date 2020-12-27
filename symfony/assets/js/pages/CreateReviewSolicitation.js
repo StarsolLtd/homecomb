@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import {Label, Button, FormText, FormGroup, Input} from 'reactstrap';
+import {Label, Button, FormText} from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../Constants";
@@ -25,6 +25,7 @@ class CreateReviewSolicitation extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
+        this.setPropertySlugState = this.setPropertySlugState.bind(this);
     }
 
     handleChange(event) {
@@ -68,7 +69,6 @@ class CreateReviewSolicitation extends React.Component {
         if (typeof value !== "undefined") {
             this.setState({propertySlug: value});
         }
-        console.log(this.state.propertySlug);
     }
 
     render() {
@@ -118,7 +118,7 @@ class CreateReviewSolicitation extends React.Component {
                             </AvGroup>
                             <AvGroup>
                                 <Label for="propertySlug">Tenancy property address</Label>
-                                <Input type="hidden" name="propertySlug" required value={this.state.propertySlug} />
+                                <AvInput type="hidden" name="propertySlug" required value={this.state.propertySlug} />
                                 <InputProperty
                                     inputId="input-property"
                                     source="/api/property/suggest-property"
@@ -193,7 +193,7 @@ class CreateReviewSolicitation extends React.Component {
                         else return response.json();
                     })
                     .then((data) => {
-                        // location.reload()
+                        location.reload()
                     })
                     .catch(err => console.error("Error:", err));
             });
