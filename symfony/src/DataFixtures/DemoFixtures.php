@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
+use App\Entity\ReviewSolicitation;
 use App\Entity\User;
 use App\Service\ReviewService;
 use App\Util\AgencyHelper;
@@ -54,6 +55,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
 
         $agencies = $this->loadAgencies($manager);
         $branches = $this->loadBranches($manager, $agencies);
+        $this->loadReviewSolicitations($manager);
 
         $reviews = [];
 
@@ -254,6 +256,11 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         foreach ($branches as $branch) {
             $this->branchHelper->generateSlug($branch);
             $manager->persist($branch);
+
+            $agency = $branch->getAgency();
+            if (null !== $agency) {
+                $this->addReference('branch-'.$agency->getName().'-'.$branch->getName(), $branch);
+            }
         }
 
         $manager->flush();
@@ -286,6 +293,31 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         $manager->flush();
 
         return $users;
+    }
+
+    private function loadReviewSolicitations(ObjectManager $manager): void
+    {
+        /** @var User $cambridgeResidentialAdmin */
+        $cambridgeResidentialAdmin = $this->getReference('user-'.self::USER_5);
+
+        /** @var Property $property17 */
+        $property17 = $this->getReference('property-'.PropertyFixtures::PROPERTY_17_VENDOR_PROPERTY_ID);
+
+        /** @var Branch $arburyBranch */
+        $arburyBranch = $this->getReference('branch-Cambridge Residential-Arbury');
+
+        $rs = (new ReviewSolicitation())
+            ->setBranch($arburyBranch)
+            ->setSenderUser($cambridgeResidentialAdmin)
+            ->setProperty($property17)
+            ->setRecipientFirstName('Anna')
+            ->setRecipientLastName('Testinova')
+            ->setRecipientEmail('anna.testinova@starsol.co.uk')
+            ->setCode('73d2d50d17e8c1bbb05b8fddb3918033f2daf589')
+        ;
+
+        $manager->persist($rs);
+        $manager->flush();
     }
 
     private function getDemoImageFixturesPath(): string
