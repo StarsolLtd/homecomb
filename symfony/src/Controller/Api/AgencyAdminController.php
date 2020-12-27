@@ -198,6 +198,26 @@ class AgencyAdminController extends AppController
     /**
      * @Route (
      *     "/api/verified/solicit-review",
+     *     name="solicit-review-form-data",
+     *     methods={"GET"}
+     * )
+     */
+    public function solicitReviewFormData(): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
+        }
+
+        $output = $this->reviewSolicitationService->getFormData($this->getUserInterface());
+
+        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
+    }
+
+    /**
+     * @Route (
+     *     "/api/verified/solicit-review",
      *     name="solicit-review",
      *     methods={"POST"}
      * )

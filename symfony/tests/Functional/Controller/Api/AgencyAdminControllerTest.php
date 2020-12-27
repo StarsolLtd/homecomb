@@ -3,6 +3,7 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
+use App\Model\ReviewSolicitation\FormData;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
@@ -10,10 +11,21 @@ use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AgencyAdminControllerTest extends WebTestCase
 {
     use LoginUserTrait;
+
+    private SerializerInterface $serializer;
+
+    public function setUp(): void
+    {
+        $this->serializer = new Serializer([new GetSetMethodNormalizer()], [new JsonEncoder()]);
+    }
 
     public function testCreateAgency(): void
     {
@@ -186,7 +198,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $client->request(
             'PUT',
-            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_SLUG,
+            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG,
             [],
             [],
             [],
@@ -196,7 +208,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
         $branchRepository = static::$container->get(BranchRepository::class);
-        $branch = $branchRepository->findOneBySlug(TestFixtures::TEST_BRANCH_SLUG);
+        $branch = $branchRepository->findOneBySlug(TestFixtures::TEST_BRANCH_1_SLUG);
         $this->assertNotNull($branch);
         $this->assertEquals('020 2020 3030', $branch->getTelephone());
         $this->assertEquals('new.email@starsol.co.uk', $branch->getEmail());
@@ -206,9 +218,27 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_SLUG);
+        $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    public function testSolicitReviewFormData(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request('GET', '/api/verified/solicit-review');
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        /** @var FormData $input */
+        $formData = $this->serializer->deserialize($response->getContent(), FormData::class, 'json');
+
+        $this->assertEquals('Testerton Lettings', $formData->getAgency()->getName());
     }
 
     public function testSolicitReview(): void
@@ -222,7 +252,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $agency->addAdminUser($loggedInUser);
 
         $branchRepository = static::$container->get(BranchRepository::class);
-        $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_SLUG]);
+        $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_1_SLUG]);
 
         $propertyRepository = static::$container->get(PropertyRepository::class);
         $property = $propertyRepository->findOneBy(['slug' => TestFixtures::TEST_PROPERTY_SLUG]);
@@ -236,7 +266,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -271,7 +301,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -287,7 +317,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());

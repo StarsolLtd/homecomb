@@ -40,7 +40,7 @@ class ReviewSolicitationService
         $this->mailer = $mailer;
     }
 
-    public function getFormData(UserInterface $user): FormData
+    public function getFormData(?UserInterface $user): FormData
     {
         $user = $this->userService->getEntityFromInterface($user);
 

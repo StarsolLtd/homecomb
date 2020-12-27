@@ -18,7 +18,8 @@ class TestFixtures extends Fixture
     public const TEST_USER_AGENCY_ADMIN_EMAIL = 'test.agency.admin@starsol.co.uk';
 
     public const TEST_AGENCY_SLUG = 'testerton';
-    public const TEST_BRANCH_SLUG = 'branchslug';
+    public const TEST_BRANCH_1_SLUG = 'branch1slug';
+    public const TEST_BRANCH_2_SLUG = 'branch2slug';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_PROPERTY_SLUG = 'propertyslug';
 
@@ -51,18 +52,28 @@ class TestFixtures extends Fixture
         $user2->setPassword($this->userPasswordEncoder->encodePassword($user2, 'Password2'));
         $manager->persist($user2);
 
+        $branch1 = (new Branch())
+            ->setName('Dereham')
+            ->setPublished(true)
+            ->setSlug(self::TEST_BRANCH_1_SLUG)
+        ;
+        $manager->persist($branch1);
+
+        $branch2 = (new Branch())
+            ->setName('Guist')
+            ->setPublished(true)
+            ->setSlug(self::TEST_BRANCH_2_SLUG)
+        ;
+        $manager->persist($branch2);
+
         $agency = (new Agency())
             ->setName('Testerton Lettings')
             ->setPublished(true)
-            ->setSlug(self::TEST_AGENCY_SLUG);
+            ->setSlug(self::TEST_AGENCY_SLUG)
+            ->addBranch($branch1)
+            ->addBranch($branch2)
+        ;
         $manager->persist($agency);
-
-        $branch = (new Branch())
-            ->setAgency($agency)
-            ->setName('Dereham')
-            ->setPublished(true)
-            ->setSlug(self::TEST_BRANCH_SLUG);
-        $manager->persist($branch);
 
         $property = (new Property())
             ->setAddressLine1('Testerton Hall')
@@ -76,7 +87,7 @@ class TestFixtures extends Fixture
         $review = (new Review())
             ->setUser($user1)
             ->setProperty($property)
-            ->setBranch($branch)
+            ->setBranch($branch1)
             ->setTitle('What a lovely cupboard under the stairs')
             ->setAuthor('Terrence S.')
             ->setContent(
