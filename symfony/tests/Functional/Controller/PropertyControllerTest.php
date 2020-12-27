@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Controller;
 
+use App\DataFixtures\TestFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +12,7 @@ class PropertyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/property/ccc5382816c1');
+        $client->request('GET', '/property/'.TestFixtures::TEST_PROPERTY_SLUG);
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
