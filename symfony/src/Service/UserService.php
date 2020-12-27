@@ -68,9 +68,13 @@ class UserService
         return true;
     }
 
-    public function getFlatModelFromUserInterface(?UserInterface $user): Flat
+    public function getFlatModelFromUserInterface(?UserInterface $user): ?Flat
     {
-        $user = $this->getEntityFromInterface($user);
+        $user = $this->getUserEntityOrNullFromUserInterface($user);
+
+        if (null === $user) {
+            return null;
+        }
 
         return $this->flatModelFactory->getUserFlatModel($user);
     }

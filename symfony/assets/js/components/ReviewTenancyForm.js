@@ -89,7 +89,6 @@ class ReviewTenancyForm extends React.Component {
                             type="text"
                             disabled
                             name="reviewerEmail"
-                            required
                             value={this.state.user.username}
                         />
                         <FormText>
@@ -305,7 +304,7 @@ class ReviewTenancyForm extends React.Component {
 
     fetchUserData() {
         fetch(
-            '/api/user/data',
+            '/api/user',
             {
                 headers: {
                     'Accept': 'application/json',
