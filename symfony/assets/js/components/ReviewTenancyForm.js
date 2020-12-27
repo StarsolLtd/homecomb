@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    Button, FormGroup, FormText, Label, Modal,
+    Button, FormGroup, FormText, Label,
 } from "reactstrap";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Rating from "react-rating";
@@ -27,7 +27,7 @@ class ReviewTenancyForm extends React.Component {
             landlordStars: null,
             agencyStars: null,
             propertyStars: null,
-            formSubmissionInProgress: false
+            formSubmissionInProgress: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
@@ -167,13 +167,13 @@ class ReviewTenancyForm extends React.Component {
                             initialRating={this.state.overallStars}
                             emptySymbol={
                                 <span className="text-rating-unchecked">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                             fullSymbol={
                                 <span className="text-rating">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                         />
                         <FormText>
@@ -188,13 +188,13 @@ class ReviewTenancyForm extends React.Component {
                             initialRating={this.state.agencyStars}
                             emptySymbol={
                                 <span className="text-rating-unchecked">
-                                <FontAwesomeIcon size="lg" icon={faStar} />
-                            </span>
+                            <FontAwesomeIcon size="lg" icon={faStar} />
+                        </span>
                             }
                             fullSymbol={
                                 <span className="text-rating">
-                                <FontAwesomeIcon size="lg" icon={faStar} />
-                            </span>
+                            <FontAwesomeIcon size="lg" icon={faStar} />
+                        </span>
                             }
                         />
                         <FormText>
@@ -209,13 +209,13 @@ class ReviewTenancyForm extends React.Component {
                             initialRating={this.state.landlordStars}
                             emptySymbol={
                                 <span className="text-rating-unchecked">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                             fullSymbol={
                                 <span className="text-rating">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                         />
                         <FormText>
@@ -230,13 +230,13 @@ class ReviewTenancyForm extends React.Component {
                             initialRating={this.state.propertyStars}
                             emptySymbol={
                                 <span className="text-rating-unchecked">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                             fullSymbol={
                                 <span className="text-rating">
-                                    <FontAwesomeIcon size="lg" icon={faStar} />
-                                </span>
+                                <FontAwesomeIcon size="lg" icon={faStar} />
+                            </span>
                             }
                         />
                         <FormText>
@@ -273,8 +273,7 @@ class ReviewTenancyForm extends React.Component {
                         else return response.json();
                     })
                     .then((data) => {
-                        console.log(data);
-                        // location.reload()
+                        location.reload()
                     })
                     .catch(err => console.error("Error:", err));
             });

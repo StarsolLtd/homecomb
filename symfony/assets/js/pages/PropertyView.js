@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import {Col, Row} from 'reactstrap';
+import {Button, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 
@@ -13,12 +13,19 @@ class PropertyView extends React.Component {
             loaded: false,
             addressLine1: '',
             postcode: '',
-            reviews: []
+            reviews: [],
+            reviewTenancyFormOpen: false
         };
+
+        this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
     }
 
     componentDidMount() {
         this.fetchData();
+    }
+
+    openReviewTenancyForm() {
+        this.setState({reviewTenancyFormOpen: true});
     }
 
     render() {
@@ -44,7 +51,7 @@ class PropertyView extends React.Component {
 
                                 {this.state.reviews.map(
                                     ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
-                                        <Fragment>
+                                        <Fragment key={id}>
                                             <Review
                                                 key={id}
                                                 id={id}
@@ -73,7 +80,12 @@ class PropertyView extends React.Component {
                                     We'd love it if you could review your tenant experience!
                                 </p>
                                 <hr />
-                                <ReviewTenancyForm propertySlug={this.state.propertySlug} />
+                                {!this.state.reviewTenancyFormOpen &&
+                                    <Button onClick={this.openReviewTenancyForm} color="primary">Yes! I want to write a review</Button>
+                                }
+                                {this.state.reviewTenancyFormOpen &&
+                                    <ReviewTenancyForm propertySlug={this.state.propertySlug} />
+                                }
                             </Col>
                         </Row>
                     </div>
