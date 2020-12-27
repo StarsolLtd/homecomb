@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {
-    Button, Form, FormGroup, FormText, Input, Label,
+    Button, FormGroup, FormText, Label,
 } from "reactstrap";
+import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Rating from "react-rating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
@@ -26,7 +27,7 @@ class ReviewTenancyForm extends React.Component {
             propertyStars: null
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.handleOverallStarsChange = this.handleOverallStarsChange.bind(this);
         this.handleAgencyStarsChange = this.handleAgencyStarsChange.bind(this);
         this.handleLandlordStarsChange = this.handleLandlordStarsChange.bind(this);
@@ -61,36 +62,38 @@ class ReviewTenancyForm extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <FormGroup>
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+                <AvGroup>
                     <Label for="reviewerEmail">Your email</Label>
-                    <Input
+                    <AvInput
                         type="email"
                         name="reviewerEmail"
                         required
                         onChange={this.handleChange}
                         placeholder="Enter your email"
                     />
+                    <AvFeedback>Please enter a valid email address, example: jane.doe@gmail.com</AvFeedback>
                     <FormText>
                         We won't publish this, and will only use it if we need to contact you.
                     </FormText>
-                </FormGroup>
-                <FormGroup>
+                </AvGroup>
+                <AvGroup>
                     <Label for="reviewerName">Your name</Label>
-                    <Input
+                    <AvInput
                         type="text"
                         name="reviewerName"
                         required
                         onChange={this.handleChange}
                         placeholder="Enter your name"
                     />
+                    <AvFeedback>Please enter your name here. Remember we will publish this, so it doesn't have to be your full name if you don't want.</AvFeedback>
                     <FormText>
                         We will publish this. It doesn't have to be your full name if you don't want.
                     </FormText>
-                </FormGroup>
-                <FormGroup>
+                </AvGroup>
+                <AvGroup>
                     <Label for="agencyName">Agency company name</Label>
-                    <Input
+                    <AvInput
                         type="text"
                         name="agencyName"
                         onChange={this.handleChange}
@@ -99,10 +102,10 @@ class ReviewTenancyForm extends React.Component {
                     <FormText>
                         Example: Winkworth. Leave blank if unknown or private landlord.
                     </FormText>
-                </FormGroup>
-                <FormGroup>
+                </AvGroup>
+                <AvGroup>
                     <Label for="agencyBranch">Agency branch location</Label>
-                    <Input
+                    <AvInput
                         type="text"
                         name="agencyBranch"
                         onChange={this.handleChange}
@@ -111,33 +114,35 @@ class ReviewTenancyForm extends React.Component {
                     <FormText>
                         Example: Coventry. Leave blank if unknown or private landlord.
                     </FormText>
-                </FormGroup>
-                <FormGroup>
+                </AvGroup>
+                <AvGroup>
                     <Label for="reviewTitle">Review title</Label>
-                    <Input
+                    <AvInput
                         type="text"
                         name="reviewTitle"
                         required
                         onChange={this.handleChange}
                         placeholder="Enter review title"
                     />
+                    <AvFeedback>Please enter a short title for your review.</AvFeedback>
                     <FormText>
                         A short sentence or two summarising your experience.
                     </FormText>
-                </FormGroup>
-                <FormGroup>
+                </AvGroup>
+                <AvGroup>
                     <Label for="reviewContent">Your review</Label>
-                    <Input
+                    <AvInput
                         type="textarea"
                         name="reviewContent"
                         required
                         onChange={this.handleChange}
                         placeholder="Enter your review"
                     />
+                    <AvFeedback>Please your review.</AvFeedback>
                     <FormText>
                         Tell us all about your experience with the property, letting agent, landlord etc.
                     </FormText>
-                </FormGroup>
+                </AvGroup>
                 <hr />
                 <h2>Star ratings</h2>
                 <FormGroup>
@@ -224,14 +229,14 @@ class ReviewTenancyForm extends React.Component {
                         Rate the property itself.
                     </FormText>
                 </FormGroup>
-                <Button color="primary" onClick={this.handleSubmit}>
+                <Button color="primary">
                     Share your tenancy review
                 </Button>
-            </Form>
+            </AvForm>
         );
     }
 
-    handleSubmit() {
+    handleValidSubmit() {
         let payload = {
             ...this.state, ...{captchaToken: null}
         };
@@ -244,12 +249,17 @@ class ReviewTenancyForm extends React.Component {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .then(location.reload())
+                })
+                    .then((response) => {
+                        if(!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+                        location.reload()
+                    })
                     .catch(err => console.error("Error:", err));
             });
         });
-        event.preventDefault();
     }
 }
 
