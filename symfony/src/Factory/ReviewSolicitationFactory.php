@@ -5,8 +5,10 @@ namespace App\Factory;
 use App\Entity\ReviewSolicitation;
 use App\Entity\User;
 use App\Exception\DeveloperException;
+use App\Exception\NotFoundException;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\FormData;
+use App\Model\ReviewSolicitation\View;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use function sha1;
@@ -65,6 +67,29 @@ class ReviewSolicitationFactory
         return new FormData(
             $agency,
             $branches
+        );
+    }
+
+    public function createViewByEntity(ReviewSolicitation $entity): View
+    {
+        $agencyEntity = $entity->getBranch()->getAgency();
+        if (null === $agencyEntity) {
+            throw new NotFoundException(sprintf('Agency not found for ReviewSolicitation %s', $entity->getId()));
+        }
+
+        $agency = $this->flatModelFactory->getAgencyFlatModel($agencyEntity);
+        $branch = $this->flatModelFactory->getBranchFlatModel($entity->getBranch());
+        $property = $this->flatModelFactory->getPropertyFlatModel($entity->getProperty());
+
+        return new View(
+            $entity->getCode(),
+            $agency,
+            $branch,
+            $property,
+            $entity->getRecipientTitle(),
+            $entity->getRecipientFirstName(),
+            $entity->getRecipientLastName(),
+            $entity->getRecipientEmail(),
         );
     }
 

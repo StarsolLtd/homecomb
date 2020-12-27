@@ -31,7 +31,7 @@ class ReviewFactory
         }
 
         $property = null;
-        $propertyEntity = $entity->getproperty();
+        $propertyEntity = $entity->getProperty();
         if (null !== $propertyEntity) {
             $property = $this->flatModelFactory->getPropertyFlatModel($propertyEntity);
         }

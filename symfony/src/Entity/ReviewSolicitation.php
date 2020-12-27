@@ -45,7 +45,7 @@ class ReviewSolicitation
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $recipientTitle;
+    private ?string $recipientTitle = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)

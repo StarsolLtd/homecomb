@@ -5,11 +5,13 @@ namespace App\Tests\Unit\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Property;
+use App\Entity\ReviewSolicitation;
 use App\Entity\User;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
+use App\Model\Property\Flat as FlatProperty;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
@@ -99,5 +101,45 @@ class ReviewSolicitationFactoryTest extends TestCase
 
         $this->assertEquals('agencyslug', $formData->getAgency()->getSlug());
         $this->assertCount(2, $formData->getBranches());
+    }
+
+    public function testCreateViewByEntity(): void
+    {
+        $property = (new Property());
+        $branch = (new Branch());
+        $agency = (new Agency())->addBranch($branch);
+
+        $agencyModel = $this->prophesize(FlatAgency::class);
+        $branchModel = $this->prophesize(FlatBranch::class);
+        $propertyModel = $this->prophesize(FlatProperty::class);
+
+        $rs = (new ReviewSolicitation())
+            ->setCode('testcode')
+            ->setBranch($branch)
+            ->setProperty($property)
+            ->setRecipientFirstName('Jack')
+            ->setRecipientLastName('Parnell')
+            ->setRecipientEmail('jack.parnell@starsol.co.uk')
+        ;
+
+        $this->flatModelFactory->getAgencyFlatModel($agency)
+            ->shouldBeCalledOnce()
+            ->willReturn($agencyModel);
+
+        $this->flatModelFactory->getBranchFlatModel($branch)
+            ->shouldBeCalledOnce()
+            ->willReturn($branchModel);
+
+        $this->flatModelFactory->getPropertyFlatModel($property)
+            ->shouldBeCalledOnce()
+            ->willReturn($propertyModel);
+
+        $view = $this->reviewSolicitationFactory->createViewByEntity($rs);
+
+        $this->assertEquals('testcode', $view->getCode());
+        $this->assertNull($view->getReviewerTitle());
+        $this->assertEquals('Jack', $view->getReviewerFirstName());
+        $this->assertEquals('Parnell', $view->getReviewerLastName());
+        $this->assertEquals('jack.parnell@starsol.co.uk', $view->getReviewerEmail());
     }
 }
