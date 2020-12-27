@@ -10,6 +10,8 @@ use App\Entity\User;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\FormData;
+use App\Model\ReviewSolicitation\View;
+use App\Repository\ReviewSolicitationRepository;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +31,7 @@ class ReviewSolicitationServiceTest extends TestCase
 
     private $userService;
     private $reviewSolicitationFactory;
+    private $reviewSolicitationRepository;
     private $entityManager;
     private $mailer;
 
@@ -37,6 +40,7 @@ class ReviewSolicitationServiceTest extends TestCase
         $requestStack = $this->prophesize(RequestStack::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->reviewSolicitationFactory = $this->prophesize(ReviewSolicitationFactory::class);
+        $this->reviewSolicitationRepository = $this->prophesize(ReviewSolicitationRepository::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->mailer = $this->prophesize(MailerInterface::class);
 
@@ -48,6 +52,7 @@ class ReviewSolicitationServiceTest extends TestCase
             $requestStack->reveal(),
             $this->userService->reveal(),
             $this->reviewSolicitationFactory->reveal(),
+            $this->reviewSolicitationRepository->reveal(),
             $this->entityManager->reveal(),
             $this->mailer->reveal()
         );
@@ -100,5 +105,21 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->reviewSolicitationFactory->createFormDataModelFromUser($user)->shouldBeCalledOnce()->willReturn($formData);
 
         $this->reviewSolicitationService->getFormData($user);
+    }
+
+    public function testGetViewByCode(): void
+    {
+        $rs = (new ReviewSolicitation());
+        $view = $this->prophesize(View::class);
+
+        $this->reviewSolicitationRepository->findOneUnfinishedByCode('testcode')
+            ->shouldBeCalledOnce()
+            ->willReturn($rs);
+
+        $this->reviewSolicitationFactory->createViewByEntity($rs)
+            ->shouldBeCalledOnce()
+            ->willReturn($view);
+
+        $this->reviewSolicitationService->getViewByCode('testcode');
     }
 }

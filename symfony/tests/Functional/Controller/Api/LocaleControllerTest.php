@@ -4,14 +4,11 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use function json_decode;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocaleControllerTest extends WebTestCase
 {
-    use ProphecyTrait;
-
     public function testView(): void
     {
         $client = static::createClient();

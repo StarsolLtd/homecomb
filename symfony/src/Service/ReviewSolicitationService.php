@@ -7,6 +7,8 @@ use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationOutput;
 use App\Model\ReviewSolicitation\FormData;
+use App\Model\ReviewSolicitation\View;
+use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,6 +21,7 @@ class ReviewSolicitationService
     private string $baseUrl;
     private UserService $userService;
     private ReviewSolicitationFactory $reviewSolicitationFactory;
+    private ReviewSolicitationRepository $reviewSolicitationRepository;
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
 
@@ -26,6 +29,7 @@ class ReviewSolicitationService
         RequestStack $requestStack,
         UserService $userService,
         ReviewSolicitationFactory $reviewSolicitationFactory,
+        ReviewSolicitationRepository $reviewSolicitationRepository,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     ) {
@@ -36,6 +40,7 @@ class ReviewSolicitationService
         $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
         $this->userService = $userService;
         $this->reviewSolicitationFactory = $reviewSolicitationFactory;
+        $this->reviewSolicitationRepository = $reviewSolicitationRepository;
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
     }
@@ -58,6 +63,13 @@ class ReviewSolicitationService
         $this->send($reviewSolicitation);
 
         return new CreateReviewSolicitationOutput(true);
+    }
+
+    public function getViewByCode(string $code): View
+    {
+        $rs = $this->reviewSolicitationRepository->findOneUnfinishedByCode($code);
+
+        return $this->reviewSolicitationFactory->createViewByEntity($rs);
     }
 
     private function send(ReviewSolicitation $reviewSolicitation): void

@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
+use App\Entity\ReviewSolicitation;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -21,6 +22,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_2_SLUG = 'branch2slug';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_PROPERTY_SLUG = 'propertyslug';
+    public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -112,6 +114,18 @@ class TestFixtures extends AbstractDataFixtures
             ->addReview($review)
         ;
         $manager->persist($locale);
+
+        $rs = (new ReviewSolicitation())
+            ->setBranch($branch1)
+            ->setSenderUser($user2)
+            ->setProperty($property)
+            ->setRecipientFirstName('Anna')
+            ->setRecipientLastName('Testinova')
+            ->setRecipientEmail('anna.testinova@starsol.co.uk')
+            ->setCode(self::TEST_REVIEW_SOLICITATION_CODE)
+        ;
+
+        $manager->persist($rs);
 
         $manager->flush();
     }
