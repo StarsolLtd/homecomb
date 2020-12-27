@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LocaleController extends AppController
 {
     private LocaleService $localeService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         LocaleService $localeService,
@@ -34,11 +33,6 @@ class LocaleController extends AppController
     {
         $view = $this->localeService->getViewBySlug($slug);
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }

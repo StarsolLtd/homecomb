@@ -17,7 +17,6 @@ class FlagController extends AppController
     use VerifyCaptchaTrait;
 
     private FlagService $flagService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         GoogleReCaptchaService $googleReCaptchaService,

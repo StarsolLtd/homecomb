@@ -33,7 +33,6 @@ class AgencyAdminController extends AppController
     private ReviewSolicitationService $reviewSolicitationService;
     private UserService $userService;
     private AgencyRepository $agencyRepository;
-    private SerializerInterface $serializer;
 
     public function __construct(
         AgencyService $agencyService,

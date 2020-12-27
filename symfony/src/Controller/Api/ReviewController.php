@@ -19,7 +19,6 @@ class ReviewController extends AppController
 
     private ReviewRepository $reviewRepository;
     private ReviewService $reviewService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         GoogleReCaptchaService $googleReCaptchaService,

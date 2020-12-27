@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class UserController extends AppController
 {
     private UserService $userService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         UserService $userService,
@@ -33,11 +32,6 @@ class UserController extends AppController
     {
         $view = $this->userService->getFlatModelFromUserInterface($this->getUserInterface());
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }

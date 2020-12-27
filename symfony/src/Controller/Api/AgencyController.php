@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AgencyController extends AppController
 {
     private AgencyService $agencyService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         AgencyService $agencyService,
@@ -34,11 +33,6 @@ class AgencyController extends AppController
     {
         $view = $this->agencyService->getViewBySlug($slug);
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }

@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class BranchController extends AppController
 {
     private BranchService $branchService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         BranchService $branchService,
@@ -34,11 +33,6 @@ class BranchController extends AppController
     {
         $view = $this->branchService->getViewBySlug($slug);
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }

@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ReviewSolicitationController extends AppController
 {
     private ReviewSolicitationService $reviewSolicitationService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         ReviewSolicitationService $reviewSolicitationService,
@@ -33,11 +32,6 @@ class ReviewSolicitationController extends AppController
     {
         $view = $this->reviewSolicitationService->getViewByCode($code);
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }

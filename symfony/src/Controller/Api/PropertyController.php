@@ -18,7 +18,6 @@ class PropertyController extends AppController
     private GetAddressService $getAddressService;
     private PropertyService $propertyService;
     private UserService $userService;
-    private SerializerInterface $serializer;
 
     public function __construct(
         GetAddressService $getAddressService,
@@ -99,11 +98,6 @@ class PropertyController extends AppController
     {
         $view = $this->propertyService->getViewBySlug($slug);
 
-        return new JsonResponse(
-            $this->serializer->serialize($view, 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }
