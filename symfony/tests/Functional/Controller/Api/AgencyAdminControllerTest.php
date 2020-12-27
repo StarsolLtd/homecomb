@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-use function var_export;
 
 class AgencyAdminControllerTest extends WebTestCase
 {
@@ -236,7 +235,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        /** @var FormData $input */
+        /** @var FormData $formData */
         $formData = $this->serializer->deserialize($response->getContent(), FormData::class, 'json');
 
         $this->assertEquals('Testerton Lettings', $formData->getAgency()->getName());

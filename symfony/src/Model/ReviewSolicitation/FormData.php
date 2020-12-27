@@ -24,6 +24,9 @@ class FormData
         return $this->agency;
     }
 
+    /**
+     * @return FlatBranch[]
+     */
     public function getBranches(): array
     {
         return $this->branches;
