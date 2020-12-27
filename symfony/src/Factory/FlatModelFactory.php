@@ -5,9 +5,11 @@ namespace App\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Property;
+use App\Entity\User;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
+use App\Model\User\Flat as FlatUser;
 
 class FlatModelFactory
 {
@@ -41,6 +43,16 @@ class FlatModelFactory
             $entity->getSlug(),
             $entity->getAddressLine1() ?? '',
             $entity->getPostcode()
+        );
+    }
+
+    public function getUserFlatModel(User $entity): FlatUser
+    {
+        return new FlatUser(
+            $entity->getUsername(),
+            $entity->getTitle(),
+            $entity->getFirstName(),
+            $entity->getLastName()
         );
     }
 }
