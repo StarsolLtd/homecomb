@@ -9,6 +9,7 @@ use App\Entity\ReviewSolicitation;
 use App\Entity\User;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\ReviewSolicitation\FormData;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,5 +89,16 @@ class ReviewSolicitationServiceTest extends TestCase
         $output = $this->reviewSolicitationService->createAndSend($input, $user);
 
         $this->assertTrue($output->isSuccess());
+    }
+
+    public function testGetFormData(): void
+    {
+        $user = new User();
+        $formData = $this->prophesize(FormData::class);
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+        $this->reviewSolicitationFactory->createFormDataModelFromUser($user)->shouldBeCalledOnce()->willReturn($formData);
+
+        $this->reviewSolicitationService->getFormData($user);
     }
 }

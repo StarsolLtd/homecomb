@@ -6,6 +6,7 @@ use App\Entity\ReviewSolicitation;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationOutput;
+use App\Model\ReviewSolicitation\FormData;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -37,6 +38,13 @@ class ReviewSolicitationService
         $this->reviewSolicitationFactory = $reviewSolicitationFactory;
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
+    }
+
+    public function getFormData(UserInterface $user): FormData
+    {
+        $user = $this->userService->getEntityFromInterface($user);
+
+        return $this->reviewSolicitationFactory->createFormDataModelFromUser($user);
     }
 
     public function createAndSend(CreateReviewSolicitationInput $input, ?UserInterface $user): CreateReviewSolicitationOutput
