@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Input, Label, FormGroup, Form, Button} from 'reactstrap';
+import {Label, Button, FormText} from 'reactstrap';
+import LoadingOverlay from "react-loading-overlay";
+import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../Constants";
+import Loader from "react-loaders";
 
 class CreateAgency extends React.Component {
     constructor() {
@@ -10,10 +13,11 @@ class CreateAgency extends React.Component {
             agencyName: '',
             externalUrl: '',
             postcode: '',
-            captchaToken: ''
+            captchaToken: '',
+            formSubmissionInProgress: false,
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
     handleChange(event) {
@@ -28,33 +32,54 @@ class CreateAgency extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <FormGroup>
-                    <Label for="agencyName">Agency name</Label>
-                    <Input name="agencyName" required onChange={this.handleChange} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="externalUrl">Website URL</Label>
-                    <Input name="externalUrl" placeholder="http://yoursite.com" onChange={this.handleChange} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="postcode">Postcode</Label>
-                    <Input name="postcode" onChange={this.handleChange} />
-                </FormGroup>
-                <Button type="submit"
-                        className="btn btn-primary g-recaptcha"
-                        data-sitekey="reCAPTCHA_site_key"
-                        data-callback="onSubmit"
-                        data-action="submit">Create an agency
-                </Button>
-            </Form>
+            <LoadingOverlay
+                active={this.state.formSubmissionInProgress}
+                styles={{
+                    overlay: (base) => ({
+                        ...base,
+                        background: "#fff",
+                        opacity: 0.5,
+                    }),
+                }}
+                spinner={<Loader active type='ball-triangle-path' />}
+            >
+                <AvForm onValidSubmit={this.handleValidSubmit}>
+                    <AvGroup>
+                        <Label for="agencyName">Agency name</Label>
+                        <AvInput name="agencyName" required onChange={this.handleChange} />
+                        <AvFeedback>Please enter your agency name.</AvFeedback>
+                        <FormText>
+                            Please enter the trading name of your agency. Example: Cambridge Lettings.
+                        </FormText>
+                    </AvGroup>
+                    <AvGroup>
+                        <Label for="externalUrl">Website URL</Label>
+                        <AvInput name="externalUrl" type="url" placeholder="http://yoursite.com" onChange={this.handleChange} />
+                        <FormText>
+                            Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
+                        </FormText>
+                    </AvGroup>
+                    <AvGroup>
+                        <Label for="postcode">Postcode</Label>
+                        <AvInput name="postcode" onChange={this.handleChange} />
+                        <FormText>
+                            Optional. Please enter the postcode of your agency's primary office.
+                        </FormText>
+                    </AvGroup>
+                    <Button color="primary">
+                        Create your agency
+                    </Button>
+                </AvForm>
+            </LoadingOverlay>
         );
     }
 
-    handleSubmit() {
+    handleValidSubmit() {
+        this.setState({formSubmissionInProgress: true});
         let payload = {
             ...this.state, ...{captchaToken: null}
         };
+        let component = this;
         grecaptcha.ready(function() {
             grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
                 payload.captchaToken = captchaToken;
@@ -64,12 +89,18 @@ class CreateAgency extends React.Component {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .then(data => console.log(data))
+                })
+                    .then((response) => {
+                        component.setState({formSubmissionInProgress: false});
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+                        location.reload()
+                    })
                     .catch(err => console.error("Error:", err));
             });
         });
-        event.preventDefault();
     }
 }
 
