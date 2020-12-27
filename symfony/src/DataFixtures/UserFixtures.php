@@ -3,11 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends AbstractDataFixtures
 {
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -16,7 +15,12 @@ class UserFixtures extends Fixture
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['dev', 'prod'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $user1 = (new User())
             ->setEmail('jack@starsol.co.uk')

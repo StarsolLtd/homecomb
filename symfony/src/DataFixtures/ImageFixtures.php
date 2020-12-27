@@ -5,13 +5,17 @@ namespace App\DataFixtures;
 use App\Entity\Image;
 use App\Entity\Locale;
 use function copy;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ImageFixtures extends Fixture implements DependentFixtureInterface
+class ImageFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['dev', 'prod'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $cambridgeImage = (new Image())
             ->setDescription('Kings College Chapel West in Cambridge')

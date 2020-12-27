@@ -8,11 +8,10 @@ use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class TestFixtures extends Fixture
+class TestFixtures extends AbstractDataFixtures
 {
     public const TEST_USER_STANDARD_EMAIL = 'test.user.standard@starsol.co.uk';
     public const TEST_USER_AGENCY_ADMIN_EMAIL = 'test.agency.admin@starsol.co.uk';
@@ -30,7 +29,12 @@ class TestFixtures extends Fixture
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['test'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $user1 = (new User())
             ->setEmail(self::TEST_USER_STANDARD_EMAIL)

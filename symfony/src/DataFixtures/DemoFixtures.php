@@ -13,13 +13,12 @@ use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
 use function copy;
 use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use function preg_replace;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class DemoFixtures extends Fixture implements DependentFixtureInterface
+class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
     private AgencyHelper $agencyHelper;
     private BranchHelper $branchHelper;
@@ -44,7 +43,12 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['dev'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $users = $this->loadUsers($manager);
 

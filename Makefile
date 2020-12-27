@@ -45,7 +45,7 @@ php-cs-fixer:
 	docker exec -it homecomb_php_1 vendor/bin/php-cs-fixer fix --verbose
 
 php-test:
-	make php-test-unit php-test-functional
+	make php-test-unit php-test-functional php-test-end
 
 php-test-functional:
 	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
@@ -55,6 +55,10 @@ php-test-functional:
 
 php-test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
+
+php-test-end:
+	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
+	make load-fixtures
 
 phpstan:
 	docker exec -it homecomb_php_1 vendor/bin/phpstan analyse -c phpstan.neon src --level max

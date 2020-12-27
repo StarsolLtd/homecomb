@@ -4,11 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Locale;
 use App\Entity\Postcode;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use function file_get_contents;
 
-class LocaleFixtures extends Fixture
+class LocaleFixtures extends AbstractDataFixtures
 {
     private const CAMBRIDGE_POSTCODES = [
         'CB1', 'CB2', 'CB3', 'CB4', 'CB5',
@@ -25,7 +24,12 @@ class LocaleFixtures extends Fixture
         'CB3 0QR', 'CB3 0QW', 'CB3 0RX', 'CB3 0RY', 'CB3 0XA', 'CB3 0XB', 'CB3 0JG', 'CB3 0JX',
     ];
 
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['dev', 'prod'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $localeNames = [
             'Birmingham',

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Controller;
 
+use App\DataFixtures\TestFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +12,7 @@ class AgencyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/agency/f66a03fd63bbee');
+        $client->request('GET', '/agency/'.TestFixtures::TEST_AGENCY_SLUG);
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }

@@ -4,10 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Property;
 use App\Util\PropertyHelper;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class PropertyFixtures extends Fixture
+class PropertyFixtures extends AbstractDataFixtures
 {
     private PropertyHelper $propertyHelper;
 
@@ -24,7 +23,12 @@ class PropertyFixtures extends Fixture
         $this->propertyHelper = $propertyHelper;
     }
 
-    public function load(ObjectManager $manager): void
+    protected function getEnvironments(): array
+    {
+        return ['dev', 'prod'];
+    }
+
+    protected function doLoad(ObjectManager $manager): void
     {
         $properties = [];
 
