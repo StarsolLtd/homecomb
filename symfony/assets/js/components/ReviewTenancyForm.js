@@ -28,6 +28,7 @@ class ReviewTenancyForm extends React.Component {
             agencyStars: null,
             propertyStars: null,
             formSubmissionInProgress: false,
+            user: null
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
@@ -35,6 +36,10 @@ class ReviewTenancyForm extends React.Component {
         this.handleAgencyStarsChange = this.handleAgencyStarsChange.bind(this);
         this.handleLandlordStarsChange = this.handleLandlordStarsChange.bind(this);
         this.handlePropertyStarsChange = this.handlePropertyStarsChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchUserData();
     }
 
     handleChange(event) {
@@ -77,6 +82,23 @@ class ReviewTenancyForm extends React.Component {
                 spinner={<Loader active type='ball-triangle-path' />}
             >
                 <AvForm onValidSubmit={this.handleValidSubmit}>
+                    {this.state.user &&
+                    <AvGroup>
+                        <Label for="reviewerEmail">Your email/username</Label>
+                        <AvInput
+                            type="text"
+                            disabled
+                            name="reviewerEmail"
+                            required
+                            value={this.state.user.username}
+                        />
+                        <FormText>
+                            We won't publish this, and will only use it if we need to contact you.
+                            If you would like to add this review as a different user, please <a href="/logout">log out</a>.
+                        </FormText>
+                    </AvGroup>
+                    }
+                    {!this.state.user &&
                     <AvGroup>
                         <Label for="reviewerEmail">Your email</Label>
                         <AvInput
@@ -91,6 +113,7 @@ class ReviewTenancyForm extends React.Component {
                             We won't publish this, and will only use it if we need to contact you.
                         </FormText>
                     </AvGroup>
+                    }
                     <AvGroup>
                         <Label for="reviewerName">Your name</Label>
                         <AvInput
@@ -278,6 +301,28 @@ class ReviewTenancyForm extends React.Component {
                     .catch(err => console.error("Error:", err));
             });
         });
+    }
+
+    fetchUserData() {
+        fetch(
+            '/api/user/data',
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    user: data
+                });
+            })
+            .catch(err => console.error("Error:", err));
     }
 }
 
