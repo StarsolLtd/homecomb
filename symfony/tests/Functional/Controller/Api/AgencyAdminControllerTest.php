@@ -9,7 +9,6 @@ use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -20,7 +19,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AgencyAdminControllerTest extends WebTestCase
 {
     use LoginUserTrait;
-//    use ReloadDatabaseTrait;
 
     private SerializerInterface $serializer;
 
