@@ -1,10 +1,11 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import {Label, Button, FormText} from 'reactstrap';
+import {Label, Button, FormText, FormGroup, Input} from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../Constants";
 import Loader from "react-loaders";
+import InputProperty from "../components/InputProperty";
 
 class CreateReviewSolicitation extends React.Component {
     constructor() {
@@ -63,6 +64,13 @@ class CreateReviewSolicitation extends React.Component {
             });
     }
 
+    setPropertySlugState(value) {
+        if (typeof value !== "undefined") {
+            this.setState({propertySlug: value});
+        }
+        console.log(this.state.propertySlug);
+    }
+
     render() {
         return (
             <Fragment>
@@ -109,8 +117,22 @@ class CreateReviewSolicitation extends React.Component {
                                 </FormText>
                             </AvGroup>
                             <AvGroup>
+                                <Label for="propertySlug">Tenancy property address</Label>
+                                <Input type="hidden" name="propertySlug" required value={this.state.propertySlug} />
+                                <InputProperty
+                                    inputId="input-property"
+                                    source="/api/property/suggest-property"
+                                    placeholder="Start typing a property address..."
+                                    setPropertySlugState={this.setPropertySlugState}
+                                />
+                                <AvFeedback>Please enter a tenancy property address.</AvFeedback>
+                                <FormText>
+                                    Please start typing the address of the tenancy, then select the correct address when it appears.
+                                </FormText>
+                            </AvGroup>
+                            <AvGroup>
                                 <Label for="recipientFirstName">Tenant first name</Label>
-                                <AvInput name="recipientFirstName" required onChange={this.handleChange} />
+                                <AvInput name="recipientFirstName" required onChange={this.handleChange} placeholder="Enter tenant first name" />
                                 <AvFeedback>Please enter the tenant's first name.</AvFeedback>
                                 <FormText>
                                     Please enter the first name of the tenant. Example: Jane.
@@ -118,7 +140,7 @@ class CreateReviewSolicitation extends React.Component {
                             </AvGroup>
                             <AvGroup>
                                 <Label for="recipientLastName">Tenant surname</Label>
-                                <AvInput name="recipientLastName" required onChange={this.handleChange} />
+                                <AvInput name="recipientLastName" required onChange={this.handleChange} placeholder="Enter tenant surname" />
                                 <AvFeedback>Please enter the tenant's surname.</AvFeedback>
                                 <FormText>
                                     Please enter the surname of the tenant. Example: Smith.
@@ -126,7 +148,7 @@ class CreateReviewSolicitation extends React.Component {
                             </AvGroup>
                             <AvGroup>
                                 <Label for="recipientEmail">Reviewer email</Label>
-                                <AvInput name="recipientEmail" type="email" required onChange={this.handleChange} />
+                                <AvInput name="recipientEmail" type="email" required onChange={this.handleChange} placeholder="Enter tenant email" />
                                 <AvFeedback>Please enter the tenant's email address.</AvFeedback>
                                 <FormText>
                                     Please enter the email address of the tenant. Example: jane.smith@domain.com
@@ -147,7 +169,7 @@ class CreateReviewSolicitation extends React.Component {
         this.setState({formSubmissionInProgress: true});
         let payload = {
             branchSlug: this.state.branchSlug,
-            propertySlug: 'TODO',
+            propertySlug: this.state.propertySlug,
             recipientTitle: this.state.recipientTitle,
             recipientFirstName: this.state.recipientFirstName,
             recipientLastName: this.state.recipientLastName,
