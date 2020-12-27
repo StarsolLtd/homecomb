@@ -57,11 +57,6 @@ class ReviewController extends AppController
             'Your review was received successfully and will be checked by our moderation team shortly.'
         );
 
-        return new JsonResponse(
-            [
-                'success' => $output->isSuccess(),
-            ],
-            Response::HTTP_CREATED
-        );
+        return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 }

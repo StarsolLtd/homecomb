@@ -89,7 +89,7 @@ class AgencyAdminController extends AppController
             .'published shortly. You can now add branches, upload a logo etc.'
         );
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
+        return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 
     /**
@@ -123,7 +123,7 @@ class AgencyAdminController extends AppController
             'Your agency was updated successfully.'
         );
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
+        return $this->jsonResponse($output, Response::HTTP_OK);
     }
 
     /**
@@ -157,7 +157,7 @@ class AgencyAdminController extends AppController
             'Your new branch was created successfully.'
         );
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
+        return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 
     /**
@@ -191,7 +191,7 @@ class AgencyAdminController extends AppController
             'Your branch was updated successfully.'
         );
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
+        return $this->jsonResponse($output, Response::HTTP_OK);
     }
 
     /**
@@ -211,7 +211,7 @@ class AgencyAdminController extends AppController
 
         $output = $this->reviewSolicitationService->getFormData($this->getUserInterface());
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_OK);
+        return $this->jsonResponse($output, Response::HTTP_OK);
     }
 
     /**
@@ -252,6 +252,6 @@ class AgencyAdminController extends AppController
             'An email will be sent to '.$input->getRecipientEmail().' shortly asking them to review their tenancy.'
         );
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($output, 'json'), Response::HTTP_CREATED);
+        return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 }
