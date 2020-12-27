@@ -2,7 +2,6 @@ import React, {Fragment} from 'react';
 
 import {
     Button,
-    Form,
     Modal,
     ModalHeader,
     ModalBody,
@@ -10,7 +9,7 @@ import {
     UncontrolledButtonDropdown,
     DropdownToggle, DropdownMenu, DropdownItem, Input, InputGroup
 } from "reactstrap";
-
+import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Loader from "react-loaders";
 import LoadingOverlay from "react-loading-overlay";
 
@@ -62,28 +61,29 @@ class ReviewOptions extends React.Component {
                         }}
                         spinner={<Loader active type='ball-triangle-path' />}
                     >
-                        <Form onSubmit={this.handleFlagReviewSubmit}>
+                        <AvForm onValidSubmit={this.handleFlagReviewSubmit}>
                             <ModalBody>
                                 <p>
                                     If this review is inappropriate, you can flag it to our moderation team.
                                     Please enter an explanation below:
                                 </p>
-                                <InputGroup>
-                                    <Input
+                                <AvGroup>
+                                    <AvInput
                                         type="text"
                                         placeholder="Enter an explanation"
                                         name="flagReviewContent"
                                         onChange={this.handleChange}
                                         required
                                     />
-                                </InputGroup>
+                                    <AvFeedback>Please enter an explanation.</AvFeedback>
+                                </AvGroup>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.handleFlagReviewSubmit}>
+                                <Button color="primary">
                                     Send report
                                 </Button>
                             </ModalFooter>
-                        </Form>
+                        </AvForm>
                     </LoadingOverlay>
                 </Modal>
             </Fragment>
@@ -117,12 +117,17 @@ class ReviewOptions extends React.Component {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .then(location.reload())
-                .catch(err => console.error("Error:", err));
+                })
+                    .then((response) => {
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+                        location.reload()
+                    })
+                    .catch(err => console.error("Error:", err));
             });
         });
-        event.preventDefault();
     }
 }
 
