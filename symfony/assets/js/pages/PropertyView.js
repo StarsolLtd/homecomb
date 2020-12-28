@@ -96,15 +96,7 @@ class PropertyView extends React.Component {
 
     fetchData() {
         this.setState({loadingInfo: {loading: true}})
-        fetch(
-            '/api/property/' + this.state.propertySlug,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/property/' + this.state.propertySlug)
             .then(
                 response => {
                     this.setState({

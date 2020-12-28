@@ -19,7 +19,7 @@ class AgencyView extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchAgencyData();
+        this.fetchData();
     }
 
     render() {
@@ -55,17 +55,9 @@ class AgencyView extends React.Component {
         );
     }
 
-    fetchAgencyData() {
+    fetchData() {
         this.setState({loadingInfo: {loading: true}})
-        fetch(
-            '/api/agency/' + this.state.agencySlug,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/agency/' + this.state.agencySlug)
             .then(
                 response => {
                     this.setState({

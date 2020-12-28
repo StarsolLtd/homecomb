@@ -82,15 +82,7 @@ class LocaleView extends React.Component {
 
     fetchData() {
         this.setState({loadingInfo: {loading: true}})
-        fetch(
-            '/api/l/' + this.state.localeSlug,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/l/' + this.state.localeSlug)
             .then(
                 response => {
                     this.setState({

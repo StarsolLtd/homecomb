@@ -97,15 +97,7 @@ class BranchView extends React.Component {
 
     fetchData() {
         this.setState({loadingInfo: {loading: true}})
-        fetch(
-            '/api/branch/' + this.state.branchSlug,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/branch/' + this.state.branchSlug)
             .then(
                 response => {
                     this.setState({

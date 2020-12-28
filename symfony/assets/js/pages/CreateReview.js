@@ -75,15 +75,7 @@ class CreateReview extends React.Component {
 
     fetchData() {
         this.setState({loading: true});
-        fetch(
-            '/api/rs/' + this.state.code,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/rs/' + this.state.code)
             .then(
                 response => {
                     this.setState({
