@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Exception\NotFoundException;
 use App\Repository\LocaleRepository;
 use App\Service\LocaleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,12 +30,6 @@ class LocaleController extends AbstractController
      */
     public function viewBySlug(string $slug): Response
     {
-        try {
-            $locale = $this->localeRepository->findOnePublishedBySlug($slug);
-        } catch (NotFoundException $e) {
-            throw $this->createNotFoundException($e->getMessage());
-        }
-
         return $this->render('index.html.twig');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\NotFoundException;
 use App\Model\SuggestPropertyInput;
 use App\Service\GetAddressService;
 use App\Service\PropertyService;
@@ -96,7 +97,11 @@ class PropertyController extends AppController
      */
     public function view(string $slug, Request $request): JsonResponse
     {
-        $view = $this->propertyService->getViewBySlug($slug);
+        try {
+            $view = $this->propertyService->getViewBySlug($slug);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
 
         return $this->jsonResponse($view, Response::HTTP_OK);
     }

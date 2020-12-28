@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Exception\NotFoundException;
 use App\Repository\PropertyRepository;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +29,6 @@ class PropertyController extends AppController
      */
     public function viewBySlug(string $slug): Response
     {
-        try {
-            $property = $this->propertyRepository->findOnePublishedBySlug($slug);
-        } catch (NotFoundException $e) {
-            throw $this->createNotFoundException($e->getMessage());
-        }
-
         return $this->render('index.html.twig');
     }
 }

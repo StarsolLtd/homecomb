@@ -3,18 +3,21 @@ import {Button, Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import LoadingSpinner from "../components/LoadingSpinner";
+import FileNotFound from "../errors/FileNotFound";
 
 class PropertyView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             propertySlug: this.props.match.params.slug,
-            loading: false,
-            loaded: false,
             addressLine1: '',
             postcode: '',
             reviews: [],
-            reviewTenancyFormOpen: false
+            reviewTenancyFormOpen: false,
+            loaded: false,
+            loading: false,
+            loadingError: false,
+            loadingErrorCode: null,
         };
 
         this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
@@ -33,6 +36,9 @@ class PropertyView extends React.Component {
             <Container>
                 {this.state.loading &&
                     <LoadingSpinner />
+                }
+                {this.state.loadingError && this.state.loadingErrorCode === 404 &&
+                    <FileNotFound />
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>
@@ -101,7 +107,21 @@ class PropertyView extends React.Component {
                 }
             }
         )
-            .then(response => response.json())
+            .then(
+                response => {
+                    this.setState({
+                        loading: false,
+                    })
+                    if (!response.ok) {
+                        this.setState({
+                            loadingError: true,
+                            loadingErrorCode: response.status,
+                        })
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
             .then(data => {
                 this.setState({
                     addressLine1: data.addressLine1,

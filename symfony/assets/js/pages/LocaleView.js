@@ -3,18 +3,21 @@ import {Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 import LoadingSpinner from "../components/LoadingSpinner";
+import FileNotFound from "../errors/FileNotFound";
 
 class LocaleView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             localeSlug: this.props.match.params.slug,
-            loading: false,
-            loaded: false,
             name: '',
             content: '',
             reviews: [],
-            agencyReviewsSummary: null
+            agencyReviewsSummary: null,
+            loaded: false,
+            loading: false,
+            loadingError: false,
+            loadingErrorCode: null,
         };
     }
 
@@ -27,6 +30,9 @@ class LocaleView extends React.Component {
             <Container>
                 {this.state.loading &&
                     <LoadingSpinner />
+                }
+                {this.state.loadingError && this.state.loadingErrorCode === 404 &&
+                    <FileNotFound />
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>
@@ -87,7 +93,21 @@ class LocaleView extends React.Component {
                 }
             }
         )
-            .then(response => response.json())
+            .then(
+                response => {
+                    this.setState({
+                        loading: false,
+                    })
+                    if (!response.ok) {
+                        this.setState({
+                            loadingError: true,
+                            loadingErrorCode: response.status,
+                        })
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
             .then(data => {
                 this.setState({
                     name: data.name,
