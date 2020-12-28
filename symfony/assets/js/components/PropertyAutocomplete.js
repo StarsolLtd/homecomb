@@ -2,30 +2,21 @@ import React from 'react';
 import $ from 'jquery';
 import 'jquery-ui-bundle';
 import 'jquery-ui-bundle/jquery-ui.css';
+import {Input} from "reactstrap";
 
 class PropertyAutocomplete extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputId: this.props.inputId,
-            source: this.props.source,
-            placeholder: this.props.placeholder || 'Start typing',
-            minLength: this.props.minLength || 3,
-        };
-    }
-
+    
     componentDidMount(){
-        $('#' + this.state.inputId).autocomplete({
-            source: this.state.source,
-            minLength: this.state.minLength,
+        $('#' + this.props.inputId).autocomplete({
+            source: this.props.source,
+            minLength: this.props.minLength || 3,
             select: this.redirectToPropertyView
         });
     }
 
     render(){
         return (
-            <input type="text" className="form-control" id={this.state.inputId} placeholder={this.state.placeholder} />
+            <Input type="text" id={this.props.inputId} placeholder={this.props.placeholder || 'Start typing'} />
         )
     }
 
