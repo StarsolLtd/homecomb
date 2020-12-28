@@ -7,19 +7,10 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Stars extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            label: this.props.label || null,
-            score: this.props.score || null
-        };
-    }
-
     render() {
         return (
             <div className="stars">
-                {this.state.label}:&nbsp;
+                {this.props.label}:&nbsp;
                 <Rating
                     readonly
                     initialRating={this.props.score}
