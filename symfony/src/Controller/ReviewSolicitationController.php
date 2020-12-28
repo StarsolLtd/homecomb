@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Exception\NotFoundException;
-use App\Repository\LocaleRepository;
 use App\Repository\ReviewSolicitationRepository;
-use App\Service\LocaleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

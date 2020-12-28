@@ -5,8 +5,10 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Property;
+use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
 use App\Entity\User;
+use App\Exception\NotFoundException;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\FormData;
@@ -18,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
@@ -33,6 +36,7 @@ class ReviewSolicitationServiceTest extends TestCase
     private $reviewSolicitationFactory;
     private $reviewSolicitationRepository;
     private $entityManager;
+    private $logger;
     private $mailer;
 
     public function setUp(): void
@@ -42,6 +46,7 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->reviewSolicitationFactory = $this->prophesize(ReviewSolicitationFactory::class);
         $this->reviewSolicitationRepository = $this->prophesize(ReviewSolicitationRepository::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->logger = $this->prophesize(LoggerInterface::class);
         $this->mailer = $this->prophesize(MailerInterface::class);
 
         $request = $this->prophesize(Request::class);
@@ -54,6 +59,7 @@ class ReviewSolicitationServiceTest extends TestCase
             $this->reviewSolicitationFactory->reveal(),
             $this->reviewSolicitationRepository->reveal(),
             $this->entityManager->reveal(),
+            $this->logger->reveal(),
             $this->mailer->reveal()
         );
     }
@@ -121,5 +127,32 @@ class ReviewSolicitationServiceTest extends TestCase
             ->willReturn($view);
 
         $this->reviewSolicitationService->getViewByCode('testcode');
+    }
+
+    public function testComplete(): void
+    {
+        $rs = (new ReviewSolicitation());
+        $review = (new Review());
+        $this->reviewSolicitationRepository->findOneUnfinishedByCode('testcode')
+            ->shouldBeCalledOnce()
+            ->willReturn($rs);
+
+        $this->reviewSolicitationService->complete('testcode', $review);
+
+        $this->assertEquals($review, $rs->getReview());
+    }
+
+    public function testCompleteLogsErrorWhenNotFound(): void
+    {
+        $review = (new Review());
+
+        $this->reviewSolicitationRepository->findOneUnfinishedByCode('testcode')
+            ->shouldBeCalledOnce()
+            ->willThrow(NotFoundException::class);
+
+        $this->logger->error(Argument::type('string'))
+            ->shouldBeCalledOnce();
+
+        $this->reviewSolicitationService->complete('testcode', $review);
     }
 }

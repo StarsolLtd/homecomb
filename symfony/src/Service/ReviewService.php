@@ -19,6 +19,7 @@ class ReviewService
     private AgencyService $agencyService;
     private BranchService $branchService;
     private NotificationService $notificationService;
+    private ReviewSolicitationService $reviewSolicitationService;
     private UserService $userService;
     private EntityManagerInterface $entityManager;
     private PostcodeRepository $postcodeRepository;
@@ -28,6 +29,7 @@ class ReviewService
         AgencyService $agencyService,
         BranchService $branchService,
         NotificationService $notificationService,
+        ReviewSolicitationService $reviewSolicitationService,
         UserService $userService,
         EntityManagerInterface $entityManager,
         PostcodeRepository $postcodeRepository,
@@ -36,6 +38,7 @@ class ReviewService
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
         $this->notificationService = $notificationService;
+        $this->reviewSolicitationService = $reviewSolicitationService;
         $this->userService = $userService;
         $this->entityManager = $entityManager;
         $this->postcodeRepository = $postcodeRepository;
@@ -65,6 +68,12 @@ class ReviewService
             ->setUser($userEntity);
 
         $this->entityManager->persist($review);
+
+        $code = $reviewInput->getCode();
+        if (null !== $code) {
+            $this->reviewSolicitationService->complete($code, $review);
+        }
+
         $this->entityManager->flush();
 
         $this->notificationService->sendReviewModerationNotification($review);

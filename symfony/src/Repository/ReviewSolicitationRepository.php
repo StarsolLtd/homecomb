@@ -36,4 +36,9 @@ class ReviewSolicitationRepository extends ServiceEntityRepository
 
         return $rs;
     }
+
+    public function findOneByCodeOrNull(string $code): ?ReviewSolicitation
+    {
+        return $this->findOneBy(['code' => $code]);
+    }
 }

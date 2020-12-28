@@ -30,8 +30,8 @@ class ReviewTenancyForm extends React.Component {
             propertyStars: null,
             formSubmissionInProgress: false,
             user: null,
-            agency: this.props.agency || null,
-            branch: this.props.branch || null,
+            agency: this.props.agency,
+            branch: this.props.branch,
             code: this.props.code,
         };
         this.handleChange = this.handleChange.bind(this);
@@ -303,8 +303,21 @@ class ReviewTenancyForm extends React.Component {
     handleValidSubmit() {
         this.setState({formSubmissionInProgress: true});
         let payload = {
-            ...this.state, ...{captchaToken: null}
+            propertySlug: this.state.propertySlug,
+            code: this.state.code,
+            reviewerName: this.state.reviewerName,
+            reviewerEmail: this.state.reviewerEmail,
+            agencyName: this.state.agencyName,
+            agencyBranch: this.state.agencyBranch,
+            reviewTitle: this.state.reviewTitle,
+            reviewContent: this.state.reviewContent,
+            overallStars: this.state.overallStars,
+            agencyStars: this.state.agencyStars,
+            landlordStars: this.state.landlordStars,
+            propertyStars: this.state.propertyStars,
+            captchaToken: null
         };
+
         let component = this;
         grecaptcha.ready(function() {
             grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {

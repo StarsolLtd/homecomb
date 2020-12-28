@@ -16,6 +16,7 @@ use App\Service\AgencyService;
 use App\Service\BranchService;
 use App\Service\NotificationService;
 use App\Service\ReviewService;
+use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ class ReviewServiceTest extends TestCase
     private $agencyService;
     private $branchService;
     private $notificationService;
+    private $reviewSolicitationService;
     private $userService;
     private $entityManager;
     private $postcodeRepository;
@@ -42,6 +44,7 @@ class ReviewServiceTest extends TestCase
         $this->agencyService = $this->prophesize(AgencyService::class);
         $this->branchService = $this->prophesize(BranchService::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
+        $this->reviewSolicitationService = $this->prophesize(ReviewSolicitationService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
@@ -51,6 +54,7 @@ class ReviewServiceTest extends TestCase
             $this->agencyService->reveal(),
             $this->branchService->reveal(),
             $this->notificationService->reveal(),
+            $this->reviewSolicitationService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
             $this->postcodeRepository->reveal(),
@@ -104,6 +108,7 @@ class ReviewServiceTest extends TestCase
     {
         $reviewInput = new SubmitReviewInput(
             'propertyslug',
+            'testcode',
             'Jo Smith',
             'jo.smith@starsol.co.uk',
             'Test Agency Name',
@@ -127,6 +132,7 @@ class ReviewServiceTest extends TestCase
         $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
         $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
         $this->entityManager->persist(Argument::type(Review::class))->shouldBeCalledOnce();
+        $this->reviewSolicitationService->complete('testcode', Argument::type(Review::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
         $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
 

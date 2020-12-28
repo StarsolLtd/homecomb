@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Exception\NotFoundException;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationOutput;
@@ -10,7 +12,7 @@ use App\Model\ReviewSolicitation\FormData;
 use App\Model\ReviewSolicitation\View;
 use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -23,6 +25,7 @@ class ReviewSolicitationService
     private ReviewSolicitationFactory $reviewSolicitationFactory;
     private ReviewSolicitationRepository $reviewSolicitationRepository;
     private EntityManagerInterface $entityManager;
+    private LoggerInterface $logger;
     private MailerInterface $mailer;
 
     public function __construct(
@@ -31,17 +34,20 @@ class ReviewSolicitationService
         ReviewSolicitationFactory $reviewSolicitationFactory,
         ReviewSolicitationRepository $reviewSolicitationRepository,
         EntityManagerInterface $entityManager,
+        LoggerInterface $logger,
         MailerInterface $mailer
     ) {
         $currentRequest = $requestStack->getCurrentRequest();
         if (null === $currentRequest) {
-            throw new RuntimeException('No current request found.');
+            $this->baseUrl = 'https://homecomb.co.uk/';
+        } else {
+            $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
         }
-        $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
         $this->userService = $userService;
         $this->reviewSolicitationFactory = $reviewSolicitationFactory;
         $this->reviewSolicitationRepository = $reviewSolicitationRepository;
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
         $this->mailer = $mailer;
     }
 
@@ -70,6 +76,16 @@ class ReviewSolicitationService
         $rs = $this->reviewSolicitationRepository->findOneUnfinishedByCode($code);
 
         return $this->reviewSolicitationFactory->createViewByEntity($rs);
+    }
+
+    public function complete(string $code, Review $review): void
+    {
+        try {
+            $rs = $this->reviewSolicitationRepository->findOneUnfinishedByCode($code);
+            $rs->setReview($review);
+        } catch (NotFoundException $e) {
+            $this->logger->error('Exception thrown completing ReviewSolicitation: '.$e->getMessage());
+        }
     }
 
     private function send(ReviewSolicitation $reviewSolicitation): void

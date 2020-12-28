@@ -36,4 +36,13 @@ class PropertyRepository extends ServiceEntityRepository
 
         return $property;
     }
+
+    public function findOneBySlugOrNull(string $slug): ?Property
+    {
+        return $this->findOneBy(
+            [
+                'slug' => $slug,
+            ]
+        );
+    }
 }
