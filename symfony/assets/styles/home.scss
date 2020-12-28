@@ -1,5 +1,5 @@
 #home {
-  padding-bottom: 2em;
+  padding-bottom: 2.5em;
 }
 #home label {
   font-size: 170%;
@@ -7,12 +7,12 @@
 #home p {
   font-size: 130%;
 }
+#home .container {
+  max-width: 750px;
+}
 #home input {
   font-size: 120%;
   margin: 8px 0 10px 0;
-}
-#home .container {
-  max-width: 800px !important;
 }
 #home h1 {
   padding-bottom: 8px;

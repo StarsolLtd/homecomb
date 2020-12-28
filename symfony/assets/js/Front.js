@@ -15,6 +15,7 @@ import CreateReviewSolicitation from "./pages/CreateReviewSolicitation";
 import Home from "./pages/Home";
 import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 class Front extends React.Component {
 
@@ -43,6 +44,7 @@ class Front extends React.Component {
                         <Route path="/" exact component={Home}/>
                         <Route path="/about" component={About}/>
                         <Route path="/contact" component={Contact}/>
+                        <Route path="/privacy-policy" component={PrivacyPolicy}/>
                         <Route path="/agency/:slug" component={AgencyView}/>
                         <Route path="/branch/:slug" component={BranchView}/>
                         <Route path="/l/:slug" component={LocaleView}/>

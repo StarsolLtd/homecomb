@@ -12,7 +12,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Row className="flex-grow-1">
+            <Row className="w-100">
                 <Col id="home" className="align-self-center text-center">
                     <Container>
                         <TextLogo />

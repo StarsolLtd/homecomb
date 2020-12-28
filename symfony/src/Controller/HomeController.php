@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +15,7 @@ class HomeController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function about(Request $request): Response
+    public function about(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -28,7 +27,7 @@ class HomeController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function contact(Request $request): Response
+    public function contact(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -40,7 +39,7 @@ class HomeController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function home(Request $request): Response
+    public function home(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -52,8 +51,8 @@ class HomeController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function privacyPolicy(Request $request): Response
+    public function privacyPolicy(): Response
     {
-        return $this->render('home/privacy-policy.html.twig');
+        return $this->render('index.html.twig');
     }
 }
