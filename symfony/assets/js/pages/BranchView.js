@@ -1,18 +1,22 @@
 import React, {Fragment} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingInfo from "../components/LoadingInfo";
 
 class BranchView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             branchSlug: this.props.match.params.slug,
-            loading: false,
-            loaded: false,
             agency: {},
             branch: {},
-            reviews: []
+            reviews: [],
+            loadingInfo: {
+                loaded: false,
+                loading: false,
+                loadingError: false,
+                loadingErrorCode: null,
+            },
         };
     }
 
@@ -23,10 +27,10 @@ class BranchView extends React.Component {
     render() {
         return (
             <Container>
-                {this.state.loading &&
-                    <LoadingSpinner />
-                }
-                {!this.state.loading && this.state.loaded &&
+                <LoadingInfo
+                    info={this.state.loadingInfo}
+                />
+                {!this.state.loadingInfo.loading && this.state.loadingInfo.loaded &&
                     <div>
                         <Row>
                             <Col md="12" className="page-title">
@@ -92,7 +96,7 @@ class BranchView extends React.Component {
     }
 
     fetchData() {
-        this.setState({loading: true});
+        this.setState({loadingInfo: {loading: true}})
         fetch(
             '/api/branch/' + this.state.branchSlug,
             {
@@ -102,14 +106,32 @@ class BranchView extends React.Component {
                 }
             }
         )
-            .then(response => response.json())
+            .then(
+                response => {
+                    this.setState({
+                        loadingInfo: {loading: false},
+                    })
+                    if (!response.ok) {
+                        this.setState({
+                            loadingInfo: {
+                                loadingError: true,
+                                loadingErrorCode: response.status,
+                            }
+                        })
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
             .then(data => {
                 this.setState({
                     agency: data.agency,
                     branch: data.branch,
                     reviews: data.reviews,
-                    loading: false,
-                    loaded: true
+                    loadingInfo: {
+                        loading: false,
+                        loaded: true
+                    }
                 });
             });
     }

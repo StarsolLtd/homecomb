@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Exception\NotFoundException;
 use App\Repository\BranchRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +26,6 @@ class BranchController extends AbstractController
      */
     public function viewBySlug(string $slug): Response
     {
-        try {
-            $branch = $this->branchRepository->findOnePublishedBySlug($slug);
-        } catch (NotFoundException $e) {
-            throw $this->createNotFoundException($e->getMessage());
-        }
-
         return $this->render('index.html.twig');
     }
 }
