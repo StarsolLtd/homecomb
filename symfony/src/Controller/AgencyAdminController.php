@@ -41,8 +41,6 @@ class AgencyAdminController extends AppController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        return $this->render(
-            'agency_admin/create_review_solicitation.html.twig',
-        );
+        return $this->render('index.html.twig');
     }
 }

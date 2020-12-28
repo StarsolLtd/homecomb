@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
-import ReactDOM from 'react-dom';
-import {Label, Button, FormText} from 'reactstrap';
+import {Container, Label, Button, FormText} from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../Constants";
@@ -73,7 +72,7 @@ class CreateReviewSolicitation extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Container>
                 {this.state.loading &&
                 <div>
                     <div className="spinner-border" role="status">
@@ -161,7 +160,7 @@ class CreateReviewSolicitation extends React.Component {
                     </LoadingOverlay>
                 </Fragment>
                 }
-            </Fragment>
+            </Container>
         );
     }
 
@@ -201,4 +200,4 @@ class CreateReviewSolicitation extends React.Component {
     }
 }
 
-ReactDOM.render(<CreateReviewSolicitation />, document.getElementById('create-review-solicitation-root'));
+export default CreateReviewSolicitation;

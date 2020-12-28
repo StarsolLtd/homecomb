@@ -14,6 +14,7 @@ import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
 import CreateAgency from "./pages/CreateAgency";
+import CreateReviewSolicitation from "./pages/CreateReviewSolicitation";
 import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 
@@ -29,7 +30,9 @@ function Front() {
                     <Route path="/branch/:slug" component={BranchView} />
                     <Route path="/l/:slug" component={LocaleView} />
                     <Route path="/property/:slug" component={PropertyView} />
+
                     <Route path="/verified/agency" component={CreateAgency} />
+                    <Route path="/verified/request-review" component={CreateReviewSolicitation} />
                 </Switch>
             </div>
             <Footer />

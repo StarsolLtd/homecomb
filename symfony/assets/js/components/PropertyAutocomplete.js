@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import 'jquery-ui-bundle';
+import 'jquery-ui-bundle/jquery-ui.css';
 
 class PropertyAutocomplete extends React.Component {
 
