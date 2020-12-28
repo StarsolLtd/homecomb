@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import {
     Button, FormGroup, FormText, Label,
@@ -17,10 +17,11 @@ class ReviewTenancyForm extends React.Component {
         super(props);
         this.state = {
             propertySlug: this.props.propertySlug,
-            reviewerEmail: '',
-            reviewerName: '',
-            agencyName: '',
-            agencyBranch: '',
+            reviewerEmail: this.props.reviewerEmail,
+            reviewerName: this.props.reviewerName,
+            fixedBranch: this.props.hasOwnProperty('fixedBranch') ? this.props.fixedBranch : false,
+            agencyName: this.props.agency ? this.props.agency.name : '',
+            agencyBranch: this.props.branch ? this.props.branch.name : '',
             reviewTitle: '',
             reviewContent: '',
             overallStars: null,
@@ -28,7 +29,10 @@ class ReviewTenancyForm extends React.Component {
             agencyStars: null,
             propertyStars: null,
             formSubmissionInProgress: false,
-            user: null
+            user: null,
+            agency: this.props.agency || null,
+            branch: this.props.branch || null,
+            code: this.props.code,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
@@ -106,6 +110,7 @@ class ReviewTenancyForm extends React.Component {
                             required
                             onChange={this.handleChange}
                             placeholder="Enter your email"
+                            value={this.state.reviewerEmail}
                         />
                         <AvFeedback>Please enter a valid email address, example: jane.doe@gmail.com</AvFeedback>
                         <FormText>
@@ -121,36 +126,58 @@ class ReviewTenancyForm extends React.Component {
                             required
                             onChange={this.handleChange}
                             placeholder="Enter your name"
+                            value={this.state.reviewerName}
                         />
                         <AvFeedback>Please enter your name here. Remember we will publish this, so it doesn't have to be your full name if you don't want.</AvFeedback>
                         <FormText>
                             We will publish this. It doesn't have to be your full name if you don't want.
                         </FormText>
                     </AvGroup>
-                    <AvGroup>
-                        <Label for="agencyName">Agency company name</Label>
-                        <AvInput
-                            type="text"
-                            name="agencyName"
-                            onChange={this.handleChange}
-                            placeholder="Enter agency company"
-                        />
-                        <FormText>
-                            Example: Winkworth. Leave blank if unknown or private landlord.
-                        </FormText>
-                    </AvGroup>
-                    <AvGroup>
-                        <Label for="agencyBranch">Agency branch location</Label>
-                        <AvInput
-                            type="text"
-                            name="agencyBranch"
-                            onChange={this.handleChange}
-                            placeholder="Enter agency branch"
-                        />
-                        <FormText>
-                            Example: Coventry. Leave blank if unknown or private landlord.
-                        </FormText>
-                    </AvGroup>
+                    {this.state.fixedBranch &&
+                        <AvGroup>
+                            <AvInput type="hidden" name="agencyName" value={this.state.agencyName}/>
+                            <AvInput type="hidden" name="agencyBranch" value={this.state.agencyBranch}/>
+                            <Label for="agencyInfo">Agency</Label>
+                            <AvInput
+                                type="text"
+                                disabled
+                                name="agencyInfo"
+                                value={this.state.agency.name + ' - ' + this.state.branch.name}
+                            />
+                            <FormText>
+                                We already know the agency and it is displayed here for information purposes.
+                                There is field can't be edited.
+                            </FormText>
+                        </AvGroup>
+                    }
+                    {!this.state.fixedBranch &&
+                        <Fragment>
+                            <AvGroup>
+                                <Label for="agencyName">Agency company name</Label>
+                                <AvInput
+                                    type="text"
+                                    name="agencyName"
+                                    onChange={this.handleChange}
+                                    placeholder="Enter agency company"
+                                />
+                                <FormText>
+                                    Example: Winkworth. Leave blank if unknown or private landlord.
+                                </FormText>
+                            </AvGroup>
+                            <AvGroup>
+                                <Label for="agencyBranch">Agency branch location</Label>
+                                <AvInput
+                                    type="text"
+                                    name="agencyBranch"
+                                    onChange={this.handleChange}
+                                    placeholder="Enter agency branch"
+                                />
+                                <FormText>
+                                    Example: Coventry. Leave blank if unknown or private landlord.
+                                </FormText>
+                            </AvGroup>
+                        </Fragment>
+                    }
                     <AvGroup>
                         <Label for="reviewTitle">Review title</Label>
                         <AvInput

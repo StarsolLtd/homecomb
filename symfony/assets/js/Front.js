@@ -11,6 +11,7 @@ import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
 import CreateAgency from "./pages/CreateAgency";
+import CreateReview from "./pages/CreateReview";
 import CreateReviewSolicitation from "./pages/CreateReviewSolicitation";
 import Home from "./pages/Home";
 import LocaleView from "./pages/LocaleView";
@@ -18,14 +19,6 @@ import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 class Front extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        console.log(window.location.pathname);
-
-        this.state = {};
-    }
 
     render() {
         return (
@@ -49,6 +42,7 @@ class Front extends React.Component {
                         <Route path="/branch/:slug" component={BranchView}/>
                         <Route path="/l/:slug" component={LocaleView}/>
                         <Route path="/property/:slug" component={PropertyView}/>
+                        <Route path="/rs/:code" component={CreateReview}/>
 
                         <Route path="/verified/agency" component={CreateAgency}/>
                         <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
