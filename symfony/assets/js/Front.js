@@ -14,6 +14,7 @@ import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
 import LocaleView from "./pages/LocaleView";
+import PropertyView from "./pages/PropertyView";
 
 function Front() {
     return (
@@ -26,6 +27,7 @@ function Front() {
                     <Route path="/agency/:slug" component={AgencyView} />
                     <Route path="/branch/:slug" component={BranchView} />
                     <Route path="/l/:slug" component={LocaleView} />
+                    <Route path="/property/:slug" component={PropertyView} />
                 </Switch>
             </div>
             <Footer />

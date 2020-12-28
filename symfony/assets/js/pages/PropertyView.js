@@ -1,14 +1,13 @@
 import React, {Fragment} from 'react';
-import ReactDOM from 'react-dom';
-import {Button, Col, Row} from 'reactstrap';
+import {Button, Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 
 class PropertyView extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            propertySlug: window.propertySlug,
+            propertySlug: this.props.match.params.slug,
             loading: false,
             loaded: false,
             addressLine1: '',
@@ -30,7 +29,7 @@ class PropertyView extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Container>
                 {this.state.loading &&
                 <div>
                     <div className="spinner-border" role="status">
@@ -90,7 +89,7 @@ class PropertyView extends React.Component {
                         </Row>
                     </div>
                 }
-            </Fragment>
+            </Container>
         );
     }
 
@@ -118,4 +117,4 @@ class PropertyView extends React.Component {
     }
 }
 
-ReactDOM.render(<PropertyView />, document.getElementById('property-view-root'));
+export default PropertyView;

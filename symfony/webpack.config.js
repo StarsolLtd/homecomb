@@ -14,17 +14,10 @@ Encore
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.scss) if your JavaScript imports CSS.
-     */
     .addEntry('app', './assets/app.js')
     .addEntry('login', './assets/login.js')
     .addEntry('create-agency', './assets/js/pages/CreateAgency.js')
     .addEntry('create-review-solicitation', './assets/js/pages/CreateReviewSolicitation.js')
-    .addEntry('property-view', './assets/js/pages/PropertyView.js')
     .addEntry('home', './assets/js/pages/Home.js')
     .addEntry('index', './assets/js/index.js')
 

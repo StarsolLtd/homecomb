@@ -48,7 +48,7 @@ class BranchView extends React.Component {
 
                                     {this.state.reviews.map(
                                         ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
-                                            <Fragment>
+                                            <Fragment key={id}>
                                                 <Review
                                                     key={id}
                                                     id={id}

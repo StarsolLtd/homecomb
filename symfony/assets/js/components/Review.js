@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import ReviewStars from "./ReviewStars";
 import Moment from 'react-moment';
 import ReviewOptions from "./ReviewOptions";
+import {Link} from "react-router-dom";
 
 class Review extends React.Component {
 
@@ -34,7 +35,7 @@ class Review extends React.Component {
                     <p className="mb-1 font-weight-bold">
                         <span className="author">{this.state.author}</span>
                         {this.state.property && this.state.showProperty &&
-                            <span>&nbsp;review of <a href={'/property/' + this.state.property.slug}>{this.state.property.addressLine1}, {this.state.property.postcode}</a></span>
+                            <span>&nbsp;review of <Link to={'/property/' + this.state.property.slug}>{this.state.property.addressLine1}, {this.state.property.postcode}</Link></span>
                         }
                     </p>
                     <p className="text-gray">
@@ -53,7 +54,7 @@ class Review extends React.Component {
                         <Fragment>
                             Agency:&nbsp;
                             {this.state.agency.published &&
-                            <a href={'/agency/' + this.state.agency.slug} className="agency-name">{this.state.agency.name}</a>
+                            <Link to={'/agency/' + this.state.agency.slug} className="agency-name">{this.state.agency.name}</Link>
                             }
                             {!this.state.agency.published &&
                             <span className="agency-name">{this.state.agency.name}</span>
@@ -63,7 +64,7 @@ class Review extends React.Component {
                         }
                         Branch:&nbsp;
                         {this.state.branch.published &&
-                            <a href={'/branch/' + this.state.branch.slug} className="branch-name">{this.state.branch.name}</a>
+                            <Link to={'/branch/' + this.state.branch.slug} className="branch-name">{this.state.branch.name}</Link>
                         }
                         {!this.state.branch.published &&
                             <span className="branch-name">{this.state.branch.name}</span>

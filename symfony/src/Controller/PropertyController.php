@@ -36,14 +36,6 @@ class PropertyController extends AppController
             throw $this->createNotFoundException($e->getMessage());
         }
 
-        $user = $this->userService->getUserEntityOrNullFromUserInterface($this->getUserInterface());
-
-        return $this->render(
-            'property/view.html.twig',
-            [
-                'property' => $property,
-                'user' => $user,
-            ]
-        );
+        return $this->render('index.html.twig');
     }
 }
