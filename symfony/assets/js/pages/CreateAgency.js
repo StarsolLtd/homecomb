@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Label, Button, FormText} from 'reactstrap';
+import {Label, Button, FormText, Container} from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../Constants";
@@ -32,45 +31,47 @@ class CreateAgency extends React.Component {
 
     render() {
         return (
-            <LoadingOverlay
-                active={this.state.formSubmissionInProgress}
-                styles={{
-                    overlay: (base) => ({
-                        ...base,
-                        background: "#fff",
-                        opacity: 0.5,
-                    }),
-                }}
-                spinner={<Loader active type='ball-triangle-path' />}
-            >
-                <AvForm onValidSubmit={this.handleValidSubmit}>
-                    <AvGroup>
-                        <Label for="agencyName">Agency name</Label>
-                        <AvInput name="agencyName" required onChange={this.handleChange} />
-                        <AvFeedback>Please enter your agency name.</AvFeedback>
-                        <FormText>
-                            Please enter the trading name of your agency. Example: Cambridge Lettings.
-                        </FormText>
-                    </AvGroup>
-                    <AvGroup>
-                        <Label for="externalUrl">Website URL</Label>
-                        <AvInput name="externalUrl" type="url" placeholder="http://yoursite.com" onChange={this.handleChange} />
-                        <FormText>
-                            Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
-                        </FormText>
-                    </AvGroup>
-                    <AvGroup>
-                        <Label for="postcode">Postcode</Label>
-                        <AvInput name="postcode" onChange={this.handleChange} />
-                        <FormText>
-                            Optional. Please enter the postcode of your agency's primary office.
-                        </FormText>
-                    </AvGroup>
-                    <Button color="primary">
-                        Create your agency
-                    </Button>
-                </AvForm>
-            </LoadingOverlay>
+            <Container>
+                <LoadingOverlay
+                    active={this.state.formSubmissionInProgress}
+                    styles={{
+                        overlay: (base) => ({
+                            ...base,
+                            background: "#fff",
+                            opacity: 0.5,
+                        }),
+                    }}
+                    spinner={<Loader active type='ball-triangle-path' />}
+                >
+                    <AvForm onValidSubmit={this.handleValidSubmit}>
+                        <AvGroup>
+                            <Label for="agencyName">Agency name</Label>
+                            <AvInput name="agencyName" required onChange={this.handleChange} />
+                            <AvFeedback>Please enter your agency name.</AvFeedback>
+                            <FormText>
+                                Please enter the trading name of your agency. Example: Cambridge Lettings.
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="externalUrl">Website URL</Label>
+                            <AvInput name="externalUrl" type="url" placeholder="http://yoursite.com" onChange={this.handleChange} />
+                            <FormText>
+                                Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="postcode">Postcode</Label>
+                            <AvInput name="postcode" onChange={this.handleChange} />
+                            <FormText>
+                                Optional. Please enter the postcode of your agency's primary office.
+                            </FormText>
+                        </AvGroup>
+                        <Button color="primary">
+                            Create your agency
+                        </Button>
+                    </AvForm>
+                </LoadingOverlay>
+            </Container>
         );
     }
 
@@ -104,4 +105,4 @@ class CreateAgency extends React.Component {
     }
 }
 
-ReactDOM.render(<CreateAgency />, document.getElementById('create-agency-root'));
+export default CreateAgency;

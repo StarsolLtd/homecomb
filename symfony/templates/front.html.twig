@@ -8,6 +8,7 @@
         {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
         {% block headJavascripts %}{% endblock %}
+        <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
     </head>
     <body class="d-flex flex-column min-vh-100">
         {% block content %}{% endblock %}
