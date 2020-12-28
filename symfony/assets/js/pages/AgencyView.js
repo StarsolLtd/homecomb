@@ -1,16 +1,20 @@
 import React from 'react';
 import AgencyBranch from "../components/AgencyBranch";
 import {Container} from "reactstrap";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingInfo from "../components/LoadingInfo";
 
 class AgencyView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             agencySlug: this.props.match.params.slug,
-            agencyLoading: false,
-            agencyLoaded: false,
-            agency: {}
+            agency: {},
+            loadingInfo: {
+                loaded: false,
+                loading: false,
+                loadingError: false,
+                loadingErrorCode: null,
+            },
         };
     }
 
@@ -21,17 +25,17 @@ class AgencyView extends React.Component {
     render() {
         return (
             <Container>
-                {this.state.loading &&
-                    <LoadingSpinner />
-                }
-                {!this.state.agencyLoading && this.state.agencyLoaded &&
+                <LoadingInfo
+                    info={this.state.loadingInfo}
+                />
+                {!this.state.loadingInfo.loading && this.state.loadingInfo.loaded &&
                     <div>
                         <div className="col-md-12 page-title">
                             <h1>{this.state.agency.name}</h1>
                         </div>
                         <div className="col-md-12">
                             <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-                                {this.state.agencyLoaded && this.state.agency.branches.map(
+                                {this.state.agency.branches.map(
                                     ({ slug, name, telephone, email }) => (
                                         <AgencyBranch
                                             key={slug}
@@ -52,7 +56,7 @@ class AgencyView extends React.Component {
     }
 
     fetchAgencyData() {
-        this.setState({agencyLoading: true});
+        this.setState({loadingInfo: {loading: true}})
         fetch(
             '/api/agency/' + this.state.agencySlug,
             {
@@ -62,12 +66,30 @@ class AgencyView extends React.Component {
                 }
             }
         )
-            .then(response => response.json())
+            .then(
+                response => {
+                    this.setState({
+                        loadingInfo: {loading: false},
+                    })
+                    if (!response.ok) {
+                        this.setState({
+                            loadingInfo: {
+                                loadingError: true,
+                                loadingErrorCode: response.status,
+                            }
+                        })
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
             .then(agency => {
                 this.setState({
                     agency,
-                    agencyLoading: false,
-                    agencyLoaded: true
+                    loadingInfo: {
+                        loading: false,
+                        loaded: true
+                    }
                 });
             });
     }

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Exception\NotFoundException;
 use App\Repository\AgencyRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,12 +25,6 @@ class AgencyController extends AppController
      */
     public function viewBySlug(string $slug): Response
     {
-        try {
-            $agency = $this->agencyRepository->findOnePublishedBySlug($slug);
-        } catch (NotFoundException $e) {
-            throw $this->createNotFoundException($e->getMessage());
-        }
-
         return $this->render('index.html.twig');
     }
 }

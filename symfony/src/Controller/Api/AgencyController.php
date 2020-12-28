@@ -3,9 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\NotFoundException;
 use App\Service\AgencyService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -29,9 +29,13 @@ class AgencyController extends AppController
      *     methods={"GET"}
      * )
      */
-    public function view(string $slug, Request $request): JsonResponse
+    public function view(string $slug): JsonResponse
     {
-        $view = $this->agencyService->getViewBySlug($slug);
+        try {
+            $view = $this->agencyService->getViewBySlug($slug);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
 
         return $this->jsonResponse($view, Response::HTTP_OK);
     }
