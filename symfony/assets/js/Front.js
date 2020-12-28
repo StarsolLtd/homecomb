@@ -38,7 +38,7 @@ class Front extends React.Component {
                       />
                     <Route path="/" exact component={Header}/>
                 </Switch>
-                <div className="wrapper flex-grow-1">
+                <div className="wrapper flex-grow-1 d-flex">
                     <Switch>
                         <Route path="/" exact component={Home}/>
                         <Route path="/about" component={About}/>
