@@ -1,14 +1,13 @@
 import React, {Fragment} from 'react';
-import ReactDOM from 'react-dom';
-import {Col, Row} from 'reactstrap';
+import {Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 
 class LocaleView extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            localeSlug: window.localeSlug,
+            localeSlug: this.props.match.params.slug,
             loading: false,
             loaded: false,
             name: '',
@@ -24,7 +23,7 @@ class LocaleView extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Container>
                 {this.state.loading &&
                 <div>
                     <div className="spinner-border" role="status">
@@ -76,7 +75,7 @@ class LocaleView extends React.Component {
                         </Row>
                     </div>
                 }
-            </Fragment>
+            </Container>
         );
     }
 
@@ -105,4 +104,4 @@ class LocaleView extends React.Component {
     }
 }
 
-ReactDOM.render(<LocaleView />, document.getElementById('locale-view-root'));
+export default LocaleView;

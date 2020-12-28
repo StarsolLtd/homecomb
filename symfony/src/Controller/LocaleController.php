@@ -37,14 +37,6 @@ class LocaleController extends AbstractController
             throw $this->createNotFoundException($e->getMessage());
         }
 
-        $agencyReviewsSummary = $this->localeService->getAgencyReviewsSummary($locale);
-
-        return $this->render(
-            'locale/view.html.twig',
-            [
-                'locale' => $locale,
-                'agencyReviewsSummary' => $agencyReviewsSummary,
-            ]
-        );
+        return $this->render('index.html.twig');
     }
 }

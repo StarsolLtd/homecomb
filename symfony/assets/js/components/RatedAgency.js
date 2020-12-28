@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import {Link} from "react-router-dom";
 
 class RatedAgency extends React.Component {
 
@@ -19,12 +20,12 @@ class RatedAgency extends React.Component {
             <div className="agency clearfix">
                 <div className="float-left agency-logo-container">
                     {this.state.agencyLogoImageFilename &&
-                        <a href={'/agency/' + this.state.agencySlug}>
+                        <Link to={'/agency/' + this.state.agencySlug}>
                             <img src={'/images/images/' + this.state.agencyLogoImageFilename}
                                  className="agency-logo float-left"
                                  alt={this.state.agencyName + ' Logo'}
                             />
-                        </a>
+                        </Link>
                     }
                 </div>
                 <div>
