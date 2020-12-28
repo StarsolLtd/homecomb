@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Container, Col, Row} from 'reactstrap';
+import {Alert, Container, Col, Row} from 'reactstrap';
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 
 class CreateReview extends React.Component {
@@ -15,6 +15,8 @@ class CreateReview extends React.Component {
             reviewerFirstName: '',
             reviewerLastName: '',
             reviewerEmail: '',
+            loadingError: false,
+            loadingErrorCode: null,
         };
     }
 
@@ -31,6 +33,11 @@ class CreateReview extends React.Component {
                             <span className="sr-only">Loading...</span>
                         </div>
                     </div>
+                }
+                {this.state.loadingError && this.state.loadingErrorCode === 404 &&
+                    <Alert color="info">
+                        Your review has been successfully received. Thank you!
+                    </Alert>
                 }
                 {!this.state.loading && this.state.loaded &&
                     <Fragment>
@@ -80,7 +87,21 @@ class CreateReview extends React.Component {
                 }
             }
         )
-            .then(response => response.json())
+            .then(
+                response => {
+                    this.setState({
+                        loading: false,
+                    })
+                    if (!response.ok) {
+                        this.setState({
+                            loadingError: true,
+                            loadingErrorCode: response.status,
+                        })
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
             .then(data => {
                 this.setState({
                     agency: data.agency,
