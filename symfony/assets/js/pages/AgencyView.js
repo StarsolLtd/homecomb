@@ -1,6 +1,7 @@
 import React from 'react';
 import AgencyBranch from "../components/AgencyBranch";
 import {Container} from "reactstrap";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class AgencyView extends React.Component {
     constructor(props) {
@@ -20,12 +21,8 @@ class AgencyView extends React.Component {
     render() {
         return (
             <Container>
-                {this.state.agencyLoading &&
-                <div>
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading Agency...</span>
-                    </div>
-                </div>
+                {this.state.loading &&
+                    <LoadingSpinner />
                 }
                 {!this.state.agencyLoading && this.state.agencyLoaded &&
                     <div>

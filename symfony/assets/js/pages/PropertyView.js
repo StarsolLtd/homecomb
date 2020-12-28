@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Button, Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -31,11 +32,7 @@ class PropertyView extends React.Component {
         return (
             <Container>
                 {this.state.loading &&
-                <div>
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading branch...</span>
-                    </div>
-                </div>
+                    <LoadingSpinner />
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>

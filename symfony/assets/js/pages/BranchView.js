@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class BranchView extends React.Component {
     constructor(props) {
@@ -23,11 +24,7 @@ class BranchView extends React.Component {
         return (
             <Container>
                 {this.state.loading &&
-                <div>
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading branch...</span>
-                    </div>
-                </div>
+                    <LoadingSpinner />
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>

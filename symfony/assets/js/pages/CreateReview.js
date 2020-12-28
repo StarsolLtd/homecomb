@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import {Alert, Container, Col, Row} from 'reactstrap';
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class CreateReview extends React.Component {
     constructor(props) {
@@ -28,11 +29,7 @@ class CreateReview extends React.Component {
         return (
             <Container>
                 {this.state.loading &&
-                    <div>
-                        <div className="spinner-border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div>
+                    <LoadingSpinner />
                 }
                 {this.state.loadingError && this.state.loadingErrorCode === 404 &&
                     <Alert color="info">

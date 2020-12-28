@@ -5,6 +5,7 @@ import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-valida
 import Constants from "../Constants";
 import Loader from "react-loaders";
 import InputProperty from "../components/InputProperty";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class CreateReviewSolicitation extends React.Component {
     constructor() {
@@ -74,11 +75,7 @@ class CreateReviewSolicitation extends React.Component {
         return (
             <Container>
                 {this.state.loading &&
-                <div>
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
+                <LoadingSpinner />
                 }
                 {!this.state.loading && this.state.loaded &&
                 <Fragment>
@@ -105,9 +102,9 @@ class CreateReviewSolicitation extends React.Component {
                                     <option value="" disabled>-Please select-</option>
                                     {this.state.branches.map(
                                         ({ slug, name }) => (
-                                                <option key={slug} value={slug}>{name}</option>
-                                            )
+                                            <option key={slug} value={slug}>{name}</option>
                                         )
+                                    )
                                     }
                                 </AvInput>
                                 <AvFeedback>Please select a branch.</AvFeedback>

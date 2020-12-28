@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -25,11 +26,7 @@ class LocaleView extends React.Component {
         return (
             <Container>
                 {this.state.loading &&
-                <div>
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
+                    <LoadingSpinner />
                 }
                 {!this.state.loading && this.state.loaded &&
                     <div>
