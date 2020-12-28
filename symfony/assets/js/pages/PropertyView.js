@@ -2,8 +2,7 @@ import React, {Fragment} from 'react';
 import {Button, Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
-import LoadingSpinner from "../components/LoadingSpinner";
-import FileNotFound from "../errors/FileNotFound";
+import LoadingInfo from "../components/LoadingInfo";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -14,10 +13,12 @@ class PropertyView extends React.Component {
             postcode: '',
             reviews: [],
             reviewTenancyFormOpen: false,
-            loaded: false,
-            loading: false,
-            loadingError: false,
-            loadingErrorCode: null,
+            loadingInfo: {
+                loaded: false,
+                loading: false,
+                loadingError: false,
+                loadingErrorCode: null,
+            },
         };
 
         this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
@@ -34,13 +35,10 @@ class PropertyView extends React.Component {
     render() {
         return (
             <Container>
-                {this.state.loading &&
-                    <LoadingSpinner />
-                }
-                {this.state.loadingError && this.state.loadingErrorCode === 404 &&
-                    <FileNotFound />
-                }
-                {!this.state.loading && this.state.loaded &&
+                <LoadingInfo
+                    info={this.state.loadingInfo}
+                />
+                {!this.state.loadingInfo.loading && this.state.loadingInfo.loaded &&
                     <div>
                         <Row>
                             <Col md="12" className="page-title">
@@ -97,7 +95,7 @@ class PropertyView extends React.Component {
     }
 
     fetchData() {
-        this.setState({loading: true});
+        this.setState({loadingInfo: {loading: true}})
         fetch(
             '/api/property/' + this.state.propertySlug,
             {
@@ -110,12 +108,14 @@ class PropertyView extends React.Component {
             .then(
                 response => {
                     this.setState({
-                        loading: false,
+                        loadingInfo: {loading: false},
                     })
                     if (!response.ok) {
                         this.setState({
-                            loadingError: true,
-                            loadingErrorCode: response.status,
+                            loadingInfo: {
+                                loadingError: true,
+                                loadingErrorCode: response.status,
+                            }
                         })
                         return Promise.reject('Error: ' + response.status)
                     }
@@ -127,8 +127,10 @@ class PropertyView extends React.Component {
                     addressLine1: data.addressLine1,
                     postcode: data.postcode,
                     reviews: data.reviews,
-                    loading: false,
-                    loaded: true
+                    loadingInfo: {
+                        loading: false,
+                        loaded: true
+                    }
                 });
             });
     }

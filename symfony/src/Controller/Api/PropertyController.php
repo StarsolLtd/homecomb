@@ -95,7 +95,7 @@ class PropertyController extends AppController
      *     methods={"GET"}
      * )
      */
-    public function view(string $slug, Request $request): JsonResponse
+    public function view(string $slug): JsonResponse
     {
         try {
             $view = $this->propertyService->getViewBySlug($slug);
