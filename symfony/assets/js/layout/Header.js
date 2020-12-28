@@ -1,17 +1,18 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 function Header() {
     return (
         <nav className="navbar navbar-dark">
             <div className="container">
                 <span className="navbar-brand logo-medium">
-                    <a href="/">
+                    <Link to="/">
                         <span className="red">Home</span><span className="bronze">Comb</span>
-                    </a>
-            </span>
-        </div>
-</nav>
-);
+                    </Link>
+                </span>
+            </div>
+        </nav>
+    );
 }
 
 export default Header;
