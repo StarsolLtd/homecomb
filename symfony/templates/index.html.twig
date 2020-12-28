@@ -1,0 +1,12 @@
+{% extends "front.html.twig" %}
+
+{% block title %}{{ site_name }}{% endblock %}
+
+{% block content %}
+    <div id="root"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('index') }}
+{% endblock %}

@@ -32,11 +32,13 @@ class AgencyController extends AppController
             throw $this->createNotFoundException($e->getMessage());
         }
 
-        return $this->render(
-            'agency/view.html.twig',
-            [
-                'agency' => $agency,
-            ]
-        );
+        return $this->render('index.html.twig');
+
+//        return $this->render(
+//            'agency/view.html.twig',
+//            [
+//                'agency' => $agency,
+//            ]
+//        );
     }
 }

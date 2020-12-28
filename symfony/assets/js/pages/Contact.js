@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Col, Container, Row } from 'reactstrap';
 
-class About extends React.Component {
+class Contact extends React.Component {
     render() {
         return (
             <Container>
                 <Row>
                     <Col md="12">
-                        <h1>About HomeComb</h1>
+                        <h1>Contact Us</h1>
                         <p>
-                            HomeComb is a letting agents review site.
+                            Coming soon.
                         </p>
                     </Col>
                 </Row>
@@ -19,4 +19,4 @@ class About extends React.Component {
     }
 }
 
-export default About;
+export default Contact;

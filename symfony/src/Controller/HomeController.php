@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      */
     public function about(Request $request): Response
     {
-        return $this->render('home/about.html.twig');
+        return $this->render('index.html.twig');
     }
 
     /**
@@ -30,7 +30,7 @@ class HomeController extends AbstractController
      */
     public function contact(Request $request): Response
     {
-        return $this->render('home/contact.html.twig');
+        return $this->render('index.html.twig');
     }
 
     /**

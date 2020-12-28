@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import AgencyBranch from "../components/AgencyBranch";
+import {Container} from "reactstrap";
 
 class AgencyView extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            agencySlug: window.agencySlug,
+            agencySlug: this.props.match.params.slug,
             agencyLoading: false,
             agencyLoaded: false,
             agency: {}
@@ -19,7 +19,7 @@ class AgencyView extends React.Component {
 
     render() {
         return (
-            <div>
+            <Container>
                 {this.state.agencyLoading &&
                 <div>
                     <div className="spinner-border" role="status">
@@ -50,14 +50,14 @@ class AgencyView extends React.Component {
                         </div>
                     </div>
                 }
-            </div>
+            </Container>
         );
     }
 
     fetchAgencyData() {
         this.setState({agencyLoading: true});
         fetch(
-            '/api/agency/' + window.agencySlug,
+            '/api/agency/' + this.state.agencySlug,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -76,4 +76,4 @@ class AgencyView extends React.Component {
     }
 }
 
-ReactDOM.render(<AgencyView />, document.getElementById('agency-view-root'));
+export default AgencyView;
