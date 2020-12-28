@@ -9,15 +9,6 @@ class Review extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.id,
-            author: this.props.author,
-            title: this.props.title,
-            content: this.props.content,
-            property: this.props.property,
-            branch: this.props.branch,
-            agency: this.props.agency,
-            stars: this.props.stars,
-            createdAt: this.props.createdAt,
             showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
             showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
             showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
@@ -28,46 +19,46 @@ class Review extends React.Component {
         return (
             <div className="reviews-members pt-4 pb-4">
                 <div className="dropdown float-right">
-                    <ReviewOptions reviewId={this.state.id} />
+                    <ReviewOptions reviewId={this.props.id} />
                 </div>
 
                 <div className="reviews-members-header">
                     <p className="mb-1 font-weight-bold">
-                        <span className="author">{this.state.author}</span>
-                        {this.state.property && this.state.showProperty &&
-                            <span>&nbsp;review of <Link to={'/property/' + this.state.property.slug}>{this.state.property.addressLine1}, {this.state.property.postcode}</Link></span>
+                        <span className="author">{this.props.author}</span>
+                        {this.props.property && this.state.showProperty &&
+                            <span>&nbsp;review of <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
                         }
                     </p>
                     <p className="text-gray">
-                        <Moment format="Do MMMM YYYY">{this.state.createdAt}</Moment>
+                        <Moment format="Do MMMM YYYY">{this.props.createdAt}</Moment>
                     </p>
                 </div>
 
                 <div className="reviews-members-body">
-                    <p className="font-weight-bold">{this.state.title}</p>
+                    <p className="font-weight-bold">{this.props.title}</p>
 
-                    <p>{this.state.content}</p>
+                    <p>{this.props.content}</p>
 
-                    {this.state.branch && this.state.showBranch &&
+                    {this.props.branch && this.state.showBranch &&
                     <p>
-                        {this.state.agency && this.state.showAgency &&
+                        {this.props.agency && this.state.showAgency &&
                         <Fragment>
                             Agency:&nbsp;
-                            {this.state.agency.published &&
-                            <Link to={'/agency/' + this.state.agency.slug} className="agency-name">{this.state.agency.name}</Link>
+                            {this.props.agency.published &&
+                            <Link to={'/agency/' + this.props.agency.slug} className="agency-name">{this.props.agency.name}</Link>
                             }
-                            {!this.state.agency.published &&
-                            <span className="agency-name">{this.state.agency.name}</span>
+                            {!this.props.agency.published &&
+                            <span className="agency-name">{this.props.agency.name}</span>
                             }
                             <br/>
                         </Fragment>
                         }
                         Branch:&nbsp;
-                        {this.state.branch.published &&
-                            <Link to={'/branch/' + this.state.branch.slug} className="branch-name">{this.state.branch.name}</Link>
+                        {this.props.branch.published &&
+                            <Link to={'/branch/' + this.props.branch.slug} className="branch-name">{this.props.branch.name}</Link>
                         }
-                        {!this.state.branch.published &&
-                            <span className="branch-name">{this.state.branch.name}</span>
+                        {!this.props.branch.published &&
+                            <span className="branch-name">{this.props.branch.name}</span>
                         }
                         <br />
                     </p>
@@ -75,10 +66,10 @@ class Review extends React.Component {
                 </div>
 
                 <ReviewStars
-                    overall={this.state.stars.overall}
-                    agency={this.state.stars.agency}
-                    landlord={this.state.stars.landlord}
-                    property={this.state.stars.property}
+                    overall={this.props.stars.overall}
+                    agency={this.props.stars.agency}
+                    landlord={this.props.stars.landlord}
+                    property={this.props.stars.property}
                 />
             </div>
         );
