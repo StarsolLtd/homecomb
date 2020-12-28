@@ -33,12 +33,5 @@ class AgencyController extends AppController
         }
 
         return $this->render('index.html.twig');
-
-//        return $this->render(
-//            'agency/view.html.twig',
-//            [
-//                'agency' => $agency,
-//            ]
-//        );
     }
 }

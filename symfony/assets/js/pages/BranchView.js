@@ -1,13 +1,12 @@
 import React, {Fragment} from 'react';
-import ReactDOM from 'react-dom';
-import {Col, Row} from 'reactstrap';
+import {Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
 
 class BranchView extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            branchSlug: window.branchSlug,
+            branchSlug: this.props.match.params.slug,
             loading: false,
             loaded: false,
             agency: {},
@@ -22,7 +21,7 @@ class BranchView extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Container>
                 {this.state.loading &&
                 <div>
                     <div className="spinner-border" role="status">
@@ -91,14 +90,14 @@ class BranchView extends React.Component {
                         </div>
                     </div>
                 }
-            </Fragment>
+            </Container>
         );
     }
 
     fetchData() {
         this.setState({loading: true});
         fetch(
-            '/api/branch/' + window.branchSlug,
+            '/api/branch/' + this.state.branchSlug,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -119,4 +118,4 @@ class BranchView extends React.Component {
     }
 }
 
-ReactDOM.render(<BranchView />, document.getElementById('branch-view-root'));
+export default BranchView;

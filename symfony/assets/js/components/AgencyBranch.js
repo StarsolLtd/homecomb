@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 class AgencyBranch extends React.Component {
 
@@ -15,7 +16,7 @@ class AgencyBranch extends React.Component {
     render() {
         return (
             <div className="agency-branch">
-                <div><a href={'/branch/' + this.state.slug}>{this.state.name}</a></div>
+                <div><Link to={'/branch/' + this.state.slug}>{this.state.name}</Link></div>
                 {this.state.telephone &&
                     <div className="telephone">Tel: {this.state.telephone}</div>
                 }

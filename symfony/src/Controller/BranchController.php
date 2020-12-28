@@ -33,12 +33,6 @@ class BranchController extends AbstractController
             throw $this->createNotFoundException($e->getMessage());
         }
 
-        return $this->render(
-            'branch/view.html.twig',
-            [
-                'agency' => $branch->getAgency(),
-                'branch' => $branch,
-            ]
-        );
+        return $this->render('index.html.twig');
     }
 }

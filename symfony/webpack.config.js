@@ -22,7 +22,6 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('login', './assets/login.js')
-    .addEntry('branch-view', './assets/js/pages/BranchView.js')
     .addEntry('create-agency', './assets/js/pages/CreateAgency.js')
     .addEntry('create-review-solicitation', './assets/js/pages/CreateReviewSolicitation.js')
     .addEntry('locale-view', './assets/js/pages/LocaleView.js')

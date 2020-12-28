@@ -12,6 +12,7 @@ import Header from "./layout/Header";
 import $ from 'jquery';
 import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
+import BranchView from "./pages/BranchView";
 
 function Front() {
     return (
@@ -22,6 +23,7 @@ function Front() {
                     <Route path="/about" component={About} />
                     <Route path="/contact" component={Contact} />
                     <Route path="/agency/:slug" component={AgencyView} />
+                    <Route path="/branch/:slug" component={BranchView} />
                 </Switch>
             </div>
             <Footer />
