@@ -1,12 +1,17 @@
-{% extends "front.html.twig" %}
-
-{% block title %}{{ site_name }}{% endblock %}
-
-{% block content %}
-    <div id="root"></div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('index') }}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ site_name }}{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+        {{ encore_entry_link_tags('index') }}
+        {% block stylesheets %}{% endblock %}
+        {% block headJavascripts %}{% endblock %}
+        <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+    </head>
+    <body>
+        <div id="root" class="d-flex flex-column min-vh-100"></div>
+        {{ encore_entry_script_tags('index') }}
+    </body>
+</html>
