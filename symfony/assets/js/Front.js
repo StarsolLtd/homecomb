@@ -20,6 +20,17 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 class Front extends React.Component {
 
+    constructor() {
+        super();
+        this.state = {
+            user: null
+        };
+    }
+
+    componentDidMount() {
+        this.fetchUserData();
+    }
+
     render() {
         return (
             <Fragment>
@@ -48,9 +59,31 @@ class Front extends React.Component {
                         <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
                     </Switch>
                 </div>
-                <Footer/>
+                <Footer user={this.state.user}/>
             </Fragment>
         )
+    }
+
+    fetchUserData() {
+        fetch(
+            '/api/user',
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+            .then((response) => {
+                if (!response.ok) throw new Error(response.status);
+                else return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    user: data
+                });
+            })
+            .catch(err => console.error("Error:", err));
     }
 }
 
