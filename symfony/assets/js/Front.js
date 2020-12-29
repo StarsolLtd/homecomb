@@ -10,17 +10,11 @@ import $ from 'jquery';
 import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
-import CreateAgency from "./pages/AgencyAdmin/CreateAgency";
-import UpdateAgency from "./pages/AgencyAdmin/UpdateAgency";
 import CreateReview from "./pages/CreateReview";
-import CreateReviewSolicitation from "./pages/CreateReviewSolicitation";
 import Home from "./pages/Home";
 import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
-import AgencyAdminHome from "./pages/AgencyAdmin/Home";
-
 
 class Front extends React.Component {
 
@@ -58,11 +52,6 @@ class Front extends React.Component {
                         <Route path="/l/:slug" component={LocaleView}/>
                         <Route path="/property/:slug" component={PropertyView}/>
                         <Route path="/rs/:code" component={CreateReview}/>
-
-                        <Route path="/verified/agency/create" component={CreateAgency}/>
-                        <Route path="/verified/agency" component={UpdateAgency}/>
-                        <Route path="/verified/agency-admin" component={AgencyAdminHome}/>
-                        <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
                     </Switch>
                 </div>
                 <Footer user={this.state.user}/>

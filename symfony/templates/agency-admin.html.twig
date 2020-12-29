@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ site_name }}{% endblock %}</title>
+        {{ encore_entry_link_tags('agency-admin') }}
+        <script src="https://www.google.com/recaptcha/api.js?render={{ google_recaptcha_site_key }}"></script>
+    </head>
+    <body>
+        <div id="root" class="d-flex flex-column min-vh-100"></div>
+        {{ encore_entry_script_tags('agency-admin') }}
+    </body>
+</html>
