@@ -17,10 +17,6 @@ class BranchView extends React.Component {
         this.loadData = this.loadData.bind(this);
     }
 
-    componentDidMount() {
-        this.fetchData();
-    }
-
     render() {
         return (
             <Container>
@@ -91,39 +87,6 @@ class BranchView extends React.Component {
                 }
             </Container>
         );
-    }
-
-    fetchData() {
-        this.setState({loadingInfo: {loading: true}})
-        fetch('/api/branch/' + this.state.branchSlug)
-            .then(
-                response => {
-                    this.setState({
-                        loadingInfo: {loading: false},
-                    })
-                    if (!response.ok) {
-                        this.setState({
-                            loadingInfo: {
-                                loadingError: true,
-                                loadingErrorCode: response.status,
-                            }
-                        })
-                        return Promise.reject('Error: ' + response.status)
-                    }
-                    return response.json()
-                }
-            )
-            .then(data => {
-                this.setState({
-                    agency: data.agency,
-                    branch: data.branch,
-                    reviews: data.reviews,
-                    loadingInfo: {
-                        loading: false,
-                        loaded: true
-                    }
-                });
-            });
     }
 
     loadData(data) {
