@@ -26,12 +26,16 @@ class FlatModelFactoryTest extends TestCase
         $agency = (new Agency())
             ->setSlug('agencyslug')
             ->setName('Surrey Lets')
+            ->setExternalUrl('http://surrey.lets')
+            ->setPostcode('GU21 5SZ')
             ->setPublished(true);
 
         $model = $this->flatModelFactory->getAgencyFlatModel($agency);
 
         $this->assertEquals('agencyslug', $model->getSlug());
         $this->assertEquals('Surrey Lets', $model->getName());
+        $this->assertEquals('http://surrey.lets', $model->getExternalUrl());
+        $this->assertEquals('GU21 5SZ', $model->getPostcode());
         $this->assertTrue($model->isPublished());
         $this->assertNull($model->getLogoImageFilename());
     }

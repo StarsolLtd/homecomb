@@ -10,7 +10,8 @@ import $ from 'jquery';
 import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
-import CreateAgency from "./pages/CreateAgency";
+import CreateAgency from "./pages/AgencyAdmin/CreateAgency";
+import UpdateAgency from "./pages/AgencyAdmin/UpdateAgency";
 import CreateReview from "./pages/CreateReview";
 import CreateReviewSolicitation from "./pages/CreateReviewSolicitation";
 import Home from "./pages/Home";
@@ -55,7 +56,8 @@ class Front extends React.Component {
                         <Route path="/property/:slug" component={PropertyView}/>
                         <Route path="/rs/:code" component={CreateReview}/>
 
-                        <Route path="/verified/agency" component={CreateAgency}/>
+                        <Route path="/verified/agency/create" component={CreateAgency}/>
+                        <Route path="/verified/agency" component={UpdateAgency}/>
                         <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
                     </Switch>
                 </div>

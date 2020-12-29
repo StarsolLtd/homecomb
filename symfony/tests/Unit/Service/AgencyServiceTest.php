@@ -8,7 +8,9 @@ use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
+use App\Factory\FlatModelFactory;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
@@ -30,6 +32,7 @@ class AgencyServiceTest extends TestCase
     private $userService;
     private $entityManager;
     private $agencyFactory;
+    private $flatModelFactory;
     private $agencyHelper;
     private $agencyRepository;
 
@@ -39,6 +42,7 @@ class AgencyServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->agencyFactory = $this->prophesize(AgencyFactory::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->agencyHelper = $this->prophesize(AgencyHelper::class);
         $this->agencyRepository = $this->prophesize(AgencyRepository::class);
 
@@ -47,6 +51,7 @@ class AgencyServiceTest extends TestCase
             $this->userService->reveal(),
             $this->entityManager->reveal(),
             $this->agencyFactory->reveal(),
+            $this->flatModelFactory->reveal(),
             $this->agencyHelper->reveal(),
             $this->agencyRepository->reveal()
         );
@@ -76,7 +81,7 @@ class AgencyServiceTest extends TestCase
 
         $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn($agency);
 
-        $this->entityManager->flush()->shouldNotBeCalled();
+        $this->assertEntityManagerUnused();
 
         $result = $this->agencyService->findOrCreateByName($agencyName);
 
@@ -130,9 +135,29 @@ class AgencyServiceTest extends TestCase
             ->willReturn($user);
 
         $this->expectException(ConflictException::class);
-        $this->entityManager->flush()->shouldNotBeCalled();
+        $this->assertEntityManagerUnused();
 
         $this->agencyService->createAgency($createAgencyInput, $user);
+    }
+
+    public function testGetAgencyForUser(): void
+    {
+        $slug = 'testagencyslug';
+        $user = new User();
+        $agency = (new Agency())->setSlug($slug)->addAdminUser($user);
+        $agencyModel = $this->prophesize(Flat::class);
+
+        $this->userService->getEntityFromInterface($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($user);
+
+        $this->flatModelFactory->getAgencyFlatModel($agency)
+            ->shouldBeCalledOnce()
+            ->willReturn($agencyModel);
+
+        $this->assertEntityManagerUnused();
+
+        $this->agencyService->getAgencyForUser($user);
     }
 
     public function testUpdateAgency(): void
@@ -172,7 +197,7 @@ class AgencyServiceTest extends TestCase
         $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
 
         $this->expectException(NotFoundException::class);
-        $this->entityManager->flush()->shouldNotBeCalled();
+        $this->assertEntityManagerUnused();
 
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
     }
@@ -193,8 +218,17 @@ class AgencyServiceTest extends TestCase
         $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
 
         $this->expectException(ForbiddenException::class);
-        $this->entityManager->flush()->shouldNotBeCalled();
+        $this->assertEntityManagerUnused();
 
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
+    }
+
+    private function assertEntityManagerUnused(): void
+    {
+        $this->entityManager->persist(Argument::any())
+            ->shouldNotBeCalled();
+
+        $this->entityManager->flush()
+            ->shouldNotBeCalled();
     }
 }

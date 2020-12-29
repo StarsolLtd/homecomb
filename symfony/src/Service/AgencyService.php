@@ -7,14 +7,17 @@ use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
+use App\Factory\FlatModelFactory;
 use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\CreateAgencyOutput;
+use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Agency\UpdateAgencyOutput;
 use App\Repository\AgencyRepository;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AgencyService
@@ -23,6 +26,7 @@ class AgencyService
     private UserService $userService;
     private EntityManagerInterface $entityManager;
     private AgencyFactory $agencyFactory;
+    private FlatModelFactory $flatModelFactory;
     private AgencyHelper $agencyHelper;
     private AgencyRepository $agencyRepository;
 
@@ -31,6 +35,7 @@ class AgencyService
         UserService $userService,
         EntityManagerInterface $entityManager,
         AgencyFactory $agencyFactory,
+        FlatModelFactory $flatModelFactory,
         AgencyHelper $agencyHelper,
         AgencyRepository $agencyRepository
     ) {
@@ -38,6 +43,7 @@ class AgencyService
         $this->userService = $userService;
         $this->entityManager = $entityManager;
         $this->agencyFactory = $agencyFactory;
+        $this->flatModelFactory = $flatModelFactory;
         $this->agencyHelper = $agencyHelper;
         $this->agencyRepository = $agencyRepository;
     }
@@ -59,6 +65,19 @@ class AgencyService
         $this->notificationService->sendAgencyModerationNotification($agency);
 
         return new CreateAgencyOutput(true);
+    }
+
+    public function getAgencyForUser(?UserInterface $user): Flat
+    {
+        $user = $this->userService->getEntityFromInterface($user);
+
+        $agency = $user->getAdminAgency();
+
+        if (null === $agency) {
+            throw new NotFoundException(sprintf('User is not an agency admin.'));
+        }
+
+        return $this->flatModelFactory->getAgencyFlatModel($agency);
     }
 
     public function updateAgency(string $slug, UpdateAgencyInput $updateAgencyInput, ?UserInterface $user): UpdateAgencyOutput

@@ -32,6 +32,8 @@ class FlatModelFactory
         return new FlatAgency(
             $entity->getSlug(),
             $entity->getName(),
+            $entity->getExternalUrl(),
+            $entity->getPostcode(),
             $entity->isPublished(),
             $logoImageFilename
         );

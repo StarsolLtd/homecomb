@@ -3,6 +3,7 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
+use App\Model\Agency\Flat;
 use App\Model\ReviewSolicitation\FormData;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
@@ -322,5 +323,21 @@ class AgencyAdminControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    public function testGetAgencyForUser(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request('GET', '/api/verified/agency');
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
+        /** @var Flat $output */
+        $output = $this->serializer->deserialize($client->getResponse()->getContent(), Flat::class, 'json');
+
+        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $output->getSlug());
     }
 }

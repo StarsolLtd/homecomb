@@ -36,4 +36,13 @@ class AgencyRepository extends ServiceEntityRepository
 
         return $agency;
     }
+
+    public function findOneBySlugOrNull(string $slug): ?Agency
+    {
+        return $this->findOneBy(
+            [
+                'slug' => $slug,
+            ]
+        );
+    }
 }

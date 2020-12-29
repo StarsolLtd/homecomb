@@ -18,12 +18,26 @@ class AgencyAdminController extends AppController
 
     /**
      * @Route (
-     *     "/verified/agency",
+     *     "/verified/agency/create",
      *     name="create-agency-form",
      *     methods={"GET"}
      * )
      */
     public function createAgencyForm(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $this->render('index.html.twig');
+    }
+
+    /**
+     * @Route (
+     *     "/verified/agency",
+     *     name="create-agency-form",
+     *     methods={"GET"}
+     * )
+     */
+    public function updateAgencyForm(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

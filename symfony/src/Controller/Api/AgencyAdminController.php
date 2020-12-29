@@ -94,6 +94,26 @@ class AgencyAdminController extends AppController
 
     /**
      * @Route (
+     *     "/api/verified/agency",
+     *     name="get-agency",
+     *     methods={"GET"}
+     * )
+     */
+    public function getAgencyForUser(): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
+        }
+
+        $output = $this->agencyService->getAgencyForUser($this->getUserInterface());
+
+        return $this->jsonResponse($output, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route (
      *     "/api/verified/agency/{slug}",
      *     name="update-agency",
      *     methods={"PUT"}
@@ -111,7 +131,7 @@ class AgencyAdminController extends AppController
         $input = $this->serializer->deserialize($request->getContent(), UpdateAgencyInput::class, 'json');
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
-            $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
+            $this->addFlash('error', 'Sorry, we were unable to process your agency update.');
 
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
