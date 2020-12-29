@@ -238,4 +238,19 @@ class Agency
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getPublishedReviews(): Collection
+    {
+        $reviews = new ArrayCollection();
+        foreach ($this->getBranches() as $branch) {
+            foreach ($branch->getPublishedReviews() as $review) {
+                $reviews->add($review);
+            }
+        }
+
+        return $reviews;
+    }
 }
