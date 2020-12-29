@@ -2,37 +2,30 @@ import React, {Fragment} from 'react';
 import {Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
-import LoadingInfo from "../components/LoadingInfo";
+import DataLoader from "../components/DataLoader";
 
 class LocaleView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            localeSlug: this.props.match.params.slug,
             name: '',
             content: '',
             reviews: [],
             agencyReviewsSummary: null,
-            loadingInfo: {
-                loaded: false,
-                loading: false,
-                loadingError: false,
-                loadingErrorCode: null,
-            },
+            loaded: false,
         };
-    }
 
-    componentDidMount() {
-        this.fetchData();
+        this.loadData = this.loadData.bind(this);
     }
 
     render() {
         return (
             <Container>
-                <LoadingInfo
-                    info={this.state.loadingInfo}
+                <DataLoader
+                    url={'/api/l/' + this.props.match.params.slug}
+                    loadComponentData={this.loadData}
                 />
-                {!this.state.loadingInfo.loading && this.state.loadingInfo.loaded &&
+                {this.state.loaded &&
                     <div>
                         <Row>
                             <Col md="12" className="page-title">
@@ -80,38 +73,14 @@ class LocaleView extends React.Component {
         );
     }
 
-    fetchData() {
-        this.setState({loadingInfo: {loading: true}})
-        fetch('/api/l/' + this.state.localeSlug)
-            .then(
-                response => {
-                    this.setState({
-                        loadingInfo: {loading: false},
-                    })
-                    if (!response.ok) {
-                        this.setState({
-                            loadingInfo: {
-                                loadingError: true,
-                                loadingErrorCode: response.status,
-                            }
-                        })
-                        return Promise.reject('Error: ' + response.status)
-                    }
-                    return response.json()
-                }
-            )
-            .then(data => {
-                this.setState({
-                    name: data.name,
-                    content: data.content,
-                    reviews: data.reviews,
-                    agencyReviewsSummary: data.agencyReviewsSummary,
-                    loadingInfo: {
-                        loading: false,
-                        loaded: true
-                    }
-                });
-            });
+    loadData(data) {
+        this.setState({
+            name: data.name,
+            content: data.content,
+            reviews: data.reviews,
+            agencyReviewsSummary: data.agencyReviewsSummary,
+            loaded: true,
+        });
     }
 }
 
