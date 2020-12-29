@@ -16,6 +16,10 @@ body {
     margin-bottom: 2%;
 }
 
+.light-bronze {
+    background-color: #cdc3c0;
+}
+
 .navbar-brand a {
     text-decoration: none;
 }
@@ -49,6 +53,11 @@ footer ul, footer ul li {
 
 .logo-medium {
     font-size: 3rem;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.logo-sm {
+    font-size: 1.5rem;
     font-family: 'Libre Baskerville', serif;
 }
 

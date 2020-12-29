@@ -1,5 +1,5 @@
-import React from 'react';
-import {Container, Label, FormText, Button} from 'reactstrap';
+import React, {Fragment} from 'react';
+import {Label, FormText, Button} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
@@ -36,7 +36,7 @@ class UpdateAgency extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Fragment>
                 <DataLoader
                     url='/api/verified/agency'
                     loadComponentData={this.loadData}
@@ -81,7 +81,7 @@ class UpdateAgency extends React.Component {
                     </AvForm>
                 </LoadingOverlay>
                 }
-            </Container>
+            </Fragment>
         );
     }
 

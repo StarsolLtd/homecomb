@@ -1,8 +1,6 @@
 import React, {Fragment} from "react"
 import {Switch, Route} from 'react-router-dom';
 
-import Header from "../../layout/Header";
-
 import $ from 'jquery';
 import 'jquery-ui-bundle';
 import CreateAgency from "./CreateAgency";
@@ -10,7 +8,10 @@ import UpdateAgency from "./UpdateAgency";
 import CreateReviewSolicitation from "../CreateReviewSolicitation";
 
 import AgencyAdminHome from "./Home";
-import Footer from "./Footer";
+import LayoutFooter from "./LayoutFooter";
+import LayoutHeader from "./LayoutHeader";
+import LayoutSidebar from "./LayoutSidebar";
+import {Col, Row} from "reactstrap";
 
 
 class Router extends React.Component {
@@ -29,16 +30,19 @@ class Router extends React.Component {
     render() {
         return (
             <Fragment>
-                <Header/>
-                <div className="wrapper flex-grow-1 d-flex">
-                    <Switch>
-                        <Route path="/verified/agency/create" component={CreateAgency}/>
-                        <Route path="/verified/agency" component={UpdateAgency}/>
-                        <Route path="/verified/agency-admin" component={AgencyAdminHome}/>
-                        <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
-                    </Switch>
-                </div>
-                <Footer user={this.state.user}/>
+                <LayoutHeader/>
+                <Row className="flex-grow-1 d-flex">
+                    <LayoutSidebar />
+                    <Col md={10} className="p-4">
+                        <Switch>
+                            <Route path="/verified/agency/create" component={CreateAgency}/>
+                            <Route path="/verified/agency" component={UpdateAgency}/>
+                            <Route path="/verified/agency-admin" component={AgencyAdminHome}/>
+                            <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
+                        </Switch>
+                    </Col>
+                </Row>
+                <LayoutFooter user={this.state.user}/>
             </Fragment>
         )
     }

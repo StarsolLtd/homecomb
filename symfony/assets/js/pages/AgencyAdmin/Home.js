@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Container, Row, Col} from 'reactstrap';
+import {Row, Col} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import ReactTable from 'react-table-v6'
 import 'react-table-v6/react-table.css'
@@ -18,7 +18,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Fragment>
                 <DataLoader
                     url='/api/verified/agency-admin'
                     loadComponentData={this.loadData}
@@ -60,7 +60,7 @@ class Home extends React.Component {
                         </Row>
                     </Fragment>
                 }
-            </Container>
+            </Fragment>
         );
     }
 
