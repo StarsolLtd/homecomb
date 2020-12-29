@@ -60,15 +60,7 @@ class Front extends React.Component {
     }
 
     fetchUserData() {
-        fetch(
-            '/api/user',
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/user')
             .then((response) => {
                 if (!response.ok) throw new Error(response.status);
                 else return response.json();

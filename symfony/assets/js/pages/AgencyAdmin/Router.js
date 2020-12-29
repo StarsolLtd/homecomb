@@ -29,9 +29,7 @@ class Router extends React.Component {
     render() {
         return (
             <Fragment>
-                <Switch>
-                    <Header/>
-                </Switch>
+                <Header/>
                 <div className="wrapper flex-grow-1 d-flex">
                     <Switch>
                         <Route path="/verified/agency/create" component={CreateAgency}/>
@@ -46,15 +44,7 @@ class Router extends React.Component {
     }
 
     fetchUserData() {
-        fetch(
-            '/api/user',
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        fetch('/api/user')
             .then((response) => {
                 if (!response.ok) throw new Error(response.status);
                 else return response.json();
