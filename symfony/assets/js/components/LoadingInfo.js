@@ -5,16 +5,24 @@ import InternalServerError from "../errors/InternalServerError";
 
 class LoadingInfo extends React.Component {
     render(){
+        const CustomFileNotFound = this.props.customFileNotFound;
         return (
             <Fragment>
                 {this.props.info.loading &&
-                    <LoadingSpinner />
+                <LoadingSpinner />
                 }
                 {this.props.info.loadingError && this.props.info.loadingErrorCode === 404 &&
+                <Fragment>
+                    {this.props.customFileNotFound &&
+                    <CustomFileNotFound />
+                    }
+                    {!this.props.customFileNotFound &&
                     <FileNotFound />
+                    }
+                </Fragment>
                 }
                 {this.props.info.loadingError && this.props.info.loadingErrorCode === 500 &&
-                    <InternalServerError />
+                <InternalServerError />
                 }
             </Fragment>
         )

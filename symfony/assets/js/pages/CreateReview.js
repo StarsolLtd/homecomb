@@ -2,41 +2,34 @@ import React, {Fragment} from 'react';
 import {Alert, Container, Col, Row} from 'reactstrap';
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import LoadingSpinner from "../components/LoadingSpinner";
+import DataLoader from "../components/DataLoader";
+import ReviewSolicitationNotFound from "../errors/ReviewSolicitationNotFound";
 
 class CreateReview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: this.props.match.params.code,
-            loading: false,
-            loaded: false,
             agency: null,
             branch: null,
             property: null,
             reviewerFirstName: '',
             reviewerLastName: '',
             reviewerEmail: '',
-            loadingError: false,
-            loadingErrorCode: null,
+            loaded: false,
         };
-    }
 
-    componentDidMount() {
-        this.fetchData();
+        this.loadData = this.loadData.bind(this);
     }
 
     render() {
         return (
             <Container>
-                {this.state.loading &&
-                    <LoadingSpinner />
-                }
-                {this.state.loadingError && this.state.loadingErrorCode === 404 &&
-                    <Alert color="info">
-                        Your review has been successfully received. Thank you!
-                    </Alert>
-                }
-                {!this.state.loading && this.state.loaded &&
+                <DataLoader
+                    url={'/api/rs/' + this.props.match.params.code}
+                    loadComponentData={this.loadData}
+                    customFileNotFound={ReviewSolicitationNotFound}
+                />
+                {this.state.loaded &&
                     <Fragment>
                         <Row>
                             <Col md="12" className="page-title">
@@ -57,7 +50,7 @@ class CreateReview extends React.Component {
                                 <hr />
 
                                 <ReviewTenancyForm
-                                    code={this.state.code}
+                                    code={this.props.match.params.code}
                                     fixedBranch={true}
                                     branch={this.state.branch}
                                     agency={this.state.agency}
@@ -73,36 +66,16 @@ class CreateReview extends React.Component {
         );
     }
 
-    fetchData() {
-        this.setState({loading: true});
-        fetch('/api/rs/' + this.state.code)
-            .then(
-                response => {
-                    this.setState({
-                        loading: false,
-                    })
-                    if (!response.ok) {
-                        this.setState({
-                            loadingError: true,
-                            loadingErrorCode: response.status,
-                        })
-                        return Promise.reject('Error: ' + response.status)
-                    }
-                    return response.json()
-                }
-            )
-            .then(data => {
-                this.setState({
-                    agency: data.agency,
-                    branch: data.branch,
-                    property: data.property,
-                    reviewerFirstName: data.reviewerFirstName,
-                    reviewerLastName: data.reviewerLastName,
-                    reviewerEmail: data.reviewerEmail,
-                    loading: false,
-                    loaded: true
-                });
-            });
+    loadData(data) {
+        this.setState({
+            agency: data.agency,
+            branch: data.branch,
+            property: data.property,
+            reviewerFirstName: data.reviewerFirstName,
+            reviewerLastName: data.reviewerLastName,
+            reviewerEmail: data.reviewerEmail,
+            loaded: true,
+        });
     }
 }
 

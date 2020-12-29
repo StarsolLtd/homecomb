@@ -13,6 +13,8 @@ class DataLoader extends React.Component {
             },
         };
 
+        this.customFileNotFound = this.props.customFileNotFound;
+
         this.loadComponentData = this.props.loadComponentData;
     }
 
@@ -56,6 +58,7 @@ class DataLoader extends React.Component {
         return (
             <LoadingInfo
                 info={this.state.loadingInfo}
+                customFileNotFound={this.props.customFileNotFound}
             />
         );
     }
