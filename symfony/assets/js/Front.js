@@ -19,6 +19,9 @@ import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+import AgencyAdminHome from "./pages/AgencyAdmin/Home";
+
+
 class Front extends React.Component {
 
     constructor() {
@@ -58,6 +61,7 @@ class Front extends React.Component {
 
                         <Route path="/verified/agency/create" component={CreateAgency}/>
                         <Route path="/verified/agency" component={UpdateAgency}/>
+                        <Route path="/verified/agency-admin" component={AgencyAdminHome}/>
                         <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
                     </Switch>
                 </div>

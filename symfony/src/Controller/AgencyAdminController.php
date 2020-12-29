@@ -57,4 +57,18 @@ class AgencyAdminController extends AppController
 
         return $this->render('index.html.twig');
     }
+
+    /**
+     * @Route (
+     *     "/verified/agency-admin",
+     *     name="agency-admin-home",
+     *     methods={"GET"}
+     * )
+     */
+    public function agencyAdminHome(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $this->render('index.html.twig');
+    }
 }
