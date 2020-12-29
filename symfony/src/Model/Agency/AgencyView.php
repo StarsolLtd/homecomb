@@ -2,6 +2,8 @@
 
 namespace App\Model\Agency;
 
+use App\Model\Branch\Flat as FlatBranch;
+
 class AgencyView
 {
     private string $slug;
@@ -29,7 +31,7 @@ class AgencyView
     }
 
     /**
-     * @return AgencyBranch[]
+     * @return FlatBranch[]
      */
     public function getBranches(): array
     {

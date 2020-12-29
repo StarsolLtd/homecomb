@@ -5,7 +5,9 @@ namespace App\Tests\Unit\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Factory\AgencyFactory;
+use App\Factory\FlatModelFactory;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Branch\Flat as FlatBranch;
 use App\Util\AgencyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -18,13 +20,16 @@ class AgencyFactoryTest extends TestCase
     private AgencyFactory $agencyFactory;
 
     private $agencyHelper;
+    private $flatModelFactory;
 
     public function setUp(): void
     {
         $this->agencyHelper = $this->prophesize(AgencyHelper::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
 
         $this->agencyFactory = new AgencyFactory(
             $this->agencyHelper->reveal(),
+            $this->flatModelFactory->reveal(),
         );
     }
 
@@ -50,22 +55,24 @@ class AgencyFactoryTest extends TestCase
 
     public function testCreateViewFromEntity(): void
     {
-        $branch1 = (new Branch())->setName('Holt')->setSlug('holtslug111');
-        $branch2 = (new Branch())->setName('Sheringham')->setSlug('sheringhamslug222');
+        $branch1 = (new Branch())->setName('Holt');
+        $flatBranch1 = $this->prophesize(FlatBranch::class);
+        $branch2 = (new Branch())->setName('Sheringham');
+        $flatBranch2 = $this->prophesize(FlatBranch::class);
         $agency = (new Agency())->setName('Gresham Homes')->setSlug('abcdef123456')->addBranch($branch1)->addBranch($branch2);
+
+        $this->flatModelFactory->getBranchFlatModel($branch1)
+            ->shouldBeCalledOnce()
+            ->willReturn($flatBranch1);
+
+        $this->flatModelFactory->getBranchFlatModel($branch2)
+            ->shouldBeCalledOnce()
+            ->willReturn($flatBranch2);
 
         $view = $this->agencyFactory->createViewFromEntity($agency);
 
         $this->assertEquals('Gresham Homes', $view->getName());
         $this->assertEquals('abcdef123456', $view->getSlug());
         $this->assertCount(2, $view->getBranches());
-        $this->assertEquals('Holt', $view->getBranches()[0]->getName());
-        $this->assertEquals('holtslug111', $view->getBranches()[0]->getSlug());
-        $this->assertNull($view->getBranches()[0]->getTelephone());
-        $this->assertNull($view->getBranches()[0]->getEmail());
-        $this->assertEquals('Sheringham', $view->getBranches()[1]->getName());
-        $this->assertEquals('sheringhamslug222', $view->getBranches()[1]->getSlug());
-        $this->assertNull($view->getBranches()[1]->getTelephone());
-        $this->assertNull($view->getBranches()[1]->getEmail());
     }
 }

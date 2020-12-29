@@ -3,8 +3,6 @@
 namespace App\Factory;
 
 use App\Entity\Agency;
-use App\Entity\Branch;
-use App\Model\Agency\AgencyBranch;
 use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Util\AgencyHelper;
@@ -12,11 +10,14 @@ use App\Util\AgencyHelper;
 class AgencyFactory
 {
     private AgencyHelper $agencyHelper;
+    private FlatModelFactory $flatModelFactory;
 
     public function __construct(
-        AgencyHelper $agencyHelper
+        AgencyHelper $agencyHelper,
+        FlatModelFactory $flatModelFactory
     ) {
         $this->agencyHelper = $agencyHelper;
+        $this->flatModelFactory = $flatModelFactory;
     }
 
     public function createAgencyEntityFromCreateAgencyInputModel(CreateAgencyInput $createAgencyInput): Agency
@@ -35,23 +36,13 @@ class AgencyFactory
     {
         $branches = [];
         foreach ($agency->getBranches() as $branch) {
-            $branches[] = $this->createAgencyBranchFromBranchEntity($branch);
+            $branches[] = $this->flatModelFactory->getBranchFlatModel($branch);
         }
 
         return new AgencyView(
             $agency->getSlug() ?? '',
             $agency->getName() ?? '',
             $branches
-        );
-    }
-
-    private function createAgencyBranchFromBranchEntity(Branch $branch): AgencyBranch
-    {
-        return new AgencyBranch(
-            $branch->getSlug() ?? '',
-            $branch->getName() ?? '',
-            $branch->getTelephone(),
-            $branch->getEmail()
         );
     }
 }
