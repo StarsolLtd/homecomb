@@ -23,7 +23,6 @@ class DataLoader extends React.Component {
     fetchData() {
         this.setState({loadingInfo: {loading: true}})
 
-        let dataFetcher = this;
         fetch(this.props.url)
             .then(
                 response => {
@@ -49,10 +48,7 @@ class DataLoader extends React.Component {
                         loaded: true
                     }
                 })
-
-                console.log(data);
-
-                dataFetcher.loadComponentData(data);
+                this.loadComponentData(data);
             });
     }
 

@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
-import LoadingInfo from "../components/LoadingInfo";
+import DataLoader from "../components/DataLoader";
 
 class BranchView extends React.Component {
     constructor(props) {
@@ -11,13 +11,10 @@ class BranchView extends React.Component {
             agency: {},
             branch: {},
             reviews: [],
-            loadingInfo: {
-                loaded: false,
-                loading: false,
-                loadingError: false,
-                loadingErrorCode: null,
-            },
+            loaded: false,
         };
+
+        this.loadData = this.loadData.bind(this);
     }
 
     componentDidMount() {
@@ -27,10 +24,11 @@ class BranchView extends React.Component {
     render() {
         return (
             <Container>
-                <LoadingInfo
-                    info={this.state.loadingInfo}
+                <DataLoader
+                    url={'/api/branch/' + this.state.branchSlug}
+                    loadComponentData={this.loadData}
                 />
-                {!this.state.loadingInfo.loading && this.state.loadingInfo.loaded &&
+                {this.state.loaded &&
                     <div>
                         <Row>
                             <Col md="12" className="page-title">
@@ -126,6 +124,15 @@ class BranchView extends React.Component {
                     }
                 });
             });
+    }
+
+    loadData(data) {
+        this.setState({
+            agency: data.agency,
+            branch: data.branch,
+            reviews: data.reviews,
+            loaded: true,
+        });
     }
 }
 
