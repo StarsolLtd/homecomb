@@ -16,6 +16,7 @@ use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
 use App\Service\NotificationService;
 use App\Service\UserService;
+use App\Tests\Unit\EntityManagerTrait;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -25,12 +26,12 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class AgencyServiceTest extends TestCase
 {
     use ProphecyTrait;
+    use EntityManagerTrait;
 
     private AgencyService $agencyService;
 
     private $notificationService;
     private $userService;
-    private $entityManager;
     private $agencyFactory;
     private $flatModelFactory;
     private $agencyHelper;
@@ -221,14 +222,5 @@ class AgencyServiceTest extends TestCase
         $this->assertEntityManagerUnused();
 
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
-    }
-
-    private function assertEntityManagerUnused(): void
-    {
-        $this->entityManager->persist(Argument::any())
-            ->shouldNotBeCalled();
-
-        $this->entityManager->flush()
-            ->shouldNotBeCalled();
     }
 }
