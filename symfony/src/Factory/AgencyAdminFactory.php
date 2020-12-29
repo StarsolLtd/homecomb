@@ -5,7 +5,7 @@ namespace App\Factory;
 use App\Entity\Agency;
 use App\Model\AgencyAdmin\Home;
 
-class AdminAgencyFactory
+class AgencyAdminFactory
 {
     private FlatModelFactory $flatModelFactory;
     private ReviewFactory $reviewFactory;
@@ -18,7 +18,7 @@ class AdminAgencyFactory
         $this->reviewFactory = $reviewFactory;
     }
 
-    public function createHome(Agency $agencyEntity): Home
+    public function getHome(Agency $agencyEntity): Home
     {
         $agency = $this->flatModelFactory->getAgencyFlatModel($agencyEntity);
 

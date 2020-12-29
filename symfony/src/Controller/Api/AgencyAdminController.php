@@ -4,12 +4,14 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\ConflictException;
+use App\Exception\NotFoundException;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
+use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
 use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
@@ -28,6 +30,7 @@ class AgencyAdminController extends AppController
 {
     use VerifyCaptchaTrait;
 
+    private AgencyAdminService $agencyAdminService;
     private AgencyService $agencyService;
     private BranchService $branchService;
     private ReviewSolicitationService $reviewSolicitationService;
@@ -35,6 +38,7 @@ class AgencyAdminController extends AppController
     private AgencyRepository $agencyRepository;
 
     public function __construct(
+        AgencyAdminService $agencyAdminService,
         AgencyService $agencyService,
         BranchService $branchService,
         GoogleReCaptchaService $googleReCaptchaService,
@@ -43,6 +47,7 @@ class AgencyAdminController extends AppController
         AgencyRepository $agencyRepository,
         SerializerInterface $serializer
     ) {
+        $this->agencyAdminService = $agencyAdminService;
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
         $this->googleReCaptchaService = $googleReCaptchaService;
@@ -273,5 +278,29 @@ class AgencyAdminController extends AppController
         );
 
         return $this->jsonResponse($output, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Route (
+     *     "/api/verified/agency-admin",
+     *     name="api-agency-admin",
+     *     methods={"GET"}
+     * )
+     */
+    public function home(): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
+        }
+
+        try {
+            $output = $this->agencyAdminService->getHomeForUser($this->getUserInterface());
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->jsonResponse($output, Response::HTTP_OK);
     }
 }

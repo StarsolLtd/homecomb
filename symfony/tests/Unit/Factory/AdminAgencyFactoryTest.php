@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Review;
-use App\Factory\AdminAgencyFactory;
+use App\Factory\AgencyAdminFactory;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
@@ -18,7 +18,7 @@ class AdminAgencyFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    private AdminAgencyFactory $adminAgencyFactory;
+    private AgencyAdminFactory $adminAgencyFactory;
 
     private $flatModelFactory;
     private $reviewFactory;
@@ -28,7 +28,7 @@ class AdminAgencyFactoryTest extends TestCase
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->reviewFactory = $this->prophesize(ReviewFactory::class);
 
-        $this->adminAgencyFactory = new AdminAgencyFactory(
+        $this->adminAgencyFactory = new AgencyAdminFactory(
             $this->flatModelFactory->reveal(),
             $this->reviewFactory->reveal(),
         );
@@ -71,7 +71,7 @@ class AdminAgencyFactoryTest extends TestCase
         $this->reviewFactory->createViewFromEntity($review4)->shouldBeCalled()->willReturn($review4View);
         $this->reviewFactory->createViewFromEntity($review5)->shouldBeCalled()->willReturn($review5View);
 
-        $output = $this->adminAgencyFactory->createHome($agency);
+        $output = $this->adminAgencyFactory->getHome($agency);
 
         $this->assertEquals($agencyModel->reveal(), $output->getAgency());
         $this->assertCount(3, $output->getBranches());
