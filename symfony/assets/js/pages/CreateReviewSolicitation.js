@@ -5,7 +5,7 @@ import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-valida
 import Constants from "../Constants";
 import Loader from "react-loaders";
 import InputProperty from "../components/InputProperty";
-import LoadingSpinner from "../components/LoadingSpinner";
+import DataLoader from "../components/DataLoader";
 
 class CreateReviewSolicitation extends React.Component {
     constructor() {
@@ -20,12 +20,13 @@ class CreateReviewSolicitation extends React.Component {
             recipientLastName: '',
             recipientEmail: '',
             captchaToken: '',
-            loading: false,
             formSubmissionInProgress: false,
+            loaded: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.setPropertySlugState = this.setPropertySlugState.bind(this);
+        this.loadData = this.loadData.bind(this);
     }
 
     handleChange(event) {
@@ -39,30 +40,12 @@ class CreateReviewSolicitation extends React.Component {
         });
     }
 
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    fetchData() {
-        this.setState({loading: true});
-        fetch(
-            '/api/verified/solicit-review',
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    agency: data.agency,
-                    branches: data.branches,
-                    loading: false,
-                    loaded: true
-                });
-            });
+    loadData(data) {
+        this.setState({
+            agency: data.agency,
+            branches: data.branches,
+            loaded: true,
+        });
     }
 
     setPropertySlugState(value) {
@@ -74,10 +57,11 @@ class CreateReviewSolicitation extends React.Component {
     render() {
         return (
             <Container>
-                {this.state.loading &&
-                <LoadingSpinner />
-                }
-                {!this.state.loading && this.state.loaded &&
+                <DataLoader
+                    url={'/api/verified/solicit-review'}
+                    loadComponentData={this.loadData}
+                />
+                {this.state.loaded &&
                 <Fragment>
                     <h1>Request a review for {this.state.agency.name}</h1>
                     <p>
