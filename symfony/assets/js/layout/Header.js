@@ -1,17 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {Container, Nav} from "reactstrap";
 
 function Header() {
     return (
-        <nav className="navbar navbar-dark">
-            <div className="container">
+        <Nav className="navbar navbar-dark navbar-header light-bronze">
+            <Container>
                 <span className="navbar-brand logo-medium">
                     <Link to="/">
                         <span className="red">Home</span><span className="bronze">Comb</span>
                     </Link>
                 </span>
-            </div>
-        </nav>
+            </Container>
+        </Nav>
     );
 }
 

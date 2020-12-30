@@ -1,21 +1,28 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import {Col, Nav, Row} from "reactstrap";
+import React, {Fragment} from "react";
+import {Collapse, Container, Nav} from "reactstrap";
 
 const LayoutFooter = (props) => {
     return (
-        <Row>
-            <Col md={12} className="mt-auto light-bronze shadow-lg">
-                <ul className="list-inline text-center">
-                    {props.user &&
-                    <li className="list-inline-item"><a href="/logout" className="nav-link">Log Out</a></li>
-                    }
-                    {!props.user &&
-                    <li className="list-inline-item"><a href="/login" className="nav-link">Log In</a></li>
-                    }
-                </ul>
-            </Col>
-        </Row>
+        <Fragment>
+            <Nav className="navbar navbar-expand-md navbar-light light-bronze">
+                <Container>
+                    <Collapse className="navbar-collapse" id="collapsibleFooterNavbar">
+                        <ul className="navbar-nav">
+                            {props.user &&
+                            <li className="nav-item"><a href="/logout" className="nav-link">Log Out</a></li>
+                            }
+                            {!props.user &&
+                            <li className="nav-item"><a href="/login" className="nav-link">Log In</a></li>
+                            }
+                        </ul>
+                    </Collapse>
+
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleFooterNavbar">
+                        <span className="navbar-toggler-icon" />
+                    </button>
+                </Container>
+            </Nav>
+        </Fragment>
     );
 }
 
