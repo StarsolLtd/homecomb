@@ -12,10 +12,12 @@ class View extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            flashMessages: []
+            formSubmissionInProgress: false,
+            flashMessages: [],
         };
 
         this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     render() {
@@ -26,6 +28,8 @@ class View extends React.Component {
                 <FlashMessages messages={this.state.flashMessages} />
                 <Content
                     addFlashMessage={this.addFlashMessage}
+                    formSubmissionInProgress={this.state.formSubmissionInProgress}
+                    submit={this.submit}
                 />
             </Container>
         );
@@ -33,6 +37,27 @@ class View extends React.Component {
 
     addFlashMessage(context, content) {
         this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
+    }
+
+    submit(payload, url, method, successMessage) {
+        this.setState({formSubmissionInProgress: true});
+
+        let component = this;
+        grecaptcha.ready(function() {
+            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
+                payload.captchaToken = captchaToken;
+                fetch(url, {method: method, body: JSON.stringify(payload)})
+                    .then((response) => {
+                        component.setState({formSubmissionInProgress: false});
+                        if (!response.ok) throw new Error(response.status);
+                        else return response.json();
+                    })
+                    .then((data) => {
+                        component.addFlashMessage('success', successMessage)
+                    })
+                    .catch(err => console.error("Error:", err));
+            });
+        });
     }
 }
 

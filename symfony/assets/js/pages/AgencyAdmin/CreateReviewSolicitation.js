@@ -20,10 +20,13 @@ class CreateReviewSolicitation extends React.Component {
             recipientLastName: '',
             recipientEmail: '',
             captchaToken: '',
-            formSubmissionInProgress: false,
             loaded: false,
         };
         this.addFlashMessage = this.props.addFlashMessage;
+        this.submit = this.props.submit;
+
+        this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.submit = this.submit.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
@@ -71,7 +74,7 @@ class CreateReviewSolicitation extends React.Component {
                         the form below. We will send them an email with a unique link allowing them to review.
                     </p>
                     <LoadingOverlay
-                        active={this.state.formSubmissionInProgress}
+                        active={this.props.formSubmissionInProgress}
                         styles={{
                             overlay: (base) => ({
                                 ...base,
@@ -148,7 +151,6 @@ class CreateReviewSolicitation extends React.Component {
     }
 
     handleValidSubmit() {
-        this.setState({formSubmissionInProgress: true});
         let payload = {
             branchSlug: this.state.branchSlug,
             propertySlug: this.state.propertySlug,
@@ -158,28 +160,13 @@ class CreateReviewSolicitation extends React.Component {
             recipientEmail: this.state.recipientEmail,
             captchaToken: null,
         };
-        let component = this;
-        grecaptcha.ready(function() {
-            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
-                payload.captchaToken = captchaToken;
-                fetch(`/api/verified/solicit-review`, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then((response) => {
-                        component.setState({formSubmissionInProgress: false});
-                        if (!response.ok) throw new Error(response.status);
-                        else return response.json();
-                    })
-                    .then((data) => {
-                        component.addFlashMessage('success', 'Your request for a review was sent successfully.')
-                    })
-                    .catch(err => console.error("Error:", err));
-            });
-        });
+
+        this.submit(
+            payload,
+            '/api/verified/solicit-review',
+            'POST',
+            'Your request for a review was sent successfully.'
+        )
     }
 }
 

@@ -19,7 +19,10 @@ class UpdateAgency extends React.Component {
         };
 
         this.addFlashMessage = this.props.addFlashMessage;
+        this.submit = this.props.submit;
+
         this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.submit = this.submit.bind(this);
 
         this.loadData = this.loadData.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -45,7 +48,7 @@ class UpdateAgency extends React.Component {
                 />
                 {this.state.loaded &&
                 <LoadingOverlay
-                    active={this.state.formSubmissionInProgress}
+                    active={this.props.formSubmissionInProgress}
                     styles={{
                         overlay: (base) => ({
                             ...base,
@@ -99,38 +102,17 @@ class UpdateAgency extends React.Component {
     }
 
     handleValidSubmit() {
-        this.setState({formSubmissionInProgress: true});
         let payload = {
             externalUrl: this.state.externalUrl,
             postcode: this.state.postcode,
             captchaToken: '',
         };
-        let component = this;
-        grecaptcha.ready(function() {
-            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
-                payload.captchaToken = captchaToken;
-                fetch('/api/verified/agency/' + component.state.slug, {
-                    method: 'PUT',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then((response) => {
-                        component.setState({formSubmissionInProgress: false});
-                        if (!response.ok) throw new Error(response.status);
-                        else return response.json();
-                    })
-                    .then((data) => {
-                        component.addFlashMessage('success', 'Your agency was updated successfully.')
-                    })
-                    .catch(err => console.error("Error:", err));
-            });
-        });
-    }
-
-    addFlashMessage(context, content) {
-        this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
+        this.submit(
+            payload,
+            '/api/verified/agency/' + this.state.slug,
+            'PUT',
+            'Your agency was updated successfully.'
+        )
     }
 }
 
