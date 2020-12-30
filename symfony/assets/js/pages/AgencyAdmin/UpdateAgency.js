@@ -1,10 +1,11 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Label, FormText, Button, Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
 import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 import Constants from "../../Constants";
+import FlashMessages from "../../layout/FlashMessages";
 
 class UpdateAgency extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class UpdateAgency extends React.Component {
             loaded: false,
             captchaToken: '',
             formSubmissionInProgress: false,
+            flashMessages: []
         };
 
         this.loadData = this.loadData.bind(this);
@@ -37,6 +39,7 @@ class UpdateAgency extends React.Component {
     render() {
         return (
             <Container>
+                <FlashMessages messages={this.state.flashMessages} />
                 <DataLoader
                     url='/api/verified/agency'
                     loadComponentData={this.loadData}
@@ -120,11 +123,15 @@ class UpdateAgency extends React.Component {
                         else return response.json();
                     })
                     .then((data) => {
-                        location.reload()
+                        component.addFlashMessage('success', 'Your agency was updated successfully.')
                     })
                     .catch(err => console.error("Error:", err));
             });
         });
+    }
+
+    addFlashMessage(context, content) {
+        this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
     }
 }
 
