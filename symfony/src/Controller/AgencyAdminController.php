@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AgencyAdminController extends AppController
 {
     /**
-     * @Route ("/verified/agency/create", name="create-agency-form", methods={"GET"})
-     * @Route ("/verified/agency", name="create-agency-form", methods={"GET"})
-     * @Route ("/verified/request-review", name="request-review", methods={"GET"})
-     * @Route ("/verified/agency-admin", name="agency-admin-home", methods={"GET"})
+     * @Route ("/verified/agency/create", name="verified-agency-created", methods={"GET"})
+     * @Route ("/verified/agency", name="verified-agency", methods={"GET"})
+     * @Route ("/verified/request-review", name="verified-request-review", methods={"GET"})
+     * @Route ("/verified/agency-admin", name="verified-agency-admin", methods={"GET"})
      */
     public function agencyAdmin(): Response
     {

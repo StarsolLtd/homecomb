@@ -6,16 +6,16 @@ import $ from 'jquery';
 import 'jquery-ui-bundle';
 import CreateAgency from "./CreateAgency";
 import UpdateAgency from "./UpdateAgency";
-import CreateReviewSolicitation from "../CreateReviewSolicitation";
+import CreateReviewSolicitation from "./CreateReviewSolicitation";
 
 import AgencyAdminHome from "./Home";
 import LayoutFooter from "./LayoutFooter";
 import LayoutHeader from "./LayoutHeader";
-import LayoutSidebar from "./LayoutSidebar";
 import {Col, Row} from "reactstrap";
 
 import '../../../styles/app.scss';
 import '../../../styles/AgencyAdmin/style.scss';
+import View from "./View";
 
 class Index extends React.Component {
 
@@ -37,10 +37,10 @@ class Index extends React.Component {
                 <Row className="flex-grow-1 d-flex">
                     <Col md={12} className="p-4">
                         <Switch>
-                            <Route path="/verified/agency/create" component={CreateAgency}/>
-                            <Route path="/verified/agency" component={UpdateAgency}/>
-                            <Route path="/verified/agency-admin" component={AgencyAdminHome}/>
-                            <Route path="/verified/request-review" component={CreateReviewSolicitation}/>
+                            <Route path="/verified/agency/create" render={(props) => <View content={CreateAgency} /> }/>
+                            <Route path="/verified/agency" render={(props) => <View content={UpdateAgency} /> }/>
+                            <Route path="/verified/agency-admin" render={(props) => <View content={AgencyAdminHome} /> }/>
+                            <Route path="/verified/request-review" render={(props) => <View content={CreateReviewSolicitation} /> }/>
                         </Switch>
                     </Col>
                 </Row>

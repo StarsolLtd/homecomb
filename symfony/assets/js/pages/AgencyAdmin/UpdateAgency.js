@@ -5,7 +5,6 @@ import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
 import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 import Constants from "../../Constants";
-import FlashMessages from "../../layout/FlashMessages";
 
 class UpdateAgency extends React.Component {
     constructor(props) {
@@ -16,10 +15,11 @@ class UpdateAgency extends React.Component {
             externalUrl: '',
             postcode: '',
             loaded: false,
-            captchaToken: '',
-            formSubmissionInProgress: false,
-            flashMessages: []
+            captchaToken: ''
         };
+
+        this.addFlashMessage = this.props.addFlashMessage;
+        this.addFlashMessage = this.addFlashMessage.bind(this);
 
         this.loadData = this.loadData.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -39,7 +39,6 @@ class UpdateAgency extends React.Component {
     render() {
         return (
             <Container>
-                <FlashMessages messages={this.state.flashMessages} />
                 <DataLoader
                     url='/api/verified/agency'
                     loadComponentData={this.loadData}

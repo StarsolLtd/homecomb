@@ -27,12 +27,9 @@ function LayoutHeader() {
                             <li className="nav-item">
                                 <Link to="/verified/agency" className="nav-link">Your Agency</Link>
                             </li>
-                            {/*<li className="nav-item">*/}
-                            {/*    <Link to="/verified/agency-admin/branches" className="nav-link">Branches</Link>*/}
-                            {/*</li>*/}
-                            {/*<li className="nav-item">*/}
-                            {/*    <Link to="/verified/agency-admin/reviews" className="nav-link">Reviews</Link>*/}
-                            {/*</li>*/}
+                            <li className="nav-item">
+                                <Link to="/verified/request-review" className="nav-link">Request Review</Link>
+                            </li>
                         </ul>
                     </div>
                 </Container>

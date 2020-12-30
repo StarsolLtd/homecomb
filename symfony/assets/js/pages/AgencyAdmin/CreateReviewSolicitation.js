@@ -2,14 +2,14 @@ import React, {Fragment} from 'react';
 import {Container, Label, Button, FormText} from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
-import Constants from "../Constants";
+import Constants from "../../Constants";
 import Loader from "react-loaders";
-import InputProperty from "../components/InputProperty";
-import DataLoader from "../components/DataLoader";
+import InputProperty from "../../components/InputProperty";
+import DataLoader from "../../components/DataLoader";
 
 class CreateReviewSolicitation extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             agency: null,
             branches: [],
@@ -23,6 +23,8 @@ class CreateReviewSolicitation extends React.Component {
             formSubmissionInProgress: false,
             loaded: false,
         };
+        this.addFlashMessage = this.props.addFlashMessage;
+
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.setPropertySlugState = this.setPropertySlugState.bind(this);
@@ -173,7 +175,7 @@ class CreateReviewSolicitation extends React.Component {
                         else return response.json();
                     })
                     .then((data) => {
-                        location.reload()
+                        component.addFlashMessage('success', 'Your request for a review was sent successfully.')
                     })
                     .catch(err => console.error("Error:", err));
             });
