@@ -22,7 +22,12 @@ class InputProperty extends React.Component {
 
     render(){
         return (
-            <Input type="text" id={this.props.inputId} placeholder={this.props.placeholder || 'Start typing'} />
+            <Input
+                type="text"
+                id={this.props.inputId}
+                placeholder={this.props.placeholder || 'Start typing'}
+                autocomplete="off"
+            />
         )
     }
 

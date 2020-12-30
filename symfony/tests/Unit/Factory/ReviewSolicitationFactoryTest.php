@@ -80,9 +80,10 @@ class ReviewSolicitationFactoryTest extends TestCase
 
     public function testCreateFormDataModelFromUser(): void
     {
-        $branch1 = (new Branch())->setSlug('branch1');
-        $branch2 = (new Branch())->setSlug('branch2');
-        $agency = (new Agency())->addBranch($branch1)->addBranch($branch2);
+        $branch1 = (new Branch())->setSlug('branch1')->setPublished(true);
+        $branch2 = (new Branch())->setSlug('branch2')->setPublished(true);
+        $branch3 = (new Branch())->setSlug('branch3')->setPublished(false);
+        $agency = (new Agency())->addBranch($branch1)->addBranch($branch2)->addBranch($branch3);
         $user = (new User())->setAdminAgency($agency);
 
         $this->flatModelFactory->getAgencyFlatModel($agency)
@@ -100,7 +101,7 @@ class ReviewSolicitationFactoryTest extends TestCase
         $formData = $this->reviewSolicitationFactory->createFormDataModelFromUser($user);
 
         $this->assertEquals('agencyslug', $formData->getAgency()->getSlug());
-        $this->assertCount(2, $formData->getBranches());
+        $this->assertCount(2, $formData->getBranches()); // Only published branches should be shown
     }
 
     public function testCreateViewByEntity(): void

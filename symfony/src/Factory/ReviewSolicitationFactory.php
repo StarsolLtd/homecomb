@@ -60,7 +60,7 @@ class ReviewSolicitationFactory
         $agency = $this->flatModelFactory->getAgencyFlatModel($agencyEntity);
 
         $branches = [];
-        foreach ($agencyEntity->getBranches() as $branchEntity) {
+        foreach ($agencyEntity->getPublishedBranches() as $branchEntity) {
             $branches[] = $this->flatModelFactory->getBranchFlatModel($branchEntity);
         }
 

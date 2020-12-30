@@ -294,7 +294,11 @@ class AgencyAdminController extends AppController
             return new JsonResponse([], Response::HTTP_FORBIDDEN);
         }
 
-        $output = $this->reviewSolicitationService->createAndSend($input, $user);
+        try {
+            $output = $this->reviewSolicitationService->createAndSend($input, $user);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
 
         $this->addFlash(
             'notice',

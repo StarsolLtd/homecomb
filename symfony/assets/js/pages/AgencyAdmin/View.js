@@ -66,11 +66,16 @@ class View extends React.Component {
             grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
                 payload.captchaToken = captchaToken;
                 fetch(url, {method: method, body: JSON.stringify(payload)})
-                    .then((response) => {
-                        component.setState({isFormSubmitting: false});
-                        if (!response.ok) throw new Error(response.status);
-                        else return response.json();
-                    })
+                    .then(
+                        response => {
+                            component.setState({isFormSubmitting: false});
+                            if (!response.ok) {
+                                component.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                                return Promise.reject('Error: ' + response.status)
+                            }
+                            return response.json()
+                        }
+                    )
                     .then((data) => {
                         component.addFlashMessage('success', successMessage)
                         if (successRedirectUrl) {

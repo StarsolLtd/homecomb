@@ -66,7 +66,7 @@ class CreateReviewSolicitation extends React.Component {
                         If you would like to request one of your tenant's review their tenancy with you, please complete
                         the form below. We will send them an email with a unique link allowing them to review.
                     </p>
-                    <AvForm onValidSubmit={this.handleValidSubmit}>
+                    <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                         <AvGroup>
                             <Label for="branchSlug">Branch</Label>
                             <AvInput type="select" name="branchSlug" required onChange={this.handleChange}>
@@ -99,7 +99,7 @@ class CreateReviewSolicitation extends React.Component {
                         </AvGroup>
                         <AvGroup>
                             <Label for="recipientFirstName">Tenant first name</Label>
-                            <AvInput name="recipientFirstName" required onChange={this.handleChange} placeholder="Enter tenant first name" />
+                            <AvInput name="recipientFirstName" required value={this.state.recipientFirstName} onChange={this.handleChange} placeholder="Enter tenant first name" />
                             <AvFeedback>Please enter the tenant's first name.</AvFeedback>
                             <FormText>
                                 Please enter the first name of the tenant. Example: Jane.
@@ -107,7 +107,7 @@ class CreateReviewSolicitation extends React.Component {
                         </AvGroup>
                         <AvGroup>
                             <Label for="recipientLastName">Tenant surname</Label>
-                            <AvInput name="recipientLastName" required onChange={this.handleChange} placeholder="Enter tenant surname" />
+                            <AvInput name="recipientLastName" required value={this.state.recipientLastName} onChange={this.handleChange} placeholder="Enter tenant surname" />
                             <AvFeedback>Please enter the tenant's surname.</AvFeedback>
                             <FormText>
                                 Please enter the surname of the tenant. Example: Smith.
@@ -115,7 +115,7 @@ class CreateReviewSolicitation extends React.Component {
                         </AvGroup>
                         <AvGroup>
                             <Label for="recipientEmail">Reviewer email</Label>
-                            <AvInput name="recipientEmail" type="email" required onChange={this.handleChange} placeholder="Enter tenant email" />
+                            <AvInput name="recipientEmail" type="email" required value={this.state.recipientEmail} onChange={this.handleChange} placeholder="Enter tenant email" />
                             <AvFeedback>Please enter the tenant's email address.</AvFeedback>
                             <FormText>
                                 Please enter the email address of the tenant. Example: jane.smith@domain.com
@@ -145,8 +145,14 @@ class CreateReviewSolicitation extends React.Component {
             payload,
             '/api/verified/solicit-review',
             'POST',
-            'Your request for a review was sent successfully.'
+            `Your request for a review was received and will be sent to ${this.state.recipientEmail} shortly.`
         )
+
+        this.clearForm();
+    }
+
+    clearForm() {
+        this.form && this.form.reset();
     }
 }
 

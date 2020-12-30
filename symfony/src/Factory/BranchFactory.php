@@ -30,6 +30,7 @@ class BranchFactory
             ->setName($createBranchInput->getBranchName())
             ->setTelephone($createBranchInput->getTelephone())
             ->setEmail($createBranchInput->getEmail())
+            ->setPublished(true)
         ;
 
         $this->branchHelper->generateSlug($branch);

@@ -170,6 +170,16 @@ class Agency
         return $this->branches;
     }
 
+    /**
+     * @return Collection<int, Branch>
+     */
+    public function getPublishedBranches(): Collection
+    {
+        return $this->getBranches()->filter(function (Branch $review) {
+            return $review->isPublished();
+        });
+    }
+
     public function addBranch(Branch $branch): self
     {
         if ($this->branches->contains($branch)) {
