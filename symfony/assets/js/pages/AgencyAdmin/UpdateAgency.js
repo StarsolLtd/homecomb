@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Label, FormText, Button} from 'reactstrap';
+import {Label, FormText, Button, Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
@@ -36,7 +36,7 @@ class UpdateAgency extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Container>
                 <DataLoader
                     url='/api/verified/agency'
                     loadComponentData={this.loadData}
@@ -53,6 +53,7 @@ class UpdateAgency extends React.Component {
                     }}
                     spinner={<Loader active type='ball-triangle-path' />}
                 >
+                    <h1>Update {this.state.name}</h1>
                     <AvForm onValidSubmit={this.handleValidSubmit}>
                         <AvGroup>
                             <Label for="agencyName">Agency name</Label>
@@ -81,7 +82,7 @@ class UpdateAgency extends React.Component {
                     </AvForm>
                 </LoadingOverlay>
                 }
-            </Fragment>
+            </Container>
         );
     }
 

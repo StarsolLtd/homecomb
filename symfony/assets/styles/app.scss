@@ -61,8 +61,8 @@ footer ul, footer ul li {
     font-family: 'Libre Baskerville', serif;
 }
 
-footer.navbar a, .breadcrumb a, .red, a {
-    color: #862e2e;
+.navbar a, .breadcrumb a, .red, a, .nav-link {
+    color: #862e2e !important;
 }
 .bronze {
     color: #8d6651;

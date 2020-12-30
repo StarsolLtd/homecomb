@@ -5,10 +5,7 @@ import {Col, Nav, Row} from "reactstrap";
 const LayoutFooter = (props) => {
     return (
         <Row>
-            <Col md={3} className="light-bronze">
-
-            </Col>
-            <Col md={9} className="mt-auto light-bronze">
+            <Col md={12} className="mt-auto light-bronze shadow-lg">
                 <ul className="list-inline text-center">
                     {props.user &&
                     <li className="list-inline-item"><a href="/logout" className="nav-link">Log Out</a></li>

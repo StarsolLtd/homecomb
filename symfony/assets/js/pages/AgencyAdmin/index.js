@@ -15,6 +15,7 @@ import LayoutSidebar from "./LayoutSidebar";
 import {Col, Row} from "reactstrap";
 
 import '../../../styles/app.scss';
+import '../../../styles/AgencyAdmin/style.scss';
 
 class Index extends React.Component {
 
@@ -34,8 +35,7 @@ class Index extends React.Component {
             <BrowserRouter>
                 <LayoutHeader/>
                 <Row className="flex-grow-1 d-flex">
-                    <LayoutSidebar />
-                    <Col md={10} className="p-4">
+                    <Col md={12} className="p-4">
                         <Switch>
                             <Route path="/verified/agency/create" component={CreateAgency}/>
                             <Route path="/verified/agency" component={UpdateAgency}/>

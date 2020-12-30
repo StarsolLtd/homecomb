@@ -32,7 +32,7 @@ class Home extends React.Component {
                         </Row>
 
                         <Row className="bg-white rounded shadow-sm p-4 mb-4">
-                            <Col md="6" className="mb-4">
+                            <Col md={6} sm={12} className="mb-4">
                                 <h2 className="mb-4">Reviews of {this.state.agency.name}</h2>
                                 <ReactTable
                                     data={this.state.reviews}
@@ -45,7 +45,7 @@ class Home extends React.Component {
                                     className="-striped -highlight"
                                 />
                             </Col>
-                            <Col md="6" className="mb-4">
+                            <Col md={6} sm={12} className="mb-4">
                                 <h2 className="mb-4">Branches of {this.state.agency.name}</h2>
                                 <ReactTable
                                     data={this.state.branches}

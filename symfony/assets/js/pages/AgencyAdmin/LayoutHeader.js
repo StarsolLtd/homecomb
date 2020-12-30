@@ -1,19 +1,43 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {Link} from "react-router-dom";
-import {Col, Row} from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 
 function LayoutHeader() {
     return (
-        <Row>
-            <Col md={2} className="light-bronze p-1 pl-4">
-                <span className="navbar-brand logo-sm">
-                    <span className="red">Home</span><span className="bronze">Comb</span>
-                </span>
-            </Col>
-            <Col md={10} className="light-bronze">
+        <Fragment>
+            <nav className="navbar navbar-expand-md navbar-light light-bronze shadow">
+                <Container>
+                    <a className="navbar-brand logo-sm" href="/">
+                        <span className="red">Home</span><span className="bronze">Comb</span>
+                    </a>
 
-            </Col>
-        </Row>
+                    <span className="navbar-brand">
+                        Agency Admin Area
+                    </span>
+
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                        <span className="navbar-toggler-icon" />
+                    </button>
+
+                    <div className="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link to="/verified/agency-admin" className="nav-link">Dashboard</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/verified/agency" className="nav-link">Your Agency</Link>
+                            </li>
+                            {/*<li className="nav-item">*/}
+                            {/*    <Link to="/verified/agency-admin/branches" className="nav-link">Branches</Link>*/}
+                            {/*</li>*/}
+                            {/*<li className="nav-item">*/}
+                            {/*    <Link to="/verified/agency-admin/reviews" className="nav-link">Reviews</Link>*/}
+                            {/*</li>*/}
+                        </ul>
+                    </div>
+                </Container>
+            </nav>
+        </Fragment>
     );
 }
 
