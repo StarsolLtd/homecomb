@@ -74,7 +74,8 @@ class CreateAgency extends React.Component {
             payload,
             '/api/verified/agency',
             'POST',
-            'Your agency was created successfully.'
+            'Your agency was created successfully.',
+            '/verified/agency-admin'
         )
     }
 }

@@ -1,12 +1,10 @@
 import React from 'react';
-import {Label, FormText, Button, Container} from 'reactstrap';
-import DataLoader from "../../components/DataLoader";
+import { Container } from 'reactstrap';
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
-import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
-import Constants from "../../Constants";
 import FlashMessages from "../../layout/FlashMessages";
-import UpdateAgency from "./UpdateAgency";
+import { Redirect } from 'react-router-dom'
+import Constants from "../../Constants";
 
 class View extends React.Component {
     constructor(props) {
@@ -14,6 +12,7 @@ class View extends React.Component {
         this.state = {
             isFormSubmitting: false,
             flashMessages: [],
+            redirectToUrl: null
         };
 
         this.addFlashMessage = this.addFlashMessage.bind(this);
@@ -42,6 +41,9 @@ class View extends React.Component {
                         submit={this.submit}
                     />
                 </LoadingOverlay>
+                {this.state.redirectToUrl &&
+                    <Redirect to={this.state.redirectToUrl} />
+                }
             </Container>
         );
     }
@@ -50,7 +52,7 @@ class View extends React.Component {
         this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
     }
 
-    submit(payload, url, method, successMessage) {
+    submit(payload, url, method, successMessage, successRedirectUrl='') {
         this.setState({isFormSubmitting: true});
 
         let component = this;
@@ -65,6 +67,9 @@ class View extends React.Component {
                     })
                     .then((data) => {
                         component.addFlashMessage('success', successMessage)
+                        if (successRedirectUrl) {
+                            component.setState({redirectToUrl: successRedirectUrl});
+                        }
                     })
                     .catch(err => console.error("Error:", err));
             });
