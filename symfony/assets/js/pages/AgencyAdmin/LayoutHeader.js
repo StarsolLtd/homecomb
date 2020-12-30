@@ -1,8 +1,8 @@
-import React, {Fragment} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Collapse, Container, Nav} from "reactstrap";
 
-function LayoutHeader() {
+const LayoutHeader = (props) => {
     return (
         <Nav className="navbar navbar-expand-md navbar-light navbar-header light-bronze shadow">
             <Container>
@@ -19,17 +19,19 @@ function LayoutHeader() {
                 </Button>
 
                 <Collapse className="navbar-collapse" id="collapsibleNavbar">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <Link to="/verified/agency-admin" className="nav-link">Dashboard</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/verified/agency" className="nav-link">Your Agency</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/verified/request-review" className="nav-link">Request Review</Link>
-                        </li>
-                    </ul>
+                    {props.user.agencyAdmin &&
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link to="/verified/agency-admin" className="nav-link">Dashboard</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/verified/agency" className="nav-link">Your Agency</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/verified/request-review" className="nav-link">Request Review</Link>
+                            </li>
+                        </ul>
+                    }
                 </Collapse>
             </Container>
         </Nav>
