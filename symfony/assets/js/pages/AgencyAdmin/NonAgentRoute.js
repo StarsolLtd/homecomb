@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Redirect} from 'react-router-dom';
 
-class AgencyAdminCreateRoute extends React.Component {
+class NonAgentRoute extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -23,4 +23,4 @@ class AgencyAdminCreateRoute extends React.Component {
 }
 
 
-export default AgencyAdminCreateRoute;
+export default NonAgentRoute;
