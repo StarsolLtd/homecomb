@@ -14,10 +14,7 @@ class UpdateAgency extends React.Component {
             loaded: false,
         };
 
-        this.addFlashMessage = this.props.addFlashMessage;
         this.submit = this.props.submit;
-
-        this.addFlashMessage = this.addFlashMessage.bind(this);
         this.submit = this.submit.bind(this);
 
         this.loadData = this.loadData.bind(this);
