@@ -1,10 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Label, FormText, Button, Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
-import LoadingOverlay from "react-loading-overlay";
-import Loader from "react-loaders";
 import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
-import Constants from "../../Constants";
 
 class UpdateAgency extends React.Component {
     constructor(props) {
@@ -47,45 +44,35 @@ class UpdateAgency extends React.Component {
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&
-                <LoadingOverlay
-                    active={this.props.formSubmissionInProgress}
-                    styles={{
-                        overlay: (base) => ({
-                            ...base,
-                            background: "#fff",
-                            opacity: 0.5,
-                        }),
-                    }}
-                    spinner={<Loader active type='ball-triangle-path' />}
-                >
-                    <h1>Update {this.state.name}</h1>
-                    <AvForm onValidSubmit={this.handleValidSubmit}>
-                        <AvGroup>
-                            <Label for="agencyName">Agency name</Label>
-                            <AvInput name="agencyName" value={this.state.name} disabled />
-                            <FormText>
-                                If you would like to change your agency name, please contact us.
-                            </FormText>
-                        </AvGroup>
-                        <AvGroup>
-                            <Label for="externalUrl">Website URL</Label>
-                            <AvInput name="externalUrl" type="url" value={this.state.externalUrl} placeholder="http://yoursite.com" onChange={this.handleChange} />
-                            <FormText>
-                                Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
-                            </FormText>
-                        </AvGroup>
-                        <AvGroup>
-                            <Label for="postcode">Postcode</Label>
-                            <AvInput name="postcode" value={this.state.postcode} onChange={this.handleChange} />
-                            <FormText>
-                                Optional. Please enter the postcode of your agency's primary office.
-                            </FormText>
-                        </AvGroup>
-                        <Button color="primary">
-                            Update your agency details
-                        </Button>
-                    </AvForm>
-                </LoadingOverlay>
+                    <Fragment>
+                        <h1>Update {this.state.name}</h1>
+                        <AvForm onValidSubmit={this.handleValidSubmit}>
+                            <AvGroup>
+                                <Label for="agencyName">Agency name</Label>
+                                <AvInput name="agencyName" value={this.state.name} disabled />
+                                <FormText>
+                                    If you would like to change your agency name, please contact us.
+                                </FormText>
+                            </AvGroup>
+                            <AvGroup>
+                                <Label for="externalUrl">Website URL</Label>
+                                <AvInput name="externalUrl" type="url" value={this.state.externalUrl} placeholder="http://yoursite.com" onChange={this.handleChange} />
+                                <FormText>
+                                    Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
+                                </FormText>
+                            </AvGroup>
+                            <AvGroup>
+                                <Label for="postcode">Postcode</Label>
+                                <AvInput name="postcode" value={this.state.postcode} onChange={this.handleChange} />
+                                <FormText>
+                                    Optional. Please enter the postcode of your agency's primary office.
+                                </FormText>
+                            </AvGroup>
+                            <Button color="primary">
+                                Update your agency details
+                            </Button>
+                        </AvForm>
+                    </Fragment>
                 }
             </Container>
         );

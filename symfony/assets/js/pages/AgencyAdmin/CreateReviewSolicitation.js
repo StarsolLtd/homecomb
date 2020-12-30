@@ -22,10 +22,7 @@ class CreateReviewSolicitation extends React.Component {
             captchaToken: '',
             loaded: false,
         };
-        this.addFlashMessage = this.props.addFlashMessage;
         this.submit = this.props.submit;
-
-        this.addFlashMessage = this.addFlashMessage.bind(this);
         this.submit = this.submit.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
@@ -73,77 +70,65 @@ class CreateReviewSolicitation extends React.Component {
                         If you would like to request one of your tenant's review their tenancy with you, please complete
                         the form below. We will send them an email with a unique link allowing them to review.
                     </p>
-                    <LoadingOverlay
-                        active={this.props.formSubmissionInProgress}
-                        styles={{
-                            overlay: (base) => ({
-                                ...base,
-                                background: "#fff",
-                                opacity: 0.5,
-                            }),
-                        }}
-                        spinner={<Loader active type='ball-triangle-path' />}
-                    >
-                        <AvForm onValidSubmit={this.handleValidSubmit}>
-                            <AvGroup>
-                                <Label for="branchSlug">Branch</Label>
-                                <AvInput type="select" name="branchSlug" required onChange={this.handleChange}>
-                                    <option value="" disabled>-Please select-</option>
-                                    {this.state.branches.map(
-                                        ({ slug, name }) => (
-                                            <option key={slug} value={slug}>{name}</option>
-                                        )
+                    <AvForm onValidSubmit={this.handleValidSubmit}>
+                        <AvGroup>
+                            <Label for="branchSlug">Branch</Label>
+                            <AvInput type="select" name="branchSlug" required onChange={this.handleChange}>
+                                <option value="" disabled>-Please select-</option>
+                                {this.state.branches.map(
+                                    ({ slug, name }) => (
+                                        <option key={slug} value={slug}>{name}</option>
                                     )
-                                    }
-                                </AvInput>
-                                <AvFeedback>Please select a branch.</AvFeedback>
-                                <FormText>
-                                    Select the branch of your agency by which the tenant was managed.
-                                </FormText>
-                            </AvGroup>
-                            <AvGroup>
-                                <Label for="propertySlug">Tenancy property address</Label>
-                                <AvInput type="hidden" name="propertySlug" required value={this.state.propertySlug} />
-                                <InputProperty
-                                    inputId="input-property"
-                                    source="/api/property/suggest-property"
-                                    placeholder="Start typing a property address..."
-                                    setPropertySlugState={this.setPropertySlugState}
-                                />
-                                <AvFeedback>Please enter a tenancy property address.</AvFeedback>
-                                <FormText>
-                                    Please start typing the address of the tenancy, then select the correct address when it appears.
-                                </FormText>
-                            </AvGroup>
-                            <AvGroup>
-                                <Label for="recipientFirstName">Tenant first name</Label>
-                                <AvInput name="recipientFirstName" required onChange={this.handleChange} placeholder="Enter tenant first name" />
-                                <AvFeedback>Please enter the tenant's first name.</AvFeedback>
-                                <FormText>
-                                    Please enter the first name of the tenant. Example: Jane.
-                                </FormText>
-                            </AvGroup>
-                            <AvGroup>
-                                <Label for="recipientLastName">Tenant surname</Label>
-                                <AvInput name="recipientLastName" required onChange={this.handleChange} placeholder="Enter tenant surname" />
-                                <AvFeedback>Please enter the tenant's surname.</AvFeedback>
-                                <FormText>
-                                    Please enter the surname of the tenant. Example: Smith.
-                                </FormText>
-                            </AvGroup>
-                            <AvGroup>
-                                <Label for="recipientEmail">Reviewer email</Label>
-                                <AvInput name="recipientEmail" type="email" required onChange={this.handleChange} placeholder="Enter tenant email" />
-                                <AvFeedback>Please enter the tenant's email address.</AvFeedback>
-                                <FormText>
-                                    Please enter the email address of the tenant. Example: jane.smith@domain.com
-                                </FormText>
-                            </AvGroup>
-                            <Button color="primary">
-                                Request review
-                            </Button>
-                        </AvForm>
-                    </LoadingOverlay>
+                                )
+                                }
+                            </AvInput>
+                            <AvFeedback>Please select a branch.</AvFeedback>
+                            <FormText>
+                                Select the branch of your agency by which the tenant was managed.
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="propertySlug">Tenancy property address</Label>
+                            <AvInput type="hidden" name="propertySlug" required value={this.state.propertySlug} />
+                            <InputProperty
+                                inputId="input-property"
+                                source="/api/property/suggest-property"
+                                placeholder="Start typing a property address..."
+                                setPropertySlugState={this.setPropertySlugState}
+                            />
+                            <AvFeedback>Please enter a tenancy property address.</AvFeedback>
+                            <FormText>
+                                Please start typing the address of the tenancy, then select the correct address when it appears.
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="recipientFirstName">Tenant first name</Label>
+                            <AvInput name="recipientFirstName" required onChange={this.handleChange} placeholder="Enter tenant first name" />
+                            <AvFeedback>Please enter the tenant's first name.</AvFeedback>
+                            <FormText>
+                                Please enter the first name of the tenant. Example: Jane.
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="recipientLastName">Tenant surname</Label>
+                            <AvInput name="recipientLastName" required onChange={this.handleChange} placeholder="Enter tenant surname" />
+                            <AvFeedback>Please enter the tenant's surname.</AvFeedback>
+                            <FormText>
+                                Please enter the surname of the tenant. Example: Smith.
+                            </FormText>
+                        </AvGroup>
+                        <AvGroup>
+                            <Label for="recipientEmail">Reviewer email</Label>
+                            <AvInput name="recipientEmail" type="email" required onChange={this.handleChange} placeholder="Enter tenant email" />
+                            <AvFeedback>Please enter the tenant's email address.</AvFeedback>
+                            <FormText>
+                                Please enter the email address of the tenant. Example: jane.smith@domain.com
+                            </FormText>
+                        </AvGroup>
+                        <Button color="primary">
+                            Request review
+                        </Button>
+                    </AvForm>
                 </Fragment>
                 }
             </Container>

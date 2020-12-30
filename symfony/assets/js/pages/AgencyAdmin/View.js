@@ -12,7 +12,7 @@ class View extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            formSubmissionInProgress: false,
+            isFormSubmitting: false,
             flashMessages: [],
         };
 
@@ -26,11 +26,22 @@ class View extends React.Component {
         return (
             <Container>
                 <FlashMessages messages={this.state.flashMessages} />
-                <Content
-                    addFlashMessage={this.addFlashMessage}
-                    formSubmissionInProgress={this.state.formSubmissionInProgress}
-                    submit={this.submit}
-                />
+                <LoadingOverlay
+                    active={this.state.isFormSubmitting}
+                    styles={{
+                        overlay: (base) => ({
+                            ...base,
+                            background: "#fff",
+                            opacity: 0.5,
+                        }),
+                    }}
+                    spinner={<Loader active type='ball-triangle-path' />}
+                >
+                    <Content
+                        addFlashMessage={this.addFlashMessage}
+                        submit={this.submit}
+                    />
+                </LoadingOverlay>
             </Container>
         );
     }
@@ -40,7 +51,7 @@ class View extends React.Component {
     }
 
     submit(payload, url, method, successMessage) {
-        this.setState({formSubmissionInProgress: true});
+        this.setState({isFormSubmitting: true});
 
         let component = this;
         grecaptcha.ready(function() {
@@ -48,7 +59,7 @@ class View extends React.Component {
                 payload.captchaToken = captchaToken;
                 fetch(url, {method: method, body: JSON.stringify(payload)})
                     .then((response) => {
-                        component.setState({formSubmissionInProgress: false});
+                        component.setState({isFormSubmitting: false});
                         if (!response.ok) throw new Error(response.status);
                         else return response.json();
                     })
