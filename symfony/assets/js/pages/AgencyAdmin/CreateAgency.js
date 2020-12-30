@@ -9,7 +9,6 @@ class CreateAgency extends React.Component {
             agencyName: '',
             externalUrl: '',
             postcode: '',
-            captchaToken: '',
         };
         this.submit = this.props.submit;
         this.submit = this.submit.bind(this);
@@ -68,7 +67,6 @@ class CreateAgency extends React.Component {
             agencyName: this.state.agencyName,
             externalUrl: this.state.externalUrl,
             postcode: this.state.postcode,
-            captchaToken: '',
         };
         this.submit(
             payload,

@@ -12,7 +12,6 @@ class UpdateAgency extends React.Component {
             externalUrl: '',
             postcode: '',
             loaded: false,
-            captchaToken: ''
         };
 
         this.addFlashMessage = this.props.addFlashMessage;
@@ -92,7 +91,6 @@ class UpdateAgency extends React.Component {
         let payload = {
             externalUrl: this.state.externalUrl,
             postcode: this.state.postcode,
-            captchaToken: '',
         };
         this.submit(
             payload,

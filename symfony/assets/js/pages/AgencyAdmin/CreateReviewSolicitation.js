@@ -19,7 +19,6 @@ class CreateReviewSolicitation extends React.Component {
             recipientFirstName: '',
             recipientLastName: '',
             recipientEmail: '',
-            captchaToken: '',
             loaded: false,
         };
         this.submit = this.props.submit;
@@ -143,7 +142,6 @@ class CreateReviewSolicitation extends React.Component {
             recipientFirstName: this.state.recipientFirstName,
             recipientLastName: this.state.recipientLastName,
             recipientEmail: this.state.recipientEmail,
-            captchaToken: null,
         };
 
         this.submit(
