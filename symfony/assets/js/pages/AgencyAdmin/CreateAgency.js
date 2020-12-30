@@ -32,10 +32,21 @@ class CreateAgency extends React.Component {
         return (
             <Container>
                 <h1>Add your agency to {Constants.SITE_NAME}</h1>
-                <AvForm onValidSubmit={this.handleValidSubmit}>
+                <p>
+                    Are you a Lettings Agent? If so, we'd love it if you added your agency to {Constants.SITE_NAME}!
+                </p>
+                <p>
+                    Please complete the form below with details about your company.
+                </p>
+                <p>
+                    This first form is about your company as a whole, not an individual branch or office.
+                    You will be able to add these next.
+                </p>
+                <hr />
+                <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                     <AvGroup>
                         <Label for="agencyName">Agency name</Label>
-                        <AvInput name="agencyName" required onChange={this.handleChange} />
+                        <AvInput name="agencyName" required placeholder="Example: Cambridge Lettings" onChange={this.handleChange} />
                         <AvFeedback>Please enter your agency name.</AvFeedback>
                         <FormText>
                             Please enter the trading name of your agency. Example: Cambridge Lettings.
@@ -43,22 +54,23 @@ class CreateAgency extends React.Component {
                     </AvGroup>
                     <AvGroup>
                         <Label for="externalUrl">Website URL</Label>
-                        <AvInput name="externalUrl" type="url" placeholder="http://yoursite.com" onChange={this.handleChange} />
+                        <AvInput name="externalUrl" type="url" placeholder="Example: http://yoursite.com" onChange={this.handleChange} />
                         <FormText>
                             Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
                         </FormText>
                     </AvGroup>
                     <AvGroup>
                         <Label for="postcode">Postcode</Label>
-                        <AvInput name="postcode" onChange={this.handleChange} />
+                        <AvInput name="postcode" placeholder="Example: CB4 3LF" onChange={this.handleChange} />
                         <FormText>
-                            Optional. Please enter the postcode of your agency's primary office.
+                            Optional. Please enter the postcode of your agency's primary office. Example: CB4 3LF
                         </FormText>
                     </AvGroup>
                     <Button color="primary">
                         Add your agency
                     </Button>
                 </AvForm>
+                <hr />
             </Container>
         );
     }
@@ -76,6 +88,12 @@ class CreateAgency extends React.Component {
             'Your agency was created successfully.',
             '/verified/agency-admin'
         )
+
+        this.clearForm()
+    }
+
+    clearForm() {
+        this.form && this.form.reset();
     }
 }
 
