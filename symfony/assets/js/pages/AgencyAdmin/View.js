@@ -9,6 +9,7 @@ import Constants from "../../Constants";
 class View extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             isFormSubmitting: false,
             flashMessages: [],
@@ -39,6 +40,7 @@ class View extends React.Component {
                     <Content
                         addFlashMessage={this.addFlashMessage}
                         submit={this.submit}
+                        {...this.props}
                     />
                 </LoadingOverlay>
                 {this.state.redirectToUrl &&

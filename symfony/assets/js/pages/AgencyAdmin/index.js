@@ -6,6 +6,7 @@ import $ from 'jquery';
 import 'jquery-ui-bundle';
 import CreateAgency from "./CreateAgency";
 import UpdateAgency from "./UpdateAgency";
+import UpdateBranch from "./UpdateBranch";
 import CreateReviewSolicitation from "./CreateReviewSolicitation";
 
 import AgencyAdminHome from "./Home";
@@ -40,6 +41,7 @@ class Index extends React.Component {
                             <Route path="/verified/agency/create" render={(props) => <View content={CreateAgency} /> }/>
                             <Route path="/verified/agency" render={(props) => <View content={UpdateAgency} /> }/>
                             <Route path="/verified/agency-admin" render={(props) => <View content={AgencyAdminHome} /> }/>
+                            <Route path="/verified/branch/:slug" render={(props) => <View content={UpdateBranch} {...props} /> }/>
                             <Route path="/verified/request-review" render={(props) => <View content={CreateReviewSolicitation} /> }/>
                         </Switch>
                     </Col>
