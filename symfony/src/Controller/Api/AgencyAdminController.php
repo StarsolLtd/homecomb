@@ -153,6 +153,30 @@ class AgencyAdminController extends AppController
 
     /**
      * @Route (
+     *     "/api/verified/branch/{slug}",
+     *     name="api-verified-branch-get",
+     *     methods={"GET", "HEAD"}
+     * )
+     */
+    public function getBranch(string $slug): JsonResponse
+    {
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+        } catch (AccessDeniedException $e) {
+            throw new AccessDeniedHttpException($e->getMessage());
+        }
+
+        try {
+            $output = $this->agencyAdminService->getBranch($slug, $this->getUserInterface());
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->jsonResponse($output, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route (
      *     "/api/verified/branch",
      *     name="create-branch",
      *     methods={"POST"}

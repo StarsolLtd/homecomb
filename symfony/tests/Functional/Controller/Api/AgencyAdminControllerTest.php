@@ -5,6 +5,7 @@ namespace App\Tests\Functional\Controller\Api;
 use App\DataFixtures\TestFixtures;
 use App\Model\Agency\Flat;
 use App\Model\AgencyAdmin\Home;
+use App\Model\Branch\Flat as FlatBranch;
 use App\Model\ReviewSolicitation\FormData;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
@@ -360,5 +361,34 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals('Testerton Lettings', $home->getAgency()->getName());
         $this->assertCount(2, $home->getBranches());
         $this->assertCount(1, $home->getReviews());
+    }
+
+    public function testBranch(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request('GET', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        /** @var FlatBranch $output */
+        $output = $this->serializer->deserialize($response->getContent(), FlatBranch::class, 'json');
+
+        $this->assertEquals(TestFixtures::TEST_BRANCH_1_SLUG, $output->getSlug());
+    }
+
+    public function testBranchNotFound(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request('GET', '/api/verified/branch/notExists');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 }
