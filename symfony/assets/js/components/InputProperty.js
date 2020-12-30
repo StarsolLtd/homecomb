@@ -26,7 +26,7 @@ class InputProperty extends React.Component {
                 type="text"
                 id={this.props.inputId}
                 placeholder={this.props.placeholder || 'Start typing'}
-                autocomplete="off"
+                autoComplete="off"
             />
         )
     }

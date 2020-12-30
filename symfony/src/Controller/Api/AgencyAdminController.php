@@ -301,7 +301,7 @@ class AgencyAdminController extends AppController
         }
 
         $this->addFlash(
-            'notice',
+            'success',
             'An email will be sent to '.$input->getRecipientEmail().' shortly asking them to review their tenancy.'
         );
 

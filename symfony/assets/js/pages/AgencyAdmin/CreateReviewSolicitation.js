@@ -145,7 +145,6 @@ class CreateReviewSolicitation extends React.Component {
             payload,
             '/api/verified/solicit-review',
             'POST',
-            `Your request for a review was received and will be sent to ${this.state.recipientEmail} shortly.`
         )
 
         this.clearForm();

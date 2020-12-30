@@ -13,11 +13,16 @@ class View extends React.Component {
         this.state = {
             isFormSubmitting: false,
             flashMessages: [],
+            flashMessagesFetching: false,
             redirectToUrl: null
         };
 
         this.addFlashMessage = this.addFlashMessage.bind(this);
         this.submit = this.submit.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchFlashMessages();
     }
 
     render() {
@@ -77,7 +82,10 @@ class View extends React.Component {
                         }
                     )
                     .then((data) => {
-                        component.addFlashMessage('success', successMessage)
+                        component.fetchFlashMessages();
+                        if (successMessage) {
+                            component.addFlashMessage('success', successMessage)
+                        }
                         if (successRedirectUrl) {
                             component.redirectToUrl(successRedirectUrl);
                         }
@@ -85,6 +93,22 @@ class View extends React.Component {
                     .catch(err => console.error("Error:", err));
             });
         });
+    }
+
+    fetchFlashMessages() {
+        fetch('/api/session/flash')
+            .then(
+                response => {
+                    this.setState({flashMessagesFetching: false})
+                    if (!response.ok) {
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
+            .then(data => {
+                data.messages.forEach(message => this.addFlashMessage(message.type, message.message));
+            });
     }
 }
 
