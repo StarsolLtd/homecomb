@@ -5,6 +5,7 @@ import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import $ from 'jquery';
 import 'jquery-ui-bundle';
 import CreateAgency from "./CreateAgency";
+import CreateBranch from "./CreateBranch";
 import UpdateAgency from "./UpdateAgency";
 import UpdateBranch from "./UpdateBranch";
 import CreateReviewSolicitation from "./CreateReviewSolicitation";
@@ -41,6 +42,7 @@ class Index extends React.Component {
                             <Route path="/verified/agency/create" render={(props) => <View content={CreateAgency} /> }/>
                             <Route path="/verified/agency" render={(props) => <View content={UpdateAgency} /> }/>
                             <Route path="/verified/agency-admin" render={(props) => <View content={AgencyAdminHome} /> }/>
+                            <Route path="/verified/branch" exact render={(props) => <View content={CreateBranch} /> }/>
                             <Route path="/verified/branch/:slug" render={(props) => <View content={UpdateBranch} {...props} /> }/>
                             <Route path="/verified/request-review" render={(props) => <View content={CreateReviewSolicitation} /> }/>
                         </Switch>

@@ -2,13 +2,13 @@ import React from 'react';
 import {Label, Button, FormText, Container} from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 
-class CreateAgency extends React.Component {
+class CreateBranch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            agencyName: '',
-            externalUrl: '',
-            postcode: '',
+            branchName: '',
+            telephone: '',
+            email: '',
         };
         this.submit = this.props.submit;
         this.submit = this.submit.bind(this);
@@ -30,32 +30,35 @@ class CreateAgency extends React.Component {
     render() {
         return (
             <Container>
-                <h1>Add your agency to {Constants.SITE_NAME}</h1>
+                <h1>Add a branch</h1>
+                <p>
+                    Please complete the form below to add a new branch to your agency.
+                </p>
                 <AvForm onValidSubmit={this.handleValidSubmit}>
                     <AvGroup>
-                        <Label for="agencyName">Agency name</Label>
-                        <AvInput name="agencyName" required onChange={this.handleChange} />
-                        <AvFeedback>Please enter your agency name.</AvFeedback>
+                        <Label for="branchName">Branch name</Label>
+                        <AvInput name="branchName" placeholder="Branch location. Example: Cambridge" required onChange={this.handleChange} />
+                        <AvFeedback>Please enter your name.</AvFeedback>
                         <FormText>
-                            Please enter the trading name of your agency. Example: Cambridge Lettings.
+                            Please enter the location of your branch. Please use the city/town/locality name. Examples: <i>Cambridge</i> or <i>Shoreditch</i>.
                         </FormText>
                     </AvGroup>
                     <AvGroup>
-                        <Label for="externalUrl">Website URL</Label>
-                        <AvInput name="externalUrl" type="url" placeholder="http://yoursite.com" onChange={this.handleChange} />
+                        <Label for="telephone">Telephone</Label>
+                        <AvInput name="telephone" placeholder="Branch telephone number" onChange={this.handleChange} />
                         <FormText>
-                            Optional. If your agency has a website, enter its URL here. Example: http://www.cambridgelettings.com/
+                            Optional. The telephone number of this branch. We will publish this.
                         </FormText>
                     </AvGroup>
                     <AvGroup>
-                        <Label for="postcode">Postcode</Label>
-                        <AvInput name="postcode" onChange={this.handleChange} />
+                        <Label for="email">Email Address</Label>
+                        <AvInput name="email" placeholder="Example: branch@youragency.com" onChange={this.handleChange} />
                         <FormText>
-                            Optional. Please enter the postcode of your agency's primary office.
+                            Optional. The email address of this branch. We will publish this.
                         </FormText>
                     </AvGroup>
                     <Button color="primary">
-                        Add your agency
+                        Add your branch
                     </Button>
                 </AvForm>
             </Container>
@@ -64,18 +67,18 @@ class CreateAgency extends React.Component {
 
     handleValidSubmit() {
         let payload = {
-            agencyName: this.state.agencyName,
+            branchName: this.state.branchName,
             externalUrl: this.state.externalUrl,
             postcode: this.state.postcode,
         };
         this.submit(
             payload,
-            '/api/verified/agency',
+            '/api/verified/branch',
             'POST',
-            'Your agency was created successfully.',
+            `Your branch, ${this.state.branchName}, was created successfully.`,
             '/verified/agency-admin'
-        )
+        );
     }
 }
 
-export default CreateAgency;
+export default CreateBranch;

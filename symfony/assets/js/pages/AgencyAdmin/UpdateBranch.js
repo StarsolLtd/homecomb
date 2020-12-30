@@ -57,7 +57,7 @@ class UpdateBranch extends React.Component {
                             </AvGroup>
                             <AvGroup>
                                 <Label for="email">Email Address</Label>
-                                <AvInput name="email" value={this.state.email} onChange={this.handleChange} />
+                                <AvInput name="email" value={this.state.email} placeholder="Example: branch@youragency.com" onChange={this.handleChange} />
                                 <FormText>
                                     Optional. The email address of this branch. We will publish this.
                                 </FormText>
