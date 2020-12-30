@@ -18,13 +18,15 @@ import {Col, Row} from "reactstrap";
 import '../../../styles/app.scss';
 import '../../../styles/AgencyAdmin/style.scss';
 import View from "./View";
+import AgencyAdminPrivateRoute from "../../components/AgencyAdminPrivateRoute";
 
 class Index extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            user: null
+            user: null,
+            userDataFetched: false
         };
     }
 
@@ -38,14 +40,28 @@ class Index extends React.Component {
                 <LayoutHeader/>
                 <Row className="flex-grow-1 d-flex">
                     <Col md={12} className="p-4">
+                        {this.state.userDataFetched &&
                         <Switch>
-                            <Route path="/verified/agency/create" render={(props) => <View content={CreateAgency} /> }/>
-                            <Route path="/verified/agency" render={(props) => <View content={UpdateAgency} /> }/>
-                            <Route path="/verified/agency-admin" render={(props) => <View content={AgencyAdminHome} /> }/>
-                            <Route path="/verified/branch" exact render={(props) => <View content={CreateBranch} /> }/>
-                            <Route path="/verified/branch/:slug" render={(props) => <View content={UpdateBranch} {...props} /> }/>
-                            <Route path="/verified/request-review" render={(props) => <View content={CreateReviewSolicitation} /> }/>
+                            <Route path="/verified/agency/create" render={
+                                (props) => <View content={CreateAgency} />
+                            }/>
+                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/agency" render={
+                                (props) => <View content={UpdateAgency} />
+                            }/>
+                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/agency-admin" render={
+                                (props) => <View content={AgencyAdminHome} />
+                            }/>
+                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/branch" exact render={
+                                (props) => <View content={CreateBranch} />
+                            }/>
+                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/branch/:slug" render={
+                                (props) => <View content={UpdateBranch} {...props} />
+                            }/>
+                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/request-review" render={
+                                (props) => <View content={CreateReviewSolicitation} />
+                            }/>
                         </Switch>
+                        }
                     </Col>
                 </Row>
                 <LayoutFooter user={this.state.user}/>
@@ -61,7 +77,8 @@ class Index extends React.Component {
             })
             .then(data => {
                 this.setState({
-                    user: data
+                    user: data,
+                    userDataFetched: true,
                 });
             })
             .catch(err => console.error("Error:", err));

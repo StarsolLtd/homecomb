@@ -54,6 +54,10 @@ class View extends React.Component {
         this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
     }
 
+    redirectToUrl(url) {
+        this.setState({redirectToUrl: url});
+    }
+
     submit(payload, url, method, successMessage, successRedirectUrl='') {
         this.setState({isFormSubmitting: true});
 
@@ -70,7 +74,7 @@ class View extends React.Component {
                     .then((data) => {
                         component.addFlashMessage('success', successMessage)
                         if (successRedirectUrl) {
-                            component.setState({redirectToUrl: successRedirectUrl});
+                            component.redirectToUrl(successRedirectUrl);
                         }
                     })
                     .catch(err => console.error("Error:", err));

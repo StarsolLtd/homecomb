@@ -1,9 +1,6 @@
 import React, {Fragment} from 'react';
 import {Container, Label, Button, FormText} from 'reactstrap';
-import LoadingOverlay from "react-loading-overlay";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
-import Constants from "../../Constants";
-import Loader from "react-loaders";
 import InputProperty from "../../components/InputProperty";
 import DataLoader from "../../components/DataLoader";
 

@@ -54,7 +54,8 @@ class FlatModelFactory
             $entity->getUsername(),
             $entity->getTitle(),
             $entity->getFirstName(),
-            $entity->getLastName()
+            $entity->getLastName(),
+            null !== $entity->getAdminAgency(),
         );
     }
 }

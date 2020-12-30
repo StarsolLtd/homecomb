@@ -85,5 +85,6 @@ class FlatModelFactoryTest extends TestCase
         $this->assertNull($model->getTitle());
         $this->assertEquals('Jack', $model->getFirstName());
         $this->assertEquals('Parnell', $model->getLastName());
+        $this->assertFalse($model->isAgencyAdmin());
     }
 }
