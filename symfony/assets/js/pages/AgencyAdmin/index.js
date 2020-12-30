@@ -19,6 +19,7 @@ import '../../../styles/app.scss';
 import '../../../styles/AgencyAdmin/style.scss';
 import View from "./View";
 import AgencyAdminPrivateRoute from "../../components/AgencyAdminPrivateRoute";
+import AgencyAdminCreateRoute from "../../components/AgencyAdminCreateRoute";
 
 class Index extends React.Component {
 
@@ -42,22 +43,22 @@ class Index extends React.Component {
                     <Col md={12} className="p-4">
                         {this.state.userDataFetched &&
                         <Switch>
-                            <Route path="/verified/agency/create" render={
+                            <AgencyAdminCreateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/agency/create" render={
                                 (props) => <View content={CreateAgency} />
                             }/>
-                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/agency" render={
+                            <AgencyAdminPrivateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/agency" render={
                                 (props) => <View content={UpdateAgency} />
                             }/>
-                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/agency-admin" render={
+                            <AgencyAdminPrivateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/agency-admin" render={
                                 (props) => <View content={AgencyAdminHome} />
                             }/>
-                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/branch" exact render={
+                            <AgencyAdminPrivateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/branch" exact render={
                                 (props) => <View content={CreateBranch} />
                             }/>
-                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/branch/:slug" render={
+                            <AgencyAdminPrivateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/branch/:slug" render={
                                 (props) => <View content={UpdateBranch} {...props} />
                             }/>
-                            <AgencyAdminPrivateRoute authed={this.state.user.agencyAdmin} path="/verified/request-review" render={
+                            <AgencyAdminPrivateRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/request-review" render={
                                 (props) => <View content={CreateReviewSolicitation} />
                             }/>
                         </Switch>

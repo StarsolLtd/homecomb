@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Redirect} from 'react-router-dom';
 
-class AgencyAdminPrivateRoute extends React.Component {
+class AgencyAdminCreateRoute extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -10,11 +10,11 @@ class AgencyAdminPrivateRoute extends React.Component {
         const Component = this.props.render;
         return (
             <Fragment>
-                {this.props.isAgencyAdmin &&
+                {!this.props.isAgencyAdmin &&
                     <Component />
                 }
-                {!this.props.isAgencyAdmin &&
-                    <Redirect to={{pathname: '/verified/agency/create', state: {from: this.props.location}}} />
+                {this.props.isAgencyAdmin &&
+                    <Redirect to={{pathname: '/verified/agency-admin', state: {from: this.props.location}}} />
                 }
             </Fragment>
         )
@@ -23,4 +23,4 @@ class AgencyAdminPrivateRoute extends React.Component {
 }
 
 
-export default AgencyAdminPrivateRoute;
+export default AgencyAdminCreateRoute;
