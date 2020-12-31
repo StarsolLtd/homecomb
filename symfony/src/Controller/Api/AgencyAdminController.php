@@ -310,8 +310,8 @@ class AgencyAdminController extends AppController
 
     /**
      * @Route (
-     *     "/api/verified/agency-admin",
-     *     name="api-agency-admin",
+     *     "/api/verified/dashboard",
+     *     name="api-verified-dashboard",
      *     methods={"GET"}
      * )
      */

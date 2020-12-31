@@ -76,7 +76,7 @@ class CreateBranch extends React.Component {
             '/api/verified/branch',
             'POST',
             `Your branch, ${this.state.branchName}, was created successfully.`,
-            '/verified/agency-admin'
+            '/verified/dashboard'
         );
     }
 }

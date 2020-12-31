@@ -86,7 +86,7 @@ class CreateAgency extends React.Component {
             '/api/verified/agency',
             'POST',
             'Your agency was created successfully.',
-            '/verified/agency-admin'
+            '/verified/dashboard'
         )
 
         this.clearForm()

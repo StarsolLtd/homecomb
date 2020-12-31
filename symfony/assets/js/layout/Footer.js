@@ -1,6 +1,7 @@
-import React, {Fragment} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Collapse, Container, Nav} from "reactstrap";
+import LogInOrOutNavLinks from "./LogInOrOutNavLinks";
 
 const Footer = (props) => {
     return (
@@ -8,11 +9,12 @@ const Footer = (props) => {
             <Container>
                 <Collapse className="navbar-collapse" id="collapsibleFooterNavbar">
                     <ul className="navbar-nav">
-                        {props.user &&
-                        <li className="list-inline-item"><a href="/logout" className="nav-link">Log Out</a></li>
+                        <LogInOrOutNavLinks {...props } />
+                        {props.user && props.user.agencyAdmin &&
+                        <li className="list-inline-item"><a href="/verified/dashboard" className="nav-link">Agency Admin</a></li>
                         }
-                        {!props.user &&
-                        <li className="list-inline-item"><a href="/login" className="nav-link">Log In</a></li>
+                        {props.user && !props.user.agencyAdmin &&
+                        <li className="list-inline-item"><a href="/verified/agency/create" className="nav-link">Add Your Agency</a></li>
                         }
                         <li className="list-inline-item"><Link to="/" className="nav-link">Search</Link></li>
                         <li className="list-inline-item"><Link to="/about" className="nav-link">About</Link></li>

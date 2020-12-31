@@ -349,7 +349,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
 
-        $client->request('GET', '/api/verified/agency-admin');
+        $client->request('GET', '/api/verified/dashboard');
 
         $response = $client->getResponse();
 

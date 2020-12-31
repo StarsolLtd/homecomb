@@ -1,28 +1,23 @@
 import React, {Fragment} from "react";
 import {Collapse, Container, Nav} from "reactstrap";
+import LogInOrOutNavLinks from "../../layout/LogInOrOutNavLinks";
 
 const LayoutFooter = (props) => {
     return (
-        <Fragment>
-            <Nav className="navbar navbar-expand-md navbar-light light-bronze">
-                <Container>
-                    <Collapse className="navbar-collapse" id="collapsibleFooterNavbar">
-                        <ul className="navbar-nav">
-                            {props.user &&
-                            <li className="nav-item"><a href="/logout" className="nav-link">Log Out</a></li>
-                            }
-                            {!props.user &&
-                            <li className="nav-item"><a href="/login" className="nav-link">Log In</a></li>
-                            }
-                        </ul>
-                    </Collapse>
+        <Nav className="navbar navbar-expand-md navbar-light light-bronze">
+            <Container>
+                <Collapse className="navbar-collapse" id="collapsibleFooterNavbar">
+                    <ul className="navbar-nav">
+                        <LogInOrOutNavLinks {...props } />
+                        <li className="list-inline-item"><a href="/" className="nav-link">Main Site</a></li>
+                    </ul>
+                </Collapse>
 
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleFooterNavbar">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                </Container>
-            </Nav>
-        </Fragment>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleFooterNavbar">
+                    <span className="navbar-toggler-icon" />
+                </button>
+            </Container>
+        </Nav>
     );
 }
 

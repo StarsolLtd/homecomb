@@ -14,7 +14,7 @@ class NonAgentRoute extends React.Component {
                     <Component />
                 }
                 {this.props.isAgencyAdmin &&
-                    <Redirect to={{pathname: '/verified/agency-admin', state: {from: this.props.location}}} />
+                    <Redirect to={{pathname: '/verified/dashboard', state: {from: this.props.location}}} />
                 }
             </Fragment>
         )

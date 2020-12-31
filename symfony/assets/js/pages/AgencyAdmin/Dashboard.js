@@ -4,7 +4,7 @@ import DataLoader from "../../components/DataLoader";
 import ReactTable from 'react-table-v6'
 import 'react-table-v6/react-table.css'
 
-class Home extends React.Component {
+class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +20,7 @@ class Home extends React.Component {
         return (
             <Fragment>
                 <DataLoader
-                    url='/api/verified/agency-admin'
+                    url='/api/verified/dashboard'
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&
@@ -74,4 +74,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default Dashboard;

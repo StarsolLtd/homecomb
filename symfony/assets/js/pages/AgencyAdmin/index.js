@@ -10,7 +10,7 @@ import UpdateAgency from "./UpdateAgency";
 import UpdateBranch from "./UpdateBranch";
 import CreateReviewSolicitation from "./CreateReviewSolicitation";
 
-import AgencyAdminHome from "./Home";
+import Dashboard from "./Dashboard";
 import LayoutFooter from "./LayoutFooter";
 import LayoutHeader from "./LayoutHeader";
 import {Col, Row} from "reactstrap";
@@ -51,8 +51,8 @@ class Index extends React.Component {
                             <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/agency" render={
                                 (props) => <View content={UpdateAgency} />
                             }/>
-                            <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/agency-admin" render={
-                                (props) => <View content={AgencyAdminHome} />
+                            <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/dashboard" render={
+                                (props) => <View content={Dashboard} />
                             }/>
                             <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/branch" exact render={
                                 (props) => <View content={CreateBranch} />
