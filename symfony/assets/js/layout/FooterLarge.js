@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 
 const FooterLarge = (props) => {
     return (
-        <Nav className="bg-primary text-white text-lg-start shadow-lg">
+        <Nav className="bg-gradient-primary text-white">
             <Container className="p-4 pb-5">
                 <Row>
                     <div className="col-lg-6 col-md-12 mb-4 mb-md-0">
