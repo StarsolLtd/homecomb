@@ -176,14 +176,16 @@ label.error {
     color: #b1b1b1;
 }
 
-.bg-light-translucent-0
+.bg-clear
 {
-    background: none;
+    background: none !important;
 }
-.bg-light-translucent-10
-{
-    background-color: #cdc3c01a;
+
+.navbar-nav a {
+    color: $white;
+    margin-right: 1.5rem;
 }
+
 .bg-light-translucent-20
 {
     background-color: #cdc3c033;

@@ -4,6 +4,7 @@ import TextLogo from "../components/TextLogo";
 import {Col, Container, Form, FormGroup, Label, Row} from "reactstrap";
 import '../../styles/home.scss';
 import Constants from "../Constants";
+import Header from "../layout/Header";
 
 class Home extends React.Component {
     constructor() {
@@ -18,6 +19,7 @@ class Home extends React.Component {
     render() {
         return (
             <Row id="home-background" className="no-gutters w-100">
+                <Header className="bg-clear" />
                 <Col id="home" className="align-self-center text-center">
                     <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
                         <h1 className="logo-large"><TextLogo /></h1>

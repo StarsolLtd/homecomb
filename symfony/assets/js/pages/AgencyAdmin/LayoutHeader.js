@@ -7,11 +7,11 @@ const LayoutHeader = (props) => {
     return (
         <Nav className="bg-gradient-primary navbar navbar-expand-md navbar-dark navbar-header">
             <Container>
-                <Link to="/verified/dashboard" className="navbar-brand font-weight-bold">
+                <Link to="/verified/dashboard" className="navbar-brand font-weight-bold mr-4">
                     <TextLogo className="logo-white"/>
                 </Link>
 
-                <span className="navbar-brand">
+                <span className="navbar-brand mr-4">
                     Agency Admin Area
                 </span>
 
