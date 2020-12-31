@@ -17,7 +17,7 @@ body {
 }
 
 .light-bronze {
-    background-color: #cdc3c0;
+    background-color: $light-bronze;
 }
 
 .navbar-brand a {
@@ -165,4 +165,32 @@ label.error {
 }
 .text-rating-unchecked {
     color: #b1b1b1;
+}
+
+.bg-light-translucent-50
+{
+    background-color: #cdc3c088;
+}
+.bg-light-translucent-60
+{
+    background-color: #cdc3c099;
+}
+.bg-light-translucent-75
+{
+    background-color: #cdc3c0be;
+}
+.bg-light-translucent-85
+{
+    background-color: #cdc3c0d8;
+}
+.bg-light-translucent-90
+{
+    background-color: #cdc3c0e6;
+}
+.bg-light-translucent-95
+{
+    background-color: #cdc3c0f2;
+}
+.rounded-lg {
+    border-radius: 1rem !important;
 }

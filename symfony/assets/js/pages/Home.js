@@ -12,21 +12,22 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Row className="w-100">
+            <Row className="w-100" id="home-background">
                 <Col id="home" className="align-self-center text-center">
-                    <Container>
+                    <Container className="rounded-lg bg-light-translucent-90 p-5">
                         <TextLogo />
                         <Form>
                             <FormGroup>
-                                <Label for="propertySearch">Find a property</Label>
+                                <Label for="propertySearch">Find tenant reviews for properties and lettings agents</Label>
                                 <PropertyAutocomplete
                                     inputId="propertySearch"
                                     source="/api/property/suggest-property"
-                                    placeholder="Start typing an address..."
+                                    placeholder="Start typing an address... e.g. 249 Victoria Road"
                                 />
                             </FormGroup>
-                            <p id="propertySearchHelp" className="text-muted">After you've entered a few characters, you
-                                will see suggested results</p>
+                            <p>
+                                After you've entered a few characters, you will see suggested results
+                            </p>
                         </Form>
                     </Container>
                 </Col>

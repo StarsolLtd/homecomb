@@ -83,3 +83,6 @@ dump:
 
 yarn-build:
 	docker exec -it homecomb_php_1 yarn encore dev
+
+yarn-watch:
+	docker exec -it homecomb_php_1 yarn encore dev --watch

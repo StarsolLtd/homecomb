@@ -20,3 +20,10 @@
 #home .form-group {
   padding: 0;
 }
+
+#home-background {
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
