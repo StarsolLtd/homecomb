@@ -1,3 +1,4 @@
+@import "variables";
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap');
 
@@ -61,24 +62,33 @@ footer ul, footer ul li {
 }
 
 .navbar a, .breadcrumb a, .red, a, .nav-link {
-    color: #862e2e !important;
+    color: $primary !important;
 }
 .bronze {
-    color: #8d6651;
+    color: $primary;
 }
 
 a:hover {
-    color: #8d6651;
+    color: $bronze;
 }
 
 .btn-primary {
-    background-color: #8d6651;
-    border-color: #8d6651;
+    background-color: $primary;
+    border-color: $primary;
 }
 
 .btn-primary:hover {
-    background-color: #862e2e;
-    border-color: #862e2e;
+    background-color: $brick;
+    border-color: $brick;
+}
+
+.btn-secondary {
+    background-color: $light-brick;
+    color: $white;
+}
+
+.btn-secondary:hover {
+    background-color: $brick;
 }
 
 textarea {
