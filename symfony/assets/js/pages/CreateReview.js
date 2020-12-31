@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
-import {Alert, Container, Col, Row} from 'reactstrap';
+import {Container, Col, Row} from 'reactstrap';
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
-import LoadingSpinner from "../components/LoadingSpinner";
 import DataLoader from "../components/DataLoader";
 import ReviewSolicitationNotFound from "../errors/ReviewSolicitationNotFound";
+import Constants from "../Constants";
 
 class CreateReview extends React.Component {
     constructor(props) {
@@ -19,6 +19,10 @@ class CreateReview extends React.Component {
         };
 
         this.loadData = this.loadData.bind(this);
+    }
+
+    componentDidMount() {
+        document.title = Constants.SITE_NAME + ' | Review Tenancy';
     }
 
     render() {

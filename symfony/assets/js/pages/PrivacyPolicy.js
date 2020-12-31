@@ -4,6 +4,11 @@ import { Col, Container, Row } from 'reactstrap';
 import Constants from "../Constants";
 
 class PrivacyPolicy extends React.Component {
+
+    componentDidMount() {
+        document.title = Constants.SITE_NAME + ' | Privacy Policy';
+    }
+
     render() {
         return (
             <Container>

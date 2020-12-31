@@ -3,11 +3,16 @@ import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import TextLogo from "../components/TextLogo";
 import {Col, Container, Form, FormGroup, Label, Row} from "reactstrap";
 import '../../styles/home.scss';
+import Constants from "../Constants";
 
 class Home extends React.Component {
     constructor() {
         super();
         this.state = {};
+    }
+
+    componentDidMount() {
+        document.title = Constants.SITE_NAME + ' | Tenant Reviews of Lettings Agents and Properties';
     }
 
     render() {

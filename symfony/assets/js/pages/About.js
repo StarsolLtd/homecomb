@@ -1,7 +1,13 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
+import Constants from "../Constants";
 
 class About extends React.Component {
+
+    componentDidMount() {
+        document.title = Constants.SITE_NAME + ' | About';
+    }
+
     render() {
         return (
             <Container>
