@@ -88,9 +88,8 @@ class UpdateBranch extends React.Component {
         };
         this.submit(
             payload,
-            '/api/verified/branch/' + this.props.match.params.slug,
+            '/api/verified/branch/' + this.props.computedMatch.params.slug,
             'PUT',
-            'Your branch was updated successfully.'
         )
     }
 }

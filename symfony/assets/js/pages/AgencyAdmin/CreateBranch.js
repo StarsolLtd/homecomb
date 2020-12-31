@@ -34,7 +34,7 @@ class CreateBranch extends React.Component {
                 <p>
                     Please complete the form below to add a new branch to your agency.
                 </p>
-                <AvForm onValidSubmit={this.handleValidSubmit}>
+                <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                     <AvGroup>
                         <Label for="branchName">Branch name</Label>
                         <AvInput name="branchName" placeholder="Branch location. Example: Cambridge" required onChange={this.handleChange} />
@@ -75,9 +75,12 @@ class CreateBranch extends React.Component {
             payload,
             '/api/verified/branch',
             'POST',
-            `Your branch, ${this.state.branchName}, was created successfully.`,
-            '/verified/dashboard'
         );
+        this.clearForm();
+    }
+
+    clearForm() {
+        this.form && this.form.reset();
     }
 }
 

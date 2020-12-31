@@ -93,7 +93,6 @@ class UpdateAgency extends React.Component {
             payload,
             '/api/verified/agency/' + this.state.slug,
             'PUT',
-            'Your agency was updated successfully.'
         )
     }
 }

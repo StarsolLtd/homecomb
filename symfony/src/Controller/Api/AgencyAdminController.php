@@ -143,10 +143,7 @@ class AgencyAdminController extends AppController
 
         $output = $this->agencyService->updateAgency($slug, $input, $this->getUserInterface());
 
-        $this->addFlash(
-            'notice',
-            'Your agency was updated successfully.'
-        );
+        $this->addFlash('success', 'Your agency was updated successfully.');
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }
@@ -201,10 +198,7 @@ class AgencyAdminController extends AppController
 
         $output = $this->branchService->createBranch($input, $this->getUserInterface());
 
-        $this->addFlash(
-            'notice',
-            'Your new branch was created successfully.'
-        );
+        $this->addFlash('success', 'Your new branch, '.$input->getBranchName().', was created successfully.');
 
         return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
@@ -235,10 +229,7 @@ class AgencyAdminController extends AppController
 
         $output = $this->branchService->updateBranch($slug, $input, $this->getUserInterface());
 
-        $this->addFlash(
-            'notice',
-            'Your branch was updated successfully.'
-        );
+        $this->addFlash('success', 'Your branch was updated successfully.');
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }
