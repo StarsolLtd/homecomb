@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
 import DataLoader from "../components/DataLoader";
+import Constants from "../Constants";
 
 class BranchView extends React.Component {
     constructor(props) {
@@ -96,6 +97,8 @@ class BranchView extends React.Component {
             reviews: data.reviews,
             loaded: true,
         });
+
+        document.title = this.state.branch.name + ' Branch Reviews | ' + Constants.SITE_NAME;
     }
 }
 

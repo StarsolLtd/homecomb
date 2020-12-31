@@ -2,6 +2,7 @@ import React from 'react';
 import AgencyBranch from "../components/AgencyBranch";
 import {Container} from "reactstrap";
 import DataLoader from "../components/DataLoader";
+import Constants from "../Constants";
 
 class AgencyView extends React.Component {
     constructor(props) {
@@ -52,6 +53,7 @@ class AgencyView extends React.Component {
             agency: data,
             loaded: true
         });
+        document.title = this.state.agency.name + ' Reviews | ' + Constants.SITE_NAME;
     }
 }
 

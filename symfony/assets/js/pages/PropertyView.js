@@ -3,6 +3,7 @@ import {Button, Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
+import Constants from "../Constants";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -93,6 +94,8 @@ class PropertyView extends React.Component {
             reviews: data.reviews,
             loaded: true,
         });
+
+        document.title = data.addressLine1 + ' | ' + Constants.SITE_NAME;
     }
 }
 

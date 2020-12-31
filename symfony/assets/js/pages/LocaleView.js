@@ -3,6 +3,7 @@ import {Container, Col, Row} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 import DataLoader from "../components/DataLoader";
+import Constants from "../Constants";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -81,6 +82,8 @@ class LocaleView extends React.Component {
             agencyReviewsSummary: data.agencyReviewsSummary,
             loaded: true,
         });
+
+        document.title = 'Top Lettings Agents in ' + this.state.name + ' | ' + Constants.SITE_NAME;
     }
 }
 
