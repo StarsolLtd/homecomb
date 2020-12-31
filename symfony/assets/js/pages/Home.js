@@ -15,7 +15,7 @@ class Home extends React.Component {
             <Row className="w-100" id="home-background">
                 <Col id="home" className="align-self-center text-center">
                     <Container className="rounded-lg bg-light-translucent-90 p-5">
-                        <TextLogo />
+                        <h1 className="logo-large"><TextLogo /></h1>
                         <Form>
                             <FormGroup>
                                 <Label for="propertySearch">Find tenant reviews for properties and lettings agents</Label>

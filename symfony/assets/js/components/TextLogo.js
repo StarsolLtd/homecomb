@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 class TextLogo extends React.Component {
     render(){
         return (
-            <h1 className="logo-large"><span className="red">Home</span><span className="bronze">Comb</span></h1>
+            <Fragment>
+                <span className="logo-first">home</span><span className="logo-second">comb</span>
+            </Fragment>
         )
     }
 }

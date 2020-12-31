@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {Container, Nav} from "reactstrap";
+import TextLogo from "../components/TextLogo";
 
 function Header() {
     return (
@@ -8,7 +9,7 @@ function Header() {
             <Container>
                 <span className="navbar-brand logo-medium">
                     <Link to="/">
-                        <span className="red">Home</span><span className="bronze">Comb</span>
+                        <TextLogo />
                     </Link>
                 </span>
             </Container>
