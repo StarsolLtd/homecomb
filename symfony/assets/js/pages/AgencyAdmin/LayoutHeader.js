@@ -1,13 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Collapse, Container, Nav} from "reactstrap";
+import TextLogo from "../../components/TextLogo";
 
 const LayoutHeader = (props) => {
     return (
         <Nav className="navbar navbar-expand-md navbar-light navbar-header light-bronze shadow">
             <Container>
-                <a className="navbar-brand logo-sm" href="/">
-                    <span className="red">Home</span><span className="bronze">Comb</span>
+                <a className="navbar-brand font-weight-bold" href="/">
+                    <TextLogo />
                 </a>
 
                 <span className="navbar-brand">

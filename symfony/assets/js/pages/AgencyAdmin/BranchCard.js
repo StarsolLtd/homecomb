@@ -13,21 +13,14 @@ const BranchCard = (props) => {
                 <Row className="no-gutters">
                     <Col sm="6" className="p-2">
                         <Link to={'/verified/branch/' + props.slug}>
-                            <Button className="btn-icon-vertical btn-transition-text btn-transition btn-secondary"
-                                    outline
-                            >
-                                <i className="lnr-apartment text-dark opacity-7 btn-icon-wrapper mb-2"> {" "} </i>
+                            <Button color="primary">
                                 Update Info
                             </Button>
                         </Link>
                     </Col>
                     <Col sm="6" className="p-2">
                         <a href={'/branch/' + props.slug} target="_blank">
-                            <Button
-                                className="btn-icon-vertical btn-transition-text btn-transition btn-secondary"
-                                outline
-                            >
-                                <i className="lnr-store text-dark opacity-7 btn-icon-wrapper mb-2"> {" "} </i>
+                            <Button color="primary">
                                 View
                             </Button>
                         </a>
