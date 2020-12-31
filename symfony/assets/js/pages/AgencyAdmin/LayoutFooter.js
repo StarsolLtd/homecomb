@@ -1,21 +1,33 @@
-import React, {Fragment} from "react";
-import {Collapse, Container, Nav} from "reactstrap";
+import React from "react";
+import {Container, Nav, Row} from "reactstrap";
 import LogInOrOutNavLinks from "../../layout/LogInOrOutNavLinks";
+import TextLogo from "../../components/TextLogo";
+import {Link} from "react-router-dom";
 
 const LayoutFooter = (props) => {
     return (
-        <Nav className="navbar navbar-expand-md navbar-light light-bronze">
-            <Container>
-                <Collapse className="navbar-collapse" id="collapsibleFooterNavbar">
-                    <ul className="navbar-nav">
-                        <LogInOrOutNavLinks {...props } />
-                        <li className="list-inline-item"><a href="/" className="nav-link">Main Site</a></li>
-                    </ul>
-                </Collapse>
+        <Nav className="bg-gradient-primary text-white">
+            <Container className="p-4 pb-5">
+                <Row>
+                    <div className="col-lg-6 col-md-12 mb-4 mb-md-0">
+                        <h5><TextLogo className="logo-white" /></h5>
 
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleFooterNavbar">
-                    <span className="navbar-toggler-icon" />
-                </button>
+                        <p>© 2021 <a className="text-white" href="http://starsol.com/">Starsol Ltd</a></p>
+                    </div>
+
+                    <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <ul className="list-unstyled mb-0">
+                            <LogInOrOutNavLinks className="text-white" {...props } />
+                        </ul>
+                    </div>
+
+                    <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <ul className="list-unstyled mb-0">
+                            <li><Link to="/contact" className="text-white">Contact Us</Link></li>
+                            <li><Link to="/privacy-policy" className="text-white">Privacy Policy</Link></li>
+                        </ul>
+                    </div>
+                </Row>
             </Container>
         </Nav>
     );

@@ -20,6 +20,7 @@ import '../../../styles/AgencyAdmin/style.scss';
 import View from "./View";
 import AgentRoute from "./AgentRoute";
 import NonAgentRoute from "./NonAgentRoute";
+import FooterLarge from "../../layout/FooterLarge";
 
 class Index extends React.Component {
 
