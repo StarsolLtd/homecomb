@@ -2,7 +2,6 @@ import React from "react";
 import {Container, Nav, Row} from "reactstrap";
 import LogInOrOutNavLinks from "../../layout/LogInOrOutNavLinks";
 import TextLogo from "../../components/TextLogo";
-import {Link} from "react-router-dom";
 
 const LayoutFooter = (props) => {
     return (
@@ -18,13 +17,14 @@ const LayoutFooter = (props) => {
                     <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
                         <ul className="list-unstyled mb-0">
                             <LogInOrOutNavLinks className="text-white" {...props } />
+                            <li><a href="/" className="text-white">Main Site</a></li>
                         </ul>
                     </div>
 
                     <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
                         <ul className="list-unstyled mb-0">
-                            <li><Link to="/contact" className="text-white">Contact Us</Link></li>
-                            <li><Link to="/privacy-policy" className="text-white">Privacy Policy</Link></li>
+                            <li><a href="/contact" className="text-white">Contact Us</a></li>
+                            <li><a href="/privacy-policy" className="text-white">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </Row>

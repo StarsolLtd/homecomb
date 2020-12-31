@@ -46,10 +46,10 @@ footer ul, footer ul li {
 }
 
 .logo-first {
-    color: $brick;
+    color: $primary;
 }
 .logo-second {
-    color: $bronze;
+    color: $secondary;
 }
 
 .logo-white {
@@ -79,8 +79,8 @@ footer ul, footer ul li {
     font-family: $logo-font, sans-serif;
 }
 
-.navbar a, .breadcrumb a, .red, a, .nav-link {
-    color: $primary !important;
+.breadcrumb a, .red, a {
+    color: $primary;
 }
 .bronze {
     color: $bronze;
