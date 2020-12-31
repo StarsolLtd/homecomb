@@ -19,6 +19,8 @@ import AgentRoute from "./pages/AgencyAdmin/AgentRoute";
 import View from "./pages/AgencyAdmin/View";
 import UpdateBranch from "./pages/AgencyAdmin/UpdateBranch";
 import HomeRoute from "./pages/HomeRoute";
+import {Container, Row} from "reactstrap";
+import HowItWorks from "./content/HowItWorks";
 
 class Front extends React.Component {
 
@@ -61,6 +63,15 @@ class Front extends React.Component {
                         <Route path="/rs/:code" component={CreateReview}/>
                     </Switch>
                 </div>
+                <Switch>
+                    <Route
+                        render={({ location }) => ['/', '/about', '/contact'].includes(location.pathname)
+                            ? <HowItWorks />
+                            : null
+                        }
+                    />
+                    <Route path="/" exact component={Header}/>
+                </Switch>
                 <Footer user={this.state.user}/>
             </Fragment>
         )

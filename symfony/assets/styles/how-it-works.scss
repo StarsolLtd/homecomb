@@ -1,0 +1,17 @@
+@import "variables";
+
+.how-it-works {
+    background-color: $yellow-pastel;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.how-it-works p  {
+    padding-bottom: 1.25em;
+}
+
+.how-it-works h2  {
+    font-family: $logo-font;
+    padding-bottom: .75em;
+}

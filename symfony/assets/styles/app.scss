@@ -45,8 +45,6 @@ footer ul, footer ul li {
     padding: 0;
 }
 
-$logo-font: 'Kufam';
-
 .logo-first {
     color: $brick;
 }
@@ -221,4 +219,11 @@ label.error {
 }
 .rounded-lg {
     border-radius: 1rem !important;
+}
+
+.how-it-works {
+    background-color: $yellow-pastel;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
