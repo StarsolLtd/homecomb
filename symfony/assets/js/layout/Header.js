@@ -6,7 +6,7 @@ import TextLogo from "../components/TextLogo";
 const Header = (props) => {
     const navClasses = `bg-gradient-primary w-100 navbar navbar-expand-md navbar-dark navbar-header ${props.className}`;
     return (
-        <Nav className={navClasses}>
+        <Nav id="header-navbar" className={navClasses}>
             <Container>
                 <span className="navbar-brand logo-medium mr-5">
                     <Link to="/">

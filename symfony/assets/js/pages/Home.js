@@ -14,13 +14,29 @@ class Home extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Tenant Reviews of Lettings Agents and Properties';
+
+        const getScrollPosition = (el = window) => ({
+            x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
+            y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
+        });
+
+        let headerNavbar = document.getElementById('header-navbar');
+
+        window.onscroll = function () {
+            let pos = getScrollPosition(window);
+            if (pos.y >= 30 ) {
+                headerNavbar.classList.remove("bg-clear");
+            } else {
+                headerNavbar.classList.add("bg-clear");
+            }
+        };
     }
 
     render() {
         return (
             <Row id="home-background" className="no-gutters w-100">
-                <Header className="bg-clear" />
-                <Col id="home" className="align-self-center text-center">
+                <Header className="bg-clear fixed-top" />
+                <Col id="home" className="align-self-center text-center mt-7 mb-5">
                     <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
                         <h1 className="logo-large"><TextLogo /></h1>
                         <Form>

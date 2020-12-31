@@ -9,7 +9,7 @@ const HowItWorks = (props) => {
         <div className="how-it-works">
             <Container>
                 <Col md={12} className="p-4 pt-5 pb-5 text-center">
-                    <h2>How homecomb works</h2>
+                    <h2><a name="how-it-works" />How homecomb works</h2>
 
                     <p>
                         {Constants.SITE_NAME} allows tenants to review their residential tenancies in the UK.
