@@ -5,17 +5,17 @@ import TextLogo from "../components/TextLogo";
 
 
 const Header = (props) => {
-    const navClasses = `navbar navbar-dark navbar-header light-bronze ${props.className}`;
+    const navClasses = `bg-gradient-primary navbar navbar-dark navbar-header ${props.className}`;
     return (
-        <div className={navClasses}>
+        <Nav className={navClasses}>
             <Container>
                 <span className="navbar-brand logo-medium">
                     <Link to="/">
-                        <TextLogo className={props.textLogoClassName}/>
+                        <TextLogo className="logo-white"/>
                     </Link>
                 </span>
             </Container>
-        </div>
+        </Nav>
     );
 }
 
