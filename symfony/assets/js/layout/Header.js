@@ -3,17 +3,19 @@ import {Link} from "react-router-dom";
 import {Container, Nav} from "reactstrap";
 import TextLogo from "../components/TextLogo";
 
-function Header() {
+
+const Header = (props) => {
+    const navClasses = `navbar navbar-dark navbar-header light-bronze ${props.className}`;
     return (
-        <Nav className="navbar navbar-dark navbar-header light-bronze">
+        <div className={navClasses}>
             <Container>
                 <span className="navbar-brand logo-medium">
                     <Link to="/">
-                        <TextLogo />
+                        <TextLogo className={props.textLogoClassName}/>
                     </Link>
                 </span>
             </Container>
-        </Nav>
+        </div>
     );
 }
 

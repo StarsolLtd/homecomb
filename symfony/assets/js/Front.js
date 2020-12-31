@@ -15,6 +15,10 @@ import Home from "./pages/Home";
 import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import AgentRoute from "./pages/AgencyAdmin/AgentRoute";
+import View from "./pages/AgencyAdmin/View";
+import UpdateBranch from "./pages/AgencyAdmin/UpdateBranch";
+import HomeRoute from "./pages/HomeRoute";
 
 class Front extends React.Component {
 
@@ -29,6 +33,7 @@ class Front extends React.Component {
         this.fetchUserData();
     }
 
+    // id="home-background"
     render() {
         return (
             <Fragment>
@@ -43,7 +48,9 @@ class Front extends React.Component {
                 </Switch>
                 <div className="wrapper flex-grow-1 d-flex">
                     <Switch>
-                        <Route path="/" exact component={Home}/>
+                        <HomeRoute path="/" exact render={
+                            (props) => <Home {...props} />
+                        }/>
                         <Route path="/about" component={About}/>
                         <Route path="/contact" component={Contact}/>
                         <Route path="/privacy-policy" component={PrivacyPolicy}/>

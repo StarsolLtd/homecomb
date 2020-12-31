@@ -1,13 +1,12 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
-class TextLogo extends React.Component {
-    render(){
-        return (
-            <Fragment>
-                <span className="logo-first">home</span><span className="logo-second">comb</span>
-            </Fragment>
-        )
-    }
+const TextLogo = (props) => {
+    const textLogoClasses = `logo ${props.className}`;
+    return (
+        <span className={textLogoClasses}>
+            <span className="logo-first">home</span><span className="logo-second">comb</span>
+        </span>
+    );
 }
 
 export default TextLogo;
