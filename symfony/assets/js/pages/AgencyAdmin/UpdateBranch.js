@@ -34,7 +34,7 @@ class UpdateBranch extends React.Component {
         return (
             <Container>
                 <DataLoader
-                    url={'/api/verified/branch/' + this.props.match.params.slug}
+                    url={'/api/verified/branch/' + this.props.computedMatch.params.slug}
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&

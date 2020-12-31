@@ -11,7 +11,7 @@ class AgentRoute extends React.Component {
         return (
             <Fragment>
                 {this.props.isAgencyAdmin &&
-                    <Component />
+                    <Component {...this.props} />
                 }
                 {!this.props.isAgencyAdmin &&
                     <Redirect to={{pathname: '/verified/agency/create', state: {from: this.props.location}}} />
