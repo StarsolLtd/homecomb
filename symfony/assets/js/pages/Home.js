@@ -17,9 +17,9 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Row className="w-100">
+            <Row id="home-background" className="no-gutters w-100">
                 <Col id="home" className="align-self-center text-center">
-                    <Container className="rounded-lg bg-light-translucent-90 p-5">
+                    <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
                         <h1 className="logo-large"><TextLogo /></h1>
                         <Form>
                             <FormGroup>

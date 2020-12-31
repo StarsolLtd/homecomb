@@ -3,7 +3,6 @@ import {Switch, Route} from 'react-router-dom';
 
 import About from "./pages/About"
 import Contact from "./pages/Contact"
-import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 
 import $ from 'jquery';
@@ -15,12 +14,8 @@ import Home from "./pages/Home";
 import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import AgentRoute from "./pages/AgencyAdmin/AgentRoute";
-import View from "./pages/AgencyAdmin/View";
-import UpdateBranch from "./pages/AgencyAdmin/UpdateBranch";
-import HomeRoute from "./pages/HomeRoute";
-import {Container, Row} from "reactstrap";
 import HowItWorks from "./content/HowItWorks";
+import FooterLarge from "./layout/FooterLarge";
 
 class Front extends React.Component {
 
@@ -35,7 +30,6 @@ class Front extends React.Component {
         this.fetchUserData();
     }
 
-    // id="home-background"
     render() {
         return (
             <Fragment>
@@ -50,9 +44,7 @@ class Front extends React.Component {
                 </Switch>
                 <div className="wrapper flex-grow-1 d-flex">
                     <Switch>
-                        <HomeRoute path="/" exact render={
-                            (props) => <Home {...props} />
-                        }/>
+                        <Route path="/" exact component={Home}/>
                         <Route path="/about" component={About}/>
                         <Route path="/contact" component={Contact}/>
                         <Route path="/privacy-policy" component={PrivacyPolicy}/>
@@ -72,7 +64,7 @@ class Front extends React.Component {
                     />
                     <Route path="/" exact component={Header}/>
                 </Switch>
-                <Footer user={this.state.user}/>
+                <FooterLarge user={this.state.user}/>
             </Fragment>
         )
     }

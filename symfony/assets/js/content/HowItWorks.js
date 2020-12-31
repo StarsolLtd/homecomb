@@ -4,16 +4,15 @@ import Constants from "../Constants";
 
 import '../../styles/how-it-works.scss';
 
-
 const HowItWorks = (props) => {
     return (
         <div className="how-it-works">
             <Container>
-                <Col md={12} className="p-4 text-center">
-                    <h2>How {Constants.SITE_NAME} Works</h2>
+                <Col md={12} className="p-4 pb-5 text-center">
+                    <h2>How homecomb works</h2>
 
                     <p>
-                        {Constants.SITE_NAME} allows tenants to review their tenancies at properties in the United Kingdom
+                        {Constants.SITE_NAME} allows tenants to review their residential tenancies in the UK.
                     </p>
 
                     <p>
