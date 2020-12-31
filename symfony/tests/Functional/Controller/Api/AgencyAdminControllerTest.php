@@ -193,6 +193,25 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
+    public function testCreateBranchFailsWhenAlreadyExists(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'POST',
+            '/api/verified/branch',
+            [],
+            [],
+            [],
+            '{"branchName":"Dereham","telephone":"0700 700 800","email":null,"googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
+    }
+
     public function testUpdateBranch(): void
     {
         $client = static::createClient();

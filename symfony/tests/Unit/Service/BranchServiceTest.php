@@ -5,6 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
+use App\Exception\ConflictException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
@@ -15,6 +16,8 @@ use App\Repository\BranchRepository;
 use App\Service\BranchService;
 use App\Service\NotificationService;
 use App\Service\UserService;
+use App\Tests\Unit\EntityManagerTrait;
+use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +26,8 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class BranchServiceTest extends TestCase
 {
     use ProphecyTrait;
+    use EntityManagerTrait;
+    use UserEntityFromInterfaceTrait;
 
     private BranchService $branchService;
 
@@ -66,9 +71,11 @@ class BranchServiceTest extends TestCase
         $user = (new User())->setAdminAgency($agency);
         $branch = new Branch();
 
-        $this->userService->getEntityFromInterface($user)
+        $this->assertGetUserEntityFromInterface($user);
+
+        $this->branchRepository->findOneByNameAndAgencyOrNull('Test Branch Name', $agency)
             ->shouldBeCalledOnce()
-            ->willReturn($user);
+            ->willReturn(null);
 
         $this->branchFactory->createBranchEntityFromCreateBranchInputModel($createBranchInput, $agency)
             ->shouldBeCalledOnce()
@@ -84,6 +91,31 @@ class BranchServiceTest extends TestCase
         $this->assertTrue($output->isSuccess());
     }
 
+    public function testCreateBranchThrowsConflictExceptionIfAlreadyExists(): void
+    {
+        $createBranchInput = new CreateBranchInput(
+            'Already Exists Name',
+            '0700 100 200',
+            null,
+            'sample'
+        );
+        $agency = new Agency();
+        $user = (new User())->setAdminAgency($agency);
+        $existingBranch = new Branch();
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $this->branchRepository->findOneByNameAndAgencyOrNull('Already Exists Name', $agency)
+            ->shouldBeCalledOnce()
+            ->willReturn($existingBranch);
+
+        $this->expectException(ConflictException::class);
+
+        $this->assertEntityManagerUnused();
+
+        $this->branchService->createBranch($createBranchInput, $user);
+    }
+
     public function testUpdateBranch(): void
     {
         $slug = 'testbranchslug';
@@ -96,7 +128,7 @@ class BranchServiceTest extends TestCase
         $user = new User();
         $branch = new Branch();
 
-        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+        $this->assertGetUserEntityFromInterface($user);
 
         $this->branchRepository->findOneBySlugUserCanManage('testbranchslug', $user)
             ->shouldBeCalledOnce()

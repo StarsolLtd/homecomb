@@ -75,7 +75,10 @@ class View extends React.Component {
                         response => {
                             component.setState({isFormSubmitting: false});
                             if (!response.ok) {
-                                component.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                                if (response.status === 500) {
+                                    component.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                                }
+                                component.fetchFlashMessages();
                                 return Promise.reject('Error: ' + response.status)
                             }
                             return response.json()

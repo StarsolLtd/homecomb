@@ -196,7 +196,13 @@ class AgencyAdminController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->branchService->createBranch($input, $this->getUserInterface());
+        try {
+            $output = $this->branchService->createBranch($input, $this->getUserInterface());
+        } catch (ConflictException $e) {
+            $this->addFlash('warning', $e->getMessage());
+
+            return $this->jsonResponse(null, Response::HTTP_CONFLICT);
+        }
 
         $this->addFlash('success', 'Your new branch, '.$input->getBranchName().', was created successfully.');
 

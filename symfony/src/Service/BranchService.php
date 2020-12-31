@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Exception\ConflictException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
@@ -54,6 +55,12 @@ class BranchService
 
         if (null === $agency) {
             throw new Exception(sprintf('Logged in user %s is not the admin of an agency.', $user->getUsername()));
+        }
+
+        $branchName = $createBranchInput->getBranchName();
+        $alreadyExists = $this->branchRepository->findOneByNameAndAgencyOrNull($branchName, $agency);
+        if (null !== $alreadyExists) {
+            throw new ConflictException('A branch with the name '.$branchName.' already exists for this agency.');
         }
 
         $branch = $this->branchFactory->createBranchEntityFromCreateBranchInputModel($createBranchInput, $agency);

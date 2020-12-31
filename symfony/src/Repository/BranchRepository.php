@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
 use App\Exception\NotFoundException;
@@ -58,5 +59,15 @@ class BranchRepository extends ServiceEntityRepository
         }
 
         return $branch;
+    }
+
+    public function findOneByNameAndAgencyOrNull(string $name, Agency $agency): ?Branch
+    {
+        return $this->findOneBy(
+            [
+                'name' => $name,
+                'agency' => $agency,
+            ]
+        );
     }
 }
