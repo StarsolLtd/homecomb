@@ -1,4 +1,6 @@
 import React from 'react';
+import $ from 'jquery';
+import 'jquery-ui-bundle';
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import TextLogo from "../components/TextLogo";
 import {Col, Container, Form, FormGroup, Label, Row} from "reactstrap";
@@ -20,14 +22,17 @@ class Home extends React.Component {
             y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
         });
 
-        let headerNavbar = document.getElementById('header-navbar');
+        const classScrolledDown = 'bg-primary';
 
         window.onscroll = function () {
             let pos = getScrollPosition(window);
-            if (pos.y >= 30 ) {
-                headerNavbar.classList.remove("bg-clear");
-            } else {
-                headerNavbar.classList.add("bg-clear");
+            let headerNavbar = $('#header-navbar');
+            if (pos.y >= 50) {
+                if (!headerNavbar.hasClass(classScrolledDown)) {
+                    headerNavbar.addClass(classScrolledDown, 500);
+                }
+            } else if (headerNavbar.hasClass(classScrolledDown)) {
+                headerNavbar.removeClass(classScrolledDown, 500);
             }
         };
     }
@@ -35,7 +40,7 @@ class Home extends React.Component {
     render() {
         return (
             <Row id="home-background" className="no-gutters w-100">
-                <Header className="bg-clear fixed-top" />
+                <Header className="fixed-top" />
                 <Col id="home" className="align-self-center text-center mt-7 mb-5">
                     <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
                         <h1 className="logo-large"><TextLogo /></h1>

@@ -5,7 +5,6 @@ import About from "./pages/About"
 import Contact from "./pages/Contact"
 import Header from "./layout/Header";
 
-import $ from 'jquery';
 import 'jquery-ui-bundle';
 import AgencyView from "./pages/AgencyView";
 import BranchView from "./pages/BranchView";
@@ -37,7 +36,7 @@ class Front extends React.Component {
                     <Route
                         render={({ location }) => ['/'].includes(location.pathname)
                             ? null
-                            : <Header/>
+                            : <Header className="bg-gradient-primary"/>
                         }
                       />
                     <Route path="/" exact component={Header}/>

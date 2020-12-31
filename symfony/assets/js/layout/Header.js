@@ -4,7 +4,7 @@ import {Collapse, Container, Nav} from "reactstrap";
 import TextLogo from "../components/TextLogo";
 
 const Header = (props) => {
-    const navClasses = `bg-gradient-primary w-100 navbar navbar-expand-md navbar-dark navbar-header ${props.className}`;
+    const navClasses = `w-100 navbar navbar-expand-md navbar-dark navbar-header ${props.className}`;
     return (
         <Nav id="header-navbar" className={navClasses}>
             <Container>
