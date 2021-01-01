@@ -61,6 +61,7 @@ class CreateReview extends React.Component {
                                     propertySlug={this.state.property.slug}
                                     reviewerEmail={this.state.reviewerEmail}
                                     reviewerName={this.state.reviewerFirstName + ' ' + this.state.reviewerLastName}
+                                    {...this.props}
                                 />
                             </Col>
                         </Row>

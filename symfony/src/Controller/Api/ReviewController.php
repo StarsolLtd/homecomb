@@ -53,7 +53,7 @@ class ReviewController extends AppController
         $output = $this->reviewService->submitReview($input, $this->getUserInterface());
 
         $this->addFlash(
-            'notice',
+            'success',
             'Your review was received successfully and will be checked by our moderation team shortly.'
         );
 

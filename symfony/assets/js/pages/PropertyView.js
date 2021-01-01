@@ -16,7 +16,6 @@ class PropertyView extends React.Component {
             reviewTenancyFormOpen: false,
             loaded: false,
         };
-
         this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
         this.loadData = this.loadData.bind(this);
     }
@@ -41,7 +40,7 @@ class PropertyView extends React.Component {
                     </Row>
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                            <h5 className="mb-4">Reviews from tenants</h5>
+                            <h5 className="mb-1">Reviews from tenants</h5>
 
                             {this.state.reviews.map(
                                 ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
@@ -66,14 +65,14 @@ class PropertyView extends React.Component {
                             )}
 
                             {this.state.reviews.length === 0 &&
-                                <Fragment>
-                                    <p>
-                                        There are no reviews yet for this property.
-                                    </p>
-                                    <hr />
-                                    <h5 className="mb-4">Search for another property address</h5>
-                                    <PropertyAutocomplete />
-                                </Fragment>
+                            <Fragment>
+                                <p className="mt-3">
+                                    There are no reviews yet for this property.
+                                </p>
+                                <hr />
+                                <h5 className="mb-4">Search for another property address</h5>
+                                <PropertyAutocomplete />
+                            </Fragment>
                             }
                         </Col>
                     </Row>
@@ -89,7 +88,7 @@ class PropertyView extends React.Component {
                             <Button onClick={this.openReviewTenancyForm} color="primary">Yes! I want to write a review</Button>
                             }
                             {this.state.reviewTenancyFormOpen &&
-                            <ReviewTenancyForm propertySlug={this.props.match.params.slug} />
+                            <ReviewTenancyForm propertySlug={this.props.match.params.slug} {...this.props} />
                             }
                         </Col>
                     </Row>

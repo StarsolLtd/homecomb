@@ -15,6 +15,7 @@ import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HowItWorks from "./content/HowItWorks";
 import FooterLarge from "./layout/FooterLarge";
+import View from "./pages/View";
 
 class Front extends React.Component {
 
@@ -44,14 +45,14 @@ class Front extends React.Component {
                 <div className="wrapper flex-grow-1 d-flex">
                     <Switch>
                         <Route path="/" exact component={Home}/>
-                        <Route path="/about" component={About}/>
-                        <Route path="/contact" component={Contact}/>
-                        <Route path="/privacy-policy" component={PrivacyPolicy}/>
-                        <Route path="/agency/:slug" component={AgencyView}/>
-                        <Route path="/branch/:slug" component={BranchView}/>
-                        <Route path="/l/:slug" component={LocaleView}/>
-                        <Route path="/property/:slug" component={PropertyView}/>
-                        <Route path="/rs/:code" component={CreateReview}/>
+                        <Route path="/about" render={(props) => <View content={About} {...props} />}/>
+                        <Route path="/contact" render={(props) => <View content={Contact} {...props} />}/>
+                        <Route path="/privacy-policy" render={(props) => <View content={PrivacyPolicy} {...props} />}/>
+                        <Route path="/agency/:slug" render={(props) => <View content={AgencyView} {...props} />}/>
+                        <Route path="/branch/:slug" render={(props) => <View content={BranchView} {...props} />}/>
+                        <Route path="/l/:slug" render={(props) => <View content={LocaleView} {...props} />}/>
+                        <Route path="/property/:slug" render={(props) => <View content={PropertyView} {...props} />}/>
+                        <Route path="/rs/:code" render={(props) => <View content={CreateReview} {...props} />}/>
                     </Switch>
                 </div>
 

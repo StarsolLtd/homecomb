@@ -28,7 +28,7 @@ class ReviewTenancyForm extends React.Component {
             landlordStars: null,
             agencyStars: null,
             propertyStars: null,
-            formSubmissionInProgress: false,
+            isFormSubmitting: false,
             user: null,
             agency: this.props.agency,
             branch: this.props.branch,
@@ -75,7 +75,7 @@ class ReviewTenancyForm extends React.Component {
     render() {
         return (
             <LoadingOverlay
-                active={this.state.formSubmissionInProgress}
+                active={this.state.isFormSubmitting}
                 styles={{
                     overlay: (base) => ({
                         ...base,
@@ -301,7 +301,7 @@ class ReviewTenancyForm extends React.Component {
     }
 
     handleValidSubmit() {
-        this.setState({formSubmissionInProgress: true});
+        this.setState({isFormSubmitting: true});
         let payload = {
             propertySlug: this.state.propertySlug,
             code: this.state.code,
@@ -325,17 +325,22 @@ class ReviewTenancyForm extends React.Component {
                 fetch(`/api/submit-review`, {
                     method: 'POST',
                     body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
                 })
-                    .then((response) => {
-                        component.setState({formSubmissionInProgress: false});
-                        if (!response.ok) throw new Error(response.status);
-                        else return response.json();
-                    })
+                    .then(
+                        response => {
+                            component.setState({isFormSubmitting: false});
+                            if (!response.ok) {
+                                if (response.status === 500) {
+                                    component.props.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                                }
+                                component.props.fetchFlashMessages();
+                                return Promise.reject('Error: ' + response.status)
+                            }
+                            return response.json()
+                        }
+                    )
                     .then((data) => {
-                        location.reload()
+                        component.props.fetchFlashMessages();
                     })
                     .catch(err => console.error("Error:", err));
             });
