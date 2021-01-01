@@ -3,27 +3,37 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Exception\ConflictException;
 use App\Factory\FlatModelFactory;
+use App\Factory\UserFactory;
 use App\Model\User\Flat;
+use App\Model\User\RegisterInput;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService
 {
+    private UserFactory $userFactory;
     private BranchRepository $branchRepository;
     private UserRepository $userRepository;
     private FlatModelFactory $flatModelFactory;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
+        UserFactory $userFactory,
         BranchRepository $branchRepository,
         UserRepository $userRepository,
-        FlatModelFactory $flatModelFactory
+        FlatModelFactory $flatModelFactory,
+        EntityManagerInterface $entityManager
     ) {
+        $this->userFactory = $userFactory;
         $this->branchRepository = $branchRepository;
         $this->userRepository = $userRepository;
         $this->flatModelFactory = $flatModelFactory;
+        $this->entityManager = $entityManager;
     }
 
     public function getUserEntityOrNullFromUserInterface(?UserInterface $user): ?User
@@ -77,5 +87,21 @@ class UserService
         }
 
         return $this->flatModelFactory->getUserFlatModel($user);
+    }
+
+    public function register(RegisterInput $input): User
+    {
+        $username = $input->getEmail();
+        $existing = $this->userRepository->loadUserByUsername($username);
+        if (null !== $existing) {
+            throw new ConflictException(sprintf('User already exists with username %s', $username));
+        }
+
+        $user = $this->userFactory->createEntityFromRegisterInput($input);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
 }
