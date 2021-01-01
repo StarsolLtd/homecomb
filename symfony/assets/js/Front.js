@@ -54,18 +54,35 @@ class Front extends React.Component {
                         <Route path="/rs/:code" component={CreateReview}/>
                     </Switch>
                 </div>
+
                 <Switch>
                     <Route
-                        render={({ location }) => ['/', '/about', '/contact'].includes(location.pathname)
+                        render={({ location }) => this.showHowItWorks(location.pathname)
                             ? <HowItWorks />
                             : null
                         }
                     />
                     <Route path="/" exact component={Header}/>
                 </Switch>
+
                 <FooterLarge user={this.state.user}/>
             </Fragment>
         )
+    }
+
+    showHowItWorks(pathname) {
+        if (['/', '/about', '/contact'].includes(pathname)) {
+            return true;
+        }
+
+        let matched = false;
+        ['/agency/', '/branch/', '/property/', '/l/', '/rs/'].forEach(function(item){
+            if (pathname.startsWith(item)) {
+                matched = true;
+            }
+        })
+
+        return matched;
     }
 
     fetchUserData() {
