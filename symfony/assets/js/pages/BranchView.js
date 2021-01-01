@@ -46,6 +46,7 @@ class BranchView extends React.Component {
                                         ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
                                             <Fragment key={id}>
                                                 <Review
+                                                    {...this.props}
                                                     key={id}
                                                     id={id}
                                                     author={author}

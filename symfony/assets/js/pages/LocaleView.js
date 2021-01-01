@@ -50,6 +50,7 @@ class LocaleView extends React.Component {
                                     ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
                                         <Fragment>
                                             <Review
+                                                {...this.props}
                                                 key={id}
                                                 id={id}
                                                 author={author}
