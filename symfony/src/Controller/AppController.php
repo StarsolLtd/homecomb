@@ -30,4 +30,12 @@ abstract class AppController extends AbstractController
             true
         );
     }
+
+    protected function addDeserializationFailedFlashMessage(): void
+    {
+        $this->addFlash(
+            'error',
+            'Sorry, we were unable to process your request. The data provided was malformed.'
+        );
+    }
 }

@@ -60,6 +60,22 @@ class FlagControllerTest extends WebTestCase
         $this->assertEquals($loggedInUser, $latestFlag->getUser());
     }
 
+    public function testSubmitFlagReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/api/flag',
+            [],
+            [],
+            [],
+            '{"entityId_MALFORMED":1,"entityName":"Review","content":"Explanation","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     private function getLatestFlag(): ?Flag
     {
         $flagRepository = static::$container->get(FlagRepository::class);

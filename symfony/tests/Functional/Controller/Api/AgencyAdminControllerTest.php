@@ -90,6 +90,24 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
+    public function testCreateAgencyReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+
+        $client->request(
+            'POST',
+            '/api/verified/agency',
+            [],
+            [],
+            [],
+            '{"agencyName_MALFORMED":"Swaffham Lettings","postcode":"PE37 8RW","externalUrl":"https://swaffhamlettings.com","googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateAgency(): void
     {
         $client = static::createClient();
@@ -128,6 +146,24 @@ class AgencyAdminControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateAgencyReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'PUT',
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            [],
+            [],
+            [],
+            'NOT_EVEN_JSON'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
     public function testCreateBranch(): void
@@ -212,6 +248,24 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
     }
 
+    public function testCreateBranchReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'POST',
+            '/api/verified/branch',
+            [],
+            [],
+            [],
+            '{"branchName_MALFORMED":"Watton","telephone":"0700 700 800","email":null,"googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateBranch(): void
     {
         $client = static::createClient();
@@ -243,6 +297,24 @@ class AgencyAdminControllerTest extends WebTestCase
         $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateBranchReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'PUT',
+            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG,
+            [],
+            [],
+            [],
+            'NOT_EVEN_JSON'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
     public function testSolicitReviewFormData(): void
@@ -344,6 +416,24 @@ class AgencyAdminControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    public function testSolicitReviewReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+
+        $client->request(
+            'POST',
+            '/api/verified/solicit-review',
+            [],
+            [],
+            [],
+            '{"branchSlug_MALFORMED":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
     public function testGetAgencyForUser(): void

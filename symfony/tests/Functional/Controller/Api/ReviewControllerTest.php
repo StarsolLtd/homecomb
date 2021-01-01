@@ -87,6 +87,22 @@ class ReviewControllerTest extends WebTestCase
         $this->assertReviewMatchesReviewSolicitationWhenCodeNotNull($input->getCode(), $review);
     }
 
+    public function testSubmitReviewReturnsBadRequestWhenContentMalformed(): void
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/api/submit-review',
+            [],
+            [],
+            [],
+            '{"propertySlug_MALFORMED":"XXX","code":null,"reviewerName":"Jack Harper","reviewerEmail":"test.reviewer.1@starsol.co.uk","agencyName":"New Agency Company","agencyBranch":"Duxford","reviewTitle":"I lived here and it was adequate","reviewContent":"I lived here, the carpet was lovely.\n\nBut the front door was orange and I would have preferred purple.","overallStars":3,"agencyStars":4,"landlordStars":null,"propertyStars":3,"googleReCaptchaToken":"SAMPLE"}'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     private function assertReviewMatchesReviewSolicitationWhenCodeNotNull(?string $code, Review $review): void
     {
         if (null === $code) {

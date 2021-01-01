@@ -17,6 +17,7 @@ use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,8 +73,14 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        /** @var CreateAgencyInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), CreateAgencyInput::class, 'json');
+        try {
+            /** @var CreateAgencyInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), CreateAgencyInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your agency creation.');
@@ -132,8 +139,14 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        /** @var UpdateAgencyInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), UpdateAgencyInput::class, 'json');
+        try {
+            /** @var UpdateAgencyInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), UpdateAgencyInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your agency update.');
@@ -187,8 +200,14 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        /** @var CreateBranchInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), CreateBranchInput::class, 'json');
+        try {
+            /** @var CreateBranchInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), CreateBranchInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
@@ -224,8 +243,14 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        /** @var UpdateBranchInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), UpdateBranchInput::class, 'json');
+        try {
+            /** @var UpdateBranchInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), UpdateBranchInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your branch creation.');
@@ -275,8 +300,14 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        /** @var CreateReviewSolicitationInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), CreateReviewSolicitationInput::class, 'json');
+        try {
+            /** @var CreateReviewSolicitationInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), CreateReviewSolicitationInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review solicitation.');

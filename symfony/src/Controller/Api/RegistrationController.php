@@ -59,7 +59,7 @@ class RegistrationController extends AppController
             /** @var RegisterInput $input */
             $input = $this->serializer->deserialize($request->getContent(), RegisterInput::class, 'json');
         } catch (Exception $e) {
-            $this->addFlash('error', 'Sorry, we were unable to process your request.');
+            $this->addDeserializationFailedFlashMessage();
 
             return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
         }

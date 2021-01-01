@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use App\Model\Flag\SubmitInput;
 use App\Service\FlagService;
 use App\Service\GoogleReCaptchaService;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,8 +38,14 @@ class FlagController extends AppController
      */
     public function submitFlag(Request $request): JsonResponse
     {
-        /** @var SubmitInput $input */
-        $input = $this->serializer->deserialize($request->getContent(), SubmitInput::class, 'json');
+        try {
+            /** @var SubmitInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), SubmitInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
