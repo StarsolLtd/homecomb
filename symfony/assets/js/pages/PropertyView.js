@@ -67,6 +67,7 @@ class PropertyView extends React.Component {
                                             stars={stars}
                                             createdAt={createdAt}
                                             showProperty={false}
+                                            {...this.props}
                                         >
                                         </Review>
                                         <hr />

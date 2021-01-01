@@ -49,7 +49,7 @@ class FlagController extends AppController
         $output = $this->flagService->submitFlag($input, $this->getUserInterface());
 
         $this->addFlash(
-            'notice',
+            'success',
             'Your report was received successfully and will be checked by our moderation team shortly.'
         );
 

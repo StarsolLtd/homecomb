@@ -7,7 +7,7 @@ import {
     ModalBody,
     ModalFooter,
     UncontrolledButtonDropdown,
-    DropdownToggle, DropdownMenu, DropdownItem, Input, InputGroup
+    DropdownToggle, DropdownMenu, DropdownItem
 } from "reactstrap";
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Loader from "react-loaders";
@@ -51,7 +51,7 @@ class ReviewOptions extends React.Component {
                 <Modal isOpen={this.state.flagModal} toggle={this.toggleFlagModal}>
                     <ModalHeader toggle={this.toggleFlagModal}>Report inappropriate content</ModalHeader>
                     <LoadingOverlay
-                        active={this.state.flagReviewSubmitted}
+                        active={this.state.isFormSubmitting}
                         styles={{
                             overlay: (base) => ({
                                 ...base,
@@ -101,29 +101,34 @@ class ReviewOptions extends React.Component {
     }
 
     handleFlagReviewSubmit() {
-        this.setState({flagReviewSubmitted: true});
+        this.setState({isFormSubmitting: true});
         let payload = {
             entityId: this.state.reviewId,
             entityName: 'Review',
             content: this.state.flagReviewContent,
             captchaToken: null,
         };
+        let component = this;
         grecaptcha.ready(function() {
             grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
                 payload.captchaToken = captchaToken;
-                fetch(`/api/flag`, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then((response) => {
-                        if (!response.ok) throw new Error(response.status);
-                        else return response.json();
-                    })
+                fetch('/api/flag', {method: 'POST', body: JSON.stringify(payload)})
+                    .then(
+                        response => {
+                            component.setState({isFormSubmitting: false});
+                            if (!response.ok) {
+                                if (response.status === 500) {
+                                    component.props.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                                }
+                                component.props.fetchFlashMessages();
+                                return Promise.reject('Error: ' + response.status)
+                            }
+                            return response.json()
+                        }
+                    )
                     .then((data) => {
-                        location.reload()
+                        component.toggleFlagModal();
+                        component.props.fetchFlashMessages();
                     })
                     .catch(err => console.error("Error:", err));
             });

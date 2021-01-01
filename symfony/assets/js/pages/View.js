@@ -28,7 +28,6 @@ class View extends React.Component {
                 <Content
                     addFlashMessage={this.addFlashMessage}
                     fetchFlashMessages={this.fetchFlashMessages}
-                    submit={this.submit}
                     {...this.props}
                 />
             </Container>
