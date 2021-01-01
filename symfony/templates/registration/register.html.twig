@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'login-base.html.twig' %}
 
 {% block title %}Register for {{ site_name }}{% endblock %}
 
@@ -11,7 +11,7 @@
     </script>
 {% endblock %}
 
-{% block main %}
+{% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
