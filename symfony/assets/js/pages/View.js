@@ -13,8 +13,6 @@ class View extends React.Component {
 
         this.addFlashMessage = this.addFlashMessage.bind(this);
         this.fetchFlashMessages = this.fetchFlashMessages.bind(this);
-
-        console.log(this);
     }
 
     componentDidMount() {

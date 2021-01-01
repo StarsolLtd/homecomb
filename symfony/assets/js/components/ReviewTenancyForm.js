@@ -10,6 +10,7 @@ import {faStar} from "@fortawesome/free-solid-svg-icons";
 import Constants from "../Constants";
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
+import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 
 class ReviewTenancyForm extends React.Component {
 
@@ -29,6 +30,7 @@ class ReviewTenancyForm extends React.Component {
             agencyStars: null,
             propertyStars: null,
             isFormSubmitting: false,
+            completedAndThankYou: false,
             user: null,
             agency: this.props.agency,
             branch: this.props.branch,
@@ -73,6 +75,10 @@ class ReviewTenancyForm extends React.Component {
     }
 
     render() {
+        if (this.state.completedAndThankYou) {
+            return <ReviewCompletedThankYou />;
+        }
+
         return (
             <LoadingOverlay
                 active={this.state.isFormSubmitting}
@@ -85,7 +91,7 @@ class ReviewTenancyForm extends React.Component {
                 }}
                 spinner={<Loader active type='ball-triangle-path' />}
             >
-                <AvForm onValidSubmit={this.handleValidSubmit}>
+                <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                     {this.state.user &&
                     <AvGroup>
                         <Label for="reviewerEmail">Your email/username</Label>
@@ -146,7 +152,7 @@ class ReviewTenancyForm extends React.Component {
                             />
                             <FormText>
                                 We already know the agency and it is displayed here for information purposes.
-                                There is field can't be edited.
+                                This field can't be edited.
                             </FormText>
                         </AvGroup>
                     }
@@ -340,6 +346,8 @@ class ReviewTenancyForm extends React.Component {
                         }
                     )
                     .then((data) => {
+                        component.clearForm();
+                        component.props.completedThankYou();
                         component.props.fetchFlashMessages();
                     })
                     .catch(err => console.error("Error:", err));
@@ -367,6 +375,10 @@ class ReviewTenancyForm extends React.Component {
                 });
             })
             .catch(err => console.error("Error:", err));
+    }
+
+    clearForm() {
+        this.form && this.form.reset();
     }
 }
 

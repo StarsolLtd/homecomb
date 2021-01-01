@@ -4,6 +4,7 @@ import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
 import ReviewSolicitationNotFound from "../errors/ReviewSolicitationNotFound";
 import Constants from "../Constants";
+import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 
 class CreateReview extends React.Component {
     constructor(props) {
@@ -16,8 +17,10 @@ class CreateReview extends React.Component {
             reviewerLastName: '',
             reviewerEmail: '',
             loaded: false,
+            completedThankYou: false,
         };
 
+        this.completedThankYou = this.completedThankYou.bind(this);
         this.loadData = this.loadData.bind(this);
     }
 
@@ -25,7 +28,15 @@ class CreateReview extends React.Component {
         document.title = Constants.SITE_NAME + ' | Review Tenancy';
     }
 
+    completedThankYou() {
+        this.setState({completedThankYou: true})
+    }
+
     render() {
+        if (this.state.completedThankYou) {
+            return <ReviewCompletedThankYou />;
+        }
+
         return (
             <Container>
                 <DataLoader
@@ -62,6 +73,7 @@ class CreateReview extends React.Component {
                                     reviewerEmail={this.state.reviewerEmail}
                                     reviewerName={this.state.reviewerFirstName + ' ' + this.state.reviewerLastName}
                                     {...this.props}
+                                    completedThankYou={this.completedThankYou}
                                 />
                             </Col>
                         </Row>

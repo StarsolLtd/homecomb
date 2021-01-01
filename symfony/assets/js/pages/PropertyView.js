@@ -5,6 +5,7 @@ import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
+import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -15,18 +16,27 @@ class PropertyView extends React.Component {
             reviews: [],
             reviewTenancyFormOpen: false,
             loaded: false,
+            reviewCompletedThankYou: false,
         };
         this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.reviewCompletedThankYou = this.reviewCompletedThankYou.bind(this);
     }
 
     openReviewTenancyForm() {
         this.setState({reviewTenancyFormOpen: true});
     }
 
+    reviewCompletedThankYou() {
+        this.setState({reviewCompletedThankYou: true})
+    }
+
     render() {
         return (
             <Container>
+                {this.state.reviewCompletedThankYou &&
+                    <ReviewCompletedThankYou />
+                }
                 <DataLoader
                     url={'/api/property/' + this.props.match.params.slug}
                     loadComponentData={this.loadData}
@@ -79,6 +89,7 @@ class PropertyView extends React.Component {
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                             <h5 className="mb-4">Review your tenancy here</h5>
+
                             <p className="mb-2">
                                 Are you a current or past tenant at {this.state.addressLine1}?
                                 We'd love it if you could review your tenant experience!
@@ -88,7 +99,11 @@ class PropertyView extends React.Component {
                             <Button onClick={this.openReviewTenancyForm} color="primary">Yes! I want to write a review</Button>
                             }
                             {this.state.reviewTenancyFormOpen &&
-                            <ReviewTenancyForm propertySlug={this.props.match.params.slug} {...this.props} />
+                            <ReviewTenancyForm
+                                propertySlug={this.props.match.params.slug}
+                                completedThankYou={this.reviewCompletedThankYou}
+                                {...this.props}
+                            />
                             }
                         </Col>
                     </Row>

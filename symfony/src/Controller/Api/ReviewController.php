@@ -52,11 +52,6 @@ class ReviewController extends AppController
 
         $output = $this->reviewService->submitReview($input, $this->getUserInterface());
 
-        $this->addFlash(
-            'success',
-            'Your review was received successfully and will be checked by our moderation team shortly.'
-        );
-
         return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 }
