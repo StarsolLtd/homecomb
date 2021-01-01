@@ -56,6 +56,7 @@ class PropertyView extends React.Component {
                                 ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
                                     <Fragment key={id}>
                                         <Review
+                                            {...this.props}
                                             key={id}
                                             id={id}
                                             author={author}
@@ -67,7 +68,6 @@ class PropertyView extends React.Component {
                                             stars={stars}
                                             createdAt={createdAt}
                                             showProperty={false}
-                                            {...this.props}
                                         >
                                         </Review>
                                         <hr />
