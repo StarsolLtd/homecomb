@@ -24,6 +24,10 @@ body {
     text-decoration: none;
 }
 
+.bg-secondary a.dropdown-item:hover {
+    background: $secondary-light none;
+}
+
 footer.navbar {
     margin-top: 2%;
     margin-bottom: 0;

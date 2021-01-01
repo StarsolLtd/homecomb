@@ -20,8 +20,21 @@ const Header = (props) => {
 
                 <Collapse className="navbar-collapse" id="collapsibleNavbar">
                     <ul className="navbar-nav">
-                        <li><Link to="/about">About</Link></li>
-                        <li><Link to="/#how-it-works">How it Works</Link></li>
+                        <li className="nav-item dropdown"><Link to="/about">About</Link></li>
+                        <li className="nav-item dropdown"><Link to="/#how-it-works">How it Works</Link></li>
+                        <li className="nav-item dropdown">
+                            <a className="dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Popular Locations
+                            </a>
+                            <div className="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
+                                <a className="dropdown-item" href="/l/clerkenwell">Clerkenwell</a>
+                                <a className="dropdown-item" href="/l/shoreditch">Shoreditch</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="/l/cambridge">Cambridge</a>
+                                <a className="dropdown-item" href="/l/norwich">Norwich</a>
+                            </div>
+                        </li>
                     </ul>
                 </Collapse>
             </Container>
