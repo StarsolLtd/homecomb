@@ -9,15 +9,16 @@ class PropertyAutocomplete extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToUrl: null
+            inputId: this.props.inputId || 'propertySearch',
+            redirectToUrl: null,
         };
 
         this.redirectToPropertyView = this.redirectToPropertyView.bind(this);
     }
 
     componentDidMount(){
-        $('#' + this.props.inputId).autocomplete({
-            source: this.props.source,
+        $('#' + this.state.inputId).autocomplete({
+            source: this.props.source || '/api/property/suggest-property',
             minLength: this.props.minLength || 3,
             select: this.redirectToPropertyView
         });
@@ -26,7 +27,12 @@ class PropertyAutocomplete extends React.Component {
     render(){
         return (
             <Fragment>
-                <Input type="text" id={this.props.inputId} placeholder={this.props.placeholder || 'Start typing'} />
+                <Input
+                    type="text"
+                    id={this.state.inputId || 'propertySearch'}
+                    placeholder={this.props.placeholder || 'Start typing an address... e.g. 249 Victoria Road'}
+                    className={this.props.className}
+                />
                 {this.state.redirectToUrl &&
                 <Redirect to={this.state.redirectToUrl} />
                 }
