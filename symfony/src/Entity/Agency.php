@@ -28,7 +28,7 @@ class Agency
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private string $name;
+    private string $name = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
