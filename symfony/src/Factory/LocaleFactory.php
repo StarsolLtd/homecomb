@@ -4,11 +4,11 @@ namespace App\Factory;
 
 use App\Entity\Locale;
 use App\Entity\Review;
+use App\Exception\DeveloperException;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
 use function count;
-use LogicException;
 use function round;
 use function sprintf;
 use function strcmp;
@@ -49,7 +49,7 @@ class LocaleFactory
         foreach ($locale->getPublishedReviewsWithPublishedAgency() as $review) {
             $agency = $review->getAgency();
             if (null === $agency) {
-                throw new LogicException(sprintf('Review %s has no agency. ', $review->getId()));
+                throw new DeveloperException(sprintf('Review %s has no agency. ', $review->getId()));
             }
 
             $slug = $agency->getSlug();

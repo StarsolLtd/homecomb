@@ -6,12 +6,17 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Locale;
 use App\Entity\Review;
+use App\Exception\DeveloperException;
 use App\Factory\LocaleFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Review\View as ReviewView;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Factory\LocaleFactory
+ */
 class LocaleFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -29,7 +34,10 @@ class LocaleFactoryTest extends TestCase
         );
     }
 
-    public function testCreateViewFromEntity(): void
+    /**
+     * @covers \App\Factory\LocaleFactory::createViewFromEntity
+     */
+    public function testCreateViewFromEntity1(): void
     {
         $review = (new Review())->setPublished(true);
 
@@ -54,7 +62,10 @@ class LocaleFactoryTest extends TestCase
         $this->assertCount(1, $view->getReviews());
     }
 
-    public function testGetAgencyReviewsSummary(): void
+    /**
+     * @covers \App\Factory\LocaleFactory::getAgencyReviewsSummary
+     */
+    public function testGetAgencyReviewsSummary1(): void
     {
         $locale = new Locale();
 
@@ -96,5 +107,27 @@ class LocaleFactoryTest extends TestCase
 
         $this->assertEquals(3, $output->getReviewsCount());
         $this->assertEquals(2, $output->getAgenciesCount());
+    }
+
+    /**
+     * @covers \App\Factory\LocaleFactory::getAgencyReviewsSummary
+     * Test throws DeveloperException when review has no agency
+     */
+    public function testGetAgencyReviewsSummary2(): void
+    {
+        $branch = new Branch();
+        $review = (new Review())->setBranch($branch)->setPublished(true);
+        $locale = $this->prophesize(Locale::class);
+
+        $publishedReviewsWithPublishedAgency = (new ArrayCollection());
+        $publishedReviewsWithPublishedAgency->add($review);
+
+        $locale->getPublishedReviewsWithPublishedAgency()
+            ->shouldBeCalledOnce()
+            ->willReturn($publishedReviewsWithPublishedAgency);
+
+        $this->expectException(DeveloperException::class);
+
+        $this->localeFactory->getAgencyReviewsSummary($locale->reveal());
     }
 }
