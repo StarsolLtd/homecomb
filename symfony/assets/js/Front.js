@@ -53,6 +53,7 @@ class Front extends React.Component {
                         <Route path="/l/:slug" render={(props) => <View content={LocaleView} {...props} />}/>
                         <Route path="/property/:slug" render={(props) => <View content={PropertyView} {...props} />}/>
                         <Route path="/rs/:code" render={(props) => <View content={CreateReview} {...props} />}/>
+                        <Route path="/review-your-tenancy/:code" render={(props) => <View content={CreateReview} {...props} />}/>
                     </Switch>
                 </div>
 

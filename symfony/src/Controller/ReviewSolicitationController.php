@@ -18,11 +18,8 @@ class ReviewSolicitationController extends AbstractController
     }
 
     /**
-     * @Route (
-     *     "/rs/{code}",
-     *     name="review-solicitation-respond",
-     *     methods={"GET", "HEAD"}
-     * )
+     * @Route ("/rs/{code}", name="rs-code", methods={"GET", "HEAD"})
+     * @Route ("/review-your-tenancy/{code}", name="review-your-tenancy-code", methods={"GET", "HEAD"})
      */
     public function viewByCode(string $code): Response
     {
