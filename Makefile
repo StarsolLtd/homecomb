@@ -56,6 +56,9 @@ php-test-functional:
 php-test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
 
+php-test-unit-coverage:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --coverage-html var/tests/coverage tests/Unit
+
 php-test-end:
 	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
 	make load-fixtures

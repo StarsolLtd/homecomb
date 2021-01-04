@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y \
     acl \
     && echo 'alias sf="php bin/console"' >> ~/.bashrc
 
+RUN pecl install pcov && docker-php-ext-enable pcov
+
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash \
       && apt-get install -y nodejs \
       && npm install -g yarn \
