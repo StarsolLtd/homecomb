@@ -29,6 +29,9 @@
             "config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
+    "dbrekelmans/bdi": {
+        "version": "0.3"
+    },
     "dg/bypass-finals": {
         "version": "v1.3.0"
     },

@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxslt1-dev \
     acl \
+    wget \
     && echo 'alias sf="php bin/console"' >> ~/.bashrc
 
 RUN pecl install pcov && docker-php-ext-enable pcov
@@ -39,5 +40,16 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
     && "date"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+###> Panther & Chrome ###
+ENV PANTHER_NO_SANDBOX 1
+ENV PANTHER_CHROME_ARGUMENTS='--disable-dev-shm-usage'
+
+# @see https://github.com/symfony/panther/issues/304#issuecomment-590396321
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+RUN dpkg -i /tmp/chrome.deb || apt-get install -yf
+RUN rm /tmp/chrome.deb
+
+###< Panther & Chrome ###
 
 WORKDIR /var/www/symfony
