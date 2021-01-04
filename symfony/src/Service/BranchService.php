@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Exception\ConflictException;
+use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
@@ -15,7 +16,6 @@ use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -54,7 +54,7 @@ class BranchService
         $agency = $user->getAdminAgency();
 
         if (null === $agency) {
-            throw new Exception(sprintf('Logged in user %s is not the admin of an agency.', $user->getUsername()));
+            throw new ForbiddenException(sprintf('Logged in user %s is not the admin of an agency.', $user->getUsername()));
         }
 
         $branchName = $createBranchInput->getBranchName();

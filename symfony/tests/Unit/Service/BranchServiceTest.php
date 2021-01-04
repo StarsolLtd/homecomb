@@ -6,6 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
 use App\Exception\ConflictException;
+use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
@@ -61,19 +62,14 @@ class BranchServiceTest extends TestCase
 
     public function testCreateBranch(): void
     {
-        $createBranchInput = new CreateBranchInput(
-            'Test Branch Name',
-            '0700 100 200',
-            null,
-            'sample'
-        );
+        $createBranchInput = $this->getValidCreateBranchInput();
         $agency = new Agency();
         $user = (new User())->setAdminAgency($agency);
         $branch = new Branch();
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $this->branchRepository->findOneByNameAndAgencyOrNull('Test Branch Name', $agency)
+        $this->branchRepository->findOneByNameAndAgencyOrNull($createBranchInput->getBranchName(), $agency)
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
@@ -93,23 +89,32 @@ class BranchServiceTest extends TestCase
 
     public function testCreateBranchThrowsConflictExceptionIfAlreadyExists(): void
     {
-        $createBranchInput = new CreateBranchInput(
-            'Already Exists Name',
-            '0700 100 200',
-            null,
-            'sample'
-        );
+        $createBranchInput = $this->getValidCreateBranchInput();
         $agency = new Agency();
         $user = (new User())->setAdminAgency($agency);
         $existingBranch = new Branch();
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $this->branchRepository->findOneByNameAndAgencyOrNull('Already Exists Name', $agency)
+        $this->branchRepository->findOneByNameAndAgencyOrNull($createBranchInput->getBranchName(), $agency)
             ->shouldBeCalledOnce()
             ->willReturn($existingBranch);
 
         $this->expectException(ConflictException::class);
+
+        $this->assertEntityManagerUnused();
+
+        $this->branchService->createBranch($createBranchInput, $user);
+    }
+
+    public function testCreateBranchThrowsForbiddenExceptionIfUserNotAgencyAdmin(): void
+    {
+        $createBranchInput = $this->getValidCreateBranchInput();
+        $user = (new User())->setEmail('not.agency.admin@starsol.co.uk');
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $this->expectException(ForbiddenException::class);
 
         $this->assertEntityManagerUnused();
 
@@ -161,5 +166,15 @@ class BranchServiceTest extends TestCase
         $this->assertEquals('branchslug', $view->getBranch()->getSlug());
         $this->assertEquals('Test Branch Name', $view->getBranch()->getName());
         $this->assertNull($view->getAgency());
+    }
+
+    private function getValidCreateBranchInput(): CreateBranchInput
+    {
+        return new CreateBranchInput(
+            'Blakeney',
+            '0700 100 200',
+            null,
+            'sample'
+        );
     }
 }
