@@ -109,20 +109,18 @@ class ReviewService
         $postcodes = new ArrayCollection();
         foreach ($findBeginningWithString as $string) {
             foreach ($this->postcodeRepository->findBeginningWith($string) as $postcode) {
-                if ($postcodes->contains($postcode)) {
-                    continue;
+                if (!$postcodes->contains($postcode)) {
+                    $postcodes->add($postcode);
                 }
-                $postcodes->add($postcode);
             }
         }
 
         /** @var Postcode $postcode */
         foreach ($postcodes as $postcode) {
             foreach ($postcode->getLocales() as $locale) {
-                if ($locales->contains($locale)) {
-                    continue;
+                if (!$locales->contains($locale)) {
+                    $locales->add($locale);
                 }
-                $locales->add($locale);
             }
         }
 

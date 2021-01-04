@@ -24,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\ReviewService
+ */
 class ReviewServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -62,7 +65,10 @@ class ReviewServiceTest extends TestCase
         );
     }
 
-    public function testPublishReview(): void
+    /**
+     * @covers \App\Service\ReviewService::publishReview
+     */
+    public function testPublishReview1(): void
     {
         $review = (new Review())->setPublished(false);
 
@@ -71,17 +77,10 @@ class ReviewServiceTest extends TestCase
         $this->assertTrue($review->isPublished());
     }
 
-    public function testGenerateLocalesReturnsEmptyArrayWhenNoPropertyPostcode(): void
-    {
-        $property = (new Property())->setPostcode('');
-        $review = (new Review())->setProperty($property);
-
-        $locales = $this->reviewService->generateLocales($review);
-
-        $this->assertEmpty($locales);
-    }
-
-    public function testGenerateLocales(): void
+    /**
+     * @covers \App\Service\ReviewService::generateLocales
+     */
+    public function testGenerateLocales1(): void
     {
         $property = (new Property())->setPostcode('NR2 4SF');
         $review = (new Review())->setProperty($property);
@@ -104,7 +103,23 @@ class ReviewServiceTest extends TestCase
         $this->assertEquals($locale, $locales->first());
     }
 
-    public function testSubmitReview(): void
+    /**
+     * @covers \App\Service\ReviewService::generateLocales
+     */
+    public function testGenerateLocales2(): void
+    {
+        $property = (new Property())->setPostcode('');
+        $review = (new Review())->setProperty($property);
+
+        $locales = $this->reviewService->generateLocales($review);
+
+        $this->assertEmpty($locales);
+    }
+
+    /**
+     * @covers \App\Service\ReviewService::submitReview
+     */
+    public function testSubmitReview1(): void
     {
         $reviewInput = new SubmitReviewInput(
             'propertyslug',
