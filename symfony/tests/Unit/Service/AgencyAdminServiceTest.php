@@ -5,17 +5,20 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
+use App\Exception\NotFoundException;
 use App\Factory\AgencyAdminFactory;
 use App\Factory\FlatModelFactory;
 use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat;
-use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Service\AgencyAdminService;
 use App\Service\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\AgencyAdminService
+ */
 class AgencyAdminServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -25,7 +28,6 @@ class AgencyAdminServiceTest extends TestCase
     private $userService;
     private $agencyAdminFactory;
     private $flatModelFactory;
-    private $agencyRepository;
     private $branchRepository;
 
     public function setUp(): void
@@ -33,19 +35,20 @@ class AgencyAdminServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->agencyAdminFactory = $this->prophesize(AgencyAdminFactory::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
         $this->agencyAdminService = new AgencyAdminService(
             $this->userService->reveal(),
             $this->agencyAdminFactory->reveal(),
             $this->flatModelFactory->reveal(),
-            $this->agencyRepository->reveal(),
             $this->branchRepository->reveal(),
         );
     }
 
-    public function testGetHomeForUser(): void
+    /**
+     * @covers \App\Service\AgencyAdminService::getHomeForUser
+     */
+    public function testGetHomeForUser1(): void
     {
         $user = new User();
         $agency = (new Agency())->addAdminUser($user);
@@ -62,7 +65,25 @@ class AgencyAdminServiceTest extends TestCase
         $this->assertEquals($home->reveal(), $output);
     }
 
-    public function testGetBranch(): void
+    /**
+     * @covers \App\Service\AgencyAdminService::getHomeForUser
+     * Test throws NotFoundException is user is not an agency admin
+     */
+    public function testGetHomeForUser2(): void
+    {
+        $user = new User();
+
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->expectException(NotFoundException::class);
+
+        $this->agencyAdminService->getHomeForUser($user);
+    }
+
+    /**
+     * @covers \App\Service\AgencyAdminService::getBranch
+     */
+    public function testGetBranch1(): void
     {
         $user = new User();
         $branch = new Branch();
