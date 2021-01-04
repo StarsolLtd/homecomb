@@ -39,7 +39,7 @@ class Branch
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private string $name = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

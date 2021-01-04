@@ -4,9 +4,13 @@ namespace App\Tests\Unit\Util;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Exception\DeveloperException;
 use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \App\Util\BranchHelper
+ */
 class BranchHelperTest extends TestCase
 {
     private BranchHelper $branchHelper;
@@ -16,7 +20,10 @@ class BranchHelperTest extends TestCase
         $this->branchHelper = new BranchHelper();
     }
 
-    public function testGenerateSlug(): void
+    /**
+     * @covers \App\Util\PropertyHelper::generateSlug
+     */
+    public function testGenerateSlug1(): void
     {
         $agency = (new Agency())->setName('Norwich Lettings');
         $branch = (new Branch())->setName('Drayton')->setAgency($agency);
@@ -27,5 +34,18 @@ class BranchHelperTest extends TestCase
 
         $this->assertEquals($expectedSlug, $result);
         $this->assertEquals($expectedSlug, $branch->getSlug());
+    }
+
+    /**
+     * @covers \App\Util\PropertyHelper::generateSlug
+     * Test throws DeveloperException when Branch has no name.
+     */
+    public function testGenerateSlug2(): void
+    {
+        $branch = new Branch();
+
+        $this->expectException(DeveloperException::class);
+
+        $this->branchHelper->generateSlug($branch);
     }
 }

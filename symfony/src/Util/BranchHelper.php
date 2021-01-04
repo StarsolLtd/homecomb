@@ -3,7 +3,7 @@
 namespace App\Util;
 
 use App\Entity\Branch;
-use LogicException;
+use App\Exception\DeveloperException;
 use function md5;
 use function substr;
 
@@ -12,7 +12,7 @@ class BranchHelper
     public function generateSlug(Branch $branch): string
     {
         if ('' === $branch->getName()) {
-            throw new LogicException('Unable to generate a slug for a Branch without a name.');
+            throw new DeveloperException('Unable to generate a slug for a Branch without a name.');
         }
 
         $sourceString = $branch->getName();
