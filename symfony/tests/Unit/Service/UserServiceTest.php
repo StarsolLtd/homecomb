@@ -2,6 +2,8 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Entity\Agency;
+use App\Entity\Branch;
 use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Factory\FlatModelFactory;
@@ -16,6 +18,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\UserService
+ */
 class UserServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -46,6 +51,100 @@ class UserServiceTest extends TestCase
         );
     }
 
+    /**
+     * @covers \App\Service\UserService::isUserBranchAdmin
+     * Test returns true when the user's admin agency ID matches the branch's agency ID
+     */
+    public function testIsUserBranchAdmin1(): void
+    {
+        $user = $this->prophesize(User::class);
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
+        $branchAgency = $this->prophesize(Agency::class);
+
+        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
+        $branch->getAgency()->shouldBeCalled()->willReturn($branchAgency);
+        $branchAgency->getId()->shouldBeCalled()->willReturn(42);
+        $agency->getId()->shouldBeCalled()->willReturn(42);
+
+        $this->branchRepository->findOnePublishedBySlug('branchslug')
+            ->shouldBeCalled()
+            ->willReturn($branch);
+
+        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
+
+        $this->assertTrue($output);
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::isUserBranchAdmin
+     * Test returns false when the user's admin agency ID does not match the branch's agency ID
+     */
+    public function testIsUserBranchAdmin2(): void
+    {
+        $user = $this->prophesize(User::class);
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
+        $branchAgency = $this->prophesize(Agency::class);
+
+        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
+        $branch->getAgency()->shouldBeCalled()->willReturn($branchAgency);
+        $branchAgency->getId()->shouldBeCalled()->willReturn(42);
+        $agency->getId()->shouldBeCalled()->willReturn(88);
+
+        $this->branchRepository->findOnePublishedBySlug('branchslug')
+            ->shouldBeCalled()
+            ->willReturn($branch);
+
+        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
+
+        $this->assertFalse($output);
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::isUserBranchAdmin
+     * Test returns false when the user is not an agency admin
+     */
+    public function testIsUserBranchAdmin3(): void
+    {
+        $user = $this->prophesize(User::class);
+
+        $user->getAdminAgency()->shouldBeCalled()->willReturn(null);
+
+        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
+
+        $this->assertFalse($output);
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::isUserBranchAdmin
+     * Test returns false when the branch is not associated with an agency
+     */
+    public function testIsUserBranchAdmin4(): void
+    {
+        $user = $this->prophesize(User::class);
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
+
+        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
+        $branch->getAgency()->shouldBeCalled()->willReturn(null);
+
+        $this->branchRepository->findOnePublishedBySlug('branchslug')
+            ->shouldBeCalled()
+            ->willReturn($branch);
+
+        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
+
+        $this->assertFalse($output);
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::getFlatModelFromUserInterface
+     */
     public function testGetFlatModelFromUserInterface(): void
     {
         $user = (new User())->setEmail('jack@starsol.co.uk');
@@ -58,6 +157,9 @@ class UserServiceTest extends TestCase
         $this->userService->getFlatModelFromUserInterface($user);
     }
 
+    /**
+     * @covers \App\Service\UserService::register
+     */
     public function testRegister(): void
     {
         $input = $this->prophesize(RegisterInput::class);
@@ -84,6 +186,9 @@ class UserServiceTest extends TestCase
         $this->userService->register($input->reveal());
     }
 
+    /**
+     * @covers \App\Service\UserService::register
+     */
     public function testRegisterThrowsConflictExceptionIfAlreadyExists(): void
     {
         $input = $this->prophesize(RegisterInput::class);
