@@ -91,7 +91,7 @@ class ReviewTenancyForm extends React.Component {
                 }}
                 spinner={<Loader active type='ball-triangle-path' />}
             >
-                <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                <AvForm id="review-tenancy-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                     {this.state.user &&
                     <AvGroup>
                         <Label for="reviewerEmail">Your email/username</Label>
@@ -298,7 +298,7 @@ class ReviewTenancyForm extends React.Component {
                             Rate the property itself.
                         </FormText>
                     </FormGroup>
-                    <Button color="primary">
+                    <Button id="review-tenancy-form-submit" color="primary">
                         Share your tenancy review
                     </Button>
                 </AvForm>
