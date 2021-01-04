@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Util;
+namespace App\Tests\Unit\Service;
 
 use App\Entity\Agency;
 use App\Entity\User;
@@ -9,6 +9,7 @@ use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
 use App\Factory\FlatModelFactory;
+use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
@@ -23,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\AgencyService
+ */
 class AgencyServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -58,6 +62,9 @@ class AgencyServiceTest extends TestCase
         );
     }
 
+    /**
+     * @covers \App\Service\AgencyService::findOrCreateByName
+     */
     public function testFindOrCreateByNameWhenNotExists(): void
     {
         $agencyName = 'Devon Homes';
@@ -74,6 +81,9 @@ class AgencyServiceTest extends TestCase
         $this->assertEquals($agencyName, $result->getName());
     }
 
+    /**
+     * @covers \App\Service\AgencyService::findOrCreateByName
+     */
     public function testFindOrCreateByNameWhenAlreadyExists(): void
     {
         $agencyName = 'Cornwall Homes';
@@ -89,6 +99,9 @@ class AgencyServiceTest extends TestCase
         $this->assertEquals($agencyName, $result->getName());
     }
 
+    /**
+     * @covers \App\Service\AgencyService::createAgency
+     */
     public function testCreateAgency(): void
     {
         $createAgencyInput = new CreateAgencyInput(
@@ -120,6 +133,9 @@ class AgencyServiceTest extends TestCase
         $this->assertTrue($output->isSuccess());
     }
 
+    /**
+     * @covers \App\Service\AgencyService::createAgency
+     */
     public function testCreateAgencyThrowsConflictExceptionWhenUserIsAlreadyAgencyAdmin(): void
     {
         $createAgencyInput = new CreateAgencyInput(
@@ -141,7 +157,10 @@ class AgencyServiceTest extends TestCase
         $this->agencyService->createAgency($createAgencyInput, $user);
     }
 
-    public function testGetAgencyForUser(): void
+    /**
+     * @covers \App\Service\AgencyService::getAgencyForUser
+     */
+    public function testGetAgencyForUser1(): void
     {
         $slug = 'testagencyslug';
         $user = new User();
@@ -161,6 +180,28 @@ class AgencyServiceTest extends TestCase
         $this->agencyService->getAgencyForUser($user);
     }
 
+    /**
+     * @covers \App\Service\AgencyService::getAgencyForUser
+     * Test throws NotFoundException when user is not an agency admin
+     */
+    public function testGetAgencyForUser2(): void
+    {
+        $user = new User();
+
+        $this->userService->getEntityFromInterface($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($user);
+
+        $this->expectException(NotFoundException::class);
+
+        $this->agencyService->getAgencyForUser($user);
+
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\AgencyService::updateAgency
+     */
     public function testUpdateAgency(): void
     {
         $slug = 'testagencyslug';
@@ -184,6 +225,9 @@ class AgencyServiceTest extends TestCase
         $this->assertTrue($output->isSuccess());
     }
 
+    /**
+     * @covers \App\Service\AgencyService::updateAgency
+     */
     public function testUpdateAgencyThrowsExceptionWhenUserNotAgencyAdmin(): void
     {
         $slug = 'testagencyslug';
@@ -203,6 +247,9 @@ class AgencyServiceTest extends TestCase
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
     }
 
+    /**
+     * @covers \App\Service\AgencyService::updateAgency
+     */
     public function testUpdateAgencyThrowsExceptionWhenUserAdminOfDifferentAgency(): void
     {
         $slug = 'testagencyslug';
@@ -222,5 +269,28 @@ class AgencyServiceTest extends TestCase
         $this->assertEntityManagerUnused();
 
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
+    }
+
+    /**
+     * @covers \App\Service\AgencyService::getViewBySlug
+     */
+    public function testGetViewBySlug1(): void
+    {
+        $agency = new Agency();
+        $agencyView = $this->prophesize(AgencyView::class);
+
+        $this->agencyRepository->findOnePublishedBySlug('agencyslug')
+            ->shouldBeCalledOnce()
+            ->willReturn($agency);
+
+        $this->agencyFactory->createViewFromEntity($agency)
+            ->shouldBeCalled()
+            ->willReturn($agencyView);
+
+        $output = $this->agencyService->getViewBySlug('agencyslug');
+
+        $this->assertEquals($agencyView->reveal(), $output);
+
+        $this->assertEntityManagerUnused();
     }
 }
