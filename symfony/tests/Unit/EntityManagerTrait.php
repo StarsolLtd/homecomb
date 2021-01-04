@@ -16,4 +16,15 @@ trait EntityManagerTrait
         $this->entityManager->flush()
             ->shouldNotBeCalled();
     }
+
+    /**
+     * @param object[] $entities
+     */
+    private function assertEntitiesArePersistedAndFlush(array $entities): void
+    {
+        foreach ($entities as $entity) {
+            $this->entityManager->persist($entity)->shouldBeCalledOnce();
+        }
+        $this->entityManager->flush()->shouldBeCalledOnce();
+    }
 }

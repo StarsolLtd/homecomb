@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Factory\PropertyFactory;
 use App\Model\Property\View;
-use App\Model\VendorProperty;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -37,22 +36,10 @@ class PropertyService
 
         $vendorProperty = $this->getAddressService->getAddress($vendorPropertyId);
 
-        return $this->getPropertySlugByVendorProperty($vendorProperty);
-    }
+        $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorProperty);
 
-    public function getPropertySlugByVendorProperty(VendorProperty $vendorProperty): ?string
-    {
-        $property = $this->propertyRepository->findOneBy(
-            [
-                'vendorPropertyId' => $vendorProperty->getVendorPropertyId(),
-            ]
-        );
-
-        if (null === $property) {
-            $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorProperty);
-            $this->entityManager->persist($property);
-            $this->entityManager->flush();
-        }
+        $this->entityManager->persist($property);
+        $this->entityManager->flush();
 
         return $property->getSlug();
     }

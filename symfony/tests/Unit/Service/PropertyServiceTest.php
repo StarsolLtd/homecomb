@@ -5,16 +5,22 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Property;
 use App\Factory\PropertyFactory;
 use App\Model\Property\View;
+use App\Model\VendorProperty;
 use App\Repository\PropertyRepository;
 use App\Service\GetAddressService;
 use App\Service\PropertyService;
+use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\PropertyService
+ */
 class PropertyServiceTest extends TestCase
 {
     use ProphecyTrait;
+    use EntityManagerTrait;
 
     private PropertyService $propertyService;
 
@@ -38,6 +44,9 @@ class PropertyServiceTest extends TestCase
         );
     }
 
+    /**
+     * @covers \App\Service\PropertyService::getViewBySlug
+     */
     public function testGetViewBySlug(): void
     {
         $property = (new Property());
@@ -62,6 +71,9 @@ class PropertyServiceTest extends TestCase
         $this->assertCount(0, $view->getReviews());
     }
 
+    /**
+     * @covers \App\Service\PropertyService::determinePropertySlugFromVendorPropertyId
+     */
     public function testDeterminePropertySlugFromVendorPropertyIdWherePropertyAlreadyExists(): void
     {
         $property = (new Property())->setSlug('propertyslug');
@@ -73,5 +85,36 @@ class PropertyServiceTest extends TestCase
         $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendorpropertyid');
 
         $this->assertEquals('propertyslug', $output);
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\PropertyService::determinePropertySlugFromVendorPropertyId
+     */
+    public function testDeterminePropertySlugFromVendorPropertyIdWherePropertyDoesNotExists(): void
+    {
+        $property = $this->prophesize(Property::class);
+        $vendorPropertyModel = $this->prophesize(VendorProperty::class);
+
+        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendorpropertyid')
+            ->shouldBeCalledOnce()
+            ->willReturn(null);
+
+        $this->getAddressService->getAddress('vendorpropertyid')
+            ->shouldBeCalled()
+            ->willReturn($vendorPropertyModel);
+
+        $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel)
+            ->shouldBeCalled()
+            ->willReturn($property);
+
+        $property->getSlug()
+            ->shouldBeCalled()
+            ->willReturn('propertyslug');
+
+        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendorpropertyid');
+
+        $this->assertEquals('propertyslug', $output);
+        $this->assertEntitiesArePersistedAndFlush([$property]);
     }
 }
