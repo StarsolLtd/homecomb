@@ -83,7 +83,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $vendorPropertyId;
+    private ?string $vendorPropertyId = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
