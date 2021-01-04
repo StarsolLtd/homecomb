@@ -61,4 +61,17 @@ class PropertyServiceTest extends TestCase
         $this->assertEquals('propertyslug', $view->getSlug());
         $this->assertCount(0, $view->getReviews());
     }
+
+    public function testDeterminePropertySlugFromVendorPropertyIdWherePropertyAlreadyExists(): void
+    {
+        $property = (new Property())->setSlug('propertyslug');
+
+        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendorpropertyid')
+            ->shouldBeCalledOnce()
+            ->willReturn($property);
+
+        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendorpropertyid');
+
+        $this->assertEquals('propertyslug', $output);
+    }
 }

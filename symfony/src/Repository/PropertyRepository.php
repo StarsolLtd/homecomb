@@ -45,4 +45,13 @@ class PropertyRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findOneByVendorPropertyIdOrNull(string $vendorPropertyId): ?Property
+    {
+        return $this->findOneBy(
+            [
+                'vendorPropertyId' => $vendorPropertyId,
+            ]
+        );
+    }
 }

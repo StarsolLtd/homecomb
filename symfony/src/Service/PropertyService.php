@@ -29,7 +29,7 @@ class PropertyService
 
     public function determinePropertySlugFromVendorPropertyId(string $vendorPropertyId): ?string
     {
-        $property = $this->propertyRepository->findOneBy(['vendorPropertyId' => $vendorPropertyId]);
+        $property = $this->propertyRepository->findOneByVendorPropertyIdOrNull($vendorPropertyId);
 
         if (null !== $property) {
             return $property->getSlug();
