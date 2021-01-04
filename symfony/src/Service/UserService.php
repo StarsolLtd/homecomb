@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Exception\ConflictException;
+use App\Exception\UserException;
 use App\Factory\FlatModelFactory;
 use App\Factory\UserFactory;
 use App\Model\User\Flat;
@@ -11,7 +12,6 @@ use App\Model\User\RegisterInput;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService
@@ -52,7 +52,7 @@ class UserService
     {
         $userEntity = $this->getUserEntityOrNullFromUserInterface($user);
         if (null === $userEntity) {
-            throw new RuntimeException('User entity not found.');
+            throw new UserException('User entity not found.');
         }
 
         return $userEntity;

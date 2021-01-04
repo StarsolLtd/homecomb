@@ -6,6 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
 use App\Exception\ConflictException;
+use App\Exception\UserException;
 use App\Factory\FlatModelFactory;
 use App\Factory\UserFactory;
 use App\Model\User\Flat;
@@ -17,6 +18,7 @@ use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @covers \App\Service\UserService
@@ -145,7 +147,7 @@ class UserServiceTest extends TestCase
     /**
      * @covers \App\Service\UserService::getFlatModelFromUserInterface
      */
-    public function testGetFlatModelFromUserInterface(): void
+    public function testGetFlatModelFromUserInterface1(): void
     {
         $user = (new User())->setEmail('jack@starsol.co.uk');
         $userModel = $this->prophesize(Flat::class);
@@ -155,6 +157,17 @@ class UserServiceTest extends TestCase
             ->willReturn($userModel);
 
         $this->userService->getFlatModelFromUserInterface($user);
+    }
+
+    /**
+     * @covers \App\Service\UserService::getFlatModelFromUserInterface
+     * Test returns null when user is null
+     */
+    public function testGetFlatModelFromUserInterface2(): void
+    {
+        $output = $this->userService->getFlatModelFromUserInterface(null);
+
+        $this->assertNull($output);
     }
 
     /**
@@ -207,5 +220,37 @@ class UserServiceTest extends TestCase
         $this->userService->register($input->reveal());
 
         $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::getUserEntityOrNullFromUserInterface
+     * Test gets user entity from repository when $user is not already an entity but does implement UserInterface
+     */
+    public function testGetUserEntityOrNullFromUserInterface1(): void
+    {
+        $userInterface = $this->prophesize(UserInterface::class);
+        $userEntity = new User();
+
+        $userInterface->getUsername()->shouldBeCalled()->willReturn('test.user@starsol.co.uk');
+
+        $this->userRepository->loadUserByUsername('test.user@starsol.co.uk')
+            ->shouldBeCalledOnce()
+            ->willReturn($userEntity);
+
+        $output = $this->userService->getUserEntityOrNullFromUserInterface($userInterface->reveal());
+
+        $this->assertEquals($userEntity, $output);
+    }
+
+    /**
+     * @covers \App\Service\UserService::getEntityFromInterface
+     * Test returns null when $user is null
+     */
+    public function testGetEntityFromInterface1(): void
+    {
+        $this->expectException(UserException::class);
+        $output = $this->userService->getEntityFromInterface(null);
+
+        $this->assertNull($output);
     }
 }
