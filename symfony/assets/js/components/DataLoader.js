@@ -22,6 +22,12 @@ class DataLoader extends React.Component {
         this.fetchData();
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.url !== this.props.url) {
+            this.fetchData();
+        }
+    }
+
     fetchData() {
         this.setState({loadingInfo: {loading: true}})
 
