@@ -6,6 +6,8 @@ use ReCaptcha\ReCaptcha;
 
 class GoogleReCaptchaService
 {
+    public const THRESHOLD = .5;
+
     private bool $checkNotRobot;
     private ReCaptcha $reCaptcha;
 
@@ -15,11 +17,6 @@ class GoogleReCaptchaService
     ) {
         $this->checkNotRobot = $checkNotRobot;
         $this->reCaptcha = $reCaptcha;
-    }
-
-    public function checkNeeded(): bool
-    {
-        return $this->checkNotRobot;
     }
 
     public function verify(?string $token, ?string $clientIp, string $expectedHostname): bool
@@ -33,9 +30,14 @@ class GoogleReCaptchaService
         }
 
         $resp = $this->reCaptcha->setExpectedHostname($expectedHostname)
-            ->setScoreThreshold(0.5)
+            ->setScoreThreshold(self::THRESHOLD)
             ->verify($token, $clientIp);
 
         return $resp->isSuccess();
+    }
+
+    private function checkNeeded(): bool
+    {
+        return $this->checkNotRobot;
     }
 }
