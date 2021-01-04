@@ -7,6 +7,8 @@ use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\ReviewSolicitation;
 use App\Entity\User;
+use App\Exception\DeveloperException;
+use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\Agency\Flat as FlatAgency;
@@ -18,6 +20,9 @@ use App\Repository\PropertyRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Factory\ReviewSolicitationFactory
+ */
 class ReviewSolicitationFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -41,7 +46,10 @@ class ReviewSolicitationFactoryTest extends TestCase
         );
     }
 
-    public function testCreateEntityFromInput(): void
+    /**
+     * @covers \App\Factory\ReviewSolicitationFactory::createEntityFromInput
+     */
+    public function testCreateEntityFromInput1(): void
     {
         $input = new CreateReviewSolicitationInput(
             'branchslug',
@@ -78,7 +86,10 @@ class ReviewSolicitationFactoryTest extends TestCase
         $this->assertEquals('fe03014bb9d8cec7c23787c86ef74eeea4878c69', $entity->getCode());
     }
 
-    public function testCreateFormDataModelFromUser(): void
+    /**
+     * @covers \App\Factory\ReviewSolicitationFactory::createFormDataModelFromUser
+     */
+    public function testCreateFormDataModelFromUser1(): void
     {
         $branch1 = (new Branch())->setSlug('branch1')->setPublished(true);
         $branch2 = (new Branch())->setSlug('branch2')->setPublished(true);
@@ -104,7 +115,23 @@ class ReviewSolicitationFactoryTest extends TestCase
         $this->assertCount(2, $formData->getBranches()); // Only published branches should be shown
     }
 
-    public function testCreateViewByEntity(): void
+    /**
+     * @covers \App\Factory\ReviewSolicitationFactory::createFormDataModelFromUser
+     * Test throws DeveloperException when user is not agency admin.
+     */
+    public function testCreateFormDataModelFromUser2(): void
+    {
+        $user = new User();
+
+        $this->expectException(DeveloperException::class);
+
+        $this->reviewSolicitationFactory->createFormDataModelFromUser($user);
+    }
+
+    /**
+     * @covers \App\Factory\ReviewSolicitationFactory::createViewByEntity
+     */
+    public function testCreateViewByEntity1(): void
     {
         $property = (new Property());
         $branch = (new Branch());
@@ -142,5 +169,28 @@ class ReviewSolicitationFactoryTest extends TestCase
         $this->assertEquals('Jack', $view->getReviewerFirstName());
         $this->assertEquals('Parnell', $view->getReviewerLastName());
         $this->assertEquals('jack.parnell@starsol.co.uk', $view->getReviewerEmail());
+    }
+
+    /**
+     * @covers \App\Factory\ReviewSolicitationFactory::createViewByEntity
+     * Test throws NotFoundException when Branch has no Agency
+     */
+    public function testCreateViewByEntity2(): void
+    {
+        $property = (new Property());
+        $branch = (new Branch());
+
+        $rs = (new ReviewSolicitation())
+            ->setCode('testcode')
+            ->setBranch($branch)
+            ->setProperty($property)
+            ->setRecipientFirstName('Jack')
+            ->setRecipientLastName('Parnell')
+            ->setRecipientEmail('jack.parnell@starsol.co.uk')
+        ;
+
+        $this->expectException(NotFoundException::class);
+
+        $this->reviewSolicitationFactory->createViewByEntity($rs);
     }
 }
