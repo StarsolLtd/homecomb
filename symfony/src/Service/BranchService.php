@@ -96,14 +96,16 @@ class BranchService
 
     public function findOrCreate(string $branchName, ?Agency $agency): Branch
     {
-        $branch = $this->branchRepository->findOneBy(
-            [
-                'name' => $branchName,
-                'agency' => $agency,
-            ]
-        );
-        if (null !== $branch) {
-            return $branch;
+        if (null === $agency) {
+            $branch = $this->branchRepository->findOneByNameWithoutAgencyOrNull($branchName);
+            if (null !== $branch) {
+                return $branch;
+            }
+        } else {
+            $branch = $this->branchRepository->findOneByNameAndAgencyOrNull($branchName, $agency);
+            if (null !== $branch) {
+                return $branch;
+            }
         }
 
         $branch = $this->create($branchName, $agency);

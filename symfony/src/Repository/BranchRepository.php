@@ -70,4 +70,14 @@ class BranchRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findOneByNameWithoutAgencyOrNull(string $name): ?Branch
+    {
+        return $this->findOneBy(
+            [
+                'name' => $name,
+                'agency' => null,
+            ]
+        );
+    }
 }
