@@ -15,15 +15,19 @@ class ReviewSolicitationResponse extends PantherTestCase
 
         $client->waitFor('#review-tenancy-form-submit');
 
+        $h1 = $crawler->filter('h1');
+        $this->assertEquals('Hello Anna!', $h1->text());
+
         $form = $crawler->selectButton('review-tenancy-form-submit')->form();
 
-        $form['reviewerEmail'] = 'luciana@starsol.co.uk';
-        $form['reviewerName'] = 'Luciana';
         $form['reviewTitle'] = 'This was a nice place to live';
         $form['reviewContent'] = 'There were some sunflowers in the garden';
 
-        $crawler = $client->submit($form);
+        $reviewerEmailInput = $crawler->filter('input[name=reviewerEmail]');
+        $this->assertEquals('anna.testinova@starsol.co.uk', $reviewerEmailInput->text());
 
-//        $client->waitFor('.alert');
+//        $crawler = $crawler->selectButton('review-tenancy-form-submit')->click();
+//
+//        $client->waitFor('.review-completed-thank-you');
     }
 }
