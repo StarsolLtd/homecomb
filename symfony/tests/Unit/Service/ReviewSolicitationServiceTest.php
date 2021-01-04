@@ -8,6 +8,7 @@ use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
 use App\Entity\User;
+use App\Exception\DeveloperException;
 use App\Exception\NotFoundException;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
@@ -16,6 +17,8 @@ use App\Model\ReviewSolicitation\View;
 use App\Repository\ReviewSolicitationRepository;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
+use App\Tests\Unit\EntityManagerTrait;
+use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -26,9 +29,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
+/**
+ * @covers \App\Service\ReviewSolicitationService
+ */
 class ReviewSolicitationServiceTest extends TestCase
 {
+    use EntityManagerTrait;
     use ProphecyTrait;
+    use UserEntityFromInterfaceTrait;
 
     private ReviewSolicitationService $reviewSolicitationService;
 
@@ -64,17 +72,12 @@ class ReviewSolicitationServiceTest extends TestCase
         );
     }
 
-    public function testCreateAndSend(): void
+    /**
+     * @covers \App\Service\ReviewSolicitationService::createAndSend
+     */
+    public function testCreateAndSend1(): void
     {
-        $input = new CreateReviewSolicitationInput(
-            'branchslug',
-            'propertyslug',
-            null,
-            'Jack',
-            'Harper',
-            'jack.harper@starsol.co.uk',
-            'SAMPLE'
-        );
+        $input = $this->getValidCreateReviewSolicitationInput();
         $user = new User();
         $agency = (new Agency())->setName('Dereham Residential');
         $branch = (new Branch())->setAgency($agency);
@@ -85,9 +88,7 @@ class ReviewSolicitationServiceTest extends TestCase
             ->setCode('sample')
             ->setRecipientEmail('sample.tenant@starsol.co.uk');
 
-        $this->userService->getEntityFromInterface($user)
-            ->shouldBeCalledOnce()
-            ->willReturn($user);
+        $this->assertGetUserEntityFromInterface($user);
 
         $this->reviewSolicitationFactory->createEntityFromInput($input, $user)
             ->shouldBeCalledOnce()
@@ -102,7 +103,43 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->assertTrue($output->isSuccess());
     }
 
-    public function testGetFormData(): void
+    /**
+     * @covers \App\Service\ReviewSolicitationService::createAndSend
+     * Test throws DeveloperException when Branch has no Agency
+     */
+    public function testCreateAndSend2(): void
+    {
+        $input = $this->getValidCreateReviewSolicitationInput();
+        $user = new User();
+        $branch = (new Branch());
+        $property = (new Property())->setAddressLine1('15 Salmon Street');
+        $reviewSolicitation = (new ReviewSolicitation())
+            ->setProperty($property)
+            ->setBranch($branch)
+            ->setCode('sample')
+            ->setRecipientEmail('sample.tenant@starsol.co.uk');
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $this->reviewSolicitationFactory->createEntityFromInput($input, $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($reviewSolicitation);
+
+        $this->assertEntitiesArePersistedAndFlush([$reviewSolicitation]);
+
+        $this->expectException(DeveloperException::class);
+
+        $this->mailer->send(Argument::any())->shouldNotBeCalled();
+
+        $output = $this->reviewSolicitationService->createAndSend($input, $user);
+
+        $this->assertTrue($output->isSuccess());
+    }
+
+    /**
+     * @covers \App\Service\ReviewSolicitationService::getFormData
+     */
+    public function testGetFormData1(): void
     {
         $user = new User();
         $formData = $this->prophesize(FormData::class);
@@ -113,7 +150,10 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->reviewSolicitationService->getFormData($user);
     }
 
-    public function testGetViewByCode(): void
+    /**
+     * @covers \App\Service\ReviewSolicitationService::getViewByCode
+     */
+    public function testGetViewByCode1(): void
     {
         $rs = (new ReviewSolicitation());
         $view = $this->prophesize(View::class);
@@ -129,7 +169,10 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->reviewSolicitationService->getViewByCode('testcode');
     }
 
-    public function testComplete(): void
+    /**
+     * @covers \App\Service\ReviewSolicitationService::complete
+     */
+    public function testComplete1(): void
     {
         $rs = (new ReviewSolicitation());
         $review = (new Review());
@@ -142,7 +185,11 @@ class ReviewSolicitationServiceTest extends TestCase
         $this->assertEquals($review, $rs->getReview());
     }
 
-    public function testCompleteLogsErrorWhenNotFound(): void
+    /**
+     * @covers \App\Service\ReviewSolicitationService::complete
+     * Test logs error when not found.
+     */
+    public function testComplete2(): void
     {
         $review = (new Review());
 
@@ -154,5 +201,18 @@ class ReviewSolicitationServiceTest extends TestCase
             ->shouldBeCalledOnce();
 
         $this->reviewSolicitationService->complete('testcode', $review);
+    }
+
+    private function getValidCreateReviewSolicitationInput(): CreateReviewSolicitationInput
+    {
+        return new CreateReviewSolicitationInput(
+            'branchslug',
+            'propertyslug',
+            null,
+            'Jack',
+            'Harper',
+            'jack.harper@starsol.co.uk',
+            'SAMPLE'
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Exception\DeveloperException;
 use App\Exception\NotFoundException;
 use App\Factory\ReviewSolicitationFactory;
 use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
@@ -95,15 +96,13 @@ class ReviewSolicitationService
         $branch = $reviewSolicitation->getBranch();
         $agency = $branch->getAgency();
         if (null === $agency) {
-            $withCompany = $branch->getName();
-        } else {
-            $withCompany = $agency->getName();
+            throw new DeveloperException('Unable to send Review Solicitation forBbranch with no Agency.');
         }
 
         $email = (new Email())
             ->from('mailer@homecomb.co.uk')
             ->to($reviewSolicitation->getRecipientEmail())
-            ->subject('Please review your tenancy at '.$reviewSolicitation->getProperty()->getAddressLine1().' with '.$withCompany)
+            ->subject('Please review your tenancy at '.$reviewSolicitation->getProperty()->getAddressLine1().' with '.$agency->getName())
             ->text($url);
 
         $this->mailer->send($email);
