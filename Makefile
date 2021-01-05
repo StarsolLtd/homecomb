@@ -39,6 +39,9 @@ e2e:
 	make load-fixtures
 	make e2e-review-solicitation-response e2e-search-for-property
 
+e2e-flag-review:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
+
 e2e-review-solicitation-response:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/ReviewSolicitationResponse.php
 
