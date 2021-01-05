@@ -42,7 +42,7 @@ class PropertyView extends React.Component {
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&
-                <div>
+                <div className="property-view">
                     <Row>
                         <Col md="12" className="page-title">
                             <h1>{this.state.addressLine1}, {this.state.postcode}</h1>

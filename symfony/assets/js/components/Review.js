@@ -18,7 +18,7 @@ class Review extends React.Component {
     render() {
         return (
             <div className="reviews-members pt-4 pb-4">
-                <div className="dropdown float-right">
+                <div className="dropdown float-right review-options">
                     <ReviewOptions reviewId={this.props.id} {...this.props} />
                 </div>
 

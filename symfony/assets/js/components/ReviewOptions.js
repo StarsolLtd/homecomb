@@ -45,7 +45,7 @@ class ReviewOptions extends React.Component {
                         &hellip;
                     </DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem onClick={this.toggleFlagModal}>Report this</DropdownItem>
+                        <DropdownItem onClick={this.toggleFlagModal} className="flag-review-link">Report this</DropdownItem>
                     </DropdownMenu>
                 </UncontrolledButtonDropdown>
                 <Modal isOpen={this.state.flagModal} toggle={this.toggleFlagModal}>
@@ -61,7 +61,7 @@ class ReviewOptions extends React.Component {
                         }}
                         spinner={<Loader active type='ball-triangle-path' />}
                     >
-                        <AvForm onValidSubmit={this.handleFlagReviewSubmit}>
+                        <AvForm className="flag-review-form" onValidSubmit={this.handleFlagReviewSubmit}>
                             <ModalBody>
                                 <p>
                                     If this review is inappropriate, you can flag it to our moderation team.

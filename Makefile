@@ -37,7 +37,13 @@ behat:
 
 e2e:
 	make load-fixtures
-	docker exec -it homecomb_php_1 bash -c "vendor/bin/phpunit --no-coverage tests/E2E/*"
+	make e2e-review-solicitation-response e2e-search-for-property
+
+e2e-review-solicitation-response:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/ReviewSolicitationResponse.php
+
+e2e-search-for-property:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForProperty.php
 
 php-analyse:
 	make php-cs-fixer phpstan
