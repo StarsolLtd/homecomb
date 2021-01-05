@@ -36,7 +36,9 @@ behat:
 	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
 e2e:
-	make load-fixtures
+	make load-fixtures e2e-all
+
+e2e-all:
 	make e2e-review-solicitation-response e2e-flag-review e2e-search-for-property-and-review
 
 e2e-flag-review:

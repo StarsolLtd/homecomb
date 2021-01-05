@@ -11,7 +11,7 @@ class SearchForPropertyAndReview extends PantherTestCase
 
     public function setUp(): void
     {
-        $this->baseUrl = 'http://localhost:591';
+        $this->baseUrl = $_ENV['E2E_TEST_BASE_URL'] ?? 'http://localhost';
     }
 
     public function testLoadHomePageAndSearchForProperty(): void
