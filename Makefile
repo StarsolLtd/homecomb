@@ -37,7 +37,7 @@ behat:
 
 e2e:
 	make load-fixtures
-	make e2e-review-solicitation-response e2e-search-for-property
+	make e2e-review-solicitation-response e2e-flag-review e2e-search-for-property-and-review
 
 e2e-flag-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
@@ -45,8 +45,8 @@ e2e-flag-review:
 e2e-review-solicitation-response:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/ReviewSolicitationResponse.php
 
-e2e-search-for-property:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForProperty.php
+e2e-search-for-property-and-review:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
 
 php-analyse:
 	make php-cs-fixer phpstan
