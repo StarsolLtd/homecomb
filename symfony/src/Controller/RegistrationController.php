@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Service\GoogleReCaptchaService;
 use App\Service\UserService;
@@ -35,13 +33,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->render('index.html.twig');
     }
 
     /**
