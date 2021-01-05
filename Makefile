@@ -35,6 +35,10 @@ behat:
 	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
 	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
+e2e:
+	make load-fixtures
+	docker exec -it homecomb_php_1 bash -c "vendor/bin/phpunit --no-coverage tests/E2E/*"
+
 php-analyse:
 	make php-cs-fixer phpstan
 
