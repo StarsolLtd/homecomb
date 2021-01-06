@@ -66,7 +66,7 @@ class CreateReviewSolicitation extends React.Component {
                         If you would like to request one of your tenant's review their tenancy with you, please complete
                         the form below. We will send them an email with a unique link allowing them to review.
                     </p>
-                    <AvForm onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                    <AvForm id="solicit-review-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                         <AvGroup>
                             <Label for="branchSlug">Branch</Label>
                             <AvInput type="select" name="branchSlug" required onChange={this.handleChange}>
