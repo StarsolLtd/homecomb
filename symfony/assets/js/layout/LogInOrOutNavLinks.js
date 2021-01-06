@@ -9,7 +9,7 @@ const LogInOurOutNavLinks = (props) => {
             {!props.user &&
                 <Fragment>
                     <li><a href="/login" className={props.className}>Log In</a></li>
-                    <li><a href="/register" className={props.className}>Register</a></li>
+                    <li><a href="/register" className={props.className + ' register-link'}>Register</a></li>
                 </Fragment>
             }
         </Fragment>
