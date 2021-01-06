@@ -42,7 +42,7 @@ class UpdateAgency extends React.Component {
                 {this.state.loaded &&
                     <Fragment>
                         <h1>Update {this.state.name}</h1>
-                        <AvForm onValidSubmit={this.handleValidSubmit}>
+                        <AvForm id="update-agency-form" onValidSubmit={this.handleValidSubmit}>
                             <AvGroup>
                                 <Label for="agencyName">Agency name</Label>
                                 <AvInput name="agencyName" value={this.state.name} disabled />

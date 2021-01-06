@@ -5,10 +5,9 @@ namespace App\Tests\E2E;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\PantherTestCase;
 
-class SolicitReview extends PantherTestCase
+class UpdateAgency extends PantherTestCase
 {
     use AgencyAdminTrait;
-    use PropertyAutocompleteTrait;
 
     private const TIMEOUT = 3;
     private string $baseUrl;
@@ -31,18 +30,13 @@ class SolicitReview extends PantherTestCase
 
         $this->navigateToForm($client);
 
-        $crawler = $client->waitFor('#solicit-review-form', self::TIMEOUT);
+        $crawler = $client->waitFor('#update-agency-form', self::TIMEOUT);
 
-        $submitButton = $crawler->selectButton('Request review');
+        $submitButton = $crawler->selectButton('Update your agency details');
 
         $form = $submitButton->form();
 
-        $this->propertyAutocomplete($client);
-
-        $form['branchSlug'] = 'branch1slug';
-        $form['recipientFirstName'] = 'Katarina';
-        $form['recipientLastName'] = 'Homcomova';
-        $form['recipientEmail'] = 'katarina.homcomova@starsol.co.uk';
+        $form['externalUrl'] = 'http://testerton.co.uk';
 
         $submitButton->click();
 
@@ -55,10 +49,8 @@ class SolicitReview extends PantherTestCase
 
         $this->openHeaderNavBarIfClosed($crawler);
 
-        $client->waitForVisibility('.request-review-link', self::TIMEOUT);
+        $client->waitForVisibility('.update-agency-link', self::TIMEOUT);
 
-        $crawler->filter('.request-review-link')->click();
-
-        $client->waitFor('#solicit-review-form', self::TIMEOUT);
+        $crawler->filter('.update-agency-link')->click();
     }
 }

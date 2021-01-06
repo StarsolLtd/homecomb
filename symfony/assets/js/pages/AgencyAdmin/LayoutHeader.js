@@ -23,7 +23,7 @@ const LayoutHeader = (props) => {
                     {props.user.agencyAdmin &&
                     <ul className="navbar-nav">
                         <li><Link to="/verified/dashboard"><Button>Dashboard</Button></Link></li>
-                        <li><Link to="/verified/agency"><Button>Update Agency</Button></Link></li>
+                        <li><Link to="/verified/agency" className="update-agency-link"><Button>Update Agency</Button></Link></li>
                         <li><Link to="/verified/request-review" className="request-review-link"><Button>Request Review</Button></Link></li>
                     </ul>
                     }

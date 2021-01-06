@@ -4,8 +4,9 @@ namespace App\Tests\E2E;
 
 use App\DataFixtures\TestFixtures;
 use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\DomCrawler\Crawler;
 
-trait LoginAgencyAdminTrait
+trait AgencyAdminTrait
 {
     private function loginAgencyAdmin(PantherClient $client): void
     {
@@ -24,5 +25,24 @@ trait LoginAgencyAdminTrait
         $form['password'] = 'Password2';
 
         $client->submitForm('Log in');
+    }
+
+    private function navigateToDashboard(PantherClient $client): Crawler
+    {
+        $crawler = $client->waitFor('.agency-admin-link', 3);
+
+        $crawler->filter('.agency-admin-link')->click();
+
+        $crawler = $client->waitFor('#dashboard', 3);
+
+        return $crawler;
+    }
+
+    private function openHeaderNavBarIfClosed(Crawler $crawler): void
+    {
+        $navbarTogglerButton = $crawler->filter('.navbar-toggler')->first();
+        if ($navbarTogglerButton->isDisplayed()) {
+            $navbarTogglerButton->click();
+        }
     }
 }
