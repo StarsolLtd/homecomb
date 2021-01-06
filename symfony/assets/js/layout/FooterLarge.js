@@ -22,10 +22,10 @@ const FooterLarge = (props) => {
                         <ul className="list-unstyled mb-0">
                             <LogInOrOutNavLinks className="text-white" {...props } />
                             {props.user && props.user.agencyAdmin &&
-                            <li><a href="/verified/dashboard" className="text-white">Agency Admin</a></li>
+                            <li><a href="/verified/dashboard" className="text-white agency-admin-link">Agency Admin</a></li>
                             }
                             {props.user && !props.user.agencyAdmin &&
-                            <li><a href="/verified/agency/create" className="text-white">Add Your Agency</a></li>
+                            <li><a href="/verified/agency/create" className="text-white create-agency-link">Add Your Agency</a></li>
                             }
                         </ul>
                     </div>

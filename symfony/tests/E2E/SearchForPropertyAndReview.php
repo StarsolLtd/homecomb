@@ -6,6 +6,8 @@ use Symfony\Component\Panther\PantherTestCase;
 
 class SearchForPropertyAndReview extends PantherTestCase
 {
+    use PropertyAutocompleteTrait;
+
     private const TIMEOUT = 10;
     private string $baseUrl;
 
@@ -21,15 +23,7 @@ class SearchForPropertyAndReview extends PantherTestCase
 
         $this->assertPageTitleContains('HomeComb');
 
-        $client->waitFor('#propertySearch', self::TIMEOUT);
-
-        $crawler->filter('#propertySearch')->sendKeys('249 Victo');
-
-        $client->waitFor('.ui-autocomplete .ui-menu-item-wrapper', self::TIMEOUT);
-
-        $reviewOptionsButton = $crawler->filter('.ui-autocomplete .ui-menu-item-wrapper')->first();
-
-        $reviewOptionsButton->click();
+        $this->propertyAutocomplete($client, '#propertySearch');
 
         $client->waitFor('.property-view', self::TIMEOUT);
 

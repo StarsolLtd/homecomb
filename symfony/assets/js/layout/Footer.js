@@ -11,13 +11,13 @@ const Footer = (props) => {
                     <ul className="navbar-nav">
                         <LogInOrOutNavLinks {...props } />
                         {props.user && props.user.agencyAdmin &&
-                        <li className="list-inline-item"><a href="/verified/dashboard" className="nav-link">Agency Admin</a></li>
+                        <li className="list-inline-item"><a href="/verified/dashboard" className="nav-link agency-admin-link">Agency Admin</a></li>
                         }
                         {props.user && !props.user.agencyAdmin &&
-                        <li className="list-inline-item"><a href="/verified/agency/create" className="nav-link">Add Your Agency</a></li>
+                        <li className="list-inline-item"><a href="/verified/agency/create" className="nav-link create-agency-link">Add Your Agency</a></li>
                         }
                         <li className="list-inline-item"><Link to="/" className="nav-link">Search</Link></li>
-                        <li className="list-inline-item"><Link to="/about" className="nav-link">About</Link></li>
+                        <li className="list-inline-item"><Link to="/about" className="nav-link about-link">About</Link></li>
                         <li className="list-inline-item"><Link to="/contact" className="nav-link">Contact Us</Link></li>
                         <li className="list-inline-item"><Link to="/privacy-policy" className="nav-link">Privacy Policy</Link></li>
                     </ul>

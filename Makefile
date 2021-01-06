@@ -60,9 +60,7 @@ e2e-search-for-property-and-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
 
 e2e-solicit-review:
-	make copy-test-env-to-local load-fixtures
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
-	make clear-env-local
 
 php-analyse:
 	make php-cs-fixer phpstan

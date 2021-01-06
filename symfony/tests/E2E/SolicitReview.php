@@ -2,11 +2,14 @@
 
 namespace App\Tests\E2E;
 
-use App\DataFixtures\TestFixtures;
+use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\PantherTestCase;
 
 class SolicitReview extends PantherTestCase
 {
+    use LoginAgencyAdminTrait;
+    use PropertyAutocompleteTrait;
+
     private const TIMEOUT = 40;
     private string $baseUrl;
 
@@ -22,29 +25,47 @@ class SolicitReview extends PantherTestCase
     {
         $client = static::createPantherClient();
 
-        $this->login($client);
-    }
-
-    private function login($client)
-    {
-        $crawler = $client->request('GET', $this->baseUrl.'/login');
-
-        $client->waitFor('input[name=email]', self::TIMEOUT);
-
-        $submitButton = $crawler->selectButton('Log in');
-
-        $form = $submitButton->form();
-
-        $this->assertEmpty($crawler->filter('input[name=email]')->attr('value'));
-        $this->assertEmpty($crawler->filter('input[name=password]')->attr('value'));
-
-        $form['email'] = TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL;
-        $form['password'] = 'Password2';
-
-        $client->submitForm('Log in');
+        $this->loginAgencyAdmin($client);
 
         $client->waitFor('#home', self::TIMEOUT);
 
-        return $client;
+        $this->navigateToForm($client);
+
+        $crawler = $client->waitFor('#solicit-review-form', self::TIMEOUT);
+
+        $submitButton = $crawler->selectButton('Request review');
+
+        $form = $submitButton->form();
+
+        $this->propertyAutocomplete($client);
+
+        $form['branchSlug'] = 'branch1slug';
+        $form['recipientFirstName'] = 'Katarina';
+        $form['recipientLastName'] = 'Homcomova';
+        $form['recipientEmail'] = 'katarina.homcomova@starsol.co.uk';
+
+        $submitButton->click();
+
+        $client->waitFor('.alert-success', self::TIMEOUT);
+    }
+
+    private function navigateToForm(PantherClient $client): void
+    {
+        $crawler = $client->waitFor('.agency-admin-link', self::TIMEOUT);
+
+        $crawler->filter('.agency-admin-link')->click();
+
+        $crawler = $client->waitFor('#dashboard', self::TIMEOUT);
+
+        $navbarTogglerButton = $crawler->filter('.navbar-toggler')->first();
+        if ($navbarTogglerButton->isDisplayed()) {
+            $navbarTogglerButton->click();
+        }
+
+        $client->waitForVisibility('.request-review-link', self::TIMEOUT);
+
+        $crawler->filter('.request-review-link')->click();
+
+        $client->waitFor('#solicit-review-form', self::TIMEOUT);
     }
 }

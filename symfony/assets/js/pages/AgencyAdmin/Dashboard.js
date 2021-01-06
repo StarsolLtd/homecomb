@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&
-                    <Fragment>
+                    <div id="dashboard">
                         <h1>Agency Admin Area for {this.state.agency.name}</h1>
 
                         <hr />
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
                                 />
                             </Col>
                         </Row>
-                    </Fragment>
+                    </div>
                 }
             </Fragment>
         );
