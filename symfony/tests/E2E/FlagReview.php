@@ -3,6 +3,8 @@
 namespace App\Tests\E2E;
 
 use App\DataFixtures\TestFixtures;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Panther\PantherTestCase;
 
 class FlagReview extends PantherTestCase
@@ -18,6 +20,10 @@ class FlagReview extends PantherTestCase
     public function testLoadPropertyViewAndSubmitFlagForm(): void
     {
         $client = static::createPantherClient();
+
+        $session = new Session(new MockFileSessionStorage());
+        self::bootKernel()->getContainer()->set('session', $session);
+
         $crawler = $client->request('GET', $this->baseUrl.'/property/'.TestFixtures::TEST_PROPERTY_SLUG);
 
         $client->waitFor('.property-view', self::TIMEOUT);

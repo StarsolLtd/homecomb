@@ -33,7 +33,7 @@ class TestFixtures extends AbstractDataFixtures
 
     protected function getEnvironments(): array
     {
-        return ['test'];
+        return ['test', 'e2e'];
     }
 
     protected function doLoad(ObjectManager $manager): void

@@ -36,7 +36,7 @@ behat:
 	make clear-env-local
 
 e2e:
-	make copy-test-env-to-local load-fixtures e2e-all clear-env-local load-fixtures
+	make copy-e2e-env-to-local load-fixtures e2e-all clear-env-local load-fixtures
 
 e2e-all:
 	make e2e-public e2e-agency-admin
@@ -122,3 +122,6 @@ clear-env-local:
 
 copy-test-env-to-local:
 	docker exec -it homecomb_php_1 bash -c "cp /var/www/symfony/.env.test /var/www/symfony/.env.local"
+
+copy-e2e-env-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/symfony/.env.e2e /var/www/symfony/.env.local"

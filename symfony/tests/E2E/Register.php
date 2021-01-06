@@ -2,6 +2,7 @@
 
 namespace App\Tests\E2E;
 
+
 use Symfony\Component\Panther\PantherTestCase;
 
 class Register extends PantherTestCase
@@ -20,6 +21,7 @@ class Register extends PantherTestCase
     public function testRegister(): void
     {
         $client = static::createPantherClient();
+
         $crawler = $client->request('GET', $this->baseUrl.'/register');
 
         $this->assertPageTitleContains('HomeComb');
