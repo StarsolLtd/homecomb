@@ -45,7 +45,7 @@ e2e-agency-admin:
 	make e2e-solicit-review e2e-update-agency
 
 e2e-public:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-search-for-property-and-review
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review
 
 e2e-flag-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
@@ -61,6 +61,9 @@ e2e-search-for-property-and-review:
 
 e2e-solicit-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
+
+e2e-tenancy-review:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/TenancyReview.php
 
 e2e-update-agency:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/UpdateAgency.php
