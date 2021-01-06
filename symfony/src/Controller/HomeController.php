@@ -9,25 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route (
-     *     "/about",
-     *     name="about",
-     *     methods={"GET"}
-     * )
+     * @Route ("/about", name="about", methods={"GET"})
+     * @Route ("/contact", name="contact", methods={"GET"})
+     * @Route ("/privacy-policy", name="privacy-policy", methods={"GET"})
+     * @Route ("/review", name="review", methods={"GET"})
      */
     public function about(): Response
-    {
-        return $this->render('index.html.twig');
-    }
-
-    /**
-     * @Route (
-     *     "/contact",
-     *     name="contact",
-     *     methods={"GET"}
-     * )
-     */
-    public function contact(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -40,18 +27,6 @@ class HomeController extends AbstractController
      * )
      */
     public function home(): Response
-    {
-        return $this->render('index.html.twig');
-    }
-
-    /**
-     * @Route (
-     *     "/privacy-policy",
-     *     name="privacyPolicy",
-     *     methods={"GET"}
-     * )
-     */
-    public function privacyPolicy(): Response
     {
         return $this->render('index.html.twig');
     }

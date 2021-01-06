@@ -11,12 +11,14 @@ import Constants from "../Constants";
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
+import InputProperty from "./InputProperty";
 
 class ReviewTenancyForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            fixedProperty: this.props.hasOwnProperty('fixedProperty') ? this.props.fixedProperty : false,
             propertySlug: this.props.propertySlug,
             reviewerEmail: this.props.reviewerEmail,
             reviewerName: this.props.reviewerName,
@@ -42,6 +44,7 @@ class ReviewTenancyForm extends React.Component {
         this.handleAgencyStarsChange = this.handleAgencyStarsChange.bind(this);
         this.handleLandlordStarsChange = this.handleLandlordStarsChange.bind(this);
         this.handlePropertyStarsChange = this.handlePropertyStarsChange.bind(this);
+        this.setPropertySlugState = this.setPropertySlugState.bind(this);
     }
 
     componentDidMount() {
@@ -74,6 +77,12 @@ class ReviewTenancyForm extends React.Component {
         this.setState({propertyStars: value});
     }
 
+    setPropertySlugState(value) {
+        if (typeof value !== "undefined") {
+            this.setState({propertySlug: value});
+        }
+    }
+
     render() {
         if (this.state.completedAndThankYou) {
             return <ReviewCompletedThankYou />;
@@ -92,6 +101,26 @@ class ReviewTenancyForm extends React.Component {
                 spinner={<Loader active type='ball-triangle-path' />}
             >
                 <AvForm id="review-tenancy-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                    {this.state.fixedProperty &&
+                        <AvInput type="hidden" name="propertySlug" value={this.state.propertySlug}/>
+                    }
+                    {!this.state.fixedProperty &&
+                    <AvGroup>
+                        <Label for="propertySlug">Tenancy property address</Label>
+                        <AvInput type="hidden" name="propertySlug" required value={this.state.propertySlug}/>
+                        <InputProperty
+                            inputId="input-property"
+                            source="/api/property/suggest-property"
+                            placeholder="Start typing a property address..."
+                            setPropertySlugState={this.setPropertySlugState}
+                        />
+                        <AvFeedback>Please enter a tenancy property address.</AvFeedback>
+                        <FormText>
+                            Please start typing the address of the property, then select the correct address when it
+                            appears.
+                        </FormText>
+                    </AvGroup>
+                    }
                     {this.state.user &&
                     <AvGroup>
                         <Label for="reviewerEmail">Your email/username</Label>

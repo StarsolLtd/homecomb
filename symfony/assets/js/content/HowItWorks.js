@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Col, Container} from "reactstrap";
 import Constants from "../Constants";
+import {Link} from "react-router-dom";
 
 import '../../styles/how-it-works.scss';
 
@@ -25,10 +26,11 @@ const HowItWorks = (props) => {
                         This allows us to shows the best rated lettings agents in your area.
                     </p>
 
-
-                    <Button size="lg" color="primary">
-                        Review your tenancy
-                    </Button>
+                    <Link to="/review">
+                        <Button size="lg" color="primary">
+                            Review your tenancy
+                        </Button>
+                    </Link>
                 </Col>
             </Container>
         </div>

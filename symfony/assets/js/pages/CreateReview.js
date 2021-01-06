@@ -67,6 +67,7 @@ class CreateReview extends React.Component {
                                 <ReviewTenancyForm
                                     code={this.props.match.params.code}
                                     fixedBranch={true}
+                                    fixedProperty={true}
                                     branch={this.state.branch}
                                     agency={this.state.agency}
                                     propertySlug={this.state.property.slug}

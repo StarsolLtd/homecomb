@@ -101,6 +101,7 @@ class PropertyView extends React.Component {
                             }
                             {this.state.reviewTenancyFormOpen &&
                             <ReviewTenancyForm
+                                fixedProperty={true}
                                 propertySlug={this.props.match.params.slug}
                                 completedThankYou={this.reviewCompletedThankYou}
                                 {...this.props}
