@@ -3,14 +3,11 @@
 namespace App\Tests\E2E;
 
 use App\DataFixtures\TestFixtures;
-use App\Repository\UserRepository;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Panther\PantherTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SolicitReview extends PantherTestCase
 {
-    private const TIMEOUT = 5;
+    private const TIMEOUT = 40;
     private string $baseUrl;
 
     public function setUp(): void
@@ -23,32 +20,30 @@ class SolicitReview extends PantherTestCase
      */
     public function testSolicitReview(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
-
-        $crawler = $client->request('GET', $this->baseUrl.'/verified/request-review');
-
-        $h1 = $crawler->filter('h1');
-        $this->assertEquals('Request a review for Cambridge Residential', $h1->text());
-
-        $client->waitFor('#solicit-review-form', self::TIMEOUT);
-    }
-
-    private function createClientAndLoginUser(string $username): object
-    {
         $client = static::createPantherClient();
 
-        /** @var UserRepository $userRepository */
-        $userRepository = static::$container->get(UserRepository::class);
-        $user = $userRepository->loadUserByUsername($username);
+        $this->login($client);
+    }
 
-        $session = self::$container->get('session');
+    private function login($client)
+    {
+        $crawler = $client->request('GET', $this->baseUrl.'/login');
 
-        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $session->set('_security_main', serialize($token));
-        $session->save();
+        $client->waitFor('input[name=email]', self::TIMEOUT);
 
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
+        $submitButton = $crawler->selectButton('Log in');
+
+        $form = $submitButton->form();
+
+        $this->assertEmpty($crawler->filter('input[name=email]')->attr('value'));
+        $this->assertEmpty($crawler->filter('input[name=password]')->attr('value'));
+
+        $form['email'] = TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL;
+        $form['password'] = 'Password2';
+
+        $client->submitForm('Log in');
+
+        $client->waitFor('#home', self::TIMEOUT);
 
         return $client;
     }

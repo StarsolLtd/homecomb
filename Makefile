@@ -57,7 +57,10 @@ e2e-search-for-property-and-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
 
 e2e-solicit-review:
+	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
+	make load-fixtures
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
 
 php-analyse:
 	make php-cs-fixer phpstan
