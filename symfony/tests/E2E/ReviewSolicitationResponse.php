@@ -28,7 +28,7 @@ class ReviewSolicitationResponse extends PantherTestCase
 
         $this->assertEquals('anna.testinova@starsol.co.uk', $crawler->filter('input[name=reviewerEmail]')->attr('value'));
         $this->assertEquals('Anna Testinova', $crawler->filter('input[name=reviewerName]')->attr('value'));
-        $this->assertEquals('Cambridge Residential - Arbury', $crawler->filter('input[name=agencyInfo]')->attr('value'));
+        $this->assertEquals('Testerton Lettings - Dereham', $crawler->filter('input[name=agencyInfo]')->attr('value'));
         $this->assertEmpty($crawler->filter('input[name=reviewTitle]')->attr('value'));
         $this->assertEmpty($crawler->filter('textarea[name=reviewContent]')->attr('value'));
 

@@ -31,18 +31,21 @@ migrate:
 
 behat:
 	docker exec -it homecomb_php_1 php bin/console cache:clear --env=test
-	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
+	make copy-test-env-to-local
 	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
-	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
+	make clear-env-local
 
 e2e:
-	make load-fixtures e2e-all
+	make copy-test-env-to-local load-fixtures e2e-all clear-env-local load-fixtures
 
 e2e-all:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-search-for-property-and-review e2e-agency-admin
+	make e2e-public e2e-agency-admin
 
 e2e-agency-admin:
 	make e2e-solicit-review
+
+e2e-public:
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-search-for-property-and-review
 
 e2e-flag-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
@@ -57,10 +60,9 @@ e2e-search-for-property-and-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
 
 e2e-solicit-review:
-	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
-	make load-fixtures
+	make copy-test-env-to-local load-fixtures
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
-	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
+	make clear-env-local
 
 php-analyse:
 	make php-cs-fixer phpstan
@@ -75,10 +77,9 @@ php-test:
 	make php-test-unit php-test-functional php-test-end
 
 php-test-functional:
-	docker exec -it homecomb_php_1 bash -c "echo 'APP_ENV=test' >> /var/www/symfony/.env.local"
-	make load-fixtures
+	make copy-test-env-to-local load-fixtures
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
-	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
+	make clear-env-local
 
 php-test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
@@ -87,8 +88,7 @@ php-test-unit-coverage:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --coverage-html var/tests/coverage tests/Unit
 
 php-test-end:
-	docker exec -it homecomb_php_1 bash -c "cat /dev/null > /var/www/symfony/.env.local"
-	make load-fixtures
+	make clear-env-local load-fixtures
 
 phpstan:
 	docker exec -it homecomb_php_1 vendor/bin/phpstan analyse -c phpstan.neon src --level max
@@ -116,3 +116,9 @@ yarn-build:
 
 yarn-watch:
 	docker exec -it homecomb_php_1 yarn encore dev --watch
+
+clear-env-local:
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
+
+copy-test-env-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/symfony/.env.test /var/www/symfony/.env.local"
