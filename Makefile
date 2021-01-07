@@ -24,7 +24,7 @@ jump-in:
 	docker exec -it homecomb_php_1 bash
 
 generate-migration:
-	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:generate
+	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:diff
 
 migrate:
 	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate

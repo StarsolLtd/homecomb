@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Comment\ReviewComment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -96,10 +97,17 @@ class Review
      */
     private Collection $images;
 
+    /**
+     * @var Collection<int, ReviewComment>
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment\ReviewComment", mappedBy="review")
+     */
+    private Collection $comments;
+
     public function __construct()
     {
         $this->locales = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -297,6 +305,35 @@ class Review
         }
         $this->images[] = $image;
         $image->setReview($this);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReviewComment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @return Collection<int, ReviewComment>
+     */
+    public function getPublishedComments(): Collection
+    {
+        return $this->getComments()->filter(function (ReviewComment $comment) {
+            return $comment->isPublished();
+        });
+    }
+
+    public function addComment(ReviewComment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            return $this;
+        }
+        $this->comments[] = $comment;
+        $comment->setReview($this);
 
         return $this;
     }
