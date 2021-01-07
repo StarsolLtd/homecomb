@@ -24,10 +24,13 @@ class CommentControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
     }
 
-    public function testSubmitCommentReturnsForbiddenWhenUserDoesNotHavePermission(): void
+    /**
+     * @dataProvider submitCommentReturnsForbiddenWhenUserDoesNotHavePermissionUserEmailDataProvider
+     */
+    public function testSubmitCommentReturnsForbiddenWhenUserDoesNotHavePermission(string $userEmail): void
     {
         $client = static::createClient();
-        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $this->loginUser($client, $userEmail);
 
         $entityId = $this->getAnyReviewId();
 
@@ -69,6 +72,14 @@ class CommentControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    public function submitCommentReturnsForbiddenWhenUserDoesNotHavePermissionUserEmailDataProvider(): array
+    {
+        return [
+            [TestFixtures::TEST_USER_STANDARD_EMAIL],
+            [TestFixtures::TEST_USER_AGENCY_2_ADMIN_EMAIL],
+        ];
     }
 
     private function getAnyReviewId(): int
