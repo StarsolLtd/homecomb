@@ -64,7 +64,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
-        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
+        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
         $agency->addAdminUser($loggedInUser);
 
         $client->request(
@@ -106,11 +106,11 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testUpdateAgency(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'PUT',
-            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_1_SLUG,
             [],
             [],
             [],
@@ -120,7 +120,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
-        $agency = $agencyRepository->findOneBySlug(TestFixtures::TEST_AGENCY_SLUG);
+        $agency = $agencyRepository->findOneBySlug(TestFixtures::TEST_AGENCY_1_SLUG);
         $this->assertNotNull($agency);
         $this->assertEquals('https://chipsticks.com', $agency->getExternalUrl());
         $this->assertEquals('CB1 1AA', $agency->getPostcode());
@@ -132,7 +132,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $client->request(
             'PUT',
-            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_1_SLUG,
             [],
             [],
             [],
@@ -144,11 +144,11 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testUpdateAgencyReturnsBadRequestWhenContentMalformed(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'PUT',
-            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_SLUG,
+            '/api/verified/agency/'.TestFixtures::TEST_AGENCY_1_SLUG,
             [],
             [],
             [],
@@ -165,7 +165,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
-        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
+        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
         $agency->addAdminUser($loggedInUser);
 
         $entityManager = static::$container->get(EntityManagerInterface::class);
@@ -221,7 +221,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testCreateBranchFailsWhenAlreadyExists(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'POST',
@@ -238,7 +238,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testCreateBranchReturnsBadRequestWhenContentMalformed(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'POST',
@@ -254,11 +254,11 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testUpdateBranch(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'PUT',
-            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG,
+            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_101_SLUG,
             [],
             [],
             [],
@@ -268,7 +268,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
         $branchRepository = static::$container->get(BranchRepository::class);
-        $branch = $branchRepository->findOneBySlug(TestFixtures::TEST_BRANCH_1_SLUG);
+        $branch = $branchRepository->findOneBySlug(TestFixtures::TEST_BRANCH_101_SLUG);
         $this->assertNotNull($branch);
         $this->assertEquals('020 2020 3030', $branch->getTelephone());
         $this->assertEquals('new.email@starsol.co.uk', $branch->getEmail());
@@ -278,18 +278,18 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
+        $client->request('PUT', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_101_SLUG);
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
     public function testUpdateBranchReturnsBadRequestWhenContentMalformed(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'PUT',
-            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG,
+            '/api/verified/branch/'.TestFixtures::TEST_BRANCH_101_SLUG,
             [],
             [],
             [],
@@ -301,7 +301,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testSolicitReviewFormData(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request('GET', '/api/verified/solicit-review');
 
@@ -323,11 +323,11 @@ class AgencyAdminControllerTest extends WebTestCase
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
-        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_SLUG]);
+        $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
         $agency->addAdminUser($loggedInUser);
 
         $branchRepository = static::$container->get(BranchRepository::class);
-        $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_1_SLUG]);
+        $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_101_SLUG]);
 
         $propertyRepository = static::$container->get(PropertyRepository::class);
         $property = $propertyRepository->findOneBy(['slug' => TestFixtures::TEST_PROPERTY_SLUG]);
@@ -341,7 +341,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -376,7 +376,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -392,7 +392,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -400,7 +400,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testSolicitReviewReturnsBadRequestWhenContentMalformed(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request(
             'POST',
@@ -408,7 +408,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug_MALFORMED":"'.TestFixtures::TEST_BRANCH_1_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug_MALFORMED":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
@@ -416,7 +416,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testGetAgencyForUser(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request('GET', '/api/verified/agency');
 
@@ -425,12 +425,12 @@ class AgencyAdminControllerTest extends WebTestCase
         /** @var Flat $output */
         $output = $this->serializer->deserialize($client->getResponse()->getContent(), Flat::class, 'json');
 
-        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $output->getSlug());
+        $this->assertEquals(TestFixtures::TEST_AGENCY_1_SLUG, $output->getSlug());
     }
 
     public function testHome(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request('GET', '/api/verified/dashboard');
 
@@ -448,9 +448,9 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testBranch(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
-        $client->request('GET', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
+        $client->request('GET', '/api/verified/branch/'.TestFixtures::TEST_BRANCH_101_SLUG);
 
         $response = $client->getResponse();
 
@@ -459,12 +459,12 @@ class AgencyAdminControllerTest extends WebTestCase
         /** @var FlatBranch $output */
         $output = $this->serializer->deserialize($response->getContent(), FlatBranch::class, 'json');
 
-        $this->assertEquals(TestFixtures::TEST_BRANCH_1_SLUG, $output->getSlug());
+        $this->assertEquals(TestFixtures::TEST_BRANCH_101_SLUG, $output->getSlug());
     }
 
     public function testBranchNotFound(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $client->request('GET', '/api/verified/branch/notExists');
 

@@ -12,7 +12,7 @@ class AgencyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/agency/'.TestFixtures::TEST_AGENCY_SLUG);
+        $client->request('GET', '/agency/'.TestFixtures::TEST_AGENCY_1_SLUG);
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }

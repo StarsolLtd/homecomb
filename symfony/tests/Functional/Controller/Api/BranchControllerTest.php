@@ -16,15 +16,15 @@ class BranchControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
+        $client->request('GET', '/api/branch/'.TestFixtures::TEST_BRANCH_101_SLUG);
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals('Dereham', $content['branch']['name']);
-        $this->assertEquals(TestFixtures::TEST_BRANCH_1_SLUG, $content['branch']['slug']);
+        $this->assertEquals(TestFixtures::TEST_BRANCH_101_SLUG, $content['branch']['slug']);
         $this->assertEquals('Testerton Lettings', $content['agency']['name']);
-        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $content['agency']['slug']);
+        $this->assertEquals(TestFixtures::TEST_AGENCY_1_SLUG, $content['agency']['slug']);
     }
 }

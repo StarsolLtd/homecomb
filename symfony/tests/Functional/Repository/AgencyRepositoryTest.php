@@ -28,10 +28,10 @@ class AgencyRepositoryTest extends KernelTestCase
 
     public function testFindOnePublishedBySlug()
     {
-        $agency = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_AGENCY_SLUG);
+        $agency = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_AGENCY_1_SLUG);
 
         $this->assertNotNull($agency);
-        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $agency->getSlug());
+        $this->assertEquals(TestFixtures::TEST_AGENCY_1_SLUG, $agency->getSlug());
         $this->assertTrue($agency->isPublished());
     }
 

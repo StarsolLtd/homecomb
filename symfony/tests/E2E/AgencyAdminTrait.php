@@ -21,7 +21,7 @@ trait AgencyAdminTrait
         $this->assertEmpty($crawler->filter('input[name=email]')->attr('value'));
         $this->assertEmpty($crawler->filter('input[name=password]')->attr('value'));
 
-        $form['email'] = TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL;
+        $form['email'] = TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL;
         $form['password'] = 'Password2';
 
         $client->submitForm('Log in');

@@ -18,14 +18,14 @@ class AgencyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/agency/'.TestFixtures::TEST_AGENCY_SLUG);
+        $client->request('GET', '/api/agency/'.TestFixtures::TEST_AGENCY_1_SLUG);
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals('Testerton Lettings', $content['name']);
-        $this->assertEquals(TestFixtures::TEST_AGENCY_SLUG, $content['slug']);
+        $this->assertEquals(TestFixtures::TEST_AGENCY_1_SLUG, $content['slug']);
     }
 
     public function testSuggestProperty(): void

@@ -12,7 +12,7 @@ class BranchControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/branch/'.TestFixtures::TEST_BRANCH_1_SLUG);
+        $client->request('GET', '/branch/'.TestFixtures::TEST_BRANCH_101_SLUG);
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }

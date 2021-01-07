@@ -28,10 +28,10 @@ class BranchRepositoryTest extends KernelTestCase
 
     public function testFindOnePublishedBySlug()
     {
-        $branch = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_BRANCH_1_SLUG);
+        $branch = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_BRANCH_101_SLUG);
 
         $this->assertNotNull($branch);
-        $this->assertEquals(TestFixtures::TEST_BRANCH_1_SLUG, $branch->getSlug());
+        $this->assertEquals(TestFixtures::TEST_BRANCH_101_SLUG, $branch->getSlug());
         $this->assertTrue($branch->isPublished());
     }
 

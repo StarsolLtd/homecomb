@@ -15,7 +15,7 @@ class CommentControllerTest extends WebTestCase
     public function testSubmitComment(): void
     {
         $client = static::createClient();
-        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $entityId = $this->getAnyReviewId();
 
@@ -39,7 +39,7 @@ class CommentControllerTest extends WebTestCase
     public function testSubmitCommentReturnsBadRequestWhenRelatedEntityUnsupported(): void
     {
         $client = static::createClient();
-        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_1_ADMIN_EMAIL);
 
         $entityId = $this->getAnyReviewId();
 
