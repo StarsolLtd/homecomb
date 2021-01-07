@@ -50,7 +50,9 @@ class ReviewVoter extends Voter
                 return $this->canComment($review, $user);
         }
 
+        // @codeCoverageIgnoreStart
         throw new DeveloperException('Unsupported attribute.');
+        // @codeCoverageIgnoreEnd
     }
 
     private function canComment(Review $review, User $user): bool
