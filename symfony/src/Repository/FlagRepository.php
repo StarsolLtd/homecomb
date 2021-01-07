@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -3,6 +3,8 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\NotFoundException;
+use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInput;
 use App\Service\FlagService;
 use App\Service\GoogleReCaptchaService;
@@ -53,7 +55,13 @@ class FlagController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->flagService->submitFlag($input, $this->getUserInterface());
+        try {
+            $output = $this->flagService->submitFlag($input, $this->getUserInterface());
+        } catch (UnexpectedValueException $e) {
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
 
         $this->addFlash(
             'success',

@@ -40,6 +40,22 @@ class BranchRepository extends ServiceEntityRepository
         return $branch;
     }
 
+    public function findOnePublishedById(int $id): Branch
+    {
+        $branch = $this->findOneBy(
+            [
+                'id' => $id,
+                'published' => true,
+            ]
+        );
+
+        if (null === $branch) {
+            throw new NotFoundException(sprintf('No published branch with ID %d could be found.', $id));
+        }
+
+        return $branch;
+    }
+
     public function findOneBySlugUserCanManage(string $slug, User $user): Branch
     {
         $agency = $user->getAdminAgency();

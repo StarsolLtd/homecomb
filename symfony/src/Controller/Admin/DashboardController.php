@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
 use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;

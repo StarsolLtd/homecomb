@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Unit\Util;
+namespace App\Tests\Unit\Service;
 
 use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -76,7 +76,9 @@ class NotificationServiceTest extends TestCase
 
     public function testFlagReviewModerationNotification(): void
     {
-        $flag = (new Flag())->setIdForTest(77);
+        $flag = $this->prophesize(Flag::class);
+
+        $flag->getId()->shouldBeCalledOnce()->willReturn(77);
 
         $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
 
@@ -97,6 +99,6 @@ class NotificationServiceTest extends TestCase
 
         $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
-        $this->notificationService->sendFlagModerationNotification($flag);
+        $this->notificationService->sendFlagModerationNotification($flag->reveal());
     }
 }

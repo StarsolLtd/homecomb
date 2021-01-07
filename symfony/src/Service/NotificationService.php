@@ -8,7 +8,7 @@ use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Repository\UserRepository;

@@ -45,4 +45,20 @@ class AgencyRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findOnePublishedById(int $id): Agency
+    {
+        $agency = $this->findOneBy(
+            [
+                'id' => $id,
+                'published' => true,
+            ]
+        );
+
+        if (null === $agency) {
+            throw new NotFoundException(sprintf('No published agency with ID %d could be found.', $id));
+        }
+
+        return $agency;
+    }
 }

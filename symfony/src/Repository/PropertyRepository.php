@@ -37,6 +37,22 @@ class PropertyRepository extends ServiceEntityRepository
         return $property;
     }
 
+    public function findOnePublishedById(int $id): Property
+    {
+        $property = $this->findOneBy(
+            [
+                'id' => $id,
+                'published' => true,
+            ]
+        );
+
+        if (null === $property) {
+            throw new NotFoundException(sprintf('No published property with ID %d could be found.', $id));
+        }
+
+        return $property;
+    }
+
     public function findOneBySlugOrNull(string $slug): ?Property
     {
         return $this->findOneBy(

@@ -3,8 +3,10 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
+use App\Entity\Flag\ReviewFlag;
 use App\Repository\FlagRepository;
+use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,6 +17,7 @@ class FlagControllerTest extends WebTestCase
     public function testSubmitFlagNotLoggedIn(): void
     {
         $client = static::createClient();
+        $entityId = $this->getAnyReviewId();
 
         $client->request(
             'POST',
@@ -22,7 +25,7 @@ class FlagControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"entityId":1,"entityName":"Review","content":"Explanation","googleReCaptchaToken":"SAMPLE"}'
+            '{"entityId":'.$entityId.',"entityName":"Review","content":"Explanation","googleReCaptchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -30,7 +33,7 @@ class FlagControllerTest extends WebTestCase
         $latestFlag = $this->getLatestFlag();
 
         $this->assertNotNull($latestFlag);
-        $this->assertEquals('Review', $latestFlag->getEntityName());
+        $this->assertInstanceOf(ReviewFlag::class, $latestFlag);
         $this->assertEquals('Explanation', $latestFlag->getContent());
         $this->assertNull($latestFlag->getUser());
     }
@@ -38,6 +41,7 @@ class FlagControllerTest extends WebTestCase
     public function testSubmitFlagAsLoggedInUser(): void
     {
         $client = static::createClient();
+        $entityId = $this->getAnyReviewId();
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
@@ -47,7 +51,7 @@ class FlagControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"entityId":1,"entityName":"Review","content":"Explanation","googleReCaptchaToken":"SAMPLE"}'
+            '{"entityId":'.$entityId.',"entityName":"Review","content":"Explanation","googleReCaptchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -55,7 +59,7 @@ class FlagControllerTest extends WebTestCase
         $latestFlag = $this->getLatestFlag();
 
         $this->assertNotNull($latestFlag);
-        $this->assertEquals('Review', $latestFlag->getEntityName());
+        $this->assertInstanceOf(ReviewFlag::class, $latestFlag);
         $this->assertEquals('Explanation', $latestFlag->getContent());
         $this->assertEquals($loggedInUser, $latestFlag->getUser());
     }
@@ -78,8 +82,17 @@ class FlagControllerTest extends WebTestCase
 
     private function getLatestFlag(): ?Flag
     {
+        /** @var FlagRepository $flagRepository */
         $flagRepository = static::$container->get(FlagRepository::class);
 
         return $flagRepository->findOneBy([], ['id' => 'DESC']);
+    }
+
+    private function getAnyReviewId(): int
+    {
+        /** @var ReviewRepository $reviewRepository */
+        $reviewRepository = static::$container->get(ReviewRepository::class);
+
+        return $reviewRepository->findLastPublished()->getId();
     }
 }

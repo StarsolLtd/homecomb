@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Flag;
+use App\Entity\Flag\Flag;
 use App\Service\UserService;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

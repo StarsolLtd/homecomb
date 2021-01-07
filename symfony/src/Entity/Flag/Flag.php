@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Flag;
 
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -9,9 +10,17 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FlagRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="entity_name", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "Agency" = "AgencyFlag",
+ *     "Branch" = "BranchFlag",
+ *     "Property" = "PropertyFlag",
+ *     "Review" = "ReviewFlag"
+ * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
  */
-class Flag
+abstract class Flag
 {
     use SoftDeleteableEntity;
     use TimestampableEntity;
@@ -24,20 +33,15 @@ class Flag
     private ?int $id = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reviews")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="flags")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private ?User $user = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $entityName = '';
-
-    /**
      * @ORM\Column(type="integer")
      */
-    private int $entityId;
+    private int $entityId = 0;
 
     /**
      * @ORM\Column(type="text", length=65535, nullable=true)
@@ -48,16 +52,6 @@ class Flag
      * @ORM\Column(type="boolean", nullable=true)
      */
     private ?bool $valid = null;
-
-    /**
-     * Use only for testing.
-     */
-    public function setIdForTest(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     public function getId(): ?int
     {
@@ -72,18 +66,6 @@ class Flag
     public function setUser(?User $User): self
     {
         $this->user = $User;
-
-        return $this;
-    }
-
-    public function getEntityName(): string
-    {
-        return $this->entityName;
-    }
-
-    public function setEntityName(string $entityName): self
-    {
-        $this->entityName = $entityName;
 
         return $this;
     }
