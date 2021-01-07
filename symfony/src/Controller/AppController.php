@@ -38,4 +38,12 @@ abstract class AppController extends AbstractController
             'Sorry, we were unable to process your request. The data provided was malformed.'
         );
     }
+
+    protected function checkPrivilege(string $attribute, string $entityClass, int $entityId): bool
+    {
+        /** @phpstan-ignore-next-line */
+        $entity = $this->getDoctrine()->getRepository($entityClass)->findOneBy(['id' => $entityId]);
+
+        return $this->isGranted($attribute, $entity);
+    }
 }

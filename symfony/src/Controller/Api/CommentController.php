@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Entity\Review;
 use App\Exception\NotFoundException;
 use App\Exception\UnexpectedValueException;
 use App\Model\Comment\SubmitInput;
@@ -53,6 +54,10 @@ class CommentController extends AppController
             $this->addFlash('error', 'Sorry, we were unable to process your review.');
 
             return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$this->checkPrivilege('comment', Review::class, $input->getEntityId())) {
+            return $this->jsonResponse(null, Response::HTTP_FORBIDDEN);
         }
 
         try {

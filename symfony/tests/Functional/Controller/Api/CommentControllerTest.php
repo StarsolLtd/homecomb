@@ -27,7 +27,7 @@ class CommentControllerTest extends WebTestCase
     public function testSubmitCommentReturnsForbiddenWhenUserDoesNotHavePermission(): void
     {
         $client = static::createClient();
-        $this->loginUser($client, TestFixtures::TEST_USER_AGENCY_ADMIN_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
         $entityId = $this->getAnyReviewId();
 
