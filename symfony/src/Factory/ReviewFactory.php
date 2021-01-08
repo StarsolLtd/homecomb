@@ -38,6 +38,11 @@ class ReviewFactory
 
         $stars = $this->createStarsFromEntity($entity);
 
+        $comments = [];
+        foreach ($entity->getPublishedComments() as $comment) {
+            $comments[] = $this->flatModelFactory->getCommentFlatModel($comment);
+        }
+
         return new View(
             $branch,
             $agency,
@@ -47,7 +52,8 @@ class ReviewFactory
             $entity->getTitle() ?? '',
             $entity->getContent() ?? '',
             $stars,
-            $entity->getCreatedAt()
+            $entity->getCreatedAt(),
+            $comments
         );
     }
 

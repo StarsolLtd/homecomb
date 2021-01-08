@@ -4,6 +4,7 @@ namespace App\Model\Review;
 
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
+use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use DateTime;
 
@@ -18,6 +19,7 @@ class View
     private string $content;
     private Stars $stars;
     private DateTime $createdAt;
+    private array $comments;
 
     public function __construct(
         ?FlatBranch $branch,
@@ -28,7 +30,8 @@ class View
         string $title,
         string $content,
         Stars $stars,
-        DateTime $createdAt
+        DateTime $createdAt,
+        array $comments
     ) {
         $this->branch = $branch;
         $this->agency = $agency;
@@ -39,6 +42,7 @@ class View
         $this->content = $content;
         $this->stars = $stars;
         $this->createdAt = $createdAt;
+        $this->comments = $comments;
     }
 
     public function getBranch(): ?FlatBranch
@@ -84,5 +88,13 @@ class View
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return FlatComment[]
+     */
+    public function getComments(): array
+    {
+        return $this->comments;
     }
 }

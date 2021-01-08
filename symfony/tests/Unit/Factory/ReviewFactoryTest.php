@@ -4,12 +4,14 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Comment\ReviewComment;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
+use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -37,10 +39,12 @@ class ReviewFactoryTest extends TestCase
         $branch = (new Branch());
         $agency = (new Agency())->addBranch($branch);
         $property = (new Property());
+        $comment = (new ReviewComment())->setPublished(true);
 
         $flatBranch = (new FlatBranch('branchslug', 'Test Branch Name'));
         $flatAgency = (new FlatAgency('agencyslug', 'Test Agency Name'));
         $flatProperty = (new FlatProperty('propertyslug', '123 Test Street', 'CB4 3LF'));
+        $flatComment = (new FlatComment(77, 'Beatrice Whisk', 'We are glad you liked it', new DateTime()));
 
         $this->flatModelFactory->getAgencyFlatModel($agency)
             ->shouldBeCalledOnce()
@@ -51,6 +55,9 @@ class ReviewFactoryTest extends TestCase
         $this->flatModelFactory->getPropertyFlatModel($property)
             ->shouldBeCalledOnce()
             ->willReturn($flatProperty);
+        $this->flatModelFactory->getCommentFlatModel($comment)
+            ->shouldBeCalledOnce()
+            ->willReturn($flatComment);
 
         $review = (new Review())
             ->setBranch($branch)
@@ -64,6 +71,7 @@ class ReviewFactoryTest extends TestCase
             ->setAgencyStars(null)
             ->setPropertyStars(5)
             ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
+            ->addComment($comment)
         ;
 
         $view = $this->reviewFactory->createViewFromEntity($review);
@@ -81,5 +89,7 @@ class ReviewFactoryTest extends TestCase
         $this->assertNull($view->getStars()->getAgency());
         $this->assertEquals(5, $view->getStars()->getProperty());
         $this->assertEquals('2020-02-02', $view->getCreatedAt()->format('Y-m-d'));
+        $this->assertCount(1, $view->getComments());
+        $this->assertEquals('We are glad you liked it', $view->getComments()[0]->getContent());
     }
 }
