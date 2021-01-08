@@ -103,6 +103,32 @@ class ReviewControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * Test the endpoint to get a view returns a HTTP_OK.
+     */
+    public function testGetViewById1(): void
+    {
+        $client = static::createClient();
+
+        $reviewId = $this->getAnyPublishedReviewId();
+
+        $client->request('GET', '/api/review/'.$reviewId);
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Test the endpoint to get a view returns a HTTP_NOT_FOUND when ID does not exist.
+     */
+    public function testGetViewById2(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/review/9999999999');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
     private function assertReviewMatchesReviewSolicitationWhenCodeNotNull(?string $code, Review $review): void
     {
         if (null === $code) {
@@ -112,5 +138,13 @@ class ReviewControllerTest extends WebTestCase
         $rsRepository = static::$container->get(ReviewSolicitationRepository::class);
         $rs = $rsRepository->findOneByCodeOrNull($code);
         $this->assertEquals($review, $rs->getReview());
+    }
+
+    private function getAnyPublishedReviewId(): int
+    {
+        /** @var ReviewRepository $reviewRepository */
+        $reviewRepository = static::$container->get(ReviewRepository::class);
+
+        return $reviewRepository->findLastPublished()->getId();
     }
 }

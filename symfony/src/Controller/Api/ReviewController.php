@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\NotFoundException;
 use App\Model\SubmitReviewInput;
 use App\Repository\ReviewRepository;
 use App\Service\GoogleReCaptchaService;
@@ -60,5 +61,23 @@ class ReviewController extends AppController
         $output = $this->reviewService->submitReview($input, $this->getUserInterface());
 
         return $this->jsonResponse($output, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Route (
+     *     "/api/review/{id}",
+     *     name="api-review-id",
+     *     methods={"GET"}
+     * )
+     */
+    public function view(int $id): JsonResponse
+    {
+        try {
+            $view = $this->reviewService->getViewById($id);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->jsonResponse($view, Response::HTTP_OK);
     }
 }
