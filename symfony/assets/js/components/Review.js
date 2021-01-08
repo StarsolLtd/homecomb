@@ -5,6 +5,8 @@ import ReviewOptions from "./ReviewOptions";
 import {Link} from "react-router-dom";
 import Comment from "./Comment";
 
+import '../../styles/review.scss';
+
 class Review extends React.Component {
 
     constructor(props) {
@@ -19,27 +21,25 @@ class Review extends React.Component {
 
     render() {
         return (
-            <div className="reviews-members pt-4 pb-4">
+            <div className="review pt-4 pb-4">
                 {this.state.showOptions &&
                     <div className="dropdown float-right review-options">
                         <ReviewOptions reviewId={this.props.id} {...this.props} />
                     </div>
                 }
 
-                <div className="reviews-members-header">
-                    <p className="mb-1 font-weight-bold">
+                <div>
+                    <p className="mb-3">
                         <span className="author">{this.props.author}</span>
                         {this.props.property && this.state.showProperty &&
                             <span>&nbsp;review of <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
                         }
-                    </p>
-                    <p className="text-gray">
-                        <Moment format="Do MMMM YYYY">{this.props.createdAt}</Moment>
+                        {' '}on <span className="date"><Moment format="Do MMMM YYYY">{this.props.createdAt}</Moment></span>
                     </p>
                 </div>
 
-                <div className="reviews-members-body">
-                    <p className="font-weight-bold">{this.props.title}</p>
+                <div>
+                    <h3>{this.props.title}</h3>
 
                     <p>{this.props.content}</p>
 
