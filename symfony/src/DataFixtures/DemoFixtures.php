@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Comment\ReviewComment;
 use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
@@ -66,6 +67,17 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         /** @var Property $property44 */
         $property44 = $this->getReference('property-'.PropertyFixtures::PROPERTY_44_VENDOR_PROPERTY_ID);
 
+        $comment = (new ReviewComment())
+            ->setPublished(true)
+            ->setUser($users[self::USER_5])
+            ->setContent(
+                "Hello Jack! Thank you for the positive review. I'm sorry the decor was a bit dated "
+                . 'when you were living in number 249. The landlord has since renovated the property, and future '
+                . 'tenant will benefit from a more modern style of interior design.'
+            )
+        ;
+        $manager->persist($comment);
+
         $reviews[] = (new Review())
             ->setUser($users[self::USER_1])
             ->setProperty($property249)
@@ -81,7 +93,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setAgencyStars(5)
             ->setLandlordStars(null)
             ->setPropertyStars(3)
-            ->setPublished(true);
+            ->setPublished(true)
+            ->addComment($comment);
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_2])
