@@ -4,12 +4,17 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Comment\ReviewComment;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Factory\FlatModelFactory;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Factory\FlashMessageFactory
+ */
 class FlatModelFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -21,6 +26,9 @@ class FlatModelFactoryTest extends TestCase
         $this->flatModelFactory = new FlatModelFactory();
     }
 
+    /**
+     * @covers \App\Factory\FlashMessageFactory::getAgencyFlatModel
+     */
     public function testGetAgencyFlatModel(): void
     {
         $agency = (new Agency())
@@ -40,6 +48,9 @@ class FlatModelFactoryTest extends TestCase
         $this->assertNull($model->getLogoImageFilename());
     }
 
+    /**
+     * @covers \App\Factory\FlashMessageFactory::getBranchFlatModel
+     */
     public function testGetBranchFlatModel(): void
     {
         $branch = (new Branch())
@@ -56,6 +67,38 @@ class FlatModelFactoryTest extends TestCase
         $this->assertNull($model->getEmail());
     }
 
+    /**
+     * @covers \App\Factory\FlashMessageFactory::getCommentFlatModel
+     */
+    public function testGetCommentFlatModel(): void
+    {
+        $content = 'I am sorry to hear both of the bathroom taps were cold. The landlord has advised me that one of '
+                 .'the taps will dispense hot water if you leave it running for a few seconds.';
+
+        $createdAt = new DateTime('2021-01-08 12:34:56');
+
+        $user = $this->prophesize(User::class);
+        $comment = $this->prophesize(ReviewComment::class);
+
+        $comment->getId()->shouldBeCalledOnce()->willReturn(33);
+        $comment->getContent()->shouldBeCalledOnce()->willReturn($content);
+        $comment->getCreatedAt()->shouldBeCalledOnce()->willReturn($createdAt);
+        $comment->getUser()->shouldBeCalledOnce()->willReturn($user);
+
+        $user->getFirstName()->shouldBeCalledOnce()->willReturn('Cecilia');
+        $user->getLastName()->shouldBeCalledOnce()->willReturn('Marina');
+
+        $model = $this->flatModelFactory->getCommentFlatModel($comment->reveal());
+
+        $this->assertEquals(33, $model->getId());
+        $this->assertEquals('Cecilia Marina', $model->getAuthor());
+        $this->assertEquals($content, $model->getContent());
+        $this->assertEquals($createdAt, $model->getCreatedAt());
+    }
+
+    /**
+     * @covers \App\Factory\FlashMessageFactory::getPropertyFlatModel
+     */
     public function testGetPropertyFlatModel(): void
     {
         $property = (new Property())
@@ -70,6 +113,9 @@ class FlatModelFactoryTest extends TestCase
         $this->assertEquals('CB2 2TG', $model->getPostcode());
     }
 
+    /**
+     * @covers \App\Factory\FlashMessageFactory::getUserFlatModel
+     */
     public function testGetUserFlatModel(): void
     {
         $user = (new User())

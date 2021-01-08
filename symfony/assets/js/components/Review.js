@@ -14,8 +14,6 @@ class Review extends React.Component {
             showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
             showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
         };
-
-        console.log(props);
     }
 
     render() {

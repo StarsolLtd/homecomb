@@ -72,11 +72,15 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setUser($users[self::USER_5])
             ->setContent(
                 "Hello Jack! Thank you for the positive review. I'm sorry the decor was a bit dated "
-                . 'when you were living in number 249. The landlord has since renovated the property, and future '
-                . 'tenant will benefit from a more modern style of interior design.'
+                .'when you were living in number 249. The landlord has since renovated the property, and future '
+                .'tenant will benefit from a more modern style of interior design.'
             )
         ;
         $manager->persist($comment);
+
+        // TODO why would phpstan otherwise think this is a Comment and not a ReviewComment?
+        /** @var ReviewComment $reviewComment */
+        $reviewComment = $comment;
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_1])
@@ -94,7 +98,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setLandlordStars(null)
             ->setPropertyStars(3)
             ->setPublished(true)
-            ->addComment($comment);
+            ->addComment($reviewComment);
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_2])

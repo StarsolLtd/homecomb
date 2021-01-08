@@ -4,10 +4,12 @@ namespace App\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Comment\Comment;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
+use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\User\Flat as FlatUser;
 
@@ -36,6 +38,18 @@ class FlatModelFactory
             $entity->getPostcode(),
             $entity->isPublished(),
             $logoImageFilename
+        );
+    }
+
+    public function getCommentFlatModel(Comment $entity): FlatComment
+    {
+        $user = $entity->getUser();
+
+        return new FlatComment(
+            $entity->getId(),
+            $user->getFirstName().' '.$user->getLastName(),
+            $entity->getContent(),
+            $entity->getCreatedAt(),
         );
     }
 

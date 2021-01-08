@@ -27,7 +27,7 @@ abstract class Comment
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
@@ -50,7 +50,7 @@ abstract class Comment
      */
     private bool $published = false;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
