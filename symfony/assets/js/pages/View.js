@@ -10,6 +10,9 @@ class View extends React.Component {
             flashMessages: [],
             flashMessagesFetching: false,
         };
+
+        this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.fetchFlashMessages = this.fetchFlashMessages.bind(this);
     }
 
     componentDidMount() {

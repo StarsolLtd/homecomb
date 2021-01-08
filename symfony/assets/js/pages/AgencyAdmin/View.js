@@ -18,6 +18,7 @@ class View extends React.Component {
         };
 
         this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.fetchFlashMessages = this.fetchFlashMessages.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -44,6 +45,7 @@ class View extends React.Component {
                 >
                     <Content
                         addFlashMessage={this.addFlashMessage}
+                        fetchFlashMessages={this.fetchFlashMessages}
                         submit={this.submit}
                         {...this.props}
                     />
