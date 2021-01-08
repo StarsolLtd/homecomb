@@ -24,8 +24,8 @@ import NonAgentRoute from "./NonAgentRoute";
 
 class Index extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             user: {
                 agencyAdmin: false

@@ -100,6 +100,7 @@ class CommentForm extends React.Component {
                     )
                     .then((data) => {
                         component.clearForm();
+                        component.props.onSuccess();
                         component.props.fetchFlashMessages();
                     })
                     .catch(err => console.error("Error:", err));

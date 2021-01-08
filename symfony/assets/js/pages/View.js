@@ -10,9 +10,6 @@ class View extends React.Component {
             flashMessages: [],
             flashMessagesFetching: false,
         };
-
-        this.addFlashMessage = this.addFlashMessage.bind(this);
-        this.fetchFlashMessages = this.fetchFlashMessages.bind(this);
     }
 
     componentDidMount() {
@@ -22,13 +19,15 @@ class View extends React.Component {
     render() {
         const Content = this.props.content;
 
+        console.log(this.props);
+
         return (
             <Container>
                 <FlashMessages messages={this.state.flashMessages} />
                 <Content
+                    {...this.props}
                     addFlashMessage={this.addFlashMessage}
                     fetchFlashMessages={this.fetchFlashMessages}
-                    {...this.props}
                 />
             </Container>
         );

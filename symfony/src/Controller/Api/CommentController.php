@@ -56,9 +56,9 @@ class CommentController extends AppController
             return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
-        if (!$this->checkPrivilege('comment', Review::class, $input->getEntityId())) {
-            return $this->jsonResponse(null, Response::HTTP_FORBIDDEN);
-        }
+//        if (!$this->checkPrivilege('comment', Review::class, $input->getEntityId())) {
+//            return $this->jsonResponse(null, Response::HTTP_FORBIDDEN);
+//        }
 
         try {
             $output = $this->commentService->submitComment($input, $this->getUserInterface());
