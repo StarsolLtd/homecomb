@@ -5,10 +5,13 @@ namespace App\Service;
 use App\Entity\Locale;
 use App\Entity\Postcode;
 use App\Entity\Review;
+use App\Factory\ReviewFactory;
+use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
 use App\Model\SubmitReviewOutput;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
+use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +27,8 @@ class ReviewService
     private EntityManagerInterface $entityManager;
     private PostcodeRepository $postcodeRepository;
     private PropertyRepository $propertyRepository;
+    private ReviewRepository $reviewRepository;
+    private ReviewFactory $reviewFactory;
 
     public function __construct(
         AgencyService $agencyService,
@@ -33,7 +38,9 @@ class ReviewService
         UserService $userService,
         EntityManagerInterface $entityManager,
         PostcodeRepository $postcodeRepository,
-        PropertyRepository $propertyRepository
+        PropertyRepository $propertyRepository,
+        ReviewRepository $reviewRepository,
+        ReviewFactory $reviewFactory
     ) {
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
@@ -43,6 +50,8 @@ class ReviewService
         $this->entityManager = $entityManager;
         $this->postcodeRepository = $postcodeRepository;
         $this->propertyRepository = $propertyRepository;
+        $this->reviewRepository = $reviewRepository;
+        $this->reviewFactory = $reviewFactory;
     }
 
     public function submitReview(SubmitReviewInput $reviewInput, ?UserInterface $user): SubmitReviewOutput
@@ -131,5 +140,12 @@ class ReviewService
         $this->entityManager->flush();
 
         return $locales;
+    }
+
+    public function getViewById(int $reviewId): View
+    {
+        $entity = $this->reviewRepository->findOnePublishedById($reviewId);
+
+        return $this->reviewFactory->createViewFromEntity($entity);
     }
 }

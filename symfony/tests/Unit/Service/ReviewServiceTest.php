@@ -9,9 +9,12 @@ use App\Entity\Postcode;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Factory\ReviewFactory;
+use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
+use App\Repository\ReviewRepository;
 use App\Service\AgencyService;
 use App\Service\BranchService;
 use App\Service\NotificationService;
@@ -41,6 +44,8 @@ class ReviewServiceTest extends TestCase
     private $entityManager;
     private $postcodeRepository;
     private $propertyRepository;
+    private $reviewRepository;
+    private $reviewFactory;
 
     public function setUp(): void
     {
@@ -52,6 +57,8 @@ class ReviewServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
         $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
 
         $this->reviewService = new ReviewService(
             $this->agencyService->reveal(),
@@ -62,6 +69,8 @@ class ReviewServiceTest extends TestCase
             $this->entityManager->reveal(),
             $this->postcodeRepository->reveal(),
             $this->propertyRepository->reveal(),
+            $this->reviewRepository->reveal(),
+            $this->reviewFactory->reveal(),
         );
     }
 
@@ -154,5 +163,26 @@ class ReviewServiceTest extends TestCase
         $submitReviewOutput = $this->reviewService->submitReview($reviewInput, $user);
 
         $this->assertEquals(true, $submitReviewOutput->isSuccess());
+    }
+
+    /**
+     * @covers \App\Service\ReviewService::getViewById
+     */
+    public function testGetViewById1(): void
+    {
+        $entity = $this->prophesize(Review::class);
+        $view = $this->prophesize(View::class);
+
+        $this->reviewRepository->findOnePublishedById(56)
+            ->shouldBeCalledOnce()
+            ->willReturn($entity);
+
+        $this->reviewFactory->createViewFromEntity($entity)
+            ->shouldBeCalledOnce()
+            ->willReturn($view->reveal());
+
+        $output = $this->reviewService->getViewById(56);
+
+        $this->assertEquals($view->reveal(), $output);
     }
 }
