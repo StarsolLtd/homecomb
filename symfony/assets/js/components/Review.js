@@ -3,6 +3,7 @@ import ReviewStars from "./ReviewStars";
 import Moment from 'react-moment';
 import ReviewOptions from "./ReviewOptions";
 import {Link} from "react-router-dom";
+import Comment from "./Comment";
 
 class Review extends React.Component {
 
@@ -74,6 +75,12 @@ class Review extends React.Component {
                     landlord={this.props.stars.landlord}
                     property={this.props.stars.property}
                 />
+
+                {this.props.comments.map(
+                    ({ id, author, content, createdAt }) => (
+                        <Comment key={id} author={author} createdAt={createdAt} content={content} />
+                    )
+                )}
             </div>
         );
     }

@@ -21,9 +21,6 @@ class View extends React.Component {
 
     render() {
         const Content = this.props.content;
-
-        console.log(this.props);
-
         return (
             <Container>
                 <FlashMessages messages={this.state.flashMessages} />

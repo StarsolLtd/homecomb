@@ -53,7 +53,7 @@ class PropertyView extends React.Component {
                             <h5 className="mb-1">Reviews from tenants</h5>
 
                             {this.state.reviews.map(
-                                ({ id, author, title, content, property, branch, agency, stars, createdAt }) => (
+                                ({ id, author, title, content, property, branch, agency, stars, createdAt, comments }) => (
                                     <Fragment key={id}>
                                         <Review
                                             {...this.props}
@@ -67,6 +67,7 @@ class PropertyView extends React.Component {
                                             agency={agency}
                                             stars={stars}
                                             createdAt={createdAt}
+                                            comments={comments}
                                             showProperty={false}
                                         >
                                         </Review>

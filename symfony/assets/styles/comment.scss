@@ -1,0 +1,20 @@
+@import "variables";
+
+.comment {
+    padding: 2em 0 0 2em;
+    font-size: 90%;
+    color: $gray-700;
+}
+
+.comment .author {
+    font-weight: bold;
+}
+
+.comment h6 {
+    font-size: 100%;
+    font-style: italic;
+}
+
+.comment p {
+    margin: 0;
+}
