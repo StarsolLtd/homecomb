@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from 'react-dom'
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, BrowserRouter} from 'react-router-dom';
 
 import $ from 'jquery';
 import 'jquery-ui-bundle';
@@ -9,6 +9,7 @@ import CreateBranch from "./CreateBranch";
 import UpdateAgency from "./UpdateAgency";
 import UpdateBranch from "./UpdateBranch";
 import CreateReviewSolicitation from "./CreateReviewSolicitation";
+import ReviewView from "./ReviewView";
 
 import Dashboard from "./Dashboard";
 import LayoutFooter from "./LayoutFooter";
@@ -20,7 +21,6 @@ import '../../../styles/AgencyAdmin/style.scss';
 import View from "./View";
 import AgentRoute from "./AgentRoute";
 import NonAgentRoute from "./NonAgentRoute";
-import FooterLarge from "../../layout/FooterLarge";
 
 class Index extends React.Component {
 
@@ -63,6 +63,9 @@ class Index extends React.Component {
                             }/>
                             <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/request-review" render={
                                 (props) => <View content={CreateReviewSolicitation} />
+                            }/>
+                            <AgentRoute isAgencyAdmin={this.state.user.agencyAdmin} path="/verified/review/:id" render={
+                                (props) => <View content={ReviewView} user={this.state.user} {...props} />
                             }/>
                         </Switch>
                         }

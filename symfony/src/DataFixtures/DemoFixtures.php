@@ -274,16 +274,20 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
     private function loadUsers(ObjectManager $manager): array
     {
         $data = [
-            ['email' => self::USER_1, 'password' => 'To_The_Moon_2020'],
-            ['email' => self::USER_2, 'password' => 'Fire_Dragon_2020'],
-            ['email' => self::USER_3, 'password' => 'Ride_A_Bicycle_2020'],
-            ['email' => self::USER_4, 'password' => 'South_Tyrol_2020'],
-            ['email' => self::USER_5, 'password' => 'Cambridge_Residential_2020'],
+            ['email' => self::USER_1, 'password' => 'To_The_Moon_2020', 'firstName' => 'Jack', 'lastName' => 'Parnell'],
+            ['email' => self::USER_2, 'password' => 'Fire_Dragon_2020', 'firstName' => 'Andrea', 'lastName' => 'Nemeth'],
+            ['email' => self::USER_3, 'password' => 'Ride_A_Bicycle_2020', 'firstName' => 'Lauren', 'lastName' => 'Marina'],
+            ['email' => self::USER_4, 'password' => 'South_Tyrol_2020', 'firstName' => 'Zora', 'lastName' => 'Arbone'],
+            ['email' => self::USER_5, 'password' => 'Cambridge_Residential_2020', 'firstName' => 'Jo', 'lastName' => 'Camberley'],
         ];
 
         $users = [];
         foreach ($data as $row) {
-            $user = (new User())->setEmail($row['email']);
+            $user = (new User())
+                ->setEmail($row['email'])
+                ->setFirstName($row['firstName'])
+                ->setLastName($row['lastName'])
+            ;
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, $row['password']));
             $manager->persist($user);
             $this->addReference('user-'.$user->getEmail(), $user);

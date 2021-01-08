@@ -14,6 +14,7 @@ class AgencyAdminController extends AppController
      * @Route ("/verified/branch", name="verified-branch", methods={"GET", "HEAD"})
      * @Route ("/verified/branch/{slug}", name="verified-branch-slug", methods={"GET", "HEAD"})
      * @Route ("/verified/request-review", name="verified-request-review", methods={"GET", "HEAD"})
+     * @Route ("/verified/review/{id}", name="verified-review-id", methods={"GET", "HEAD"})
      */
     public function agencyAdmin(): Response
     {
