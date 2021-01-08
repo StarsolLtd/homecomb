@@ -4,6 +4,8 @@ import Moment from 'react-moment';
 import ReviewOptions from "./ReviewOptions";
 import {Link} from "react-router-dom";
 import Comment from "./Comment";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/review.scss';
 
@@ -30,7 +32,8 @@ class Review extends React.Component {
 
                 <div>
                     <p className="mb-3">
-                        <span className="author">{this.props.author}</span>
+                        <FontAwesomeIcon icon={faUser} className="text-primary" />
+                        {' '}<span className="author">{this.props.author}</span>
                         {this.props.property && this.state.showProperty &&
                             <span>&nbsp;review of <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
                         }
