@@ -39,7 +39,7 @@ class SolicitReview extends PantherTestCase
 
         $this->propertyAutocomplete($client);
 
-        $form['branchSlug'] = 'branch1slug';
+        $form['branchSlug'] = 'branch101slug';
         $form['recipientFirstName'] = 'Katarina';
         $form['recipientLastName'] = 'Homcomova';
         $form['recipientEmail'] = 'katarina.homcomova@starsol.co.uk';
