@@ -43,27 +43,25 @@ class CommentForm extends React.Component {
                 }}
                 spinner={<Loader active type='ball-triangle-path' />}
             >
-                <div className="bg-white rounded shadow-sm p-4 mb-4 col-md-12">
-                    <p>
-                        Commenting as <span className="author">{this.props.user.firstName} {this.props.user.lastName}</span>:
-                    </p>
-                    <AvForm className="comment-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-                        <AvGroup>
-                            <AvInput
-                                type="textarea"
-                                name="content"
-                                value={this.state.content}
-                                placeholder="Enter your comment"
-                                required
-                                onChange={this.handleChange}
-                            />
-                            <AvFeedback>Please enter your comment.</AvFeedback>
-                        </AvGroup>
-                        <Button className="comment-form-submit" color="primary">
-                            Post comment
-                        </Button>
-                    </AvForm>
-                </div>
+                <p>
+                    Commenting as <span className="author">{this.props.user.firstName} {this.props.user.lastName}</span>:
+                </p>
+                <AvForm className="comment-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                    <AvGroup>
+                        <AvInput
+                            type="textarea"
+                            name="content"
+                            value={this.state.content}
+                            placeholder="Enter your comment"
+                            required
+                            onChange={this.handleChange}
+                        />
+                        <AvFeedback>Please enter your comment.</AvFeedback>
+                    </AvGroup>
+                    <Button className="comment-form-submit" color="primary">
+                        Post comment
+                    </Button>
+                </AvForm>
             </LoadingOverlay>
         );
     }

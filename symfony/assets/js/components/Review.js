@@ -12,15 +12,20 @@ class Review extends React.Component {
             showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
             showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
             showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
+            showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
         };
+
+        console.log(props);
     }
 
     render() {
         return (
             <div className="reviews-members pt-4 pb-4">
-                <div className="dropdown float-right review-options">
-                    <ReviewOptions reviewId={this.props.id} {...this.props} />
-                </div>
+                {this.state.showOptions &&
+                    <div className="dropdown float-right review-options">
+                        <ReviewOptions reviewId={this.props.id} {...this.props} />
+                    </div>
+                }
 
                 <div className="reviews-members-header">
                     <p className="mb-1 font-weight-bold">
