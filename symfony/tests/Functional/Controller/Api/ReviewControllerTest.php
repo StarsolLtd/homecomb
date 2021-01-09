@@ -129,6 +129,18 @@ class ReviewControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * Test the endpoint to get the latest reviews returns a HTTP_OK
+     */
+    public function testLatest1(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/review/latest');
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+    }
+
     private function assertReviewMatchesReviewSolicitationWhenCodeNotNull(?string $code, Review $review): void
     {
         if (null === $code) {

@@ -66,6 +66,7 @@ class ReviewController extends AppController
     /**
      * @Route (
      *     "/api/review/{id}",
+     *     requirements={"id"="\d+"},
      *     name="api-review-id",
      *     methods={"GET"}
      * )
@@ -79,5 +80,18 @@ class ReviewController extends AppController
         }
 
         return $this->jsonResponse($view, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route (
+     *     "/api/review/latest",
+     *     name="api-review-latest",
+     *     methods={"GET"}
+     * )
+     */
+    public function latest(): JsonResponse
+    {
+        $latest = $this->reviewService->getLatestGroup();
+        return $this->jsonResponse($latest, Response::HTTP_OK);
     }
 }
