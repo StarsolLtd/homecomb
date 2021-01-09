@@ -47,37 +47,37 @@ class Review
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $author;
+    private ?string $author = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
-    private ?string $content;
+    private ?string $content = null;
 
     /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
-    private ?int $overallStars;
+    private ?int $overallStars = null;
 
     /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
-    private ?int $propertyStars;
+    private ?int $propertyStars = null;
 
     /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
-    private ?int $agencyStars;
+    private ?int $agencyStars = null;
 
     /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
-    private ?int $landlordStars;
+    private ?int $landlordStars = null;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})

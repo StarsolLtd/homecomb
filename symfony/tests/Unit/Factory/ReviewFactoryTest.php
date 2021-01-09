@@ -13,10 +13,14 @@ use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
+use App\Model\Review\View;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Util\ReviewFactory
+ */
 class ReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -34,6 +38,9 @@ class ReviewFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @covers \App\Util\ReviewFactory::createViewFromEntity
+     */
     public function testCreateViewFromEntity(): void
     {
         $branch = (new Branch());
@@ -91,5 +98,27 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals('2020-02-02', $view->getCreatedAt()->format('Y-m-d'));
         $this->assertCount(1, $view->getComments());
         $this->assertEquals('We are glad you liked it', $view->getComments()[0]->getContent());
+    }
+
+    /**
+     * @covers \App\Util\ReviewFactory::createGroup
+     */
+    public function testCreateGroup1(): void
+    {
+        $property = new Property();
+        $flatProperty = (new FlatProperty('propertyslug', '123 Test Street', 'CB4 3LF'));
+        $reviewEntities = [
+            (new Review())->setProperty($property)->setCreatedAt(new DateTime('2020-02-02 12:00:00')),
+            (new Review())->setProperty($property)->setCreatedAt(new DateTime('2020-02-02 12:00:00')),
+        ];
+        $this->flatModelFactory->getPropertyFlatModel($property)
+            ->shouldBeCalledTimes(2)
+            ->willReturn($flatProperty);
+
+        $output = $this->reviewFactory->createGroup('Latest Reviews', $reviewEntities);
+
+        $this->assertEquals('Latest Reviews', $output->getTitle());
+        $this->assertInstanceOf(View::class, $output->getReviews()[0]);
+        $this->assertInstanceOf(View::class, $output->getReviews()[1]);
     }
 }

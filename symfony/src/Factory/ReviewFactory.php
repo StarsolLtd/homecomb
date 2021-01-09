@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Review;
+use App\Model\Review\Group;
 use App\Model\Review\Stars;
 use App\Model\Review\View;
 
@@ -25,7 +26,7 @@ class ReviewFactory
         }
 
         $branch = null;
-        $branchEntity = $entity->getbranch();
+        $branchEntity = $entity->getBranch();
         if (null !== $branchEntity) {
             $branch = $this->flatModelFactory->getBranchFlatModel($branchEntity);
         }
@@ -54,6 +55,21 @@ class ReviewFactory
             $stars,
             $entity->getCreatedAt(),
             $comments
+        );
+    }
+
+    /**
+     * @param Review[] $reviewEntities
+     */
+    public function createGroup(string $title, array $reviewEntities): Group
+    {
+        $reviews = [];
+        foreach ($reviewEntities as $reviewEntity) {
+            $reviews[] = $this->createViewFromEntity($reviewEntity);
+        }
+        return new Group(
+            $title,
+            $reviews
         );
     }
 
