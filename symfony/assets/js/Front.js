@@ -18,6 +18,7 @@ import TenancyReview from "./pages/TenancyReview";
 import HowItWorks from "./content/HowItWorks";
 import FooterLarge from "./layout/FooterLarge";
 import View from "./pages/View";
+import LatestReviews from "./content/LatestReviews";
 
 class Front extends React.Component {
 
@@ -68,7 +69,15 @@ class Front extends React.Component {
                             : null
                         }
                     />
-                    <Route path="/" exact component={Header}/>
+                </Switch>
+
+                <Switch>
+                    <Route
+                        render={({ location }) => this.showLatestReviews(location.pathname)
+                            ? <LatestReviews />
+                            : null
+                        }
+                    />
                 </Switch>
 
                 <FooterLarge user={this.state.user}/>
@@ -89,6 +98,14 @@ class Front extends React.Component {
         })
 
         return matched;
+    }
+
+    showLatestReviews(pathname) {
+        if (['/', '/about'].includes(pathname)) {
+            return true;
+        }
+
+        return false;
     }
 
     fetchUserData() {

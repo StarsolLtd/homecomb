@@ -79,7 +79,7 @@ class Review extends React.Component {
                     property={this.props.stars.property}
                 />
 
-                {this.props.comments.map(
+                {this.props.comments && this.props.comments.map(
                     ({ id, author, content, createdAt }) => (
                         <Comment key={id} author={author} createdAt={createdAt} content={content} />
                     )

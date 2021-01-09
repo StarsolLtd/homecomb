@@ -1,0 +1,17 @@
+@import "variables";
+
+.latest-reviews {
+    background-color: $secondary-light;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.latest-reviews p  {
+    padding-bottom: 1.25em;
+}
+
+.latest-reviews h2  {
+    font-family: $logo-font;
+    padding-bottom: .75em;
+}
