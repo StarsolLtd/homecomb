@@ -92,6 +92,7 @@ class ReviewController extends AppController
     public function latest(): JsonResponse
     {
         $latest = $this->reviewService->getLatestGroup();
+
         return $this->jsonResponse($latest, Response::HTTP_OK);
     }
 }

@@ -130,7 +130,7 @@ class ReviewControllerTest extends WebTestCase
     }
 
     /**
-     * Test the endpoint to get the latest reviews returns a HTTP_OK
+     * Test the endpoint to get the latest reviews returns a HTTP_OK.
      */
     public function testLatest1(): void
     {

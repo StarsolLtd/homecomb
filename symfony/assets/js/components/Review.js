@@ -23,7 +23,7 @@ class Review extends React.Component {
 
     render() {
         return (
-            <div className="review pt-4 pb-4">
+            <div className={'review pt-4 pb-4 ' + this.props.className}>
                 {this.state.showOptions &&
                     <div className="dropdown float-right review-options">
                         <ReviewOptions reviewId={this.props.id} {...this.props} />
@@ -35,7 +35,7 @@ class Review extends React.Component {
                         <FontAwesomeIcon icon={faUser} className="text-primary" />
                         {' '}<span className="author">{this.props.author}</span>
                         {this.props.property && this.state.showProperty &&
-                            <span>&nbsp;review of <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
+                            <span>&nbsp;reviewed <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
                         }
                         {' '}on <span className="date"><Moment format="Do MMMM YYYY">{this.props.createdAt}</Moment></span>
                     </p>

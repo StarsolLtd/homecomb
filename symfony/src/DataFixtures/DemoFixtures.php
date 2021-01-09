@@ -143,7 +143,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setContent(
                 'I rented this place for a few months when I first moved to Cambridge. It was very small and '
                 .' I felt a bit cramped here. The bedroom was barely wider than a double bed. I think it would be a '
-                .' great place for a student who is not brining many possessions to Cambridge. '
+                .' great place for a student who is not bringing many possessions to Cambridge. '
             )
             ->setOverallStars(3)
             ->setAgencyStars(4)
