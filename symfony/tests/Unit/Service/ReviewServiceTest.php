@@ -10,6 +10,7 @@ use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Factory\ReviewFactory;
+use App\Model\Review\Group;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
 use App\Repository\PostcodeRepository;
@@ -21,6 +22,7 @@ use App\Service\NotificationService;
 use App\Service\ReviewService;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
+use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -33,6 +35,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class ReviewServiceTest extends TestCase
 {
     use ProphecyTrait;
+    use EntityManagerTrait;
 
     private ReviewService $reviewService;
 
@@ -184,5 +187,32 @@ class ReviewServiceTest extends TestCase
         $output = $this->reviewService->getViewById(56);
 
         $this->assertEquals($view->reveal(), $output);
+    }
+
+    /**
+     * @covers \App\Service\ReviewService::getLatestGroup
+     */
+    public function testGetLatest(): void
+    {
+        $reviews = [
+            $this->prophesize(Review::class),
+            $this->prophesize(Review::class),
+            $this->prophesize(Review::class),
+        ];
+        $group = $this->prophesize(Group::class);
+
+        $this->reviewRepository->findLatest(3)
+            ->shouldBeCalledOnce()
+            ->willReturn($reviews);
+
+        $this->reviewFactory->createGroup('Latest Reviews', $reviews)
+            ->shouldBeCalledOnce()
+            ->willReturn($group);
+
+        $this->assertEntityManagerUnused();
+
+        $output = $this->reviewService->getLatestGroup();
+
+        $this->assertEquals($group->reveal(), $output);
     }
 }

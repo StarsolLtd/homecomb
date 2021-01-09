@@ -67,6 +67,7 @@ class ReviewFactory
         foreach ($reviewEntities as $reviewEntity) {
             $reviews[] = $this->createViewFromEntity($reviewEntity);
         }
+
         return new Group(
             $title,
             $reviews

@@ -73,4 +73,20 @@ class ReviewRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    /**
+     * @return Review[]
+     */
+    public function findLatest(int $limit = 3): array
+    {
+        return $this->findBy(
+            [
+                'published' => true,
+            ],
+            [
+                'id' => 'DESC',
+            ],
+            $limit
+        );
+    }
 }

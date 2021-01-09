@@ -6,6 +6,7 @@ use App\Entity\Locale;
 use App\Entity\Postcode;
 use App\Entity\Review;
 use App\Factory\ReviewFactory;
+use App\Model\Review\Group;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
 use App\Model\SubmitReviewOutput;
@@ -147,5 +148,12 @@ class ReviewService
         $entity = $this->reviewRepository->findOnePublishedById($reviewId);
 
         return $this->reviewFactory->createViewFromEntity($entity);
+    }
+
+    public function getLatestGroup(int $limit = 3): Group
+    {
+        $reviews = $this->reviewRepository->findLatest($limit);
+
+        return $this->reviewFactory->createGroup('Latest Reviews', $reviews);
     }
 }
