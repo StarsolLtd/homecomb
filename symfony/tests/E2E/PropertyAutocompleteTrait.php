@@ -6,7 +6,7 @@ use Symfony\Component\Panther\Client as PantherClient;
 
 trait PropertyAutocompleteTrait
 {
-    private function propertyAutocomplete(PantherClient $client, string $selector = '#input-property', string $searchTerm = '249 Victo')
+    private function propertyAutocomplete(PantherClient $client, string $selector = '#input-property', string $searchTerm = '249 Victoria Road Cambridge')
     {
         $crawler = $client->waitFor($selector, 3);
 
