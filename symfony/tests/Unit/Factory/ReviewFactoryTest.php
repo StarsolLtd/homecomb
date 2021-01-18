@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
- * @covers \App\Util\ReviewFactory
+ * @covers \App\Factory\ReviewFactory
  */
 class ReviewFactoryTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ReviewFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Util\ReviewFactory::createViewFromEntity
+     * @covers \App\Factory\ReviewFactory::createViewFromEntity
      */
     public function testCreateViewFromEntity(): void
     {
@@ -101,7 +101,7 @@ class ReviewFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Util\ReviewFactory::createGroup
+     * @covers \App\Factory\ReviewFactory::createGroup
      */
     public function testCreateGroup1(): void
     {

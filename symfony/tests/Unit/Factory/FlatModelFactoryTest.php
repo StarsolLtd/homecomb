@@ -27,7 +27,7 @@ class FlatModelFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\FlashMessageFactory::getAgencyFlatModel
+     * @covers \App\Factory\FlatModelFactory::getAgencyFlatModel
      */
     public function testGetAgencyFlatModel(): void
     {
@@ -49,7 +49,7 @@ class FlatModelFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\FlashMessageFactory::getBranchFlatModel
+     * @covers \App\Factory\FlatModelFactory::getBranchFlatModel
      */
     public function testGetBranchFlatModel(): void
     {
@@ -68,7 +68,7 @@ class FlatModelFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\FlashMessageFactory::getCommentFlatModel
+     * @covers \App\Factory\FlatModelFactory::getCommentFlatModel
      */
     public function testGetCommentFlatModel(): void
     {
@@ -97,7 +97,7 @@ class FlatModelFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\FlashMessageFactory::getPropertyFlatModel
+     * @covers \App\Factory\FlatModelFactory::getPropertyFlatModel
      */
     public function testGetPropertyFlatModel(): void
     {
@@ -114,7 +114,7 @@ class FlatModelFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\FlashMessageFactory::getUserFlatModel
+     * @covers \App\Factory\FlatModelFactory::getUserFlatModel
      */
     public function testGetUserFlatModel(): void
     {
