@@ -15,20 +15,9 @@ class PostcodeTest extends AbstractEntityTestCase
      */
     public function testToString1(): void
     {
-        $entity = new Postcode();
+        $entity = $this->getEntity();
         $entity->setPostcode('CB4 3LF');
         $this->assertEquals('CB4 3LF', (string) $entity);
-    }
-
-    /**
-     * @covers \App\Entity\Postcode::getId
-     */
-    public function testGetId1(): void
-    {
-        $entity = new Postcode();
-        $this->assertNull($entity->getId());
-        $this->setId($entity, 789);
-        $this->assertEquals(789, $entity->getId());
     }
 
     /**
@@ -36,7 +25,7 @@ class PostcodeTest extends AbstractEntityTestCase
      */
     public function testGetPostcode1(): void
     {
-        $entity = new Postcode();
+        $entity = $this->getEntity();
         $entity->setPostcode('CB4 3LF');
         $this->assertEquals('CB4 3LF', $entity->getPostcode());
     }
@@ -46,7 +35,7 @@ class PostcodeTest extends AbstractEntityTestCase
      */
     public function testGetLocales1(): void
     {
-        $entity = new Postcode();
+        $entity = $this->getEntity();
         $this->assertEmpty($entity->getLocales());
 
         $locale1 = (new Locale())->setName('Shoreditch');
@@ -59,5 +48,10 @@ class PostcodeTest extends AbstractEntityTestCase
 
         $entity->addLocale($locale1);
         $this->assertCount(2, $entity->getLocales());
+    }
+
+    protected function getEntity(): Postcode
+    {
+        return new Postcode();
     }
 }
