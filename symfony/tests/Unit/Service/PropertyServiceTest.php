@@ -4,8 +4,8 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Property;
 use App\Factory\PropertyFactory;
+use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
-use App\Model\VendorProperty;
 use App\Repository\PropertyRepository;
 use App\Service\GetAddressService;
 use App\Service\PropertyService;

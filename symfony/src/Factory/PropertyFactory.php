@@ -3,8 +3,8 @@
 namespace App\Factory;
 
 use App\Entity\Property;
+use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
-use App\Model\VendorProperty;
 use App\Util\PropertyHelper;
 
 class PropertyFactory

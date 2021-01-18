@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
+use App\Model\Property\VendorProperty;
 use App\Model\PropertySuggestion;
-use App\Model\VendorProperty;
 use function json_decode;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
