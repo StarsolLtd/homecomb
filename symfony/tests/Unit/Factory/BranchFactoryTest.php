@@ -37,7 +37,10 @@ class BranchFactoryTest extends TestCase
         );
     }
 
-    public function testCreateBranchEntityFromCreateBranchInputModel(): void
+    /**
+     * @covers \App\Factory\BranchFactory::createEntityFromCreateBranchInput
+     */
+    public function testCreateEntityFromCreateBranchInput1(): void
     {
         $createBranchInput = new CreateBranchInput(
             'Test Branch Name',
@@ -46,22 +49,22 @@ class BranchFactoryTest extends TestCase
             'sample'
         );
 
-        $agency = new Agency();
+        $agency = $this->prophesize(Agency::class);
 
         $this->branchHelper->generateSlug(Argument::type(Branch::class))
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
 
-        $branch = $this->branchFactory->createBranchEntityFromCreateBranchInputModel($createBranchInput, $agency);
+        $branch = $this->branchFactory->createEntityFromCreateBranchInput($createBranchInput, $agency->reveal());
 
-        $this->assertEquals($agency, $branch->getAgency());
+        $this->assertEquals($agency->reveal(), $branch->getAgency());
         $this->assertEquals('Test Branch Name', $branch->getName());
         $this->assertEquals('0700 100 200', $branch->getTelephone());
         $this->assertNull($branch->getEmail());
     }
 
     /**
-     * @covers \App\Factory\createViewFromEntity
+     * @covers \App\Factory\BranchFactory::createViewFromEntity
      */
     public function testCreateViewFromEntity1(): void
     {

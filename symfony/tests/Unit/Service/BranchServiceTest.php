@@ -74,7 +74,7 @@ class BranchServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
-        $this->branchFactory->createBranchEntityFromCreateBranchInputModel($createBranchInput, $agency)
+        $this->branchFactory->createEntityFromCreateBranchInput($createBranchInput, $agency)
             ->shouldBeCalledOnce()
             ->willReturn($branch);
 

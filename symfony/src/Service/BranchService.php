@@ -63,7 +63,7 @@ class BranchService
             throw new ConflictException('A branch with the name '.$branchName.' already exists for this agency.');
         }
 
-        $branch = $this->branchFactory->createBranchEntityFromCreateBranchInputModel($createBranchInput, $agency);
+        $branch = $this->branchFactory->createEntityFromCreateBranchInput($createBranchInput, $agency);
 
         $this->entityManager->persist($branch);
         $this->entityManager->flush();

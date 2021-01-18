@@ -23,13 +23,13 @@ class BranchFactory
         $this->reviewFactory = $reviewFactory;
     }
 
-    public function createBranchEntityFromCreateBranchInputModel(CreateBranchInput $createBranchInput, Agency $agency): Branch
+    public function createEntityFromCreateBranchInput(CreateBranchInput $input, Agency $agency): Branch
     {
         $branch = (new Branch())
             ->setAgency($agency)
-            ->setName($createBranchInput->getBranchName())
-            ->setTelephone($createBranchInput->getTelephone())
-            ->setEmail($createBranchInput->getEmail())
+            ->setName($input->getBranchName())
+            ->setTelephone($input->getTelephone())
+            ->setEmail($input->getEmail())
             ->setPublished(true)
         ;
 
