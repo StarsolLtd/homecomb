@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Interaction\FlagInteraction;
 use App\Entity\Interaction\ReviewInteraction;
 use App\Exception\UnexpectedValueException;
+use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
 use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,12 +33,14 @@ class InteractionService
 
     public function record(
         string $entityName,
-        int $entityId,
-        ?UserInterface $user = null,
-        ?string $sessionId = null,
-        ?string $ipAddress = null,
-        ?string $userAgent = null
+        ?int $entityId,
+        RequestDetails $requestDetails,
+        ?UserInterface $user = null
     ): void {
+        if (null === $entityId) {
+            $entityId = 0;
+        }
+
         switch ($entityName) {
             case 'Flag':
                 $flag = $this->flagRepository->findOneById($entityId);
@@ -55,9 +58,9 @@ class InteractionService
 
         $interaction
             ->setUser($userEntity)
-            ->setSessionId($sessionId)
-            ->setIpAddress($ipAddress)
-            ->setUserAgent($userAgent)
+            ->setSessionId($requestDetails->getSessionId())
+            ->setIpAddress($requestDetails->getIpAddress())
+            ->setUserAgent($requestDetails->getUserAgent())
         ;
 
         $this->entityManager->persist($interaction);

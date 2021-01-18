@@ -6,6 +6,7 @@ use App\Entity\Locale;
 use App\Entity\Postcode;
 use App\Entity\Review;
 use App\Factory\ReviewFactory;
+use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
@@ -16,12 +17,14 @@ use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewService
 {
     private AgencyService $agencyService;
     private BranchService $branchService;
+    private InteractionService $interactionService;
     private NotificationService $notificationService;
     private ReviewSolicitationService $reviewSolicitationService;
     private UserService $userService;
@@ -34,6 +37,7 @@ class ReviewService
     public function __construct(
         AgencyService $agencyService,
         BranchService $branchService,
+        InteractionService $interactionService,
         NotificationService $notificationService,
         ReviewSolicitationService $reviewSolicitationService,
         UserService $userService,
@@ -45,6 +49,7 @@ class ReviewService
     ) {
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
+        $this->interactionService = $interactionService;
         $this->notificationService = $notificationService;
         $this->reviewSolicitationService = $reviewSolicitationService;
         $this->userService = $userService;
@@ -55,8 +60,11 @@ class ReviewService
         $this->reviewFactory = $reviewFactory;
     }
 
-    public function submitReview(SubmitReviewInput $reviewInput, ?UserInterface $user): SubmitReviewOutput
-    {
+    public function submitReview(
+        SubmitReviewInput $reviewInput,
+        ?UserInterface $user,
+        ?RequestDetails $requestDetails = null
+    ): SubmitReviewOutput {
         $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
 
         $agencyName = $reviewInput->getAgencyName();
@@ -87,6 +95,19 @@ class ReviewService
         $this->entityManager->flush();
 
         $this->notificationService->sendReviewModerationNotification($review);
+
+        if (null !== $requestDetails) {
+            try {
+                $this->interactionService->record(
+                    'Review',
+                    $review->getId(),
+                    $requestDetails,
+                    $user
+                );
+            } catch (Exception $e) {
+                // Shrug shoulders
+            }
+        }
 
         return new SubmitReviewOutput(true);
     }

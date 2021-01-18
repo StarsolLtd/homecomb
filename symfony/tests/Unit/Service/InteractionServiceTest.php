@@ -7,6 +7,7 @@ use App\Entity\Interaction\Interaction;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
+use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
 use App\Repository\ReviewRepository;
 use App\Service\InteractionService;
@@ -17,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\InteractionService
@@ -55,6 +57,8 @@ class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $review = $this->prophesize(Review::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+        $this->prophesizeRequestDetails($requestDetails);
 
         $this->reviewRepository->findOneById(789)
             ->shouldBeCalledOnce()
@@ -69,10 +73,8 @@ class InteractionServiceTest extends TestCase
         $this->interactionService->record(
             'Review',
             789,
-            $user,
-            '123456789',
-            '1.2.3.4',
-            'Godzilla 42.0'
+            $requestDetails->reveal(),
+            $user
         );
     }
 
@@ -84,6 +86,8 @@ class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $flag = $this->prophesize(Flag::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+        $this->prophesizeRequestDetails($requestDetails);
 
         $this->flagRepository->findOneById(2020)
             ->shouldBeCalledOnce()
@@ -98,10 +102,8 @@ class InteractionServiceTest extends TestCase
         $this->interactionService->record(
             'Flag',
             2020,
-            $user,
-            '123456789',
-            '1.2.3.4',
-            'Godzilla 42.0'
+            $requestDetails->reveal(),
+            $user
         );
     }
 
@@ -111,13 +113,37 @@ class InteractionServiceTest extends TestCase
      */
     public function testRecord3(): void
     {
+        $requestDetails = $this->prophesize(RequestDetails::class);
+
         $this->assertEntityManagerUnused();
 
         $this->expectException(UnexpectedValueException::class);
 
         $this->interactionService->record(
             'Sushi',
-            20
+            20,
+            $requestDetails->reveal()
         );
+    }
+
+    private function prophesizeRequestDetails(ObjectProphecy $requestDetails): void
+    {
+        $requestDetails
+            ->getSessionId()
+            ->shouldBeCalledOnce()
+            ->willReturn('123456789')
+        ;
+
+        $requestDetails
+            ->getIpAddress()
+            ->shouldBeCalledOnce()
+            ->willReturn('1.2.3.4')
+        ;
+
+        $requestDetails
+            ->getUserAgent()
+            ->shouldBeCalledOnce()
+            ->willReturn('Godzilla 42.0')
+        ;
     }
 }

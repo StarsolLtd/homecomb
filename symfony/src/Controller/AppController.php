@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Factory\InteractionFactory;
+use App\Model\Interaction\RequestDetails;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AppController extends AbstractController
 {
     protected SerializerInterface $serializer;
+    protected InteractionFactory $interactionFactory;
 
     protected function getUserInterface(): ?UserInterface
     {
@@ -45,5 +49,10 @@ abstract class AppController extends AbstractController
         $entity = $this->getDoctrine()->getRepository($entityClass)->findOneBy(['id' => $entityId]);
 
         return $this->isGranted($attribute, $entity);
+    }
+
+    protected function getRequestDetails(Request $request): RequestDetails
+    {
+        return $this->interactionFactory->getRequestDetails($request);
     }
 }

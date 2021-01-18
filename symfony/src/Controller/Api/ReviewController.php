@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
+use App\Factory\InteractionFactory;
 use App\Model\SubmitReviewInput;
 use App\Repository\ReviewRepository;
 use App\Service\GoogleReCaptchaService;
@@ -24,13 +25,13 @@ class ReviewController extends AppController
 
     public function __construct(
         GoogleReCaptchaService $googleReCaptchaService,
-        ReviewRepository $reviewRepository,
         ReviewService $reviewService,
+        InteractionFactory $interactionFactory,
         SerializerInterface $serializer
     ) {
         $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->reviewRepository = $reviewRepository;
         $this->reviewService = $reviewService;
+        $this->interactionFactory = $interactionFactory;
         $this->serializer = $serializer;
     }
 
@@ -58,7 +59,11 @@ class ReviewController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->reviewService->submitReview($input, $this->getUserInterface());
+        $output = $this->reviewService->submitReview(
+            $input,
+            $this->getUserInterface(),
+            $this->getRequestDetails($request)
+        );
 
         return $this->jsonResponse($output, Response::HTTP_CREATED);
     }

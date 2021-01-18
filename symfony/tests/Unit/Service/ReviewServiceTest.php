@@ -10,6 +10,7 @@ use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Factory\ReviewFactory;
+use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
@@ -18,6 +19,7 @@ use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
 use App\Service\AgencyService;
 use App\Service\BranchService;
+use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\ReviewService;
 use App\Service\ReviewSolicitationService;
@@ -41,6 +43,7 @@ class ReviewServiceTest extends TestCase
 
     private $agencyService;
     private $branchService;
+    private $interactionService;
     private $notificationService;
     private $reviewSolicitationService;
     private $userService;
@@ -54,6 +57,7 @@ class ReviewServiceTest extends TestCase
     {
         $this->agencyService = $this->prophesize(AgencyService::class);
         $this->branchService = $this->prophesize(BranchService::class);
+        $this->interactionService = $this->prophesize(InteractionService::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
         $this->reviewSolicitationService = $this->prophesize(ReviewSolicitationService::class);
         $this->userService = $this->prophesize(UserService::class);
@@ -66,6 +70,7 @@ class ReviewServiceTest extends TestCase
         $this->reviewService = new ReviewService(
             $this->agencyService->reveal(),
             $this->branchService->reveal(),
+            $this->interactionService->reveal(),
             $this->notificationService->reveal(),
             $this->reviewSolicitationService->reveal(),
             $this->userService->reveal(),
@@ -153,6 +158,7 @@ class ReviewServiceTest extends TestCase
         $property = (new Property());
         $agency = (new Agency());
         $branch = (new Branch());
+        $requestDetails = $this->prophesize(RequestDetails::class);
 
         $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
         $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
@@ -163,7 +169,7 @@ class ReviewServiceTest extends TestCase
         $this->entityManager->flush()->shouldBeCalledOnce();
         $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
 
-        $submitReviewOutput = $this->reviewService->submitReview($reviewInput, $user);
+        $submitReviewOutput = $this->reviewService->submitReview($reviewInput, $user, $requestDetails->reveal());
 
         $this->assertEquals(true, $submitReviewOutput->isSuccess());
     }
