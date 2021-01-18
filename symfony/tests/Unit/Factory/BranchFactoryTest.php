@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Factory\BranchFactory
+ */
 class BranchFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -57,35 +60,16 @@ class BranchFactoryTest extends TestCase
         $this->assertNull($branch->getEmail());
     }
 
-    public function testCreateViewFromEntity(): void
+    /**
+     * @covers \App\Factory\createViewFromEntity
+     */
+    public function testCreateViewFromEntity1(): void
     {
-        $review1 = (new Review())
-            ->setIdForTest(42)
-            ->setAuthor('Jack Harper')
-            ->setTitle('I was a tenant here')
-            ->setContent('I liked the colour of the sink')
-            ->setPublished(true)
-        ;
-
-        $review1View = $this->prophesize(View::class);
-
-        $review2 = (new Review())
-            ->setIdForTest(43)
-            ->setAuthor('Andrea Smith')
-            ->setTitle('I stayed here 2 years')
-            ->setContent('I liked the colour of the curtains')
-            ->setPublished(true)
-        ;
-
-        $review2View = $this->prophesize(View::class);
-
         $branch = (new Branch())
             ->setName('Test Name')
             ->setSlug('branchslug')
             ->setTelephone('0500 500 500')
             ->setEmail('test@branch.starsol.co.uk')
-            ->addReview($review1)
-            ->addReview($review2)
         ;
 
         $agency = (new Agency())
@@ -93,6 +77,18 @@ class BranchFactoryTest extends TestCase
             ->setSlug('agencyslug')
             ->addBranch($branch)
         ;
+
+        $review1 = $this->prophesize(Review::class);
+        $review1->isPublished()->shouldBeCalledOnce()->willReturn(true);
+        $review1->setBranch($branch)->shouldBeCalledOnce()->willReturn($review1);
+        $review1View = $this->prophesize(View::class);
+
+        $review2 = $this->prophesize(Review::class);
+        $review2->isPublished()->shouldBeCalledOnce()->willReturn(true);
+        $review2->setBranch($branch)->shouldBeCalledOnce()->willReturn($review2);
+        $review2View = $this->prophesize(View::class);
+
+        $branch->addReview($review1->reveal())->addReview($review2->reveal());
 
         $this->reviewFactory->createViewFromEntity($review1)
             ->shouldBeCalledOnce()

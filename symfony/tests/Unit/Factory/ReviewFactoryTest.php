@@ -17,8 +17,10 @@ use App\Model\Property\Flat as FlatProperty;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\ReviewFactory
@@ -107,12 +109,14 @@ class ReviewFactoryTest extends TestCase
      */
     public function testCreateGroup1(): void
     {
-        $property = new Property();
-        $flatProperty = (new FlatProperty('propertyslug', '123 Test Street', 'CB4 3LF'));
-        $reviewEntities = [
-            (new Review())->setProperty($property)->setCreatedAt(new DateTime('2020-02-02 12:00:00')),
-            (new Review())->setProperty($property)->setCreatedAt(new DateTime('2020-02-02 12:00:00')),
-        ];
+        $property = $this->prophesize(Property::class);
+        $flatProperty = $this->prophesize(FlatProperty::class);
+
+        $review1 = $this->prophesizeEmptyReview($property);
+        $review2 = $this->prophesizeEmptyReview($property);
+
+        $reviewEntities = [$review1->reveal(), $review2->reveal()];
+
         $this->flatModelFactory->getPropertyFlatModel($property)
             ->shouldBeCalledTimes(2)
             ->willReturn($flatProperty);
@@ -176,5 +180,25 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals(4, $entity->getAgencyStars());
         $this->assertNull($entity->getLandlordStars());
         $this->assertEquals(3, $entity->getPropertyStars());
+    }
+
+    private function prophesizeEmptyReview(ObjectProphecy $property): ObjectProphecy
+    {
+        $review = $this->prophesize(Review::class);
+        $review->getId()->willReturn(1);
+        $review->getProperty()->willReturn($property);
+        $review->getCreatedAt()->willReturn(new DateTime('2020-02-02 12:00:00'));
+        $review->getPublishedComments()->willReturn(new ArrayCollection());
+        $review->getAgency()->willReturn(null);
+        $review->getBranch()->willReturn(null);
+        $review->getOverallStars()->willReturn(null);
+        $review->getAgencyStars()->willReturn(null);
+        $review->getPropertyStars()->willReturn(null);
+        $review->getLandlordStars()->willReturn(null);
+        $review->getAuthor()->willReturn(null);
+        $review->getTitle()->willReturn(null);
+        $review->getContent()->willReturn(null);
+
+        return $review;
     }
 }

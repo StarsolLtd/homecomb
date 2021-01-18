@@ -74,7 +74,6 @@ class PropertyFactoryTest extends TestCase
     public function testCreateViewFromEntity(): void
     {
         $review1 = (new Review())
-            ->setIdForTest(42)
             ->setAuthor('Jack Harper')
             ->setTitle('I was a tenant here')
             ->setContent('I liked the colour of the sink')
@@ -84,7 +83,6 @@ class PropertyFactoryTest extends TestCase
         $review1View = $this->prophesize(View::class);
 
         $review2 = (new Review())
-            ->setIdForTest(43)
             ->setAuthor('Andrea Smith')
             ->setTitle('I stayed here 2 years')
             ->setContent('I liked the colour of the curtains')

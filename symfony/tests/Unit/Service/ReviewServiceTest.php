@@ -170,6 +170,13 @@ class ReviewServiceTest extends TestCase
 
         $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
 
+        $review->getId()
+            ->shouldBeCalledOnce()
+            ->willReturn(45);
+
+        $this->interactionService->record('Review', 45, $requestDetails, $user)
+            ->shouldBeCalledOnce();
+
         $submitReviewOutput = $this->reviewService->submitReview(
             $input->reveal(),
             $user->reveal(),

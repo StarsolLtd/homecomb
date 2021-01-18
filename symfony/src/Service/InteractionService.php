@@ -33,14 +33,10 @@ class InteractionService
 
     public function record(
         string $entityName,
-        ?int $entityId,
+        int $entityId,
         RequestDetails $requestDetails,
         ?UserInterface $user = null
     ): void {
-        if (null === $entityId) {
-            $entityId = 0;
-        }
-
         switch ($entityName) {
             case 'Flag':
                 $flag = $this->flagRepository->findOneById($entityId);

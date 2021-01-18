@@ -50,7 +50,8 @@ class NotificationServiceTest extends TestCase
 
     public function testSendReviewModerationNotification(): void
     {
-        $review = (new Review())->setIdForTest(42);
+        $review = $this->prophesize(Review::class);
+        $review->getId()->shouldBeCalledOnce()->willReturn(42);
 
         $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
 
@@ -71,7 +72,7 @@ class NotificationServiceTest extends TestCase
 
         $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
-        $this->notificationService->sendReviewModerationNotification($review);
+        $this->notificationService->sendReviewModerationNotification($review->reveal());
     }
 
     public function testFlagReviewModerationNotification(): void

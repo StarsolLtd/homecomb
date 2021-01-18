@@ -115,12 +115,20 @@ class LocaleFactoryTest extends TestCase
      */
     public function testGetAgencyReviewsSummary2(): void
     {
-        $branch = new Branch();
-        $review = (new Review())->setBranch($branch)->setPublished(true);
+        $review = $this->prophesize(Review::class);
+
+        $review->getAgency()
+            ->shouldBeCalledOnce()
+            ->willReturn(null);
+
+        $review->getId()
+            ->shouldBeCalledOnce()
+            ->willReturn(45);
+
         $locale = $this->prophesize(Locale::class);
 
         $publishedReviewsWithPublishedAgency = (new ArrayCollection());
-        $publishedReviewsWithPublishedAgency->add($review);
+        $publishedReviewsWithPublishedAgency->add($review->reveal());
 
         $locale->getPublishedReviewsWithPublishedAgency()
             ->shouldBeCalledOnce()
