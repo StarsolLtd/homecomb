@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use ReflectionClass;
 
 /**
  * @covers \App\Factory\ReviewFactory
@@ -73,7 +74,6 @@ class ReviewFactoryTest extends TestCase
         $review = (new Review())
             ->setBranch($branch)
             ->setProperty($property)
-            ->setIdForTest(789)
             ->setAuthor('Gina Gee')
             ->setTitle('Test Title')
             ->setContent('I lived here, it was nice.')
@@ -84,6 +84,7 @@ class ReviewFactoryTest extends TestCase
             ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
             ->addComment($comment)
         ;
+        $this->setId($review, 789);
 
         $view = $this->reviewFactory->createViewFromEntity($review);
 
@@ -200,5 +201,14 @@ class ReviewFactoryTest extends TestCase
         $review->getContent()->willReturn(null);
 
         return $review;
+    }
+
+    private function setId(Review $review, $id)
+    {
+        $class = new ReflectionClass($review);
+        $property = $class->getProperty('id');
+        $property->setAccessible(true);
+
+        $property->setValue($review, $id);
     }
 }
