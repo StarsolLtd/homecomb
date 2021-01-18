@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\Review;
 
-class SubmitReviewOutput
+class SubmitOutput
 {
     private bool $success;
 

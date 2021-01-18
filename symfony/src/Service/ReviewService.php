@@ -9,9 +9,9 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\ReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
+use App\Model\Review\SubmitOutput;
 use App\Model\Review\View;
 use App\Model\SubmitReviewInput;
-use App\Model\SubmitReviewOutput;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
@@ -64,7 +64,7 @@ class ReviewService
         SubmitReviewInput $reviewInput,
         ?UserInterface $user,
         ?RequestDetails $requestDetails = null
-    ): SubmitReviewOutput {
+    ): SubmitOutput {
         $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
 
         $agencyName = $reviewInput->getAgencyName();
@@ -99,7 +99,7 @@ class ReviewService
             }
         }
 
-        return new SubmitReviewOutput(true);
+        return new SubmitOutput(true);
     }
 
     public function publishReview(Review $review): void

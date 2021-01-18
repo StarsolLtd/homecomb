@@ -147,13 +147,13 @@ class ReviewServiceTest extends TestCase
         $this->interactionService->record('Review', 45, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
-        $submitReviewOutput = $this->reviewService->submitReview(
+        $submitOutput = $this->reviewService->submitReview(
             $input->reveal(),
             $user->reveal(),
             $requestDetails->reveal()
         );
 
-        $this->assertEquals(true, $submitReviewOutput->isSuccess());
+        $this->assertEquals(true, $submitOutput->isSuccess());
     }
 
     /**
@@ -170,13 +170,13 @@ class ReviewServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willThrow(UnexpectedValueException::class);
 
-        $submitReviewOutput = $this->reviewService->submitReview(
+        $submitOutput = $this->reviewService->submitReview(
             $input->reveal(),
             $user->reveal(),
             $requestDetails->reveal()
         );
 
-        $this->assertEquals(true, $submitReviewOutput->isSuccess());
+        $this->assertEquals(true, $submitOutput->isSuccess());
     }
 
     /**
