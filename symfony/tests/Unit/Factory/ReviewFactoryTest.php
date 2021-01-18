@@ -14,8 +14,8 @@ use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
+use App\Model\Review\SubmitInput;
 use App\Model\Review\View;
-use App\Model\SubmitReviewInput;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -137,7 +137,7 @@ class ReviewFactoryTest extends TestCase
         $branch = $this->prophesize(Branch::class);
         $user = $this->prophesize(User::class);
         $property = $this->prophesize(Property::class);
-        $input = $this->prophesize(SubmitReviewInput::class);
+        $input = $this->prophesize(SubmitInput::class);
 
         $input->getReviewerName()
             ->shouldBeCalledOnce()

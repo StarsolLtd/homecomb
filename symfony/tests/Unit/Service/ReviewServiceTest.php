@@ -13,8 +13,8 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\ReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
+use App\Model\Review\SubmitInput;
 use App\Model\Review\View;
-use App\Model\SubmitReviewInput;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
@@ -229,7 +229,7 @@ class ReviewServiceTest extends TestCase
 
     private function prophesizeSubmitReview(): array
     {
-        $input = $this->prophesize(SubmitReviewInput::class);
+        $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
         $property = $this->prophesize(Property::class);
         $agency = $this->prophesize(Agency::class);

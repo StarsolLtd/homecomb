@@ -4,7 +4,7 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Review;
-use App\Model\SubmitReviewInput;
+use App\Model\Review\SubmitInput;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\ReviewSolicitationRepository;
@@ -58,8 +58,8 @@ class ReviewControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
-        /** @var SubmitReviewInput $input */
-        $input = $this->serializer->deserialize($content, SubmitReviewInput::class, 'json');
+        /** @var SubmitInput $input */
+        $input = $this->serializer->deserialize($content, SubmitInput::class, 'json');
 
         /** @var PropertyRepository $propertyRepository */
         $propertyRepository = static::$container->get(PropertyRepository::class);

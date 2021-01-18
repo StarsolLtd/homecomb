@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\Review;
 
-class SubmitReviewInput
+class SubmitInput
 {
     private string $propertySlug;
     private ?string $code;

@@ -8,8 +8,8 @@ use App\Entity\Review;
 use App\Entity\User;
 use App\Model\Review\Group;
 use App\Model\Review\Stars;
+use App\Model\Review\SubmitInput;
 use App\Model\Review\View;
-use App\Model\SubmitReviewInput;
 
 class ReviewFactory
 {
@@ -22,7 +22,7 @@ class ReviewFactory
     }
 
     public function createEntity(
-        SubmitReviewInput $input,
+        SubmitInput $input,
         Property $property,
         ?Branch $branch,
         ?User $user

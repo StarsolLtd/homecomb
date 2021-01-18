@@ -5,7 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
 use App\Factory\InteractionFactory;
-use App\Model\SubmitReviewInput;
+use App\Model\Review\SubmitInput;
 use App\Repository\ReviewRepository;
 use App\Service\GoogleReCaptchaService;
 use App\Service\ReviewService;
@@ -45,8 +45,8 @@ class ReviewController extends AppController
     public function submitReview(Request $request): JsonResponse
     {
         try {
-            /** @var SubmitReviewInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), SubmitReviewInput::class, 'json');
+            /** @var SubmitInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), SubmitInput::class, 'json');
         } catch (Exception $e) {
             $this->addDeserializationFailedFlashMessage();
 

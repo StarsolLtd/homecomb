@@ -9,9 +9,9 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\ReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
+use App\Model\Review\SubmitInput;
 use App\Model\Review\SubmitOutput;
 use App\Model\Review\View;
-use App\Model\SubmitReviewInput;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\ReviewRepository;
@@ -61,7 +61,7 @@ class ReviewService
     }
 
     public function submitReview(
-        SubmitReviewInput $reviewInput,
+        SubmitInput $reviewInput,
         ?UserInterface $user,
         ?RequestDetails $requestDetails = null
     ): SubmitOutput {
