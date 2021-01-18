@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Locale;
 use App\Entity\Postcode;
 use App\Entity\Review;
+use App\Exception\UnexpectedValueException;
 use App\Factory\ReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
@@ -17,7 +18,6 @@ use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewService
@@ -94,7 +94,7 @@ class ReviewService
                     $requestDetails,
                     $user
                 );
-            } catch (Exception $e) {
+            } catch (UnexpectedValueException $e) {
                 // Shrug shoulders
             }
         }

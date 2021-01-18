@@ -9,6 +9,7 @@ use App\Entity\Postcode;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Exception\UnexpectedValueException;
 use App\Factory\ReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Review\Group;
@@ -135,47 +136,39 @@ class ReviewServiceTest extends TestCase
 
     /**
      * @covers \App\Service\ReviewService::submitReview
+     * Test successful review submission.
      */
     public function testSubmitReview1(): void
     {
-        $input = $this->prophesize(SubmitReviewInput::class);
-        $user = $this->prophesize(User::class);
-        $property = $this->prophesize(Property::class);
-        $agency = $this->prophesize(Agency::class);
-        $branch = $this->prophesize(Branch::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
-        $review = $this->prophesize(Review::class);
 
-        $input->getPropertySlug()->shouldBeCalledOnce()->willReturn('propertyslug');
-        $input->getAgencyName()->shouldBeCalledOnce()->willReturn('Test Agency Name');
-        $input->getAgencyBranch()->shouldBeCalledOnce()->willReturn('Testerton');
-        $input->getCode()->shouldBeCalledOnce()->willReturn('testcode');
-
-        $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
-
-        $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
-
-        $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
-
-        $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
-
-        $this->reviewFactory->createEntity($input, $property, $branch, $user)
-            ->shouldBeCalledOnce()
-            ->willReturn($review)
-        ;
-
-        $this->reviewSolicitationService->complete('testcode', Argument::type(Review::class))->shouldBeCalledOnce();
-
-        $this->assertEntitiesArePersistedAndFlush([$review]);
-
-        $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
-
-        $review->getId()
-            ->shouldBeCalledOnce()
-            ->willReturn(45);
+        list($input, $user) = $this->prophesizeSubmitReview();
 
         $this->interactionService->record('Review', 45, $requestDetails, $user)
             ->shouldBeCalledOnce();
+
+        $submitReviewOutput = $this->reviewService->submitReview(
+            $input->reveal(),
+            $user->reveal(),
+            $requestDetails->reveal()
+        );
+
+        $this->assertEquals(true, $submitReviewOutput->isSuccess());
+    }
+
+    /**
+     * @covers \App\Service\ReviewService::submitReview
+     * Test catching of exception when thrown by InteractionService::record.
+     */
+    public function testSubmitReview2(): void
+    {
+        $requestDetails = $this->prophesize(RequestDetails::class);
+
+        list($input, $user) = $this->prophesizeSubmitReview();
+
+        $this->interactionService->record('Review', 45, $requestDetails, $user)
+            ->shouldBeCalledOnce()
+            ->willThrow(UnexpectedValueException::class);
 
         $submitReviewOutput = $this->reviewService->submitReview(
             $input->reveal(),
@@ -210,7 +203,7 @@ class ReviewServiceTest extends TestCase
     /**
      * @covers \App\Service\ReviewService::getLatestGroup
      */
-    public function testGetLatest(): void
+    public function testGetLatestGroup1(): void
     {
         $reviews = [
             $this->prophesize(Review::class),
@@ -232,5 +225,45 @@ class ReviewServiceTest extends TestCase
         $output = $this->reviewService->getLatestGroup();
 
         $this->assertEquals($group->reveal(), $output);
+    }
+
+    private function prophesizeSubmitReview(): array
+    {
+        $input = $this->prophesize(SubmitReviewInput::class);
+        $user = $this->prophesize(User::class);
+        $property = $this->prophesize(Property::class);
+        $agency = $this->prophesize(Agency::class);
+        $branch = $this->prophesize(Branch::class);
+        $review = $this->prophesize(Review::class);
+
+        $input->getPropertySlug()->shouldBeCalledOnce()->willReturn('propertyslug');
+        $input->getAgencyName()->shouldBeCalledOnce()->willReturn('Test Agency Name');
+        $input->getAgencyBranch()->shouldBeCalledOnce()->willReturn('Testerton');
+        $input->getCode()->shouldBeCalledOnce()->willReturn('testcode');
+
+        $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
+
+        $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
+
+        $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
+
+        $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $this->reviewFactory->createEntity($input, $property, $branch, $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($review)
+        ;
+
+        $this->reviewSolicitationService->complete('testcode', Argument::type(Review::class))->shouldBeCalledOnce();
+
+        $this->assertEntitiesArePersistedAndFlush([$review]);
+
+        $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
+
+        $review->getId()
+            ->shouldBeCalledOnce()
+            ->willReturn(45);
+
+        return [$input, $user];
     }
 }
