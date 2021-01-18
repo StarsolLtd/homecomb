@@ -12,4 +12,11 @@ trait UserEntityFromInterfaceTrait
             ->shouldBeCalledOnce()
             ->willReturn($user);
     }
+
+    private function assertGetUserEntityOrNullFromInterface($user): void
+    {
+        $this->userService->getUserEntityOrNullFromUserInterface($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($user);
+    }
 }
