@@ -3,7 +3,7 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
-use App\Model\PropertySuggestion;
+use App\Model\Property\PropertySuggestion;
 use App\Service\GetAddressService;
 use function json_decode;
 use Prophecy\PhpUnit\ProphecyTrait;
