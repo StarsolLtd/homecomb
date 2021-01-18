@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Comment\ReviewComment;
 use App\Entity\Property;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
@@ -14,6 +15,7 @@ use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\Review\View;
+use App\Model\SubmitReviewInput;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -120,5 +122,59 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals('Latest Reviews', $output->getTitle());
         $this->assertInstanceOf(View::class, $output->getReviews()[0]);
         $this->assertInstanceOf(View::class, $output->getReviews()[1]);
+    }
+
+    /**
+     * @covers \App\Factory\ReviewFactory::createEntity
+     */
+    public function testCreateEntity1(): void
+    {
+        $branch = $this->prophesize(Branch::class);
+        $user = $this->prophesize(User::class);
+        $property = $this->prophesize(Property::class);
+        $input = $this->prophesize(SubmitReviewInput::class);
+
+        $input->getReviewerName()
+            ->shouldBeCalledOnce()
+            ->willReturn('Jo Smith');
+
+        $input->getReviewTitle()
+            ->shouldBeCalledOnce()
+            ->willReturn('Nice tenancy');
+
+        $input->getReviewContent()
+            ->shouldBeCalledOnce()
+            ->willReturn('It was pleasurable living here, except one time the pipes froze');
+
+        $input->getOverallStars()
+            ->shouldBeCalledOnce()
+            ->willReturn(5);
+
+        $input->getAgencyStars()
+            ->shouldBeCalledOnce()
+            ->willReturn(4);
+
+        $input->getLandlordStars()
+            ->shouldBeCalledOnce()
+            ->willReturn(null);
+
+        $input->getPropertyStars()
+            ->shouldBeCalledOnce()
+            ->willReturn(3);
+
+        $entity = $this->reviewFactory->createEntity(
+            $input->reveal(),
+            $property->reveal(),
+            $branch->reveal(),
+            $user->reveal()
+        );
+
+        $this->assertEquals('Jo Smith', $entity->getAuthor());
+        $this->assertEquals('Nice tenancy', $entity->getTitle());
+        $this->assertEquals('It was pleasurable living here, except one time the pipes froze', $entity->getContent());
+        $this->assertEquals(5, $entity->getOverallStars());
+        $this->assertEquals(4, $entity->getAgencyStars());
+        $this->assertNull($entity->getLandlordStars());
+        $this->assertEquals(3, $entity->getPropertyStars());
     }
 }

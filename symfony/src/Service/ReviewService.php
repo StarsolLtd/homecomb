@@ -73,17 +73,7 @@ class ReviewService
         $branch = $branchName ? $this->branchService->findOrCreate($branchName, $agency) : null;
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $review = (new Review())
-            ->setProperty($property)
-            ->setBranch($branch)
-            ->setAuthor($reviewInput->getReviewerName())
-            ->setTitle($reviewInput->getReviewTitle())
-            ->setContent($reviewInput->getReviewContent())
-            ->setOverallStars($reviewInput->getOverallStars())
-            ->setAgencyStars($reviewInput->getAgencyStars())
-            ->setLandlordStars($reviewInput->getLandlordStars())
-            ->setPropertyStars($reviewInput->getPropertyStars())
-            ->setUser($userEntity);
+        $review = $this->reviewFactory->createEntity($reviewInput, $property, $branch, $userEntity);
 
         $this->entityManager->persist($review);
 

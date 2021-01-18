@@ -2,10 +2,14 @@
 
 namespace App\Factory;
 
+use App\Entity\Branch;
+use App\Entity\Property;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Model\Review\Group;
 use App\Model\Review\Stars;
 use App\Model\Review\View;
+use App\Model\SubmitReviewInput;
 
 class ReviewFactory
 {
@@ -15,6 +19,26 @@ class ReviewFactory
         FlatModelFactory $flatModelFactory
     ) {
         $this->flatModelFactory = $flatModelFactory;
+    }
+
+    public function createEntity(
+        SubmitReviewInput $input,
+        Property $property,
+        ?Branch $branch,
+        ?User $user
+    ): Review {
+        return (new Review())
+            ->setProperty($property)
+            ->setBranch($branch)
+            ->setAuthor($input->getReviewerName())
+            ->setTitle($input->getReviewTitle())
+            ->setContent($input->getReviewContent())
+            ->setOverallStars($input->getOverallStars())
+            ->setAgencyStars($input->getAgencyStars())
+            ->setLandlordStars($input->getLandlordStars())
+            ->setPropertyStars($input->getPropertyStars())
+            ->setUser($user)
+        ;
     }
 
     public function createViewFromEntity(Review $entity): View

@@ -138,38 +138,43 @@ class ReviewServiceTest extends TestCase
      */
     public function testSubmitReview1(): void
     {
-        $reviewInput = new SubmitReviewInput(
-            'propertyslug',
-            'testcode',
-            'Jo Smith',
-            'jo.smith@starsol.co.uk',
-            'Test Agency Name',
-            'Testerton',
-            'Nice tenancy',
-            'It was pleasurable living here, except one time the pipes froze',
-            4,
-            4,
-            4,
-            5,
-            null
-        );
-
-        $user = (new User());
-        $property = (new Property());
-        $agency = (new Agency());
-        $branch = (new Branch());
+        $input = $this->prophesize(SubmitReviewInput::class);
+        $user = $this->prophesize(User::class);
+        $property = $this->prophesize(Property::class);
+        $agency = $this->prophesize(Agency::class);
+        $branch = $this->prophesize(Branch::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
+        $review = $this->prophesize(Review::class);
+
+        $input->getPropertySlug()->shouldBeCalledOnce()->willReturn('propertyslug');
+        $input->getAgencyName()->shouldBeCalledOnce()->willReturn('Test Agency Name');
+        $input->getAgencyBranch()->shouldBeCalledOnce()->willReturn('Testerton');
+        $input->getCode()->shouldBeCalledOnce()->willReturn('testcode');
 
         $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
+
         $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
+
         $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
+
         $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
-        $this->entityManager->persist(Argument::type(Review::class))->shouldBeCalledOnce();
+
+        $this->reviewFactory->createEntity($input, $property, $branch, $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($review)
+        ;
+
         $this->reviewSolicitationService->complete('testcode', Argument::type(Review::class))->shouldBeCalledOnce();
-        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $this->assertEntitiesArePersistedAndFlush([$review]);
+
         $this->notificationService->sendReviewModerationNotification(Argument::type(Review::class))->shouldBeCalledOnce();
 
-        $submitReviewOutput = $this->reviewService->submitReview($reviewInput, $user, $requestDetails->reveal());
+        $submitReviewOutput = $this->reviewService->submitReview(
+            $input->reveal(),
+            $user->reveal(),
+            $requestDetails->reveal()
+        );
 
         $this->assertEquals(true, $submitReviewOutput->isSuccess());
     }
