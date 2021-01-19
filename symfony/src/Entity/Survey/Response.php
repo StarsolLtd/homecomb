@@ -3,6 +3,7 @@
 namespace App\Entity\Survey;
 
 use App\Entity\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -36,6 +37,12 @@ class Response
      */
     private ?User $user = null;
 
+    /**
+     * @var Collection<int, Answer>
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question", cascade={"persist"})
+     */
+    private Collection $answers;
+
     public function getId(): int
     {
         return $this->id;
@@ -61,6 +68,25 @@ class Response
     public function setUser(?User $User): self
     {
         $this->user = $User;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Answer>
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            return $this;
+        }
+        $this->answers[] = $answer;
+        $answer->setResponse($this);
 
         return $this;
     }

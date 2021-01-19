@@ -2,6 +2,7 @@
 
 namespace App\Entity\Survey;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -63,6 +64,12 @@ class Question
      * @ORM\Column(type="integer", nullable=false, options={"default": 100})
      */
     private int $sortOrder = 100;
+
+    /**
+     * @var Collection<int, Answer>
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question", cascade={"persist"})
+     */
+    private Collection $answers;
 
     public function __toString(): string
     {
@@ -166,6 +173,25 @@ class Question
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Answer>
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            return $this;
+        }
+        $this->answers[] = $answer;
+        $answer->setQuestion($this);
 
         return $this;
     }
