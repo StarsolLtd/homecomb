@@ -50,6 +50,12 @@ class Survey
      */
     private Collection $questions;
 
+    /**
+     * @var Collection<int, Response>
+     * @ORM\OneToMany(targetEntity="Response", mappedBy="survey", cascade={"persist"})
+     */
+    private Collection $responses;
+
     public function __toString(): string
     {
         return (string) $this->getTitle();
@@ -133,6 +139,25 @@ class Survey
         }
         $this->questions[] = $question;
         $question->setSurvey($this);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Response>
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if ($this->responses->contains($response)) {
+            return $this;
+        }
+        $this->responses[] = $response;
+        $response->setSurvey($this);
 
         return $this;
     }
