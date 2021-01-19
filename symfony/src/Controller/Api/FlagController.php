@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
 use App\Exception\UnexpectedValueException;
+use App\Factory\InteractionFactory;
 use App\Model\Flag\SubmitInput;
 use App\Service\FlagService;
 use App\Service\GoogleReCaptchaService;
@@ -24,10 +25,12 @@ class FlagController extends AppController
     public function __construct(
         GoogleReCaptchaService $googleReCaptchaService,
         FlagService $flagService,
+        InteractionFactory $interactionFactory,
         SerializerInterface $serializer
     ) {
         $this->googleReCaptchaService = $googleReCaptchaService;
         $this->flagService = $flagService;
+        $this->interactionFactory = $interactionFactory;
         $this->serializer = $serializer;
     }
 
@@ -56,7 +59,11 @@ class FlagController extends AppController
         }
 
         try {
-            $output = $this->flagService->submitFlag($input, $this->getUserInterface());
+            $output = $this->flagService->submitFlag(
+                $input,
+                $this->getUserInterface(),
+                $this->getRequestDetails($request)
+            );
         } catch (UnexpectedValueException $e) {
             return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
         } catch (NotFoundException $e) {

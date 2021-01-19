@@ -30,7 +30,7 @@ abstract class Flag
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="flags")
@@ -53,7 +53,7 @@ abstract class Flag
      */
     private ?bool $valid = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

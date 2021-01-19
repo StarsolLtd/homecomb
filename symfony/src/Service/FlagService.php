@@ -2,84 +2,62 @@
 
 namespace App\Service;
 
-use App\Entity\Flag\AgencyFlag;
-use App\Entity\Flag\BranchFlag;
-use App\Entity\Flag\PropertyFlag;
-use App\Entity\Flag\ReviewFlag;
 use App\Exception\UnexpectedValueException;
+use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInput;
 use App\Model\Flag\SubmitOutput;
-use App\Repository\AgencyRepository;
-use App\Repository\BranchRepository;
-use App\Repository\PropertyRepository;
-use App\Repository\ReviewRepository;
+use App\Model\Interaction\RequestDetails;
 use Doctrine\ORM\EntityManagerInterface;
-use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class FlagService
 {
     private EntityManagerInterface $entityManager;
+    private InteractionService $interactionService;
     private NotificationService $notificationService;
     private UserService $userService;
-    private AgencyRepository $agencyRepository;
-    private BranchRepository $branchRepository;
-    private PropertyRepository $propertyRepository;
-    private ReviewRepository $reviewRepository;
+    private FlagFactory $flagFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        InteractionService $interactionService,
         NotificationService $notificationService,
         UserService $userService,
-        AgencyRepository $agencyRepository,
-        BranchRepository $branchRepository,
-        PropertyRepository $propertyRepository,
-        ReviewRepository $reviewRepository
+        FlagFactory $flagFactory
     ) {
         $this->entityManager = $entityManager;
+        $this->interactionService = $interactionService;
         $this->notificationService = $notificationService;
         $this->userService = $userService;
-        $this->agencyRepository = $agencyRepository;
-        $this->branchRepository = $branchRepository;
-        $this->propertyRepository = $propertyRepository;
-        $this->reviewRepository = $reviewRepository;
+        $this->flagFactory = $flagFactory;
     }
 
-    public function submitFlag(SubmitInput $submitInput, ?UserInterface $user): SubmitOutput
-    {
-        $entityName = $submitInput->getEntityName();
-        $entityId = $submitInput->getEntityId();
-
-        switch ($entityName) {
-            case 'Agency':
-                $agency = $this->agencyRepository->findOnePublishedById($entityId);
-                $flag = (new AgencyFlag())->setAgency($agency);
-                break;
-            case 'Branch':
-                $branch = $this->branchRepository->findOnePublishedById($entityId);
-                $flag = (new BranchFlag())->setBranch($branch);
-                break;
-            case 'Property':
-                $property = $this->propertyRepository->findOnePublishedById($entityId);
-                $flag = (new PropertyFlag())->setProperty($property);
-                break;
-            case 'Review':
-                $review = $this->reviewRepository->findOnePublishedById($entityId);
-                $flag = (new ReviewFlag())->setReview($review);
-                break;
-            default:
-                throw new UnexpectedValueException(sprintf('%s is not a valid flag entity name.', $entityName));
-        }
-
+    public function submitFlag(
+        SubmitInput $submitInput,
+        ?UserInterface $user,
+        ?RequestDetails $requestDetails = null
+    ): SubmitOutput {
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $flag->setContent($submitInput->getContent())
-            ->setUser($userEntity);
+        $flag = $this->flagFactory->createEntityFromSubmitInput($submitInput, $userEntity);
 
         $this->entityManager->persist($flag);
         $this->entityManager->flush();
 
         $this->notificationService->sendFlagModerationNotification($flag);
+
+        if (null !== $requestDetails) {
+            try {
+                $this->interactionService->record(
+                    'Flag',
+                    $flag->getId(),
+                    $requestDetails,
+                    $user
+                );
+            } catch (UnexpectedValueException $e) {
+                // Shrug shoulders
+            }
+        }
 
         return new SubmitOutput(true);
     }

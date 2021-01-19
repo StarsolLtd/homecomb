@@ -2,27 +2,21 @@
 
 namespace App\Tests\Unit\Service;
 
-use App\Entity\Agency;
-use App\Entity\Branch;
-use App\Entity\Flag\AgencyFlag;
-use App\Entity\Flag\BranchFlag;
-use App\Entity\Flag\PropertyFlag;
 use App\Entity\Flag\ReviewFlag;
-use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
+use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInput;
-use App\Repository\AgencyRepository;
-use App\Repository\BranchRepository;
-use App\Repository\PropertyRepository;
-use App\Repository\ReviewRepository;
+use App\Model\Interaction\RequestDetails;
 use App\Service\FlagService;
+use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\UserService;
+use App\Tests\Unit\EntityManagerTrait;
+use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -30,36 +24,32 @@ use Prophecy\PhpUnit\ProphecyTrait;
  */
 class FlagServiceTest extends TestCase
 {
+    use EntityManagerTrait;
     use ProphecyTrait;
+    use UserEntityFromInterfaceTrait;
 
     private FlagService $flagService;
 
-    private $entityManagerMock;
-    private $notificationServiceMock;
-    private $userServiceMock;
-    private $agencyRepository;
-    private $branchRepository;
-    private $propertyRepository;
-    private $reviewRepository;
+    private $entityManager;
+    private $interactionService;
+    private $notificationService;
+    private $userService;
+    private $flagFactory;
 
     public function setUp(): void
     {
-        $this->entityManagerMock = $this->prophesize(EntityManagerInterface::class);
-        $this->notificationServiceMock = $this->prophesize(NotificationService::class);
-        $this->userServiceMock = $this->prophesize(UserService::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->interactionService = $this->prophesize(InteractionService::class);
+        $this->notificationService = $this->prophesize(NotificationService::class);
+        $this->userService = $this->prophesize(UserService::class);
+        $this->flagFactory = $this->prophesize(FlagFactory::class);
 
         $this->flagService = new FlagService(
-            $this->entityManagerMock->reveal(),
-            $this->notificationServiceMock->reveal(),
-            $this->userServiceMock->reveal(),
-            $this->agencyRepository->reveal(),
-            $this->branchRepository->reveal(),
-            $this->propertyRepository->reveal(),
-            $this->reviewRepository->reveal(),
+            $this->entityManager->reveal(),
+            $this->interactionService->reveal(),
+            $this->notificationService->reveal(),
+            $this->userService->reveal(),
+            $this->flagFactory->reveal(),
         );
     }
 
@@ -69,105 +59,59 @@ class FlagServiceTest extends TestCase
      */
     public function testSubmitFlag1(): void
     {
-        $input = new SubmitInput('Review', 789, 'This is spam');
-        $review = $this->prophesize(Review::class);
+        $input = $this->prophesize(SubmitInput::class);
+        $user = $this->prophesize(User::class);
+        $flag = $this->prophesize(ReviewFlag::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
 
-        $this->reviewRepository->findOnePublishedById(789)
+        $this->assertGetUserEntityOrNullFromInterface($user);
+
+        $this->flagFactory->createEntityFromSubmitInput($input, $user)
             ->shouldBeCalledOnce()
-            ->willReturn($review);
+            ->willReturn($flag);
 
-        $this->entityManagerMock->persist(Argument::type(ReviewFlag::class))->shouldBeCalledOnce();
-        $this->entityManagerMock->flush()->shouldBeCalledOnce();
+        $this->assertEntitiesArePersistedAndFlush([$flag]);
 
-        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(ReviewFlag::class))->shouldBeCalledOnce();
+        $this->notificationService->sendFlagModerationNotification($flag)->shouldBeCalledOnce();
 
-        $output = $this->flagService->submitFlag($input, null);
+        $flag->getId()->shouldBeCalledOnce()->willReturn(234);
+
+        $this->interactionService->record('Flag', 234, $requestDetails, $user)
+            ->shouldBeCalledOnce();
+
+        $output = $this->flagService->submitFlag($input->reveal(), $user->reveal(), $requestDetails->reveal());
 
         $this->assertTrue($output->isSuccess());
     }
 
     /**
      * @covers \App\Service\FlagService::submitFlag
-     * Test throws exception with invalid entity name
+     * Test catches exception when thrown by InteractionService::record.
      */
     public function testSubmitFlag2(): void
     {
-        $input = new SubmitInput('Chopsticks', 789, 'These are utensils for eating food');
-
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Chopsticks is not a valid flag entity name.');
-
-        $this->flagService->submitFlag($input, null);
-    }
-
-    /**
-     * @covers \App\Service\FlagService::submitFlag
-     * Test success with valid agency data and logged in user
-     */
-    public function testSubmitFlag3(): void
-    {
-        $input = new SubmitInput('Agency', 22, 'Not a real company');
-        $agency = $this->prophesize(Agency::class);
+        $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
+        $flag = $this->prophesize(ReviewFlag::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
 
-        $this->agencyRepository->findOnePublishedById(22)
+        $this->assertGetUserEntityOrNullFromInterface($user);
+
+        $this->flagFactory->createEntityFromSubmitInput($input, $user)
             ->shouldBeCalledOnce()
-            ->willReturn($agency);
+            ->willReturn($flag);
 
-        $this->entityManagerMock->persist(Argument::type(AgencyFlag::class))->shouldBeCalledOnce();
-        $this->entityManagerMock->flush()->shouldBeCalledOnce();
+        $this->assertEntitiesArePersistedAndFlush([$flag]);
 
-        $this->userServiceMock->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
+        $this->notificationService->sendFlagModerationNotification($flag)->shouldBeCalledOnce();
 
-        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(AgencyFlag::class))->shouldBeCalledOnce();
+        $flag->getId()->shouldBeCalledOnce()->willReturn(234);
 
-        $output = $this->flagService->submitFlag($input, $user->reveal());
-
-        $this->assertTrue($output->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\FlagService::submitFlag
-     * Test success with valid branch data.
-     */
-    public function testSubmitFlag4(): void
-    {
-        $input = new SubmitInput('Branch', 999, 'The agency does not have a branch here');
-        $branch = $this->prophesize(Branch::class);
-
-        $this->branchRepository->findOnePublishedById(999)
+        $this->interactionService->record('Flag', 234, $requestDetails, $user)
             ->shouldBeCalledOnce()
-            ->willReturn($branch);
+            ->willThrow(UnexpectedValueException::class);
 
-        $this->entityManagerMock->persist(Argument::type(BranchFlag::class))->shouldBeCalledOnce();
-        $this->entityManagerMock->flush()->shouldBeCalledOnce();
-
-        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(BranchFlag::class))->shouldBeCalledOnce();
-
-        $output = $this->flagService->submitFlag($input, null);
-
-        $this->assertTrue($output->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\FlagService::submitFlag
-     * Test success with valid property data.
-     */
-    public function testSubmitFlag5(): void
-    {
-        $input = new SubmitInput('Property', 2021, 'This property is not real');
-        $property = $this->prophesize(Property::class);
-
-        $this->propertyRepository->findOnePublishedById(2021)
-            ->shouldBeCalledOnce()
-            ->willReturn($property);
-
-        $this->entityManagerMock->persist(Argument::type(PropertyFlag::class))->shouldBeCalledOnce();
-        $this->entityManagerMock->flush()->shouldBeCalledOnce();
-
-        $this->notificationServiceMock->sendFlagModerationNotification(Argument::type(PropertyFlag::class))->shouldBeCalledOnce();
-
-        $output = $this->flagService->submitFlag($input, null);
+        $output = $this->flagService->submitFlag($input->reveal(), $user->reveal(), $requestDetails->reveal());
 
         $this->assertTrue($output->isSuccess());
     }
