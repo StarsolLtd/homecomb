@@ -2,6 +2,7 @@
 
 namespace App\Entity\Survey;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -43,12 +44,18 @@ class Survey
      */
     private bool $published = true;
 
+    /**
+     * @var Collection<int, Question>
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="survey", cascade={"persist"})
+     */
+    private Collection $questions;
+
     public function __toString(): string
     {
         return (string) $this->getTitle();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -97,6 +104,35 @@ class Survey
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getPublishedQuestions(): Collection
+    {
+        return $this->getQuestions()->filter(function (Question $review) {
+            return $review->isPublished();
+        });
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            return $this;
+        }
+        $this->questions[] = $question;
+        $question->setSurvey($this);
 
         return $this;
     }
