@@ -36,12 +36,12 @@ class Question
     private string $type;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=false)
+     * @ORM\Column(type="text", length=65535, nullable=false)
      */
     private string $content;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=true)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private ?string $help;
 

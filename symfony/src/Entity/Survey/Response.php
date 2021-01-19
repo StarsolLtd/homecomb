@@ -32,7 +32,7 @@ class Response
     private Survey $survey;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="responses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="responses")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private ?User $user = null;
