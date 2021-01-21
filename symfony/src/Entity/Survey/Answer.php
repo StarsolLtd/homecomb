@@ -35,6 +35,11 @@ class Answer
      */
     private Response $response;
 
+    /**
+     * @ORM\Column(type="text", length=65535, nullable=true)
+     */
+    private ?string $content;
+
     public function getId(): int
     {
         return $this->id;
@@ -60,6 +65,18 @@ class Answer
     public function setResponse(Response $response): self
     {
         $this->response = $response;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

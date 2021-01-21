@@ -3,8 +3,10 @@
 namespace App\Repository\Survey;
 
 use App\Entity\Survey\Response;
+use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function sprintf;
 
 /**
  * @method Response|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,5 +19,16 @@ class ResponseRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Response::class);
+    }
+
+    public function findOneById(int $id): Response
+    {
+        $response = $this->find($id);
+
+        if (null === $response) {
+            throw new NotFoundException(sprintf('Response %d could be found.', $id));
+        }
+
+        return $response;
     }
 }
