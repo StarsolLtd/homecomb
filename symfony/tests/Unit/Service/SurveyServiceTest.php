@@ -2,20 +2,28 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Entity\Survey\Answer;
+use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
+use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
 use App\Service\InteractionService;
 use App\Service\SurveyService;
+use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\SurveyService
+ */
 class SurveyServiceTest extends TestCase
 {
+    use EntityManagerTrait;
     use ProphecyTrait;
 
     private SurveyService $surveyService;
@@ -46,7 +54,10 @@ class SurveyServiceTest extends TestCase
         );
     }
 
-    public function testGetViewBySlug(): void
+    /**
+     * @covers \App\Service\SurveyService::getViewBySlug
+     */
+    public function testGetViewBySlug1(): void
     {
         $survey = $this->prophesize(Survey::class);
         $view = $this->prophesize(View::class);
@@ -62,5 +73,29 @@ class SurveyServiceTest extends TestCase
         $output = $this->surveyService->getViewBySlug('surveyslug');
 
         $this->assertEquals($view->reveal(), $output);
+    }
+
+    /**
+     * @covers \App\Service\SurveyService::answer
+     */
+    public function testAnswer1(): void
+    {
+        $input = $this->prophesize(SubmitAnswerInput::class);
+        $answer = $this->prophesize(Answer::class);
+        $response = $this->prophesize(Response::class);
+
+        $this->responseRepository->findOneById(44)
+            ->shouldBeCalledOnce()
+            ->willReturn($response);
+
+        $this->answerFactory->createEntityFromSubmitInput($input, $response)
+            ->shouldBeCalledOnce()
+            ->willReturn($answer);
+
+        $this->assertEntitiesArePersistedAndFlush([$answer]);
+
+        $output = $this->surveyService->answer($input->reveal(), 44);
+
+        $this->assertTrue($output->isSuccess());
     }
 }
