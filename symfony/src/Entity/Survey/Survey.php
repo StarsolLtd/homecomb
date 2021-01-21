@@ -2,6 +2,7 @@
 
 namespace App\Entity\Survey;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -55,6 +56,12 @@ class Survey
      * @ORM\OneToMany(targetEntity="Response", mappedBy="survey", cascade={"persist"})
      */
     private Collection $responses;
+
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+        $this->responses = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
