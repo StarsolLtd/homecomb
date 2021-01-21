@@ -8,6 +8,8 @@ use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Entity\Survey\Question;
+use App\Entity\Survey\Survey;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -26,6 +28,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_PROPERTY_SLUG = 'propertyslug';
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
+    public const TEST_SURVEY_SLUG = 'surveyslug';
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -155,6 +158,32 @@ class TestFixtures extends AbstractDataFixtures
 
         $manager->persist($rs);
 
+        $this->loadSurvey($manager);
+
         $manager->flush();
+    }
+
+    private function loadSurvey(ObjectManager $manager): void
+    {
+        $question1 = (new Question())
+            ->setType('free')
+            ->setContent('How does a Snickers make you feel?')
+        ;
+
+        $question2 = (new Question())
+            ->setType('free')
+            ->setContent('Where do you normally buy chocolate bars?')
+        ;
+
+        $survey = (new Survey())
+            ->setSlug(self::TEST_SURVEY_SLUG)
+            ->setTitle('Chocolate bars of the UK')
+            ->setDescription('Your thoughts on the options')
+            ->setPublished(true)
+            ->addQuestion($question1)
+            ->addQuestion($question2)
+        ;
+
+        $manager->persist($survey);
     }
 }
