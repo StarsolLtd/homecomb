@@ -16,12 +16,12 @@ use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\Review\SubmitInput;
 use App\Model\Review\View;
+use App\Tests\Unit\SetIdByReflectionTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use ReflectionClass;
 
 /**
  * @covers \App\Factory\ReviewFactory
@@ -29,6 +29,7 @@ use ReflectionClass;
 class ReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
+    use SetIdByReflectionTrait;
 
     private ReviewFactory $reviewFactory;
 
@@ -84,7 +85,7 @@ class ReviewFactoryTest extends TestCase
             ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
             ->addComment($comment)
         ;
-        $this->setId($review, 789);
+        $this->setIdByReflection($review, 789);
 
         $view = $this->reviewFactory->createViewFromEntity($review);
 
@@ -201,14 +202,5 @@ class ReviewFactoryTest extends TestCase
         $review->getContent()->willReturn(null);
 
         return $review;
-    }
-
-    private function setId(Review $review, $id)
-    {
-        $class = new ReflectionClass($review);
-        $property = $class->getProperty('id');
-        $property->setAccessible(true);
-
-        $property->setValue($review, $id);
     }
 }
