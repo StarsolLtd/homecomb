@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\Survey\Answer;
+use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
@@ -12,6 +13,7 @@ use App\Factory\Survey\SurveyFactory;
 use App\Model\Survey\CreateResponseInput;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
+use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
 use App\Service\InteractionService;
@@ -42,6 +44,7 @@ class SurveyServiceTest extends TestCase
     private $answerFactory;
     private $responseFactory;
     private $surveyFactory;
+    private $questionRepository;
     private $responseRepository;
     private $surveyRepository;
 
@@ -54,6 +57,7 @@ class SurveyServiceTest extends TestCase
         $this->answerFactory = $this->prophesize(AnswerFactory::class);
         $this->responseFactory = $this->prophesize(ResponseFactory::class);
         $this->surveyFactory = $this->prophesize(SurveyFactory::class);
+        $this->questionRepository = $this->prophesize(QuestionRepository::class);
         $this->responseRepository = $this->prophesize(ResponseRepository::class);
         $this->surveyRepository = $this->prophesize(SurveyRepository::class);
 
@@ -65,6 +69,7 @@ class SurveyServiceTest extends TestCase
             $this->answerFactory->reveal(),
             $this->responseFactory->reveal(),
             $this->surveyFactory->reveal(),
+            $this->questionRepository->reveal(),
             $this->responseRepository->reveal(),
             $this->surveyRepository->reveal(),
         );
@@ -127,7 +132,19 @@ class SurveyServiceTest extends TestCase
     {
         $input = $this->prophesize(SubmitAnswerInput::class);
         $answer = $this->prophesize(Answer::class);
+        $question = $this->prophesize(Question::class);
         $response = $this->prophesize(Response::class);
+        $survey = $this->prophesize(Survey::class);
+
+        $input->getQuestionId()->shouldBeCalledOnce()->willReturn(33);
+
+        $this->questionRepository->findOnePublishedById(33)->shouldBeCalledOnce()->willReturn($question);
+
+        $question->getSurvey()->shouldBeCalledOnce()->willReturn($survey);
+
+        $survey->getId()->shouldBeCalledOnce()->willReturn(22);
+
+        $this->sessionService->get('survey_22_response_id')->willReturn(44);
 
         $this->responseRepository->findOneById(44)
             ->shouldBeCalledOnce()
@@ -139,7 +156,7 @@ class SurveyServiceTest extends TestCase
 
         $this->assertEntitiesArePersistedAndFlush([$answer]);
 
-        $output = $this->surveyService->answer($input->reveal(), 44);
+        $output = $this->surveyService->answer($input->reveal());
 
         $this->assertTrue($output->isSuccess());
     }

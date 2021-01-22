@@ -11,6 +11,7 @@ use App\Model\Survey\CreateResponseOutput;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
+use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,7 @@ class SurveyService
     private AnswerFactory $answerFactory;
     private ResponseFactory $responseFactory;
     private SurveyFactory $surveyFactory;
+    private QuestionRepository $questionRepository;
     private ResponseRepository $responseRepository;
     private SurveyRepository $surveyRepository;
 
@@ -36,6 +38,7 @@ class SurveyService
         AnswerFactory $answerFactory,
         ResponseFactory $responseFactory,
         SurveyFactory $surveyFactory,
+        QuestionRepository $questionRepository,
         ResponseRepository $responseRepository,
         SurveyRepository $surveyRepository
     ) {
@@ -46,6 +49,7 @@ class SurveyService
         $this->answerFactory = $answerFactory;
         $this->responseFactory = $responseFactory;
         $this->surveyFactory = $surveyFactory;
+        $this->questionRepository = $questionRepository;
         $this->responseRepository = $responseRepository;
         $this->surveyRepository = $surveyRepository;
     }
@@ -73,9 +77,12 @@ class SurveyService
 
     public function answer(
         SubmitAnswerInput $input,
-        int $responseId,
         ?RequestDetails $requestDetails = null
     ): SubmitAnswerOutput {
+        $question = $this->questionRepository->findOnePublishedById($input->getQuestionId());
+        $surveyId = $question->getSurvey()->getId();
+        $responseId = $this->sessionService->get('survey_'.$surveyId.'_response_id');
+
         $response = $this->responseRepository->findOneById($responseId);
 
         $answer = $this->answerFactory->createEntityFromSubmitInput($input, $response);
