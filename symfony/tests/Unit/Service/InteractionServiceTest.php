@@ -5,11 +5,13 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Flag\Flag;
 use App\Entity\Interaction\Interaction;
 use App\Entity\Review;
+use App\Entity\Survey\Answer;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\Survey\AnswerRepository;
 use App\Service\InteractionService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -31,6 +33,7 @@ class InteractionServiceTest extends TestCase
 
     private InteractionService $interactionService;
 
+    private $answerRepository;
     private $flagRepository;
     private $reviewRepository;
 
@@ -38,12 +41,14 @@ class InteractionServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->userService = $this->prophesize(UserService::class);
+        $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->flagRepository = $this->prophesize(FlagRepository::class);
         $this->reviewRepository = $this->prophesize(ReviewRepository::class);
 
         $this->interactionService = new InteractionService(
             $this->entityManager->reveal(),
             $this->userService->reveal(),
+            $this->answerRepository->reveal(),
             $this->flagRepository->reveal(),
             $this->reviewRepository->reveal(),
         );
@@ -109,9 +114,37 @@ class InteractionServiceTest extends TestCase
 
     /**
      * @covers \App\Service\InteractionService::record
-     * Test throws exception if entity not supported
+     * Test successfully record an AnswerInteraction
      */
     public function testRecord3(): void
+    {
+        $user = new User();
+        $answer = $this->prophesize(Answer::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+        $this->prophesizeRequestDetails($requestDetails);
+
+        $this->answerRepository->findOneById(2020)
+            ->shouldBeCalledOnce()
+            ->willReturn($answer);
+
+        $this->assertGetUserEntityOrNullFromInterface($user);
+
+        $this->entityManager->persist(Argument::type(Interaction::class))->shouldBeCalledOnce();
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $this->interactionService->record(
+            'Answer',
+            2020,
+            $requestDetails->reveal(),
+            $user
+        );
+    }
+
+    /**
+     * @covers \App\Service\InteractionService::record
+     * Test throws exception if entity not supported
+     */
+    public function testRecord4(): void
     {
         $requestDetails = $this->prophesize(RequestDetails::class);
 

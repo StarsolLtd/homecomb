@@ -9,6 +9,7 @@ use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
+use App\Model\Interaction\RequestDetails;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
 use App\Repository\Survey\QuestionRepository;
@@ -101,6 +102,7 @@ class SurveyServiceTest extends TestCase
         $input = $this->prophesize(SubmitAnswerInput::class);
         $answer = $this->prophesize(Answer::class);
         $question = $this->prophesize(Question::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
         $response = $this->prophesize(Response::class);
         $survey = $this->prophesize(Survey::class);
         $user = $this->prophesize(User::class);
@@ -125,7 +127,11 @@ class SurveyServiceTest extends TestCase
 
         $this->assertEntitiesArePersistedAndFlush([$answer]);
 
-        $output = $this->surveyService->answer($input->reveal(), $user->reveal());
+        $answer->getId()->shouldBeCalledOnce()->willReturn(234);
+
+        $this->interactionService->record('Answer', 234, $requestDetails, $user)->shouldBeCalledOnce();
+
+        $output = $this->surveyService->answer($input->reveal(), $user->reveal(), $requestDetails->reveal());
 
         $this->assertTrue($output->isSuccess());
     }

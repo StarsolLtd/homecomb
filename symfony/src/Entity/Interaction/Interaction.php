@@ -11,6 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="entity_name", type="string")
  * @ORM\DiscriminatorMap({
+ *     "Answer" = "AnswerInteraction",
  *     "Flag" = "FlagInteraction",
  *     "Review" = "ReviewInteraction"
  * })
