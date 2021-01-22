@@ -40,6 +40,11 @@ class Answer
      */
     private ?string $content;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $rating;
+
     public function getId(): int
     {
         return $this->id;
@@ -77,6 +82,18 @@ class Answer
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

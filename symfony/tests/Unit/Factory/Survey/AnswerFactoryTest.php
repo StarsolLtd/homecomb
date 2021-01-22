@@ -43,7 +43,8 @@ class AnswerFactoryTest extends TestCase
 
         $input = new SubmitAnswerInput(
             55,
-            'It is yummy'
+            'It is yummy',
+            3
         );
 
         $response = $this->prophesize(Response::class);
@@ -53,5 +54,6 @@ class AnswerFactoryTest extends TestCase
         $this->assertEquals($question->reveal(), $entity->getQuestion());
         $this->assertEquals($response->reveal(), $entity->getResponse());
         $this->assertEquals('It is yummy', $entity->getContent());
+        $this->assertEquals(3, $entity->getRating());
     }
 }

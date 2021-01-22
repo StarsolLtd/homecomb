@@ -25,7 +25,7 @@ class SurveyControllerTest extends WebTestCase
     }
 
     /**
-     * Test answering returns HTTP_CREATED for valid request.
+     * Test answering returns HTTP_CREATED for valid request with content.
      */
     public function testAnswer1(): void
     {
@@ -42,9 +42,26 @@ class SurveyControllerTest extends WebTestCase
     }
 
     /**
-     * Test answer returns HTTP_NOT_FOUND when question does not exist.
+     * Test answering returns HTTP_CREATED for valid request with rating.
      */
     public function testAnswer2(): void
+    {
+        $client = static::createClient();
+        $questionId = $this->getAnyQuestionId();
+
+        $this->clientAnswerRequest($client, '{"questionId":'.$questionId.',"rating":4}');
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertTrue($content['success']);
+    }
+
+    /**
+     * Test answer returns HTTP_NOT_FOUND when question does not exist.
+     */
+    public function testAnswer3(): void
     {
         $client = static::createClient();
 
@@ -56,7 +73,7 @@ class SurveyControllerTest extends WebTestCase
     /**
      * Test answer returns HTTP_BAD_REQUEST when payload is malformed.
      */
-    public function testAnswer3(): void
+    public function testAnswer4(): void
     {
         $client = static::createClient();
 

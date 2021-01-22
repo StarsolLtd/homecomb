@@ -25,6 +25,7 @@ class AnswerFactory
             ->setQuestion($question)
             ->setResponse($response)
             ->setContent($input->getContent())
+            ->setRating($input->getRating())
         ;
     }
 }
