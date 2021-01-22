@@ -9,6 +9,8 @@ use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Entity\Survey\Question;
+use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Service\ReviewService;
 use App\Util\AgencyHelper;
@@ -280,6 +282,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             }
         }
 
+        $this->loadSurveys($manager);
+
         $manager->flush();
 
         return $branches;
@@ -339,6 +343,31 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
 
         $manager->persist($rs);
         $manager->flush();
+    }
+
+    private function loadSurveys(ObjectManager $manager): void
+    {
+        $question1 = (new Question())
+            ->setType('free')
+            ->setContent('How does a Snickers make you feel?')
+            ->setHelp('Maybe less hungry.')
+        ;
+
+        $question2 = (new Question())
+            ->setType('free')
+            ->setContent('Where do you normally buy chocolate bars?')
+        ;
+
+        $survey = (new Survey())
+            ->setSlug('survey')
+            ->setTitle('Chocolate bars of the UK')
+            ->setDescription('Your thoughts on the options')
+            ->setPublished(true)
+            ->addQuestion($question1)
+            ->addQuestion($question2)
+        ;
+
+        $manager->persist($survey);
     }
 
     private function getDemoImageFixturesPath(): string

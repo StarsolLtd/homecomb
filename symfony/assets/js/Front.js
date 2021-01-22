@@ -14,6 +14,7 @@ import LocaleView from "./pages/LocaleView";
 import PropertyView from "./pages/PropertyView";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Register from "./pages/Register";
+import Survey from "./pages/Survey";
 import TenancyReview from "./pages/TenancyReview";
 import HowItWorks from "./content/HowItWorks";
 import FooterLarge from "./layout/FooterLarge";
@@ -59,6 +60,8 @@ class Front extends React.Component {
                         <Route path="/property/:slug" render={(props) => <View content={PropertyView} {...props} />}/>
                         <Route path="/rs/:code" render={(props) => <View content={CreateReview} {...props} />}/>
                         <Route path="/review-your-tenancy/:code" render={(props) => <View content={CreateReview} {...props} />}/>
+                        <Route path="/s/:slug" render={(props) => <View content={Survey} {...props} />}/>
+
                     </Switch>
                 </div>
 
