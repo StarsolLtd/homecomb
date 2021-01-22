@@ -31,4 +31,16 @@ class AnswerRepository extends ServiceEntityRepository
 
         return $answer;
     }
+
+    public function findLastPublished(): ?Answer
+    {
+        return $this->findOneBy(
+            [
+                'published' => true,
+            ],
+            [
+                'id' => 'DESC',
+            ]
+        );
+    }
 }

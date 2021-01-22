@@ -3,7 +3,9 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
+use App\Repository\Survey\QuestionRepository;
 use function json_decode;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,5 +22,66 @@ class SurveyControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(TestFixtures::TEST_SURVEY_SLUG, $content['slug']);
+    }
+
+    /**
+     * Test answering returns HTTP_CREATED for valid request.
+     */
+    public function testAnswer1(): void
+    {
+        $client = static::createClient();
+        $questionId = $this->getAnyQuestionId();
+
+        $this->clientAnswerRequest($client, '{"questionId":'.$questionId.',"content":"I like the taste"}');
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertTrue($content['success']);
+    }
+
+    /**
+     * Test answer returns HTTP_NOT_FOUND when question does not exist.
+     */
+    public function testAnswer2(): void
+    {
+        $client = static::createClient();
+
+        $this->clientAnswerRequest($client, '{"questionId":99999999999,"content":"I like the taste"}');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Test answer returns HTTP_BAD_REQUEST when payload is malformed.
+     */
+    public function testAnswer3(): void
+    {
+        $client = static::createClient();
+
+        $this->clientAnswerRequest($client, '{MALFORMED//}');
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    private function clientAnswerRequest(KernelBrowser $client, string $content): void
+    {
+        $client->request(
+            'POST',
+            '/api/s/answer',
+            [],
+            [],
+            [],
+            $content
+        );
+    }
+
+    private function getAnyQuestionId(): int
+    {
+        /** @var QuestionRepository $questionRepository */
+        $questionRepository = static::$container->get(QuestionRepository::class);
+
+        return $questionRepository->findLastPublished()->getId();
     }
 }

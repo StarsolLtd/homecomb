@@ -36,4 +36,16 @@ class QuestionRepository extends ServiceEntityRepository
 
         return $question;
     }
+
+    public function findLastPublished(): ?Question
+    {
+        return $this->findOneBy(
+            [
+                'published' => true,
+            ],
+            [
+                'id' => 'DESC',
+            ]
+        );
+    }
 }
