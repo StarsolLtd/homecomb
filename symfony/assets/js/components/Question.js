@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {AvFeedback, AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
-import {Button, FormText, Label} from "reactstrap";
+import {Button, FormText, Label, Progress} from "reactstrap";
 import Rating from "react-rating";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,6 +47,13 @@ class Question extends React.Component {
                     <p>
                         Question {this.props.sortOrder} of {this.props.totalQuestions}
                     </p>
+                    <Progress
+                        min={1}
+                        max={this.props.totalQuestions}
+                        value={this.props.sortOrder}
+                        color="primary"
+                    />
+                    <hr />
                     <Label for="content"><h2>{this.props.content}</h2></Label>
                     <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
                         {this.props.type === 'free' &&
