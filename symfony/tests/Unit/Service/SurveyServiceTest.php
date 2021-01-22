@@ -6,11 +6,8 @@ use App\Entity\Survey\Answer;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
-use App\Entity\User;
 use App\Factory\Survey\AnswerFactory;
-use App\Factory\Survey\ResponseFactory;
 use App\Factory\Survey\SurveyFactory;
-use App\Model\Survey\CreateResponseInput;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
 use App\Repository\Survey\QuestionRepository;
@@ -37,12 +34,9 @@ class SurveyServiceTest extends TestCase
 
     private SurveyService $surveyService;
 
-    private $entityManager;
     private $interactionService;
     private $sessionService;
-    private $userService;
     private $answerFactory;
-    private $responseFactory;
     private $surveyFactory;
     private $questionRepository;
     private $responseRepository;
@@ -55,7 +49,6 @@ class SurveyServiceTest extends TestCase
         $this->sessionService = $this->prophesize(SessionService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->answerFactory = $this->prophesize(AnswerFactory::class);
-        $this->responseFactory = $this->prophesize(ResponseFactory::class);
         $this->surveyFactory = $this->prophesize(SurveyFactory::class);
         $this->questionRepository = $this->prophesize(QuestionRepository::class);
         $this->responseRepository = $this->prophesize(ResponseRepository::class);
@@ -67,7 +60,6 @@ class SurveyServiceTest extends TestCase
             $this->sessionService->reveal(),
             $this->userService->reveal(),
             $this->answerFactory->reveal(),
-            $this->responseFactory->reveal(),
             $this->surveyFactory->reveal(),
             $this->questionRepository->reveal(),
             $this->responseRepository->reveal(),
@@ -94,35 +86,6 @@ class SurveyServiceTest extends TestCase
         $output = $this->surveyService->getViewBySlug('surveyslug');
 
         $this->assertEquals($view->reveal(), $output);
-    }
-
-    /**
-     * @covers \App\Service\SurveyService::createResponse
-     */
-    public function testCreateResponse1(): void
-    {
-        $input = $this->prophesize(CreateResponseInput::class);
-        $response = $this->prophesize(Response::class);
-        $survey = $this->prophesize(Survey::class);
-        $user = $this->prophesize(User::class);
-
-        $this->assertGetUserEntityOrNullFromInterface($user);
-
-        $this->responseFactory->createEntityFromCreateInput($input, $user)->shouldBeCalledOnce()->willReturn($response);
-
-        $this->assertEntitiesArePersistedAndFlush([$response]);
-
-        $response->getSurvey()->shouldBeCalledOnce()->willReturn($survey);
-
-        $survey->getId()->shouldBeCalledOnce()->willReturn(55);
-
-        $response->getId()->shouldBeCalledOnce()->willReturn(77);
-
-        $this->sessionService->set('survey_55_response_id', 77)->shouldBeCalledOnce();
-
-        $output = $this->surveyService->createResponse($input->reveal(), $user->reveal());
-
-        $this->assertTrue($output->isSuccess());
     }
 
     /**
