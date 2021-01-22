@@ -12,11 +12,13 @@ use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SurveyService
 {
     private EntityManagerInterface $entityManager;
     private InteractionService $interactionService;
+    private ResponseService $responseService;
     private SessionService $sessionService;
     private UserService $userService;
     private AnswerFactory $answerFactory;
@@ -28,6 +30,7 @@ class SurveyService
     public function __construct(
         EntityManagerInterface $entityManager,
         InteractionService $interactionService,
+        ResponseService $responseService,
         SessionService $sessionService,
         UserService $userService,
         AnswerFactory $answerFactory,
@@ -38,6 +41,7 @@ class SurveyService
     ) {
         $this->entityManager = $entityManager;
         $this->interactionService = $interactionService;
+        $this->responseService = $responseService;
         $this->sessionService = $sessionService;
         $this->userService = $userService;
         $this->answerFactory = $answerFactory;
@@ -56,13 +60,22 @@ class SurveyService
 
     public function answer(
         SubmitAnswerInput $input,
+        ?UserInterface $user,
         ?RequestDetails $requestDetails = null
     ): SubmitAnswerOutput {
         $question = $this->questionRepository->findOnePublishedById($input->getQuestionId());
-        $surveyId = $question->getSurvey()->getId();
-        $responseId = $this->sessionService->get('survey_'.$surveyId.'_response_id');
+        $survey = $question->getSurvey();
 
-        $response = $this->responseRepository->findOneById($responseId);
+        $key = 'survey_'.$survey->getId().'_response_id';
+
+        $responseId = $this->sessionService->get($key);
+
+        if (null !== $responseId) {
+            $response = $this->responseRepository->findOneById($responseId);
+        } else {
+            $response = $this->responseService->create($survey, $user);
+            $this->sessionService->set($key, $response->getId());
+        }
 
         $answer = $this->answerFactory->createEntityFromSubmitInput($input, $response);
 

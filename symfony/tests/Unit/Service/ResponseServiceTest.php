@@ -6,7 +6,6 @@ use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Factory\Survey\ResponseFactory;
-use App\Model\Survey\CreateResponseInput;
 use App\Service\ResponseService;
 use App\Service\SessionService;
 use App\Service\UserService;
@@ -50,27 +49,18 @@ class ResponseServiceTest extends TestCase
      */
     public function testCreate1(): void
     {
-        $input = $this->prophesize(CreateResponseInput::class);
         $response = $this->prophesize(Response::class);
         $survey = $this->prophesize(Survey::class);
         $user = $this->prophesize(User::class);
 
         $this->assertGetUserEntityOrNullFromInterface($user);
 
-        $this->responseFactory->createEntityFromCreateInput($input, $user)->shouldBeCalledOnce()->willReturn($response);
+        $this->responseFactory->createEntity($survey, $user)->shouldBeCalledOnce()->willReturn($response);
 
         $this->assertEntitiesArePersistedAndFlush([$response]);
 
-        $response->getSurvey()->shouldBeCalledOnce()->willReturn($survey);
+        $output = $this->responseService->create($survey->reveal(), $user->reveal());
 
-        $survey->getId()->shouldBeCalledOnce()->willReturn(55);
-
-        $response->getId()->shouldBeCalledOnce()->willReturn(77);
-
-        $this->sessionService->set('survey_55_response_id', 77)->shouldBeCalledOnce();
-
-        $output = $this->responseService->create($input->reveal(), $user->reveal());
-
-        $this->assertTrue($output->isSuccess());
+        $this->assertEquals($response->reveal(), $output);
     }
 }

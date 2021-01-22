@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Survey\Response;
+use App\Entity\Survey\Survey;
 use App\Factory\Survey\ResponseFactory;
-use App\Model\Survey\CreateResponseInput;
-use App\Model\Survey\CreateResponseOutput;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -27,17 +27,15 @@ class ResponseService
         $this->responseFactory = $responseFactory;
     }
 
-    public function create(CreateResponseInput $input, ?UserInterface $user): CreateResponseOutput
+    public function create(Survey $survey, ?UserInterface $user): Response
     {
         $user = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $response = $this->responseFactory->createEntityFromCreateInput($input, $user);
+        $response = $this->responseFactory->createEntity($survey, $user);
 
         $this->entityManager->persist($response);
         $this->entityManager->flush();
 
-        $this->sessionService->set('survey_'.$response->getSurvey()->getId().'_response_id', $response->getId());
-
-        return new CreateResponseOutput(true);
+        return $response;
     }
 }
