@@ -18,3 +18,27 @@
     @extend .btn-secondary;
     @extend .btn-sm;
 }
+
+.question h2 {
+    font-size: 175%;
+}
+
+.rating-icon {
+    font-size: 200%;
+}
+
+.scale-5 {
+    @extend .mb-5;
+}
+
+.scale-5 .meaning {
+    font-size: 125%;
+}
+
+.scale-5 .low-meaning {
+    @extend .pr-3;
+}
+
+.scale-5 .high-meaning {
+    @extend .pl-3;
+}

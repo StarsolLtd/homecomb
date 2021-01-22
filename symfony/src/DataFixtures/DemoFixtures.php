@@ -360,6 +360,15 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setSortOrder(2)
         ;
 
+        $question3 = (new Question())
+            ->setType('scale5')
+            ->setContent('How likely are you share a Twix with someone else?')
+            ->setHelp('There are two individual bars in a Twix')
+            ->setHighMeaning('Very likely')
+            ->setLowMeaning('Very unlikely')
+            ->setSortOrder(3)
+        ;
+
         $survey = (new Survey())
             ->setSlug('survey')
             ->setTitle('Chocolate bars of the UK')
@@ -367,6 +376,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true)
             ->addQuestion($question1)
             ->addQuestion($question2)
+            ->addQuestion($question3)
         ;
 
         $manager->persist($survey);

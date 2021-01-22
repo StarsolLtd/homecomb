@@ -1,6 +1,9 @@
 import React, {Fragment} from 'react';
 import {AvFeedback, AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 import {Button, FormText, Label} from "reactstrap";
+import Rating from "react-rating";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/question.scss';
 
@@ -11,10 +14,12 @@ class Question extends React.Component {
 
         this.state = {
             content: '',
+            rating: null,
             isFormSubmitting: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleRatingChange = this.handleRatingChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.back = this.back.bind(this);
         this.forward = this.forward.bind(this);
@@ -30,39 +35,65 @@ class Question extends React.Component {
         });
     }
 
+    handleRatingChange(value) {
+        this.setState({rating: value});
+    }
+
     render() {
         return (
             <Fragment>
                 {this.props.visible &&
-                    <div className="question" id={"question" + this.props.sortOrder}>
-                        <p>
-                            Question {this.props.sortOrder} of {this.props.totalQuestions}
-                        </p>
-                        <Label for="content"><h2>{this.props.content}</h2></Label>
-                        <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-                            <AvGroup>
-                                <AvInput
-                                    type="textarea"
-                                    name="content"
-                                    value={this.state.content}
-                                    placeholder="Enter your answer"
-                                    required
-                                    onChange={this.handleChange}
-                                />
-                                <AvFeedback>Please enter your answer.</AvFeedback>
-                                <FormText>
-                                    {this.props.help}
-                                </FormText>
-                            </AvGroup>
-                            <Button className="question-form-submit mb-3" color="primary" size="lg">
-                                Submit {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}
-                            </Button>
-                        </AvForm>
-                        {this.props.sortOrder > 1 &&
-                            <a className="question-back" onClick={this.back}>Back</a>
+                <div className="question" id={"question" + this.props.sortOrder}>
+                    <p>
+                        Question {this.props.sortOrder} of {this.props.totalQuestions}
+                    </p>
+                    <Label for="content"><h2>{this.props.content}</h2></Label>
+                    <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                        {this.props.type === 'free' &&
+                        <AvGroup>
+                            <AvInput
+                                type="textarea"
+                                name="content"
+                                value={this.state.content}
+                                placeholder="Enter your answer"
+                                required
+                                onChange={this.handleChange}
+                            />
+                            <AvFeedback>Please enter your answer.</AvFeedback>
+                            <FormText>
+                                {this.props.help}
+                            </FormText>
+                        </AvGroup>
                         }
-                        <a className="question-skip" onClick={this.forward}>Skip {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}</a>
-                    </div>
+                        {this.props.type === 'scale5' &&
+                        <div className="scale-5">
+                            <span className="meaning low-meaning">{this.props.lowMeaning}</span>
+                            <Rating
+                                onChange={this.handleRatingChange}
+                                initialRating={this.state.rating}
+                                emptySymbol={
+                                    <span className="text-rating-unchecked rating-icon">
+                                        <FontAwesomeIcon icon={faStar} />
+                                    </span>
+                                }
+                                fullSymbol={
+                                    <span className="text-rating rating-icon">
+                                        <FontAwesomeIcon icon={faStar} />
+                                    </span>
+                                }
+                            />
+                            <span className="meaning high-meaning">{this.props.highMeaning}</span>
+                        </div>
+                        }
+                        <Button className="question-form-submit mb-3" color="primary" size="lg">
+                            Submit {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}
+                        </Button>
+                    </AvForm>
+                    {this.props.sortOrder > 1 &&
+                    <a className="question-back" onClick={this.back}>Back</a>
+                    }
+                    <a className="question-skip" onClick={this.forward}>Skip {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}</a>
+                </div>
                 }
             </Fragment>
         );
@@ -72,7 +103,8 @@ class Question extends React.Component {
         this.setState({isFormSubmitting: true});
         let payload = {
             questionId: this.props.questionId,
-            content: this.state.content
+            content: this.state.content,
+            rating: this.state.rating
         };
 
         fetch('/api/s/answer', {
