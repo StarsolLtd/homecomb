@@ -36,7 +36,7 @@ class Question extends React.Component {
                 {this.props.visible &&
                     <div className="question" id={"question" + this.props.sortOrder}>
                         <p>
-                            Question {this.props.sortOrder}
+                            Question {this.props.sortOrder} of {this.props.totalQuestions}
                         </p>
                         <Label for="content"><h2>{this.props.content}</h2></Label>
                         <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
@@ -55,13 +55,13 @@ class Question extends React.Component {
                                 </FormText>
                             </AvGroup>
                             <Button className="question-form-submit mb-3" color="primary" size="lg">
-                                Submit
+                                Submit {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}
                             </Button>
                         </AvForm>
                         {this.props.sortOrder > 1 &&
-                            <a className="btn btn-secondary question-form-back mr-3" onClick={this.back}>Back</a>
+                            <a className="question-back" onClick={this.back}>Back</a>
                         }
-                        <a className="btn btn-secondary question-form-skip" onClick={this.forward}>Skip</a>
+                        <a className="question-skip" onClick={this.forward}>Skip {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}</a>
                     </div>
                 }
             </Fragment>

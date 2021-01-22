@@ -5,3 +5,16 @@
 .question {
     @extend .mb-5;
 }
+
+.question-back {
+    @extend .btn;
+    @extend .btn-secondary;
+    @extend .btn-sm;
+    @extend .mr-3;
+}
+
+.question-skip {
+    @extend .btn;
+    @extend .btn-secondary;
+    @extend .btn-sm;
+}

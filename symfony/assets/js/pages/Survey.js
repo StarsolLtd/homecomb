@@ -3,6 +3,7 @@ import {Col, Container, Row} from 'reactstrap';
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import Question from "../components/Question";
+import SurveyCompletedThankYou from "../content/SurveyCompletedThankYou";
 
 class Survey extends React.Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class Survey extends React.Component {
                         </Row>
                         <div className="bg-white rounded shadow-sm p-4 mb-4">
                             <Row>
-                                <Col xs="12" md="8">
+                                <Col md="12">
                                     {this.state.questions.map(
                                         ({ id, type, content, help, highMeaning, lowMeaning, sortOrder }) => (
                                             <Question
@@ -53,13 +54,16 @@ class Survey extends React.Component {
                                                 highMeaning={highMeaning}
                                                 lowMeaning={lowMeaning}
                                                 sortOrder={sortOrder}
+                                                totalQuestions={this.state.questions.length}
                                                 visible={sortOrder === this.state.currentQuestion}
                                                 back={this.back}
                                                 forward={this.forward}
                                             />
                                         )
                                     )}
-
+                                    {this.state.currentQuestion > this.state.questions.length &&
+                                        <SurveyCompletedThankYou />
+                                    }
                                 </Col>
                             </Row>
                         </div>
