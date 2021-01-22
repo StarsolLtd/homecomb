@@ -5,15 +5,21 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Survey\Answer;
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
+use App\Entity\User;
 use App\Factory\Survey\AnswerFactory;
+use App\Factory\Survey\ResponseFactory;
 use App\Factory\Survey\SurveyFactory;
+use App\Model\Survey\CreateResponseInput;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
 use App\Service\InteractionService;
+use App\Service\SessionService;
 use App\Service\SurveyService;
+use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
+use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -25,12 +31,16 @@ class SurveyServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;
+    use UserEntityFromInterfaceTrait;
 
     private SurveyService $surveyService;
 
     private $entityManager;
     private $interactionService;
+    private $sessionService;
+    private $userService;
     private $answerFactory;
+    private $responseFactory;
     private $surveyFactory;
     private $responseRepository;
     private $surveyRepository;
@@ -39,7 +49,10 @@ class SurveyServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
+        $this->sessionService = $this->prophesize(SessionService::class);
+        $this->userService = $this->prophesize(UserService::class);
         $this->answerFactory = $this->prophesize(AnswerFactory::class);
+        $this->responseFactory = $this->prophesize(ResponseFactory::class);
         $this->surveyFactory = $this->prophesize(SurveyFactory::class);
         $this->responseRepository = $this->prophesize(ResponseRepository::class);
         $this->surveyRepository = $this->prophesize(SurveyRepository::class);
@@ -47,7 +60,10 @@ class SurveyServiceTest extends TestCase
         $this->surveyService = new SurveyService(
             $this->entityManager->reveal(),
             $this->interactionService->reveal(),
+            $this->sessionService->reveal(),
+            $this->userService->reveal(),
             $this->answerFactory->reveal(),
+            $this->responseFactory->reveal(),
             $this->surveyFactory->reveal(),
             $this->responseRepository->reveal(),
             $this->surveyRepository->reveal(),
@@ -73,6 +89,35 @@ class SurveyServiceTest extends TestCase
         $output = $this->surveyService->getViewBySlug('surveyslug');
 
         $this->assertEquals($view->reveal(), $output);
+    }
+
+    /**
+     * @covers \App\Service\SurveyService::createResponse
+     */
+    public function testCreateResponse1(): void
+    {
+        $input = $this->prophesize(CreateResponseInput::class);
+        $response = $this->prophesize(Response::class);
+        $survey = $this->prophesize(Survey::class);
+        $user = $this->prophesize(User::class);
+
+        $this->assertGetUserEntityOrNullFromInterface($user);
+
+        $this->responseFactory->createEntityFromCreateInput($input, $user)->shouldBeCalledOnce()->willReturn($response);
+
+        $this->assertEntitiesArePersistedAndFlush([$response]);
+
+        $response->getSurvey()->shouldBeCalledOnce()->willReturn($survey);
+
+        $survey->getId()->shouldBeCalledOnce()->willReturn(55);
+
+        $response->getId()->shouldBeCalledOnce()->willReturn(77);
+
+        $this->sessionService->set('survey_55_response_id', 77)->shouldBeCalledOnce();
+
+        $output = $this->surveyService->createResponse($input->reveal(), $user->reveal());
+
+        $this->assertTrue($output->isSuccess());
     }
 
     /**
