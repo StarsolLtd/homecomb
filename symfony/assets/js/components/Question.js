@@ -49,7 +49,7 @@ class Question extends React.Component {
                     </p>
                     <Progress
                         min={1}
-                        max={this.props.totalQuestions}
+                        max={this.props.totalQuestions + 1}
                         value={this.props.sortOrder}
                         color="primary"
                     />

@@ -1,5 +1,5 @@
-import React from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import React, {Fragment} from 'react';
+import {Col, Container, Progress, Row} from 'reactstrap';
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import Question from "../components/Question";
@@ -62,7 +62,19 @@ class Survey extends React.Component {
                                         )
                                     )}
                                     {this.state.currentQuestion > this.state.questions.length &&
-                                        <SurveyCompletedThankYou />
+                                        <Fragment>
+                                            <p>
+                                                All questions answered
+                                            </p>
+                                            <Progress
+                                                min={1}
+                                                max={this.state.questions.length + 1}
+                                                value={this.state.questions.length + 1}
+                                                color="primary"
+                                            />
+                                            <hr />
+                                            <SurveyCompletedThankYou />
+                                        </Fragment>
                                     }
                                 </Col>
                             </Row>
