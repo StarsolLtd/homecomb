@@ -10,10 +10,13 @@ class Survey extends React.Component {
         this.state = {
             title: '',
             description: '',
+            currentQuestion: 1,
             loaded: false,
         };
 
         this.loadData = this.loadData.bind(this);
+        this.back = this.back.bind(this);
+        this.forward = this.forward.bind(this);
     }
 
     render() {
@@ -50,8 +53,10 @@ class Survey extends React.Component {
                                                 highMeaning={highMeaning}
                                                 lowMeaning={lowMeaning}
                                                 sortOrder={sortOrder}
-                                            >
-                                            </Question>
+                                                visible={sortOrder === this.state.currentQuestion}
+                                                back={this.back}
+                                                forward={this.forward}
+                                            />
                                         )
                                     )}
 
@@ -73,6 +78,18 @@ class Survey extends React.Component {
         });
 
         document.title = this.state.title + ' | ' + Constants.SITE_NAME;
+    }
+
+    back(number) {
+        this.setState({
+            currentQuestion: number - 1,
+        });
+    }
+
+    forward(number) {
+        this.setState({
+            currentQuestion: number + 1,
+        });
     }
 }
 

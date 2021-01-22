@@ -351,11 +351,13 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setType('free')
             ->setContent('How does a Snickers make you feel?')
             ->setHelp('Maybe less hungry.')
+            ->setSortOrder(1)
         ;
 
         $question2 = (new Question())
             ->setType('free')
             ->setContent('Where do you normally buy chocolate bars?')
+            ->setSortOrder(2)
         ;
 
         $survey = (new Survey())

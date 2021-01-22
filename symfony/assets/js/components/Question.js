@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {AvFeedback, AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 import {Button, FormText, Label} from "reactstrap";
 
@@ -16,6 +16,8 @@ class Question extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
+        this.back = this.back.bind(this);
+        this.forward = this.forward.bind(this);
     }
 
     handleChange(event) {
@@ -30,28 +32,39 @@ class Question extends React.Component {
 
     render() {
         return (
-            <div className="question">
-                <Label for="content">{this.props.content}</Label>
-                <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-                    <AvGroup>
-                        <AvInput
-                            type="textarea"
-                            name="content"
-                            value={this.state.content}
-                            placeholder="Enter your answer"
-                            required
-                            onChange={this.handleChange}
-                        />
-                        <AvFeedback>Please enter your answer.</AvFeedback>
-                        <FormText>
-                            {this.props.help}
-                        </FormText>
-                    </AvGroup>
-                    <Button className="question-form" color="primary">
-                        Submit
-                    </Button>
-                </AvForm>
-            </div>
+            <Fragment>
+                {this.props.visible &&
+                    <div className="question" id={"question" + this.props.sortOrder}>
+                        <p>
+                            Question {this.props.sortOrder}
+                        </p>
+                        <Label for="content"><h2>{this.props.content}</h2></Label>
+                        <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
+                            <AvGroup>
+                                <AvInput
+                                    type="textarea"
+                                    name="content"
+                                    value={this.state.content}
+                                    placeholder="Enter your answer"
+                                    required
+                                    onChange={this.handleChange}
+                                />
+                                <AvFeedback>Please enter your answer.</AvFeedback>
+                                <FormText>
+                                    {this.props.help}
+                                </FormText>
+                            </AvGroup>
+                            <Button className="question-form-submit mb-3" color="primary" size="lg">
+                                Submit
+                            </Button>
+                        </AvForm>
+                        {this.props.sortOrder > 1 &&
+                            <a className="btn btn-secondary question-form-back mr-3" onClick={this.back}>Back</a>
+                        }
+                        <a className="btn btn-secondary question-form-skip" onClick={this.forward}>Skip</a>
+                    </div>
+                }
+            </Fragment>
         );
     }
 
@@ -76,13 +89,17 @@ class Question extends React.Component {
                 }
             )
             .then((data) => {
-                this.clearForm();
+                this.forward();
             })
             .catch(err => console.error("Error:", err));
     }
 
-    clearForm() {
-        this.form && this.form.reset();
+    back() {
+        this.props.back(this.props.sortOrder);
+    }
+
+    forward() {
+        this.props.forward(this.props.sortOrder);
     }
 }
 
