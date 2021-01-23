@@ -1,11 +1,9 @@
 import React, {Fragment} from 'react';
 import {AvFeedback, AvForm, AvGroup, AvInput, AvRadio, AvRadioGroup} from "availity-reactstrap-validation";
 import {Button, FormText, Label, Progress} from "reactstrap";
-import Rating from "react-rating";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/question.scss';
+import Scale from "./Scale";
 
 class Question extends React.Component {
 
@@ -73,37 +71,25 @@ class Question extends React.Component {
                         </AvGroup>
                         }
                         {this.props.type === 'choice' &&
-                            <AvRadioGroup inline name="choiceId" required errorMessage="Please choose an answer">
-                                {this.props.choices.map(
-                                    ({ id, name }) => (
-                                        <AvRadio
-                                            key={id}
-                                            label={name}
-                                            value={id}
-                                        />
-                                    )
-                                )}
-                            </AvRadioGroup>
+                        <AvRadioGroup inline name="choiceId" required errorMessage="Please choose an answer">
+                            {this.props.choices.map(
+                                ({ id, name }) => (
+                                    <AvRadio
+                                        key={id}
+                                        label={name}
+                                        value={id}
+                                    />
+                                )
+                            )}
+                        </AvRadioGroup>
                         }
                         {this.props.type === 'scale5' &&
-                        <div className="scale-5">
-                            <span className="meaning low-meaning">{this.props.lowMeaning}</span>
-                            <Rating
-                                onChange={this.handleRatingChange}
-                                initialRating={this.state.rating}
-                                emptySymbol={
-                                    <span className="text-rating-unchecked rating-icon">
-                                        <FontAwesomeIcon icon={faStar} />
-                                    </span>
-                                }
-                                fullSymbol={
-                                    <span className="text-rating rating-icon">
-                                        <FontAwesomeIcon icon={faStar} />
-                                    </span>
-                                }
-                            />
-                            <span className="meaning high-meaning">{this.props.highMeaning}</span>
-                        </div>
+                        <Scale
+                            {...this.props}
+                            max={5}
+                            rating={this.state.rating}
+                            handleRatingChange={this.handleRatingChange}
+                        />
                         }
                         <Button className="question-form-submit mb-3" color="primary" size="lg">
                             Submit {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}
