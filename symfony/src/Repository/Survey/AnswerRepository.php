@@ -3,6 +3,8 @@
 namespace App\Repository\Survey;
 
 use App\Entity\Survey\Answer;
+use App\Entity\Survey\Question;
+use App\Entity\Survey\Response;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +39,22 @@ class AnswerRepository extends ServiceEntityRepository
         return $this->findOneBy(
             [
                 'published' => true,
+            ],
+            [
+                'id' => 'DESC',
+            ]
+        );
+    }
+
+    /**
+     * @return Answer[]
+     */
+    public function findByQuestionAndResponse(Question $question, Response $response): array
+    {
+        return $this->findBy(
+            [
+                'question' => $question,
+                'response' => $response,
             ],
             [
                 'id' => 'DESC',

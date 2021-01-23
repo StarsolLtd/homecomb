@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Survey\Question;
+use App\Entity\Survey\Response;
 use App\Exception\UnexpectedValueException;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
@@ -9,6 +11,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
+use App\Repository\Survey\AnswerRepository;
 use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
@@ -24,6 +27,7 @@ class SurveyService
     private UserService $userService;
     private AnswerFactory $answerFactory;
     private SurveyFactory $surveyFactory;
+    private AnswerRepository $answerRepository;
     private QuestionRepository $questionRepository;
     private ResponseRepository $responseRepository;
     private SurveyRepository $surveyRepository;
@@ -36,6 +40,7 @@ class SurveyService
         UserService $userService,
         AnswerFactory $answerFactory,
         SurveyFactory $surveyFactory,
+        AnswerRepository $answerRepository,
         QuestionRepository $questionRepository,
         ResponseRepository $responseRepository,
         SurveyRepository $surveyRepository
@@ -47,6 +52,7 @@ class SurveyService
         $this->userService = $userService;
         $this->answerFactory = $answerFactory;
         $this->surveyFactory = $surveyFactory;
+        $this->answerRepository = $answerRepository;
         $this->questionRepository = $questionRepository;
         $this->responseRepository = $responseRepository;
         $this->surveyRepository = $surveyRepository;
@@ -78,6 +84,8 @@ class SurveyService
             $this->sessionService->set($key, $response->getId());
         }
 
+        $this->removeExistingAnswers($question, $response);
+
         $answer = $this->answerFactory->createEntityFromSubmitInput($input, $response);
 
         $this->entityManager->persist($answer);
@@ -97,5 +105,13 @@ class SurveyService
         }
 
         return new SubmitAnswerOutput(true);
+    }
+
+    private function removeExistingAnswers(Question $question, Response $response): void
+    {
+        $existingAnswers = $this->answerRepository->findByQuestionAndResponse($question, $response);
+        foreach ($existingAnswers as $answer) {
+            $this->entityManager->remove($answer);
+        }
     }
 }

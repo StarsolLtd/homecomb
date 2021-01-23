@@ -12,6 +12,7 @@ use App\Factory\Survey\SurveyFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
+use App\Repository\Survey\AnswerRepository;
 use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
@@ -42,6 +43,7 @@ class SurveyServiceTest extends TestCase
     private $sessionService;
     private $answerFactory;
     private $surveyFactory;
+    private $answerRepository;
     private $questionRepository;
     private $responseRepository;
     private $surveyRepository;
@@ -55,6 +57,7 @@ class SurveyServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->answerFactory = $this->prophesize(AnswerFactory::class);
         $this->surveyFactory = $this->prophesize(SurveyFactory::class);
+        $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->questionRepository = $this->prophesize(QuestionRepository::class);
         $this->responseRepository = $this->prophesize(ResponseRepository::class);
         $this->surveyRepository = $this->prophesize(SurveyRepository::class);
@@ -67,6 +70,7 @@ class SurveyServiceTest extends TestCase
             $this->userService->reveal(),
             $this->answerFactory->reveal(),
             $this->surveyFactory->reveal(),
+            $this->answerRepository->reveal(),
             $this->questionRepository->reveal(),
             $this->responseRepository->reveal(),
             $this->surveyRepository->reveal(),
@@ -100,6 +104,7 @@ class SurveyServiceTest extends TestCase
     public function testAnswer1(): void
     {
         $input = $this->prophesize(SubmitAnswerInput::class);
+        $existingAnswer = $this->prophesize(Answer::class);
         $answer = $this->prophesize(Answer::class);
         $question = $this->prophesize(Question::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
@@ -124,6 +129,12 @@ class SurveyServiceTest extends TestCase
         $this->answerFactory->createEntityFromSubmitInput($input, $response)
             ->shouldBeCalledOnce()
             ->willReturn($answer);
+
+        $this->answerRepository->findByQuestionAndResponse($question, $response)
+            ->shouldBeCalledOnce()
+            ->willReturn([$existingAnswer]);
+
+        $this->entityManager->remove($existingAnswer)->shouldBeCalledOnce();
 
         $this->assertEntitiesArePersistedAndFlush([$answer]);
 
