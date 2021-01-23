@@ -50,11 +50,15 @@ class QuestionFactoryTest extends TestCase
         $choice1 = $this->prophesize(Choice::class);
         $choice1Model = $this->prophesize(ChoiceModel::class);
         $choice1->isPublished()->shouldBeCalledOnce()->willReturn(true);
+        $choice1->getSortOrder()->shouldBeCalledOnce()->willReturn(100);
+        $choice1->setSortOrder(1)->shouldBeCalledOnce()->willReturn($choice1);
         $choice1->setQuestion($question)->shouldBeCalledOnce()->willReturn($choice1);
         $question->addChoice($choice1->reveal());
 
         $choice2 = $this->prophesize(Choice::class);
         $choice2Model = $this->prophesize(ChoiceModel::class);
+        $choice2->getSortOrder()->shouldBeCalledOnce()->willReturn(100);
+        $choice2->setSortOrder(2)->shouldBeCalledOnce()->willReturn($choice2);
         $choice2->isPublished()->shouldBeCalledOnce()->willReturn(true);
         $choice2->setQuestion($question)->shouldBeCalledOnce()->willReturn($choice2);
         $question->addChoice($choice2->reveal());

@@ -222,6 +222,11 @@ class Question
         if ($this->choices->contains($choice)) {
             return $this;
         }
+
+        if (100 === $choice->getSortOrder()) {
+            $choice->setSortOrder(count($this->choices) + 1);
+        }
+
         $choice->setQuestion($this);
         $this->choices[] = $choice;
 

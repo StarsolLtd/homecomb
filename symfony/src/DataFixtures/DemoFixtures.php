@@ -9,6 +9,7 @@ use App\Entity\Image;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
@@ -355,9 +356,13 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         ;
 
         $question2 = (new Question())
-            ->setType('free')
+            ->setType('choice')
             ->setContent('Where do you normally buy chocolate bars?')
             ->setSortOrder(2)
+            ->addChoice((new Choice())->setName('Supermarket'))
+            ->addChoice((new Choice())->setName('Fuel station'))
+            ->addChoice((new Choice())->setName('Newsagent'))
+            ->addChoice((new Choice())->setName('Sweet shop'))
         ;
 
         $question3 = (new Question())
