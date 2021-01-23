@@ -7,8 +7,22 @@ use App\Model\Survey\Question as QuestionModel;
 
 class QuestionFactory
 {
-    public function createViewFromEntity(QuestionEntity $entity): QuestionModel
+    private ChoiceFactory $choiceFactory;
+
+    public function __construct(
+        ChoiceFactory $choiceFactory
+    ) {
+        $this->choiceFactory = $choiceFactory;
+    }
+
+    public function createModelFromEntity(QuestionEntity $entity): QuestionModel
     {
+        $choices = [];
+
+        foreach ($entity->getPublishedChoices() as $choice) {
+            $choices[] = $this->choiceFactory->createModelFromEntity($choice);
+        }
+
         return new QuestionModel(
             $entity->getId(),
             $entity->getType(),
@@ -16,7 +30,8 @@ class QuestionFactory
             $entity->getHelp(),
             $entity->getHighMeaning(),
             $entity->getLowMeaning(),
-            $entity->getSortOrder()
+            $entity->getSortOrder(),
+            $choices
         );
     }
 }

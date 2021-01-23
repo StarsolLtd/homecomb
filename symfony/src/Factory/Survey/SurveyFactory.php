@@ -20,7 +20,7 @@ class SurveyFactory
         $questions = [];
 
         foreach ($entity->getPublishedQuestions() as $question) {
-            $questions[] = $this->questionFactory->createViewFromEntity($question);
+            $questions[] = $this->questionFactory->createModelFromEntity($question);
         }
 
         return new View(

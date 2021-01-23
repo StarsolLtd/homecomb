@@ -11,6 +11,7 @@ class Question
     private ?string $highMeaning;
     private ?string $lowMeaning;
     private int $sortOrder;
+    private array $choices;
 
     public function __construct(
         int $id,
@@ -19,7 +20,8 @@ class Question
         ?string $help,
         ?string $highMeaning,
         ?string $lowMeaning,
-        int $sortOrder
+        int $sortOrder,
+        array $choices = []
     ) {
         $this->id = $id;
         $this->type = $type;
@@ -28,6 +30,7 @@ class Question
         $this->highMeaning = $highMeaning;
         $this->lowMeaning = $lowMeaning;
         $this->sortOrder = $sortOrder;
+        $this->choices = $choices;
     }
 
     public function getId(): int
@@ -63,5 +66,13 @@ class Question
     public function getSortOrder(): int
     {
         return $this->sortOrder;
+    }
+
+    /**
+     * @return Choice[]
+     */
+    public function getChoices(): array
+    {
+        return $this->choices;
     }
 }

@@ -55,8 +55,8 @@ class SurveyFactoryTest extends TestCase
             ->addQuestion($question1->reveal())
             ->addQuestion($question2->reveal());
 
-        $this->questionFactory->createViewFromEntity($question1)->shouldBeCalledOnce()->willReturn($question1Model);
-        $this->questionFactory->createViewFromEntity($question2)->shouldBeCalledOnce()->willReturn($question2Model);
+        $this->questionFactory->createModelFromEntity($question1)->shouldBeCalledOnce()->willReturn($question1Model);
+        $this->questionFactory->createModelFromEntity($question2)->shouldBeCalledOnce()->willReturn($question2Model);
 
         $view = $this->surveyFactory->createViewFromEntity($survey);
 

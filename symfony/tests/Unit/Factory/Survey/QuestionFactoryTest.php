@@ -2,8 +2,11 @@
 
 namespace App\Tests\Unit\Factory\Survey;
 
+use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
+use App\Factory\Survey\ChoiceFactory;
 use App\Factory\Survey\QuestionFactory;
+use App\Model\Survey\Choice as ChoiceModel;
 use App\Tests\Unit\SetIdByReflectionTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -18,13 +21,19 @@ class QuestionFactoryTest extends TestCase
 
     private QuestionFactory $questionFactory;
 
+    private $choiceFactory;
+
     public function setUp(): void
     {
-        $this->questionFactory = new QuestionFactory();
+        $this->choiceFactory = $this->prophesize(ChoiceFactory::class);
+
+        $this->questionFactory = new QuestionFactory(
+            $this->choiceFactory->reveal()
+        );
     }
 
     /**
-     * @covers \App\Factory\Survey\QuestionFactory::createViewFromEntity
+     * @covers \App\Factory\Survey\QuestionFactory::createModelFromEntity
      */
     public function testCreateViewFromEntity1(): void
     {
@@ -38,14 +47,30 @@ class QuestionFactoryTest extends TestCase
         ;
         $this->setIdByReflection($question, 125);
 
-        $view = $this->questionFactory->createViewFromEntity($question);
+        $choice1 = $this->prophesize(Choice::class);
+        $choice1Model = $this->prophesize(ChoiceModel::class);
+        $choice1->isPublished()->shouldBeCalledOnce()->willReturn(true);
+        $choice1->setQuestion($question)->shouldBeCalledOnce()->willReturn($choice1);
+        $question->addChoice($choice1->reveal());
 
-        $this->assertEquals(125, $view->getId());
-        $this->assertEquals('open', $view->getType());
-        $this->assertEquals('How full is your glass?', $view->getContent());
-        $this->assertEquals('Halfway what?', $view->getHelp());
-        $this->assertEquals('Half-full', $view->getHighMeaning());
-        $this->assertEquals('Half-empty', $view->getLowMeaning());
-        $this->assertEquals(43, $view->getSortOrder());
+        $choice2 = $this->prophesize(Choice::class);
+        $choice2Model = $this->prophesize(ChoiceModel::class);
+        $choice2->isPublished()->shouldBeCalledOnce()->willReturn(true);
+        $choice2->setQuestion($question)->shouldBeCalledOnce()->willReturn($choice2);
+        $question->addChoice($choice2->reveal());
+
+        $this->choiceFactory->createModelFromEntity($choice1)->shouldBeCalledOnce()->willReturn($choice1Model);
+        $this->choiceFactory->createModelFromEntity($choice2)->shouldBeCalledOnce()->willReturn($choice2Model);
+
+        $model = $this->questionFactory->createModelFromEntity($question);
+
+        $this->assertEquals(125, $model->getId());
+        $this->assertEquals('open', $model->getType());
+        $this->assertEquals('How full is your glass?', $model->getContent());
+        $this->assertEquals('Halfway what?', $model->getHelp());
+        $this->assertEquals('Half-full', $model->getHighMeaning());
+        $this->assertEquals('Half-empty', $model->getLowMeaning());
+        $this->assertEquals(43, $model->getSortOrder());
+        $this->assertCount(2, $model->getChoices());
     }
 }
