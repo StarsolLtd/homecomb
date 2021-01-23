@@ -4,7 +4,7 @@ import Constants from "../Constants";
 
 const SurveyCompletedThankYou = () => {
     return (
-        <Alert color="success" className="p-4 text-center alert-success alert-dismissible fade show review-completed-thank-you">
+        <Alert color="success" className="p-4 text-center alert-success alert-dismissible fade show survey-completed-thank-you">
             <h2>Survey complete!</h2>
 
             <p>

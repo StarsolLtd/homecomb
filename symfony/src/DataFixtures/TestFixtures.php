@@ -8,6 +8,7 @@ use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
@@ -28,7 +29,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_PROPERTY_SLUG = 'propertyslug';
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
-    public const TEST_SURVEY_SLUG = 'surveyslug';
+    public const TEST_SURVEY_SLUG = 'test-survey';
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -168,11 +169,27 @@ class TestFixtures extends AbstractDataFixtures
         $question1 = (new Question())
             ->setType('free')
             ->setContent('How does a Snickers make you feel?')
+            ->setHelp('Maybe less hungry.')
+            ->setSortOrder(1)
         ;
 
         $question2 = (new Question())
-            ->setType('free')
+            ->setType('choice')
             ->setContent('Where do you normally buy chocolate bars?')
+            ->setSortOrder(2)
+            ->addChoice((new Choice())->setName('Supermarket'))
+            ->addChoice((new Choice())->setName('Fuel station'))
+            ->addChoice((new Choice())->setName('Newsagent'))
+            ->addChoice((new Choice())->setName('Sweet shop'))
+        ;
+
+        $question3 = (new Question())
+            ->setType('scale5')
+            ->setContent('How likely are you share a Twix with someone else?')
+            ->setHelp('There are two individual bars in a Twix')
+            ->setHighMeaning('Very likely')
+            ->setLowMeaning('Very unlikely')
+            ->setSortOrder(3)
         ;
 
         $survey = (new Survey())
@@ -182,6 +199,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setPublished(true)
             ->addQuestion($question1)
             ->addQuestion($question2)
+            ->addQuestion($question3)
         ;
 
         $manager->persist($survey);
