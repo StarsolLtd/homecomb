@@ -14,7 +14,6 @@ class Question extends React.Component {
 
         this.state = {
             content: '',
-            choice: null,
             rating: null,
             isFormSubmitting: false,
         };
@@ -74,7 +73,7 @@ class Question extends React.Component {
                         </AvGroup>
                         }
                         {this.props.type === 'choice' &&
-                            <AvRadioGroup inline name="choice" required errorMessage="Please choose an answer">
+                            <AvRadioGroup inline name="choiceId" required errorMessage="Please choose an answer">
                                 {this.props.choices.map(
                                     ({ id, name }) => (
                                         <AvRadio
@@ -125,7 +124,7 @@ class Question extends React.Component {
         this.setState({isFormSubmitting: true});
         let payload = {
             questionId: this.props.questionId,
-            choice: values.choice,
+            choiceId: values.choiceId,
             content: values.content,
             rating: this.state.rating
         };
