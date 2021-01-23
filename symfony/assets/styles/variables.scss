@@ -30,11 +30,23 @@ $yellow-pastel: #fff7e1;
 
 $brand: $brick;
 
-$primary: $brick;
+$peach-1: #a75151;
+$peach-2: #fb7f71;
+$peach-3: #fbe4d2;
+$peach-4: #7e515a;
+$peach-5: #ffc09e;
+$peach-6: #cd857e;
+$peach-7: #eccbb3;
+$peach-8: #ad724a;
+
+$primary: $peach-1;
 $primary-light: $light-brick;
-$secondary: $bronze;
-$secondary-light: $light-bronze;
-$tertiary: $yellow-pastel;
+$secondary: $peach-5;
+$secondary-light: $peach-6;
+$secondary-dark: $peach-8;
+
+$tertiary: $peach-3;
+$quaternary: $peach-7;
 $success: $green;
 $info: $cyan;
 $warning: $yellow;

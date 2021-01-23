@@ -24,8 +24,14 @@ body {
     text-decoration: none;
 }
 
-.bg-secondary a.dropdown-item:hover {
-    background: $secondary-light none;
+.bg-secondary-light {
+    background-color: $secondary-light;
+}
+.bg-secondary-light .dropdown-item {
+    color: $gray-800;
+}
+.bg-secondary-light a.dropdown-item:hover {
+    background-color: $secondary !important;
 }
 
 footer.navbar {
@@ -53,7 +59,7 @@ footer ul, footer ul li {
     color: $primary;
 }
 .logo-second {
-    color: $secondary;
+    color: $primary;
 }
 
 .logo-white {

@@ -27,7 +27,7 @@ const Header = (props) => {
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Popular Locations
                             </a>
-                            <div className="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
+                            <div className="dropdown-menu bg-secondary-light" aria-labelledby="navbarDropdown">
                                 <a className="dropdown-item" href="/l/clerkenwell">Clerkenwell</a>
                                 <a className="dropdown-item" href="/l/shoreditch">Shoreditch</a>
                                 <div className="dropdown-divider"></div>
