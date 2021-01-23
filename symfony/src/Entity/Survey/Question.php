@@ -2,6 +2,7 @@
 
 namespace App\Entity\Survey;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -71,6 +72,18 @@ class Question
      */
     private Collection $answers;
 
+    /**
+     * @var Collection<int, Choice>
+     * @ORM\OneToMany(targetEntity="Choice", mappedBy="question", cascade={"persist"})
+     */
+    private Collection $choices;
+
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+        $this->choices = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
         return (string) $this->getContent();
@@ -122,7 +135,7 @@ class Question
         return $this->help;
     }
 
-    public function setHelp(string $help): self
+    public function setHelp(?string $help): self
     {
         $this->help = $help;
 
@@ -194,5 +207,34 @@ class Question
         $answer->setQuestion($this);
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Choice>
+     */
+    public function getChoices(): Collection
+    {
+        return $this->choices;
+    }
+
+    public function addChoice(Choice $choice): self
+    {
+        if ($this->choices->contains($choice)) {
+            return $this;
+        }
+        $choice->setQuestion($this);
+        $this->choices[] = $choice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Choice>
+     */
+    public function getPublishedChoices(): Collection
+    {
+        return $this->getChoices()->filter(function (Choice $choice) {
+            return $choice->isPublished();
+        });
     }
 }

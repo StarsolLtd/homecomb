@@ -2,6 +2,8 @@
 
 namespace App\Entity\Survey;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -36,6 +38,13 @@ class Answer
     private Response $response;
 
     /**
+     * @var Collection<int, Choice>
+     * @ORM\ManyToMany(targetEntity="Choice", inversedBy="answers", cascade={"persist"})
+     * @ORM\JoinTable(name="answer_choice")
+     */
+    private Collection $choices;
+
+    /**
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private ?string $content;
@@ -44,6 +53,11 @@ class Answer
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $rating;
+
+    public function __construct()
+    {
+        $this->choices = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -94,6 +108,25 @@ class Answer
     public function setRating(?int $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Choice>
+     */
+    public function getChoices(): Collection
+    {
+        return $this->choices;
+    }
+
+    public function addChoice(Choice $choice): self
+    {
+        if ($this->choices->contains($choice)) {
+            return $this;
+        }
+        $choice->addAnswer($this);
+        $this->choices[] = $choice;
 
         return $this;
     }
