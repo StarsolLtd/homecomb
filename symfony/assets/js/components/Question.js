@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {AvFeedback, AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
+import {AvFeedback, AvForm, AvGroup, AvInput, AvRadio, AvRadioGroup} from "availity-reactstrap-validation";
 import {Button, FormText, Label, Progress} from "reactstrap";
 import Rating from "react-rating";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,7 @@ class Question extends React.Component {
 
         this.state = {
             content: '',
+            choice: null,
             rating: null,
             isFormSubmitting: false,
         };
@@ -72,6 +73,19 @@ class Question extends React.Component {
                             </FormText>
                         </AvGroup>
                         }
+                        {this.props.type === 'choice' &&
+                            <AvRadioGroup inline name="choice" required errorMessage="Please choose an answer">
+                                {this.props.choices.map(
+                                    ({ id, name }) => (
+                                        <AvRadio
+                                            key={id}
+                                            label={name}
+                                            value={id}
+                                        />
+                                    )
+                                )}
+                            </AvRadioGroup>
+                        }
                         {this.props.type === 'scale5' &&
                         <div className="scale-5">
                             <span className="meaning low-meaning">{this.props.lowMeaning}</span>
@@ -106,11 +120,13 @@ class Question extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit(event, values) {
+
         this.setState({isFormSubmitting: true});
         let payload = {
             questionId: this.props.questionId,
-            content: this.state.content,
+            choice: values.choice,
+            content: values.content,
             rating: this.state.rating
         };
 

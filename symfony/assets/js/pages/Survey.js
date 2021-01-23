@@ -43,13 +43,14 @@ class Survey extends React.Component {
                             <Row>
                                 <Col md="12">
                                     {this.state.questions.map(
-                                        ({ id, type, content, help, highMeaning, lowMeaning, sortOrder }) => (
+                                        ({ id, type, content, help, highMeaning, lowMeaning, sortOrder, choices }) => (
                                             <Question
                                                 {...this.props}
                                                 key={id}
                                                 questionId={id}
                                                 type={type}
                                                 content={content}
+                                                choices={choices}
                                                 help={help}
                                                 highMeaning={highMeaning}
                                                 lowMeaning={lowMeaning}
