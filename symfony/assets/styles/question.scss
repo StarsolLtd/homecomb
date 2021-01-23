@@ -23,23 +23,25 @@
     font-size: 175%;
 }
 
-.rating-icon {
-    font-size: 200%;
-}
-
 .scale-5 {
     @extend .mb-5;
+    white-space: nowrap;
 }
 
 .scale-5 .meaning {
     font-size: 125%;
-    white-space: nowrap;
 }
 
 .scale-5 .low-meaning {
     @extend .pr-3;
+    //@extend .float-left;
 }
 
 .scale-5 .high-meaning {
-    @extend .pl-3;
+    @extend .pl-4;
+    //@extend .float-right;
+}
+
+.scale-5 .rating-icon {
+    font-size: 150%;
 }
