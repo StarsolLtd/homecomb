@@ -86,6 +86,8 @@ class ReviewFactory
             $property,
             $entity->getId() ?? 0,
             $entity->getAuthor() ?? '',
+            $entity->getStart(),
+            $entity->getEnd(),
             $entity->getTitle() ?? '',
             $entity->getContent() ?? '',
             $stars,

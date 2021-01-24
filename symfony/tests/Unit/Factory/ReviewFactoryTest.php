@@ -76,6 +76,8 @@ class ReviewFactoryTest extends TestCase
             ->setBranch($branch)
             ->setProperty($property)
             ->setAuthor('Gina Gee')
+            ->setStart(new DateTime('2018-03-01'))
+            ->setEnd(new DateTime('2020-10-01'))
             ->setTitle('Test Title')
             ->setContent('I lived here, it was nice.')
             ->setOverallStars(4)
@@ -95,6 +97,8 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals('123 Test Street', $view->getProperty()->getAddressLine1());
         $this->assertEquals(789, $view->getId());
         $this->assertEquals('Gina Gee', $view->getAuthor());
+        $this->assertEquals('2018-03-01', $view->getStart()->format('Y-m-d'));
+        $this->assertEquals('2020-10-01', $view->getEnd()->format('Y-m-d'));
         $this->assertEquals('Test Title', $view->getTitle());
         $this->assertEquals('I lived here, it was nice.', $view->getContent());
         $this->assertEquals(4, $view->getStars()->getOverall());
@@ -208,6 +212,8 @@ class ReviewFactoryTest extends TestCase
         $review->getPropertyStars()->willReturn(null);
         $review->getLandlordStars()->willReturn(null);
         $review->getAuthor()->willReturn(null);
+        $review->getStart()->willReturn(null);
+        $review->getEnd()->willReturn(null);
         $review->getTitle()->willReturn(null);
         $review->getContent()->willReturn(null);
 

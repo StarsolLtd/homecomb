@@ -15,6 +15,8 @@ class View
     private ?FlatProperty $property;
     private int $id;
     private string $author;
+    private ?DateTime $start;
+    private ?DateTime $end;
     private string $title;
     private string $content;
     private Stars $stars;
@@ -27,6 +29,8 @@ class View
         ?FlatProperty $property,
         int $id,
         string $author,
+        ?DateTime $start,
+        ?DateTime $end,
         string $title,
         string $content,
         Stars $stars,
@@ -38,6 +42,8 @@ class View
         $this->property = $property;
         $this->id = $id;
         $this->author = $author;
+        $this->start = $start;
+        $this->end = $end;
         $this->title = $title;
         $this->content = $content;
         $this->stars = $stars;
@@ -68,6 +74,16 @@ class View
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    public function getStart(): ?DateTime
+    {
+        return $this->start;
+    }
+
+    public function getEnd(): ?DateTime
+    {
+        return $this->end;
     }
 
     public function getTitle(): string
