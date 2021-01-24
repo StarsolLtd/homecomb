@@ -9,3 +9,12 @@
     font-size: 135%;
     font-family: $title-font;
 }
+
+.review-date {
+    font-size: 85%;
+    color: $gray-600;
+}
+
+.month-range-start, .month-range-end {
+    font-style: italic;
+}

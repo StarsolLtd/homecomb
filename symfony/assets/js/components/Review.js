@@ -8,6 +8,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/review.scss';
+import MonthRange from "./MonthRange";
 
 class Review extends React.Component {
 
@@ -34,10 +35,11 @@ class Review extends React.Component {
                     <p className="mb-3">
                         <FontAwesomeIcon icon={faUser} className="text-primary" />
                         {' '}<span className="author">{this.props.author}</span>
+                        {' '}reviewed their tenancy <MonthRange start={this.props.start} end={this.props.end} />
                         {this.props.property && this.state.showProperty &&
-                            <span>&nbsp;reviewed <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
+                            <span>&nbsp;at <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
                         }
-                        {' '}on <span className="date"><Moment format="Do MMMM YYYY">{this.props.createdAt}</Moment></span>
+                        <span className="review-date"><br />Date of review: <Moment format="Do MMM YYYY" className="date">{this.props.createdAt}</Moment></span>
                     </p>
                 </div>
 

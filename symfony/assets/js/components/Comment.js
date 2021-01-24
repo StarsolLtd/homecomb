@@ -11,7 +11,7 @@ const Comment = (props) => {
             <h6>
                 <FontAwesomeIcon icon={faUser} className="text-primary" />
                 {' '}<span className="author">{ props.author }</span>
-                {' '}responded on <span className="date"><Moment format="Do MMMM YYYY">{props.createdAt}</Moment></span>
+                {' '}responded on <span className="date"><Moment format="Do MMM YYYY">{props.createdAt}</Moment></span>
             </h6>
             <p>
                 { props.content }
