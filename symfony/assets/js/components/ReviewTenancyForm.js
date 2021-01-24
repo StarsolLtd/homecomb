@@ -13,10 +13,18 @@ import Loader from "react-loaders";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import InputProperty from "./InputProperty";
 
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+
 class ReviewTenancyForm extends React.Component {
 
     constructor(props) {
         super(props);
+
+        let endMinDate = new Date();
+        endMinDate.setDate(endMinDate.getDate()-400);
+        endMinDate = new Date(endMinDate.getFullYear(), endMinDate.getMonth(), 1)
+
         this.state = {
             fixedProperty: this.props.hasOwnProperty('fixedProperty') ? this.props.fixedProperty : false,
             propertySlug: this.props.propertySlug,
@@ -27,6 +35,9 @@ class ReviewTenancyForm extends React.Component {
             agencyBranch: this.props.branch ? this.props.branch.name : '',
             reviewTitle: '',
             reviewContent: '',
+            start: null,
+            end: null,
+            endMinDate: endMinDate,
             overallStars: null,
             landlordStars: null,
             agencyStars: null,
@@ -39,6 +50,8 @@ class ReviewTenancyForm extends React.Component {
             code: this.props.code,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleStartChange = this.handleStartChange.bind(this);
+        this.handleEndChange = this.handleEndChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.handleOverallStarsChange = this.handleOverallStarsChange.bind(this);
         this.handleAgencyStarsChange = this.handleAgencyStarsChange.bind(this);
@@ -59,6 +72,14 @@ class ReviewTenancyForm extends React.Component {
         this.setState({
             [name]: value
         });
+    }
+
+    handleStartChange(value) {
+        this.setState({start: value});
+    }
+
+    handleEndChange(value) {
+        this.setState({end: value});
     }
 
     handleOverallStarsChange(value) {
@@ -168,6 +189,38 @@ class ReviewTenancyForm extends React.Component {
                             We will publish this. It doesn't have to be your full name if you don't want.
                         </FormText>
                     </AvGroup>
+                    <FormGroup>
+                        <Label for="start">Tenancy start month/year</Label>
+                        <div>
+                            <DatePicker
+                                onChange={this.handleStartChange}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                                selected={this.state.start}
+                                placeholderText="Select tenancy start month and year"
+                                maxDate={new Date()}
+                            />
+                            <FormText>
+                                The month you began living at the address.
+                            </FormText>
+                        </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="end">Tenancy end month/year</Label>
+                        <div>
+                            <DatePicker
+                                onChange={this.handleEndChange}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                                selected={this.state.end}
+                                minDate={this.state.endMinDate}
+                                placeholderText="Select tenancy end month and year"
+                            />
+                            <FormText>
+                                Leave blank if your tenancy is ongoing.
+                            </FormText>
+                        </div>
+                    </FormGroup>
                     {this.state.fixedBranch &&
                         <AvGroup>
                             <AvInput type="hidden" name="agencyName" value={this.state.agencyName}/>
@@ -337,6 +390,15 @@ class ReviewTenancyForm extends React.Component {
 
     handleValidSubmit() {
         this.setState({isFormSubmitting: true});
+
+        const start = this.state.start !== null
+            ? this.formatDate(this.state.start)
+            : null;
+
+        const end = this.state.end !== null
+            ? this.formatDate(this.state.end)
+            : null;
+
         let payload = {
             propertySlug: this.state.propertySlug,
             code: this.state.code,
@@ -350,6 +412,8 @@ class ReviewTenancyForm extends React.Component {
             agencyStars: this.state.agencyStars,
             landlordStars: this.state.landlordStars,
             propertyStars: this.state.propertyStars,
+            start: start,
+            end: end,
             captchaToken: null
         };
 
@@ -408,6 +472,20 @@ class ReviewTenancyForm extends React.Component {
 
     clearForm() {
         this.form && this.form.reset();
+    }
+
+    formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 }
 
