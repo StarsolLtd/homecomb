@@ -25,6 +25,10 @@ class ReviewTenancyForm extends React.Component {
         endMinDate.setDate(endMinDate.getDate()-400);
         endMinDate = new Date(endMinDate.getFullYear(), endMinDate.getMonth(), 1)
 
+        let endMaxDate = new Date();
+        endMaxDate.setDate(endMaxDate.getDate()+60);
+        endMaxDate = new Date(endMaxDate.getFullYear(), endMaxDate.getMonth(), 1)
+
         this.state = {
             fixedProperty: this.props.hasOwnProperty('fixedProperty') ? this.props.fixedProperty : false,
             propertySlug: this.props.propertySlug,
@@ -38,6 +42,7 @@ class ReviewTenancyForm extends React.Component {
             start: null,
             end: null,
             endMinDate: endMinDate,
+            endMaxDate: endMaxDate,
             overallStars: null,
             landlordStars: null,
             agencyStars: null,
@@ -194,11 +199,12 @@ class ReviewTenancyForm extends React.Component {
                         <div>
                             <DatePicker
                                 onChange={this.handleStartChange}
-                                dateFormat="MM/yyyy"
+                                dateFormat="MMMM yyyy"
                                 showMonthYearPicker
                                 selected={this.state.start}
                                 placeholderText="Select tenancy start month and year"
                                 maxDate={new Date()}
+                                className="form-control"
                             />
                             <FormText>
                                 The month you began living at the address.
@@ -210,11 +216,13 @@ class ReviewTenancyForm extends React.Component {
                         <div>
                             <DatePicker
                                 onChange={this.handleEndChange}
-                                dateFormat="MM/yyyy"
+                                dateFormat="MMMM yyyy"
                                 showMonthYearPicker
                                 selected={this.state.end}
                                 minDate={this.state.endMinDate}
+                                maxDate={this.state.endMaxDate}
                                 placeholderText="Select tenancy end month and year"
+                                className="form-control"
                             />
                             <FormText>
                                 Leave blank if your tenancy is ongoing.
