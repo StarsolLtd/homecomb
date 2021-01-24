@@ -12,6 +12,7 @@ use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -133,6 +134,8 @@ class TestFixtures extends AbstractDataFixtures
                 .'a UFO. Eventually I talked the dragon into letting me take the UFO outside. I did and I flew it '
                 .'to Fakenham.'
             )
+            ->setStart(new DateTime('2007-09-01'))
+            ->setEnd(new DateTime('2020-10-01'))
             ->setOverallStars(5)
             ->setAgencyStars(null)
             ->setLandlordStars(null)

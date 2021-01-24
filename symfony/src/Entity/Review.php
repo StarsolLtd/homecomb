@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Comment\ReviewComment;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -83,6 +84,16 @@ class Review
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
      */
     private bool $published = false;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private ?DateTime $start;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private ?DateTime $end;
 
     /**
      * @var Collection<int, Locale>
@@ -258,6 +269,30 @@ class Review
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    public function getStart(): ?DateTime
+    {
+        return $this->start;
+    }
+
+    public function setStart(?DateTime $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getEnd(): ?DateTime
+    {
+        return $this->end;
+    }
+
+    public function setEnd(?DateTime $end): self
+    {
+        $this->end = $end;
 
         return $this;
     }

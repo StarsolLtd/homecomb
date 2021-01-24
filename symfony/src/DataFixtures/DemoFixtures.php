@@ -101,6 +101,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setLandlordStars(null)
             ->setPropertyStars(3)
             ->setPublished(true)
+            ->setStart(new DateTime('2013-08-01'))
+            ->setEnd(new DateTime('2015-07-01'))
             ->addComment($reviewComment);
 
         $reviews[] = (new Review())
@@ -114,6 +116,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
                 .'middle of Cambridge, plenty of amenities within walking distance. It has a nice garden at the back '
                 .'and the landlord kindly allowed us to keep our pet dog here. It is a great home!'
             )
+            ->setStart(new DateTime('2013-08-01'))
+            ->setEnd(new DateTime('2015-07-01'))
             ->setOverallStars(5)
             ->setAgencyStars(null)
             ->setLandlordStars(5)
@@ -131,6 +135,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
                 .'in which gave it a really fresh feel. If work was not taking me away from Cambridge, I could have '
                 .'happily stayed here for years.'
             )
+            ->setStart(new DateTime('2017-01-01'))
+            ->setEnd(new DateTime('2018-03-01'))
             ->setOverallStars(5)
             ->setAgencyStars(4)
             ->setLandlordStars(5)
@@ -148,6 +154,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
                 .' I felt a bit cramped here. The bedroom was barely wider than a double bed. I think it would be a '
                 .' great place for a student who is not bringing many possessions to Cambridge. '
             )
+            ->setStart(new DateTime('2015-09-01'))
+            ->setEnd(new DateTime('2015-12-01'))
             ->setOverallStars(3)
             ->setAgencyStars(4)
             ->setLandlordStars(null)
@@ -165,6 +173,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
                 .'stopped working after a month, and despite sending multiple emails and leaving voicemails over the '
                 .'course of several months, the landlord never arranged for it to be repaired or replaced. '
             )
+            ->setStart(new DateTime('2018-09-01'))
+            ->setEnd(new DateTime('2020-06-01'))
             ->setOverallStars(3)
             ->setAgencyStars(5)
             ->setLandlordStars(1)
