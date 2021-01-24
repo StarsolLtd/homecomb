@@ -10,6 +10,7 @@ use App\Model\Review\Group;
 use App\Model\Review\Stars;
 use App\Model\Review\SubmitInput;
 use App\Model\Review\View;
+use DateTime;
 
 class ReviewFactory
 {
@@ -27,7 +28,7 @@ class ReviewFactory
         ?Branch $branch,
         ?User $user
     ): Review {
-        return (new Review())
+        $review = (new Review())
             ->setProperty($property)
             ->setBranch($branch)
             ->setAuthor($input->getReviewerName())
@@ -39,6 +40,17 @@ class ReviewFactory
             ->setPropertyStars($input->getPropertyStars())
             ->setUser($user)
         ;
+
+        $start = $input->getStart();
+        if (null !== $start) {
+            $review->setStart(new DateTime($start));
+        }
+        $end = $input->getEnd();
+        if (null !== $end) {
+            $review->setEnd(new DateTime($end));
+        }
+
+        return $review;
     }
 
     public function createViewFromEntity(Review $entity): View

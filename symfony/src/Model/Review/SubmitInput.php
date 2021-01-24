@@ -8,6 +8,8 @@ class SubmitInput
     private ?string $code;
     private ?string $reviewerName;
     private ?string $reviewerEmail;
+    private ?string $start; // Month in YYYY-MM-01 format
+    private ?string $end; // Month in YYYY-MM-01 format
     private ?string $agencyName;
     private ?string $agencyBranch;
     private ?string $reviewTitle;
@@ -23,6 +25,8 @@ class SubmitInput
         ?string $code = null,
         ?string $reviewerName = null,
         ?string $reviewerEmail = null,
+        ?string $start = null,
+        ?string $end = null,
         ?string $agencyName = null,
         ?string $agencyBranch = null,
         ?string $reviewTitle = null,
@@ -37,6 +41,8 @@ class SubmitInput
         $this->code = $code;
         $this->reviewerName = $reviewerName;
         $this->reviewerEmail = $reviewerEmail;
+        $this->start = $start;
+        $this->end = $end;
         $this->agencyName = $agencyName;
         $this->agencyBranch = $agencyBranch;
         $this->reviewTitle = $reviewTitle;
@@ -61,6 +67,16 @@ class SubmitInput
     public function getReviewerName(): ?string
     {
         return $this->reviewerName;
+    }
+
+    public function getStart(): ?string
+    {
+        return $this->start;
+    }
+
+    public function getEnd(): ?string
+    {
+        return $this->end;
     }
 
     public function getReviewerEmail(): ?string

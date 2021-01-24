@@ -168,6 +168,14 @@ class ReviewFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn(3);
 
+        $input->getStart()
+            ->shouldBeCalledOnce()
+            ->willReturn('2019-06-01');
+
+        $input->getEnd()
+            ->shouldBeCalledOnce()
+            ->willReturn('2020-12-01');
+
         $entity = $this->reviewFactory->createEntity(
             $input->reveal(),
             $property->reveal(),
@@ -182,6 +190,8 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals(4, $entity->getAgencyStars());
         $this->assertNull($entity->getLandlordStars());
         $this->assertEquals(3, $entity->getPropertyStars());
+        $this->assertEquals('2019-06-01', $entity->getStart()->format('Y-m-d'));
+        $this->assertEquals('2020-12-01', $entity->getEnd()->format('Y-m-d'));
     }
 
     private function prophesizeEmptyReview(ObjectProphecy $property): ObjectProphecy
