@@ -32,10 +32,9 @@ class LatestReviews extends React.Component {
                         {this.state.loaded &&
                             this.state.reviews.map(
                                 ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt }) => (
-                                    <Col lg={4} md={6} sm={12} className="d-flex">
+                                    <Col key={id} lg={4} md={6} sm={12} className="d-flex">
                                         <Col md={12} className="bg-white rounded shadow-sm pl-3 pr-4 m-1">
                                             <Review
-                                                key={id}
                                                 id={id}
                                                 author={author}
                                                 start={start}
@@ -67,8 +66,6 @@ class LatestReviews extends React.Component {
             reviews: data.reviews,
             loaded: true
         });
-
-        console.log(this.state);
     }
 }
 
