@@ -1,25 +1,23 @@
 import React from 'react';
 import Stars from "./Stars";
 
-class ReviewStars extends React.Component {
-    render() {
-        return (
-            <div className="review-stars">
-                {this.props.overall &&
-                    <Stars label="Overall" score={this.props.overall}/>
-                }
-                {this.props.agency &&
-                    <Stars label="Agency" score={this.props.agency}/>
-                }
-                {this.props.landlord &&
-                    <Stars label="Landlord" score={this.props.landlord}/>
-                }
-                {this.props.property &&
-                    <Stars label="Property" score={this.props.property}/>
-                }
-            </div>
-        );
-    }
+const ReviewStars = (props) => {
+    return (
+        <div className="review-stars">
+            {props.overall &&
+                <Stars label="Overall" score={props.overall}/>
+            }
+            {props.agency &&
+                <Stars label="Agency" score={props.agency}/>
+            }
+            {props.landlord &&
+                <Stars label="Landlord" score={props.landlord}/>
+            }
+            {props.property &&
+                <Stars label="Property" score={props.property}/>
+            }
+        </div>
+    );
 }
 
 export default ReviewStars;
