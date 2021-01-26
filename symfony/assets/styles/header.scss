@@ -1,0 +1,9 @@
+@import "variables";
+
+.property-autocomplete-container {
+  display: none;
+}
+
+.include-search .property-autocomplete-container {
+  display: block;
+}

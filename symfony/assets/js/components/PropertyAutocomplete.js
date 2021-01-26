@@ -30,11 +30,11 @@ class PropertyAutocomplete extends React.Component {
 
     render(){
         return (
-            <Fragment>
+            <div className={this.props.className}>
                 <InputGroup className="property-autocomplete-input-group">
                     <Input
                         type="text"
-                        id={this.state.inputId || 'propertySearch'}
+                        id={this.state.inputId}
                         placeholder={this.props.placeholder || 'Start typing an address... e.g. 249 Victoria Road'}
                         className="property-autocomplete"
                     />
@@ -47,13 +47,13 @@ class PropertyAutocomplete extends React.Component {
                 {this.state.redirectToUrl &&
                 <Redirect to={this.state.redirectToUrl} />
                 }
-            </Fragment>
+            </div>
         )
     }
 
     redirectToPropertyView(event, ui){
         const vendorPropertyId = ui.item.id;
-        fetch('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + vendorPropertyId,)
+        fetch('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + vendorPropertyId)
             .then(response => response.json())
             .then(data => {
                 this.setState({redirectToUrl: '/property/' + data.slug})

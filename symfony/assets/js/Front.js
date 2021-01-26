@@ -41,7 +41,7 @@ class Front extends React.Component {
                     <Route
                         render={({ location }) => ['/'].includes(location.pathname)
                             ? null
-                            : <Header className="bg-gradient-primary"/>
+                            : <Header className="bg-gradient-primary include-search"/>
                         }
                       />
                     <Route path="/" exact component={Header}/>

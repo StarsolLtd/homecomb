@@ -2,6 +2,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Collapse, Container, Nav} from "reactstrap";
 import TextLogo from "../components/TextLogo";
+import PropertyAutocomplete from "../components/PropertyAutocomplete";
+
+import '../../styles/header.scss';
 
 const Header = (props) => {
     const navClasses = `w-100 navbar navbar-expand-md navbar-dark navbar-header ${props.className}`;
@@ -19,9 +22,13 @@ const Header = (props) => {
                 </button>
 
                 <Collapse className="navbar-collapse text-center" id="collapsibleNavbar">
+                    <PropertyAutocomplete
+                        inputId="header-property-autocomplete"
+                        placeholder="Search for an address..."
+                        className="property-autocomplete-container"
+                    />
                     <ul className="navbar-nav ml-auto text-center">
                         <li className="nav-item dropdown"><Link to="/about">About</Link></li>
-                        <li className="nav-item dropdown"><Link to="/#how-it-works">How it Works</Link></li>
                         <li className="nav-item dropdown">
                             <a className="dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

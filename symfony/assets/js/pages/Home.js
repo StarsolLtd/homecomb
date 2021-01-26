@@ -22,12 +22,12 @@ class Home extends React.Component {
             y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
         });
 
-        const classScrolledDown = 'bg-primary';
+        const classScrolledDown = 'include-search';
 
         window.onscroll = function () {
             let pos = getScrollPosition(window);
             let headerNavbar = $('#header-navbar');
-            if (pos.y >= 50) {
+            if (pos.y >= 340) {
                 if (!headerNavbar.hasClass(classScrolledDown)) {
                     headerNavbar.addClass(classScrolledDown, 500);
                 }
@@ -40,7 +40,7 @@ class Home extends React.Component {
     render() {
         return (
             <Row id="home-background" className="no-gutters w-100">
-                <Header className="fixed-top" />
+                <Header className="bg-gradient-primary fixed-top" />
                 <Col id="home" className="align-self-center text-center mt-7 mb-5">
                     <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
                         <h1 className="logo-large"><TextLogo /></h1>
