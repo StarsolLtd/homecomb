@@ -18,8 +18,8 @@ const Header = (props) => {
                     <span className="navbar-toggler-icon" />
                 </button>
 
-                <Collapse className="navbar-collapse" id="collapsibleNavbar">
-                    <ul className="navbar-nav">
+                <Collapse className="navbar-collapse text-center" id="collapsibleNavbar">
+                    <ul className="navbar-nav ml-auto text-center">
                         <li className="nav-item dropdown"><Link to="/about">About</Link></li>
                         <li className="nav-item dropdown"><Link to="/#how-it-works">How it Works</Link></li>
                         <li className="nav-item dropdown">
