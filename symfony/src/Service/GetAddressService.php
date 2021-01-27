@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Exception\FailureException;
+use App\Model\Property\PostcodeProperties;
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
 use function json_decode;
@@ -88,12 +89,9 @@ class GetAddressService
         );
     }
 
-    /**
-     * @return VendorProperty[]
-     */
-    public function find(string $inputPostcode): array
+    public function find(string $inputPostcode): PostcodeProperties
     {
-        $inputPostcode = preg_replace('/[^A-Za-z0-9 ]/', '', trim(strtolower($inputPostcode)));
+        $inputPostcode = preg_replace('/[^A-Za-z0-9]/', '', trim($inputPostcode)) ?? '';
 
         $uri = 'https://api.getaddress.io/find/'.$inputPostcode.'?api-key='.$this->apiKey.'&expand=true';
 
@@ -102,7 +100,7 @@ class GetAddressService
         } catch (TransportExceptionInterface $e) {
             $this->logger->error('Exception thrown finding addresses by postcode: '.$e->getMessage());
 
-            return [];
+            return new PostcodeProperties($inputPostcode, []);
         }
 
         $result = json_decode($response->getContent(), true);
@@ -133,6 +131,6 @@ class GetAddressService
             );
         }
 
-        return $vendorProperties;
+        return new PostcodeProperties($postcode, $vendorProperties);
     }
 }

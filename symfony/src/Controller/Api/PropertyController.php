@@ -110,4 +110,18 @@ class PropertyController extends AppController
 
         return $this->jsonResponse($view, Response::HTTP_OK);
     }
+
+    /**
+     * @Route (
+     *     "/api/postcode/{postcode}",
+     *     name="api-postcode",
+     *     methods={"GET"}
+     * )
+     */
+    public function findAddressesInPostcode(string $postcode): JsonResponse
+    {
+        $postcodeProperties = $this->getAddressService->find($postcode);
+
+        return $this->jsonResponse($postcodeProperties, Response::HTTP_OK);
+    }
 }

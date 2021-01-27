@@ -143,13 +143,14 @@ class GetAddressServiceTest extends TestCase
 
         $output = $this->getAddressService->find('NN1 3ER');
 
-        $this->assertCount(70, $output);
-        $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output);
+        $this->assertEquals('NN1 3ER', $output->getPostcode());
+        $this->assertCount(70, $output->getVendorProperties());
+        $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output->getVendorProperties());
     }
 
     /**
      * @covers \App\Service\GetAddressService::getAddress
-     * Test when exception is thrown calling API, error is logged and result is empty
+     * Test when exception is thrown calling API, error is logged and result has no properties
      */
     public function testFind2(): void
     {
@@ -162,6 +163,6 @@ class GetAddressServiceTest extends TestCase
 
         $output = $this->getAddressService->find('NN1 3ER');
 
-        $this->assertEmpty($output);
+        $this->assertEmpty($output->getVendorProperties());
     }
 }
