@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Property;
 use App\Entity\Review;
+use App\Exception\DeveloperException;
 use App\Factory\PropertyFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Property\VendorProperty;
@@ -13,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Factory\PropertyFactory
+ */
 class PropertyFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -33,7 +37,10 @@ class PropertyFactoryTest extends TestCase
         );
     }
 
-    public function testCreatePropertyEntityFromVendorPropertyModel(): void
+    /**
+     * @covers \App\Factory\PropertyFactory::createEntityFromVendorPropertyModel
+     */
+    public function testCreatePropertyEntityFromVendorPropertyModel1(): void
     {
         $vendorPropertyModel = new VendorProperty(
             789,
@@ -71,7 +78,26 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(-0.47261, $property->getLongitude());
     }
 
-    public function testCreateViewFromEntity(): void
+    /**
+     * @covers \App\Factory\PropertyFactory::createEntityFromVendorPropertyModel
+     * Test throws exception if vendor vendor property ID is null
+     */
+    public function testCreatePropertyEntityFromVendorPropertyModel2(): void
+    {
+        $vendorPropertyModel = $this->prophesize(VendorProperty::class);
+
+        $vendorPropertyModel->getVendorPropertyId()->shouldBeCalledOnce()->willReturn(null);
+
+        $this->expectException(DeveloperException::class);
+        $this->expectExceptionMessage('Unable to create a property entity without a vendor property ID.');
+
+        $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel->reveal());
+    }
+
+    /**
+     * @covers \App\Factory\PropertyFactory::createViewFromEntity
+     */
+    public function testCreateViewFromEntity1(): void
     {
         $review1 = (new Review())
             ->setAuthor('Jack Harper')

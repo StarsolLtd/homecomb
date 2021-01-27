@@ -4,7 +4,7 @@ namespace App\Model\Property;
 
 class VendorProperty
 {
-    private string $vendorPropertyId;
+    private ?string $vendorPropertyId;
     private string $addressLine1;
     private ?string $addressLine2;
     private ?string $addressLine3;
@@ -17,10 +17,10 @@ class VendorProperty
     private string $postcode;
     private ?float $latitude;
     private ?float $longitude;
-    private bool $residential;
+    private ?bool $residential;
 
     public function __construct(
-        string $vendorPropertyId,
+        ?string $vendorPropertyId,
         string $addressLine1,
         ?string $addressLine2,
         ?string $addressLine3,
@@ -33,7 +33,7 @@ class VendorProperty
         string $postcode,
         ?float $latitude,
         ?float $longitude,
-        bool $residential
+        ?bool $residential = null
     ) {
         $this->vendorPropertyId = $vendorPropertyId;
         $this->addressLine1 = $addressLine1;
@@ -51,7 +51,7 @@ class VendorProperty
         $this->residential = $residential;
     }
 
-    public function getVendorPropertyId(): string
+    public function getVendorPropertyId(): ?string
     {
         return $this->vendorPropertyId;
     }
@@ -116,7 +116,7 @@ class VendorProperty
         return $this->longitude;
     }
 
-    public function isResidential(): bool
+    public function getResidential(): ?bool
     {
         return $this->residential;
     }

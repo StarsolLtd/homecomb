@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Property;
+use App\Exception\DeveloperException;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
 use App\Util\PropertyHelper;
@@ -22,6 +23,11 @@ class PropertyFactory
 
     public function createEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property
     {
+        $vendorPropertyId = $vendorProperty->getVendorPropertyId();
+        if (null === $vendorPropertyId) {
+            throw new DeveloperException('Unable to create a property entity without a vendor property ID.');
+        }
+
         $property = (new Property())
             ->setAddressLine1($vendorProperty->getAddressLine1())
             ->setAddressLine2($vendorProperty->getAddressLine2())

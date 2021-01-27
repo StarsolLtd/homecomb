@@ -114,7 +114,7 @@ class GetAddressService
         foreach ($result['addresses'] as $address) {
             // TODO factory
             $vendorProperties[] = new VendorProperty(
-                'TODO', // TODO
+                null,
                 $address['line_1'],
                 $address['line_2'],
                 $address['line_3'],
@@ -127,7 +127,7 @@ class GetAddressService
                 $postcode,
                 $latitude,
                 $longitude,
-                $address['residential'] ?? false // TODO make nullable
+                $address['residential'] ?? null
             );
         }
 

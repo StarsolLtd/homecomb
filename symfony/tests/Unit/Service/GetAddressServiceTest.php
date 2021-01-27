@@ -104,7 +104,7 @@ class GetAddressServiceTest extends TestCase
         $this->assertEquals('West Midlands', $vendorProperty->getCounty());
         $this->assertEquals('Dudley', $vendorProperty->getDistrict());
         $this->assertEquals('B63 4PT', $vendorProperty->getPostcode());
-        $this->assertTrue($vendorProperty->isResidential());
+        $this->assertTrue($vendorProperty->getResidential());
     }
 
     /**

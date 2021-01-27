@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
 use App\Model\Property\View;
@@ -28,6 +29,7 @@ class PropertyService
     }
 
     /**
+     * @throws DeveloperException
      * @throws FailureException
      */
     public function determinePropertySlugFromVendorPropertyId(string $vendorPropertyId): ?string
