@@ -6,10 +6,14 @@ use App\Controller\AppController;
 use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Exception\NotFoundException;
+use App\Model\Flag\SubmitInput;
+use App\Model\Property\PostcodeInput;
 use App\Model\SuggestPropertyInput;
 use App\Service\GetAddressService;
+use App\Service\GoogleReCaptchaService;
 use App\Service\PropertyService;
 use App\Service\UserService;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,17 +22,21 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PropertyController extends AppController
 {
+    use VerifyCaptchaTrait;
+
     private GetAddressService $getAddressService;
     private PropertyService $propertyService;
     private UserService $userService;
 
     public function __construct(
         GetAddressService $getAddressService,
+        GoogleReCaptchaService $googleReCaptchaService,
         PropertyService $propertyService,
         UserService $userService,
         SerializerInterface $serializer
     ) {
         $this->getAddressService = $getAddressService;
+        $this->googleReCaptchaService = $googleReCaptchaService;
         $this->propertyService = $propertyService;
         $this->userService = $userService;
         $this->serializer = $serializer;
@@ -114,14 +122,29 @@ class PropertyController extends AppController
 
     /**
      * @Route (
-     *     "/api/postcode/{postcode}",
+     *     "/api/postcode",
      *     name="api-postcode",
-     *     methods={"GET"}
+     *     methods={"POST"}
      * )
      */
-    public function findAddressesInPostcode(string $postcode): JsonResponse
+    public function findAddressesInPostcode(Request $request): JsonResponse
     {
-        $postcodeProperties = $this->getAddressService->find($postcode);
+        try {
+            /** @var PostcodeInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), PostcodeInput::class, 'json');
+        } catch (Exception $e) {
+            $this->addDeserializationFailedFlashMessage();
+
+            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
+            $this->addFlash('error', 'Sorry, we were unable to process your request.');
+
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $postcodeProperties = $this->getAddressService->find($input->getPostcode());
 
         return $this->jsonResponse($postcodeProperties, Response::HTTP_OK);
     }

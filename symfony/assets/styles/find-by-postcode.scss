@@ -1,0 +1,21 @@
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+@import "app";
+
+.find-by-postcode {
+    @extend .pt-3;
+    @extend .pb-5;
+    text-align: center;
+}
+
+.find-by-postcode-form input {
+    @extend .ml-auto;
+    @extend .mr-auto;
+    max-width: 260px;
+    font-size: 160%;
+}
+
+.find-by-postcode h3  {
+    font-family: $logo-font;
+    padding-bottom: .75em;
+}

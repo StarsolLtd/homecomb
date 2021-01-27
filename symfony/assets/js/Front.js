@@ -20,6 +20,7 @@ import HowItWorks from "./content/HowItWorks";
 import FooterLarge from "./layout/FooterLarge";
 import View from "./pages/View";
 import LatestReviews from "./content/LatestReviews";
+import FindByPostcode from "./pages/FindByPostcode";
 
 class Front extends React.Component {
 
@@ -51,6 +52,7 @@ class Front extends React.Component {
                         <Route path="/" exact component={Home}/>
                         <Route path="/about" render={(props) => <View content={About} {...props} />}/>
                         <Route path="/contact" render={(props) => <View content={Contact} {...props} />}/>
+                        <Route path="/find-by-postcode" render={(props) => <View content={FindByPostcode} {...props} />}/>
                         <Route path="/privacy-policy" render={(props) => <View content={PrivacyPolicy} {...props} />}/>
                         <Route path="/register" render={(props) => <View content={Register} {...props} />}/>
                         <Route path="/review" exact render={(props) => <View content={TenancyReview} {...props} />}/>
@@ -89,7 +91,7 @@ class Front extends React.Component {
     }
 
     showHowItWorks(pathname) {
-        if (['/', '/about', '/contact'].includes(pathname)) {
+        if (['/', '/about', '/contact', '/find-by-postcode'].includes(pathname)) {
             return true;
         }
 
