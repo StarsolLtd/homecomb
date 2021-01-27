@@ -53,6 +53,9 @@ class GetAddressService
         return $suggestions;
     }
 
+    /**
+     * @throws FailureException
+     */
     public function getAddress(string $vendorId): VendorProperty
     {
         $uri = 'https://api.getAddress.io/get/'.$vendorId.'?api-key='.$this->apiKey;

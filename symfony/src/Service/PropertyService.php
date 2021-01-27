@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
 use App\Model\Property\View;
 use App\Repository\PropertyRepository;
@@ -26,6 +27,9 @@ class PropertyService
         $this->getAddressService = $getAddressService;
     }
 
+    /**
+     * @throws FailureException
+     */
     public function determinePropertySlugFromVendorPropertyId(string $vendorPropertyId): ?string
     {
         $property = $this->propertyRepository->findOneByVendorPropertyIdOrNull($vendorPropertyId);

@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use App\Exception\FailureException;
 use App\Exception\NotFoundException;
 use App\Model\SuggestPropertyInput;
 use App\Service\GetAddressService;
@@ -46,7 +47,11 @@ class PropertyController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($vendorPropertyId);
+        try {
+            $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($vendorPropertyId);
+        } catch (FailureException $e) {
+            return $this->jsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return new JsonResponse(
             [
