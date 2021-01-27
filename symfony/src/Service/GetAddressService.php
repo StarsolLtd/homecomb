@@ -70,10 +70,9 @@ class GetAddressService
     }
 
     /**
-     * @param string $inputPostcode
      * @return VendorProperty[]
      */
-    public function find(string $inputPostcode): iterable
+    public function find(string $inputPostcode): array
     {
         $inputPostcode = preg_replace('/[^A-Za-z0-9 ]/', '', trim(strtolower($inputPostcode)));
 
@@ -88,8 +87,11 @@ class GetAddressService
         $latitude = $result['latitude'];
         $longitude = $result['longitude'];
 
+        $vendorProperties = [];
+
         foreach ($result['addresses'] as $address) {
-            yield new VendorProperty(
+            // TODO factory
+            $vendorProperties[] = new VendorProperty(
                 'TODO', // TODO
                 $address['line_1'],
                 $address['line_2'],
@@ -103,8 +105,10 @@ class GetAddressService
                 $postcode,
                 $latitude,
                 $longitude,
-                $address['residential']
+                $address['residential'] ?? false // TODO make nullable
             );
         }
+
+        return $vendorProperties;
     }
 }

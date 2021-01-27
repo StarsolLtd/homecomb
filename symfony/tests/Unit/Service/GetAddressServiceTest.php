@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\Util;
+namespace App\Tests\Unit\Service;
 
+use App\Model\Property\VendorProperty;
 use App\Service\GetAddressService;
 use function file_get_contents;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +11,9 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+/**
+ * @covers \App\Service\GetAddressService
+ */
 class GetAddressServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -27,7 +31,10 @@ class GetAddressServiceTest extends TestCase
         );
     }
 
-    public function testAutocomplete(): void
+    /**
+     * @covers \App\Service\GetAddressService::autocomplete
+     */
+    public function testAutocomplete1(): void
     {
         $response = $this->prophesize(ResponseInterface::class);
 
@@ -48,7 +55,10 @@ class GetAddressServiceTest extends TestCase
         $this->assertEquals('ZjI4M2FhYzgwOTVkNWFiIDUxMDkwMDQ4IDMzZjhlNDFkNGU1MzY0Mw==', $propertySuggestions[1]->getVendorId());
     }
 
-    public function testGetAddress(): void
+    /**
+     * @covers \App\Service\GetAddressService::getAddress
+     */
+    public function testGetAddress1(): void
     {
         $response = $this->prophesize(ResponseInterface::class);
 
@@ -71,5 +81,26 @@ class GetAddressServiceTest extends TestCase
         $this->assertEquals('Dudley', $vendorProperty->getDistrict());
         $this->assertEquals('B63 4PT', $vendorProperty->getPostcode());
         $this->assertTrue($vendorProperty->isResidential());
+    }
+
+    /**
+     * @covers \App\Service\GetAddressService::getAddress
+     */
+    public function testFind1(): void
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+
+        $response->getContent()
+            ->shouldBeCalledOnce()
+            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_find_expand_response.json'));
+
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willReturn($response);
+
+        $output = $this->getAddressService->find('NN1 3ER');
+
+        $this->assertCount(70, $output);
+        $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output);
     }
 }
