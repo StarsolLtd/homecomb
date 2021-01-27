@@ -4,18 +4,23 @@ namespace App\Service;
 
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
+use Exception;
 use function json_decode;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetAddressService
 {
+    private LoggerInterface $logger;
     private HttpClientInterface $client;
     private string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280';
 
     public function __construct(
+        LoggerInterface $logger,
         HttpClientInterface $client
     ) {
         $this->client = $client;
+        $this->logger = $logger;
     }
 
     /**
@@ -78,8 +83,13 @@ class GetAddressService
 
         $uri = 'https://api.getaddress.io/find/'.$inputPostcode.'?api-key='.$this->apiKey.'&expand=true';
 
-        // TODO try/catch
-        $response = $this->client->request('GET', $uri);
+        try {
+            $response = $this->client->request('GET', $uri);
+        } catch (Exception $e) {
+            $this->logger->error('Exception thrown finding addresses by postcode: '.$e->getMessage());
+
+            return [];
+        }
 
         $result = json_decode($response->getContent(), true);
 

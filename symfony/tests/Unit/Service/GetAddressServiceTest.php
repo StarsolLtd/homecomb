@@ -8,6 +8,8 @@ use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\Exception\TimeoutException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -20,13 +22,16 @@ class GetAddressServiceTest extends TestCase
 
     private GetAddressService $getAddressService;
 
+    private $logger;
     private $client;
 
     public function setUp(): void
     {
+        $this->logger = $this->prophesize(LoggerInterface::class);
         $this->client = $this->prophesize(HttpClientInterface::class);
 
         $this->getAddressService = new GetAddressService(
+            $this->logger->reveal(),
             $this->client->reveal()
         );
     }
@@ -102,5 +107,23 @@ class GetAddressServiceTest extends TestCase
 
         $this->assertCount(70, $output);
         $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output);
+    }
+
+    /**
+     * @covers \App\Service\GetAddressService::getAddress
+     * Test when exception is thrown calling API, error is logged and result is empty
+     */
+    public function testFind2(): void
+    {
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willThrow(TimeoutException::class);
+
+        $this->logger->error(Argument::type('string'))
+            ->shouldBeCalledOnce();
+
+        $output = $this->getAddressService->find('NN1 3ER');
+
+        $this->assertEmpty($output);
     }
 }
