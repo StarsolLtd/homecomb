@@ -19,6 +19,7 @@ class FindByPostcode extends React.Component {
             loaded: false,
         };
 
+        this.handleAddressClick = this.handleAddressClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
@@ -64,21 +65,22 @@ class FindByPostcode extends React.Component {
                     <LoadingSpinner className="mt-3"/>
                 }
                 {this.state.loaded &&
-                    <Fragment>
-                        <h2 className="mt-3">{this.state.properties.length} results found in {this.state.postcode}</h2>
-                        {this.state.properties.map(
-                            ({ addressLine1, addressLine2, addressLine3, city, postcode }) => (
-                                <Address
-                                    key={addressLine1}
-                                    addressLine1={addressLine1}
-                                    addressLine2={addressLine2}
-                                    addressLine3={addressLine3}
-                                    city={city}
-                                    postcode={postcode}
-                                />
-                            )
-                        )}
-                    </Fragment>
+                <Fragment>
+                    <h2 className="mt-3">{this.state.properties.length} results found in {this.state.postcode}</h2>
+                    {this.state.properties.map(
+                        ({addressLine1, addressLine2, addressLine3, city, postcode}) => (
+                            <Address
+                                key={addressLine1}
+                                addressLine1={addressLine1}
+                                addressLine2={addressLine2}
+                                addressLine3={addressLine3}
+                                city={city}
+                                postcode={postcode}
+                                handleClick={this.handleAddressClick}
+                            />
+                        )
+                    )}
+                </Fragment>
                 }
             </div>
         );
@@ -92,8 +94,8 @@ class FindByPostcode extends React.Component {
         };
 
         let component = this;
-        grecaptcha.ready(function() {
-            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(captchaToken) {
+        grecaptcha.ready(function () {
+            grecaptcha.execute(Constants.GOOGLE_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function (captchaToken) {
                 payload.captchaToken = captchaToken;
                 fetch('/api/postcode', {
                     method: 'POST',
@@ -122,6 +124,14 @@ class FindByPostcode extends React.Component {
                     .catch(err => console.error("Error:", err));
             });
         });
+    }
+
+    handleAddressClick(addressLine1) {
+        fetch('/api/property/lookup-slug-from-address?addressLine1=' + addressLine1 + '&postcode=' + this.state.postcode)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({redirectToUrl: '/property/' + data.slug})
+            });
     }
 }
 
