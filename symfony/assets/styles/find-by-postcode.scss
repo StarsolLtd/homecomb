@@ -8,14 +8,40 @@
     text-align: center;
 }
 
-.find-by-postcode-form input {
+.find-by-postcode p {
+    font-size: 125%;
+    text-align: justify;
     @extend .ml-auto;
     @extend .mr-auto;
-    max-width: 260px;
+    @extend .pb-3;
+    max-width: 600px;
+}
+
+.find-by-postcode-form .input-group {
+    @extend .ml-auto;
+    @extend .mr-auto;
+    max-width: 280px;
+    @extend .pb-3;
+}
+
+.find-by-postcode-form input {
     font-size: 160%;
+}
+
+.find-by-postcode h1  {
+    font-family: $logo-font;
+    @extend .pb-3;
 }
 
 .find-by-postcode h3  {
     font-family: $logo-font;
-    padding-bottom: .75em;
+    @extend .pb-3;
+}
+
+.find-by-postcode .address {
+    @extend .p-2;
+    cursor: pointer;
+    font-size: 120%;
+    border-top: 1px solid $gray-300;
+    color: $primary;
 }

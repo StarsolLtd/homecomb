@@ -12,7 +12,7 @@ const FooterLarge = (props) => {
         <Nav className="bg-gradient-primary text-white">
             <Container className="p-4 pb-5">
                 <Row>
-                    <div className="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
                         <h5><TextLogo className="logo-white" /></h5>
 
                         <p>© 2021 <a className="text-white" href="http://starsol.com/">Starsol Ltd</a></p>
@@ -27,6 +27,12 @@ const FooterLarge = (props) => {
                             {props.user && !props.user.agencyAdmin &&
                             <li><a href="/verified/agency/create" className="text-white create-agency-link">Add Your Agency</a></li>
                             }
+                        </ul>
+                    </div>
+
+                    <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <ul className="list-unstyled mb-0">
+                            <li><Link to="/find-by-postcode" className="text-white">Find by Postcode</Link></li>
                         </ul>
                     </div>
 

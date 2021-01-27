@@ -1,6 +1,6 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
-import {Button, FormText} from "reactstrap";
+import {Button, InputGroup} from "reactstrap";
 import {AvForm, AvGroup, AvInput, AvFeedback} from 'availity-reactstrap-validation';
 import Constants from "../Constants";
 import Address from "../components/Address";
@@ -8,6 +8,8 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 import '../../styles/find-by-postcode.scss';
 import {Redirect} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 class FindByPostcode extends React.Component {
 
@@ -16,6 +18,7 @@ class FindByPostcode extends React.Component {
         this.state = {
             postcode: '',
             properties: [],
+            isPendingRedirect: false,
             isLoading: false,
             loaded: false,
             redirectToUrl: null
@@ -40,39 +43,48 @@ class FindByPostcode extends React.Component {
         if (this.state.redirectToUrl) {
             return (<Redirect to={this.state.redirectToUrl} />);
         }
-
+        if (this.state.isPendingRedirect) {
+            return (<LoadingSpinner className="mt-3"/>);
+        }
         return (
             <div className="find-by-postcode">
-                <h1>Find an address by postcode</h1>
-                <p>
-                    To see all property addresses for a postcode, simply enter the full postcode in the search box
-                    below, then click <i>Search</i>
-                </p>
-                <AvForm className="find-by-postcode-form" onValidSubmit={this.handleValidSubmit}>
-                    <AvGroup>
-                        <AvInput
-                            type="text"
-                            name="postcode"
-                            required
-                            onChange={this.handleChange}
-                            placeholder="Enter a postcode"
-                            value={this.state.email}
-                        />
-                        <AvFeedback>Please enter a valid UK postcode.</AvFeedback>
-                        <FormText>
-                            Example: <i>CB4 3LF</i>
-                        </FormText>
-                    </AvGroup>
-                    <Button id="find-by-postcode-submit" color="primary" size="lg" className="mt-1">
-                        Search
-                    </Button>
-                </AvForm>
+                <div className="bg-white rounded shadow-sm p-4 mb-4">
+                    <h1>Find an address by postcode</h1>
+                    <p>
+                        To see all property addresses for a postcode,
+                        simply enter the full postcode in the search box below,
+                        then click the <FontAwesomeIcon icon={faSearch} /> icon.
+                    </p>
+                    <AvForm className="find-by-postcode-form" onValidSubmit={this.handleValidSubmit}>
+                        <AvGroup>
+                            <InputGroup className="property-autocomplete-input-group">
+                                <AvInput
+                                    type="text"
+                                    name="postcode"
+                                    required
+                                    onChange={this.handleChange}
+                                    placeholder="Enter a postcode"
+                                    value={this.state.email}
+                                />
+                                <span className="input-group-append">
+                                    <button className="btn border-left-0" type="submit">
+                                        <FontAwesomeIcon icon={faSearch} />
+                                    </button>
+                                </span>
+                                <AvFeedback>Please enter a valid UK postcode.</AvFeedback>
+                            </InputGroup>
+                        </AvGroup>
+                        <Button id="find-by-postcode-submit" color="primary" size="lg" className="mt-1">
+                            Search <FontAwesomeIcon icon={faSearch} />
+                        </Button>
+                    </AvForm>
+                </div>
                 {this.state.isLoading &&
-                    <LoadingSpinner className="mt-3"/>
+                <LoadingSpinner className="mt-3"/>
                 }
-                {this.state.loaded &&
-                <Fragment>
-                    <h2 className="mt-3">{this.state.properties.length} results found in {this.state.postcode}</h2>
+                {!this.state.isLoading && this.state.loaded &&
+                <div className="bg-white rounded shadow-sm p-3 mb-4">
+                    <h3 className="mt-1">{this.state.properties.length} results found in {this.state.postcode}</h3>
                     {this.state.properties.map(
                         ({addressLine1, addressLine2, addressLine3, city, postcode}) => (
                             <Address
@@ -86,7 +98,7 @@ class FindByPostcode extends React.Component {
                             />
                         )
                     )}
-                </Fragment>
+                </div>
                 }
             </div>
         );
@@ -133,6 +145,8 @@ class FindByPostcode extends React.Component {
     }
 
     handleAddressClick(addressLine1) {
+        this.setState({isPendingRedirect: true})
+
         fetch('/api/property/lookup-slug-from-address?addressLine1=' + addressLine1 + '&postcode=' + this.state.postcode)
             .then(response => response.json())
             .then(data => {
