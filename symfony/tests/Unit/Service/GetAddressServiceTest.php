@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Exception\FailureException;
 use App\Model\Property\VendorProperty;
 use App\Service\GetAddressService;
 use function file_get_contents;
@@ -61,6 +62,24 @@ class GetAddressServiceTest extends TestCase
     }
 
     /**
+     * @covers \App\Service\GetAddressService::autocomplete
+     * Test when exception is thrown calling API, error is logged and result is empty
+     */
+    public function testAutocomplete2(): void
+    {
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willThrow(TimeoutException::class);
+
+        $this->logger->error(Argument::type('string'))
+            ->shouldBeCalledOnce();
+
+        $output = $this->getAddressService->autocomplete('Loke Road');
+
+        $this->assertEmpty($output);
+    }
+
+    /**
      * @covers \App\Service\GetAddressService::getAddress
      */
     public function testGetAddress1(): void
@@ -86,6 +105,25 @@ class GetAddressServiceTest extends TestCase
         $this->assertEquals('Dudley', $vendorProperty->getDistrict());
         $this->assertEquals('B63 4PT', $vendorProperty->getPostcode());
         $this->assertTrue($vendorProperty->isResidential());
+    }
+
+    /**
+     * @covers \App\Service\GetAddressService::getAddress
+     * Test that when an exception is thrown calling the API, an error is logged, and a FailureException is thrown.
+     */
+    public function testGetAddress2(): void
+    {
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willThrow(TimeoutException::class);
+
+        $this->logger->error(Argument::type('string'))
+            ->shouldBeCalledOnce();
+
+        $this->expectException(FailureException::class);
+        $this->expectExceptionMessage('Retrieval of property data from API failed.');
+
+        $this->getAddressService->getAddress('testvendorid');
     }
 
     /**

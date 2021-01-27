@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
+use App\Exception\FailureException;
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
-use Exception;
 use function json_decode;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetAddressService
@@ -30,8 +31,13 @@ class GetAddressService
     {
         $uri = 'https://api.getAddress.io/autocomplete/'.$term.'?api-key='.$this->apiKey.'&top=10';
 
-        // TODO try/catch
-        $response = $this->client->request('GET', $uri);
+        try {
+            $response = $this->client->request('GET', $uri);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Exception thrown finding autocompletion options for search term: '.$e->getMessage());
+
+            return [];
+        }
 
         $results = json_decode($response->getContent(), true)['suggestions'];
 
@@ -51,8 +57,13 @@ class GetAddressService
     {
         $uri = 'https://api.getAddress.io/get/'.$vendorId.'?api-key='.$this->apiKey;
 
-        // TODO try/catch
-        $response = $this->client->request('GET', $uri);
+        try {
+            $response = $this->client->request('GET', $uri);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Exception thrown finding addresses by postcode: '.$e->getMessage());
+
+            throw new FailureException('Retrieval of property data from API failed.');
+        }
 
         $result = json_decode($response->getContent(), true);
 
@@ -85,7 +96,7 @@ class GetAddressService
 
         try {
             $response = $this->client->request('GET', $uri);
-        } catch (Exception $e) {
+        } catch (TransportExceptionInterface $e) {
             $this->logger->error('Exception thrown finding addresses by postcode: '.$e->getMessage());
 
             return [];
