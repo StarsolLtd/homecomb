@@ -7,6 +7,7 @@ import Address from "../components/Address";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 import '../../styles/find-by-postcode.scss';
+import {Redirect} from "react-router-dom";
 
 class FindByPostcode extends React.Component {
 
@@ -17,6 +18,7 @@ class FindByPostcode extends React.Component {
             properties: [],
             isLoading: false,
             loaded: false,
+            redirectToUrl: null
         };
 
         this.handleAddressClick = this.handleAddressClick.bind(this);
@@ -35,6 +37,10 @@ class FindByPostcode extends React.Component {
     }
 
     render() {
+        if (this.state.redirectToUrl) {
+            return (<Redirect to={this.state.redirectToUrl} />);
+        }
+
         return (
             <div className="find-by-postcode">
                 <h1>Find an address by postcode</h1>
