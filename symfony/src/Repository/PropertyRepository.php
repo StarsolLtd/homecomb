@@ -70,4 +70,14 @@ class PropertyRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findOneByAddressOrNull(string $addressLine1, string $postcode): ?Property
+    {
+        return $this->findOneBy(
+            [
+                'addressLine1' => $addressLine1,
+                'postcode' => $postcode,
+            ]
+        );
+    }
 }

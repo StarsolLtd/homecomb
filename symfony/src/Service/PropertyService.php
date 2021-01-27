@@ -50,6 +50,29 @@ class PropertyService
         return $property->getSlug();
     }
 
+    public function determinePropertySlugFromAddress(string $addressLine1, string $postcode): ?string
+    {
+        $property = $this->propertyRepository->findOneByAddressOrNull($addressLine1, $postcode);
+        if (null !== $property) {
+            return $property->getSlug();
+        }
+
+        $suggestions = $this->getAddressService->autocomplete($addressLine1.', '.$postcode);
+        $vendorPropertyId = empty($suggestions) ? null : $suggestions[0]->getVendorId();
+        if (null === $vendorPropertyId) {
+            return null;
+        }
+
+        $vendorProperty = $this->getAddressService->getAddress($vendorPropertyId);
+
+        $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorProperty);
+
+        $this->entityManager->persist($property);
+        $this->entityManager->flush();
+
+        return $property->getSlug();
+    }
+
     public function getViewBySlug(string $slug): View
     {
         $branch = $this->propertyRepository->findOnePublishedBySlug($slug);
