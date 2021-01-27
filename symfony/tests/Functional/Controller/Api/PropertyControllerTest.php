@@ -27,6 +27,19 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals('ccc5382816c1', $content['slug']);
     }
 
+    public function testLookupSlugFromAddress(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/property/lookup-slug-from-address?addressLine1=249%20Victoria%20Road&postcode=CB4%203LF');
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertEquals('ccc5382816c1', $content['slug']);
+    }
+
     public function testSuggestProperty(): void
     {
         $client = static::createClient();

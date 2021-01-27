@@ -6,7 +6,6 @@ use App\Controller\AppController;
 use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Exception\NotFoundException;
-use App\Model\Flag\SubmitInput;
 use App\Model\Property\PostcodeInput;
 use App\Model\SuggestPropertyInput;
 use App\Service\GetAddressService;
@@ -61,6 +60,31 @@ class PropertyController extends AppController
         } catch (DeveloperException | FailureException $e) {
             return $this->jsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        return new JsonResponse(
+            [
+                'slug' => $propertySlug,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route (
+     *     "/api/property/lookup-slug-from-address",
+     *     name="lookup-slug-from-address",
+     *     methods={"GET"}
+     * )
+     */
+    public function lookupSlugFromAddress(Request $request): JsonResponse
+    {
+        $addressLine1 = $request->query->get('addressLine1');
+        $postcode = $request->query->get('postcode');
+        if (null === $addressLine1 || null === $postcode) {
+            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+        }
+
+        $propertySlug = $this->propertyService->determinePropertySlugFromAddress($addressLine1, $postcode);
 
         return new JsonResponse(
             [
