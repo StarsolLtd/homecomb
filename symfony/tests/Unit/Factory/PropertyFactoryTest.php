@@ -10,6 +10,7 @@ use App\Factory\ReviewFactory;
 use App\Model\Property\VendorProperty;
 use App\Model\Review\View;
 use App\Util\PropertyHelper;
+use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -140,5 +141,19 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('29 Bateman Street', $view->getAddressLine1());
         $this->assertEquals('CB3 6HC', $view->getPostcode());
         $this->assertCount(2, $view->getReviews());
+    }
+
+    /**
+     * @covers \App\Factory\PropertyFactory::createPostcodePropertiesFromFindResponseContent
+     */
+    public function testCreatePostcodePropertiesFromFindResponseContent1(): void
+    {
+        $content = file_get_contents(__DIR__.'/files/getAddress_find_expand_response.json');
+
+        $output = $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($content);
+
+        $this->assertEquals('NN1 3ER', $output->getPostcode());
+        $this->assertCount(70, $output->getVendorProperties());
+        $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output->getVendorProperties());
     }
 }

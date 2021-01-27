@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Exception\FailureException;
+use App\Factory\PropertyFactory;
 use App\Model\Property\PostcodeProperties;
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
@@ -15,14 +16,17 @@ class GetAddressService
 {
     private LoggerInterface $logger;
     private HttpClientInterface $client;
+    private PropertyFactory $propertyFactory;
     private string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280';
 
     public function __construct(
         LoggerInterface $logger,
-        HttpClientInterface $client
+        HttpClientInterface $client,
+        PropertyFactory $propertyFactory
     ) {
         $this->client = $client;
         $this->logger = $logger;
+        $this->propertyFactory = $propertyFactory;
     }
 
     /**
@@ -54,12 +58,9 @@ class GetAddressService
         return $suggestions;
     }
 
-    /**
-     * @throws FailureException
-     */
-    public function getAddress(string $vendorId): VendorProperty
+    public function getAddress(string $vendorPropertyId): VendorProperty
     {
-        $uri = 'https://api.getAddress.io/get/'.$vendorId.'?api-key='.$this->apiKey;
+        $uri = 'https://api.getAddress.io/get/'.$vendorPropertyId.'?api-key='.$this->apiKey;
 
         try {
             $response = $this->client->request('GET', $uri);
@@ -72,7 +73,7 @@ class GetAddressService
         $result = json_decode($response->getContent(), true);
 
         return new VendorProperty(
-            $vendorId,
+            $vendorPropertyId,
             $result['line_1'],
             $result['line_2'],
             $result['line_3'],
@@ -103,34 +104,6 @@ class GetAddressService
             return new PostcodeProperties($inputPostcode, []);
         }
 
-        $result = json_decode($response->getContent(), true);
-
-        $postcode = $result['postcode'];
-        $latitude = $result['latitude'];
-        $longitude = $result['longitude'];
-
-        $vendorProperties = [];
-
-        foreach ($result['addresses'] as $address) {
-            // TODO factory
-            $vendorProperties[] = new VendorProperty(
-                null,
-                $address['line_1'],
-                $address['line_2'],
-                $address['line_3'],
-                $address['line_4'],
-                $address['locality'],
-                $address['town_or_city'],
-                $address['county'],
-                $address['district'],
-                $address['country'],
-                $postcode,
-                $latitude,
-                $longitude,
-                $address['residential'] ?? null
-            );
-        }
-
-        return new PostcodeProperties($postcode, $vendorProperties);
+        return $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($response->getContent());
     }
 }

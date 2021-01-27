@@ -4,9 +4,11 @@ namespace App\Factory;
 
 use App\Entity\Property;
 use App\Exception\DeveloperException;
+use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
 use App\Util\PropertyHelper;
+use function json_decode;
 
 class PropertyFactory
 {
@@ -60,5 +62,37 @@ class PropertyFactory
             $entity->getPostcode(),
             $reviews
         );
+    }
+
+    public function createPostcodePropertiesFromFindResponseContent(string $responseContent): PostcodeProperties
+    {
+        $result = json_decode($responseContent, true);
+
+        $postcode = $result['postcode'];
+        $latitude = $result['latitude'];
+        $longitude = $result['longitude'];
+
+        $vendorProperties = [];
+
+        foreach ($result['addresses'] as $address) {
+            $vendorProperties[] = new VendorProperty(
+                null,
+                $address['line_1'],
+                $address['line_2'],
+                $address['line_3'],
+                $address['line_4'],
+                $address['locality'],
+                $address['town_or_city'],
+                $address['county'],
+                $address['district'],
+                $address['country'],
+                $postcode,
+                $latitude,
+                $longitude,
+                $address['residential'] ?? null
+            );
+        }
+
+        return new PostcodeProperties($postcode, $vendorProperties);
     }
 }

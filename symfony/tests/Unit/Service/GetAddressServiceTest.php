@@ -3,7 +3,8 @@
 namespace App\Tests\Unit\Service;
 
 use App\Exception\FailureException;
-use App\Model\Property\VendorProperty;
+use App\Factory\PropertyFactory;
+use App\Model\Property\PostcodeProperties;
 use App\Service\GetAddressService;
 use function file_get_contents;
 use PHPUnit\Framework\TestCase;
@@ -25,15 +26,18 @@ class GetAddressServiceTest extends TestCase
 
     private $logger;
     private $client;
+    private $propertyFactory;
 
     public function setUp(): void
     {
         $this->logger = $this->prophesize(LoggerInterface::class);
         $this->client = $this->prophesize(HttpClientInterface::class);
+        $this->propertyFactory = $this->prophesize(PropertyFactory::class);
 
         $this->getAddressService = new GetAddressService(
             $this->logger->reveal(),
-            $this->client->reveal()
+            $this->client->reveal(),
+            $this->propertyFactory->reveal()
         );
     }
 
@@ -132,20 +136,24 @@ class GetAddressServiceTest extends TestCase
     public function testFind1(): void
     {
         $response = $this->prophesize(ResponseInterface::class);
+        $postcodeProperties = $this->prophesize(PostcodeProperties::class);
+        $content = 'test';
 
         $response->getContent()
             ->shouldBeCalledOnce()
-            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_find_expand_response.json'));
+            ->willReturn($content);
 
         $this->client->request('GET', Argument::type('string'))
             ->shouldBeCalledOnce()
             ->willReturn($response);
 
+        $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($content)
+            ->shouldBeCalledOnce()
+            ->willReturn($postcodeProperties);
+
         $output = $this->getAddressService->find('NN1 3ER');
 
-        $this->assertEquals('NN1 3ER', $output->getPostcode());
-        $this->assertCount(70, $output->getVendorProperties());
-        $this->assertContainsOnlyInstancesOf(VendorProperty::class, $output->getVendorProperties());
+        $this->assertEquals($postcodeProperties->reveal(), $output);
     }
 
     /**
