@@ -48,7 +48,9 @@ class VoteRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
 
-        return $query->getSingleResult();
+        $result = $query->getResult();
+
+        return $result[0] ?? null;
     }
 
     public function findOneCommentVoteByUserAndEntity(User $user, int $entityId): ?CommentVote
@@ -64,6 +66,8 @@ class VoteRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
 
-        return $query->getSingleResult();
+        $result = $query->getResult();
+
+        return $result[0] ?? null;
     }
 }
