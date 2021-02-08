@@ -13,6 +13,7 @@ use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
+use App\Entity\Vote\ReviewVote;
 use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -134,6 +135,20 @@ class TestFixtures extends AbstractDataFixtures
         /** @var ReviewComment $reviewComment */
         $reviewComment = $comment;
 
+        $positiveVote1 = (new ReviewVote())
+            ->setPositive(true)
+            ->setUser($user2);
+        $manager->persist($positiveVote1);
+        /** @var ReviewVote $positiveReviewVote1 */
+        $positiveReviewVote1 = $positiveVote1;
+
+        $positiveVote2 = (new ReviewVote())
+            ->setPositive(true)
+            ->setUser($user3);
+        $manager->persist($positiveVote2);
+        /** @var ReviewVote $positiveReviewVote2 */
+        $positiveReviewVote2 = $positiveVote2;
+
         $review = (new Review())
             ->setUser($user1)
             ->setProperty($property)
@@ -152,7 +167,10 @@ class TestFixtures extends AbstractDataFixtures
             ->setLandlordStars(null)
             ->setPropertyStars(5)
             ->setPublished(true)
-            ->addComment($reviewComment);
+            ->addComment($reviewComment)
+            ->addVote($positiveReviewVote1)
+            ->addVote($positiveReviewVote2)
+        ;
         $manager->persist($review);
 
         $locale = (new Locale())

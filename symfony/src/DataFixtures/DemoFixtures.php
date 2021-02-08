@@ -13,6 +13,7 @@ use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
+use App\Entity\Vote\ReviewVote;
 use App\Service\ReviewService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
@@ -85,6 +86,27 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         /** @var ReviewComment $reviewComment */
         $reviewComment = $comment;
 
+        $positiveVote1 = (new ReviewVote())
+            ->setPositive(true)
+            ->setUser($users[self::USER_5]);
+        $manager->persist($positiveVote1);
+        /** @var ReviewVote $positiveReviewVote1 */
+        $positiveReviewVote1 = $positiveVote1;
+
+        $positiveVote2 = (new ReviewVote())
+            ->setPositive(true)
+            ->setUser($users[self::USER_4]);
+        $manager->persist($positiveVote2);
+        /** @var ReviewVote $positiveReviewVote2 */
+        $positiveReviewVote2 = $positiveVote2;
+
+        $negativeVote1 = (new ReviewVote())
+            ->setPositive(false)
+            ->setUser($users[self::USER_3]);
+        $manager->persist($negativeVote1);
+        /** @var ReviewVote $negativeReviewVote1 */
+        $negativeReviewVote1 = $negativeVote1;
+
         $reviews[] = (new Review())
             ->setUser($users[self::USER_1])
             ->setProperty($property249)
@@ -103,7 +125,11 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true)
             ->setStart(new DateTime('2013-08-01'))
             ->setEnd(new DateTime('2015-07-01'))
-            ->addComment($reviewComment);
+            ->addComment($reviewComment)
+            ->addVote($positiveReviewVote1)
+            ->addVote($positiveReviewVote2)
+            ->addVote($negativeReviewVote1)
+        ;
 
         $reviews[] = (new Review())
             ->setUser($users[self::USER_2])
