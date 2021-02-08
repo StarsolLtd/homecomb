@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Comment\ReviewComment;
+use App\Entity\Vote\ReviewVote;
+use function count;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -114,11 +116,18 @@ class Review
      */
     private Collection $comments;
 
+    /**
+     * @var Collection<int, ReviewVote>
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote\ReviewVote", mappedBy="review")
+     */
+    private Collection $votes;
+
     public function __construct()
     {
         $this->locales = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -361,5 +370,47 @@ class Review
         $comment->setReview($this);
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, ReviewVote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(ReviewVote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            return $this;
+        }
+        $this->votes[] = $vote;
+        $vote->setReview($this);
+
+        return $this;
+    }
+
+    public function getVotesScore(): int
+    {
+        return $this->getPositiveVotesCount() - $this->getNegativeVotesCount();
+    }
+
+    public function getPositiveVotesCount(): int
+    {
+        return count(
+            $this->getVotes()->filter(function (ReviewVote $vote) {
+                return $vote->isPositive();
+            })
+        );
+    }
+
+    public function getNegativeVotesCount(): int
+    {
+        return count(
+            $this->getVotes()->filter(function (ReviewVote $vote) {
+                return !$vote->isPositive();
+            })
+        );
     }
 }
