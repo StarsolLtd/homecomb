@@ -92,7 +92,10 @@ class ReviewFactory
             $entity->getContent() ?? '',
             $stars,
             $entity->getCreatedAt(),
-            $comments
+            $comments,
+            $entity->getPositiveVotesCount(),
+            $entity->getNegativeVotesCount(),
+            $entity->getVotesScore()
         );
     }
 

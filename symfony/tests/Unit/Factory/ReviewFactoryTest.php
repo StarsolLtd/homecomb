@@ -8,6 +8,7 @@ use App\Entity\Comment\ReviewComment;
 use App\Entity\Property;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Entity\Vote\ReviewVote;
 use App\Factory\FlatModelFactory;
 use App\Factory\ReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
@@ -72,6 +73,8 @@ class ReviewFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($flatComment);
 
+        $positiveVote = (new ReviewVote())->setPositive(true);
+
         $review = (new Review())
             ->setBranch($branch)
             ->setProperty($property)
@@ -86,6 +89,7 @@ class ReviewFactoryTest extends TestCase
             ->setPropertyStars(5)
             ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
             ->addComment($comment)
+            ->addVote($positiveVote)
         ;
         $this->setIdByReflection($review, 789);
 
@@ -108,6 +112,9 @@ class ReviewFactoryTest extends TestCase
         $this->assertEquals('2020-02-02', $view->getCreatedAt()->format('Y-m-d'));
         $this->assertCount(1, $view->getComments());
         $this->assertEquals('We are glad you liked it', $view->getComments()[0]->getContent());
+        $this->assertEquals(1, $view->getPositiveVotes());
+        $this->assertEquals(0, $view->getNegativeVotes());
+        $this->assertEquals(1, $view->getVotesScore());
     }
 
     /**
@@ -216,6 +223,9 @@ class ReviewFactoryTest extends TestCase
         $review->getEnd()->willReturn(null);
         $review->getTitle()->willReturn(null);
         $review->getContent()->willReturn(null);
+        $review->getPositiveVotesCount()->willReturn(0);
+        $review->getNegativeVotesCount()->willReturn(0);
+        $review->getVotesScore()->willReturn(0);
 
         return $review;
     }

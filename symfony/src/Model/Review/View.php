@@ -22,6 +22,9 @@ class View
     private Stars $stars;
     private DateTime $createdAt;
     private array $comments;
+    private int $positiveVotes;
+    private int $negativeVotes;
+    private int $votesScore;
 
     public function __construct(
         ?FlatBranch $branch,
@@ -35,7 +38,10 @@ class View
         string $content,
         Stars $stars,
         DateTime $createdAt,
-        array $comments
+        array $comments,
+        int $positiveVotes,
+        int $negativeVotes,
+        int $votesScore
     ) {
         $this->branch = $branch;
         $this->agency = $agency;
@@ -49,6 +55,9 @@ class View
         $this->stars = $stars;
         $this->createdAt = $createdAt;
         $this->comments = $comments;
+        $this->positiveVotes = $positiveVotes;
+        $this->negativeVotes = $negativeVotes;
+        $this->votesScore = $votesScore;
     }
 
     public function getBranch(): ?FlatBranch
@@ -112,5 +121,20 @@ class View
     public function getComments(): array
     {
         return $this->comments;
+    }
+
+    public function getPositiveVotes(): int
+    {
+        return $this->positiveVotes;
+    }
+
+    public function getNegativeVotes(): int
+    {
+        return $this->negativeVotes;
+    }
+
+    public function getVotesScore(): int
+    {
+        return $this->votesScore;
     }
 }
