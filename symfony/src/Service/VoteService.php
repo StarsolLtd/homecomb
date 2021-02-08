@@ -31,7 +31,7 @@ class VoteService
 
     public function vote(
         SubmitInput $submitInput,
-        UserInterface $user,
+        ?UserInterface $user,
         ?RequestDetails $requestDetails
     ): SubmitOutput {
         $userEntity = $this->userService->getEntityFromInterface($user);
