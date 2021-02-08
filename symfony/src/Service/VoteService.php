@@ -76,8 +76,10 @@ class VoteService
                 return $this->voteRepository->findOneCommentVoteByUserAndEntity($user, $submitInput->getEntityId());
             case 'Review':
                 return $this->voteRepository->findOneReviewVoteByUserAndEntity($user, $submitInput->getEntityId());
+            // @codeCoverageIgnoreStart
             default:
                 return null;
         }
+        // @codeCoverageIgnoreEnd
     }
 }

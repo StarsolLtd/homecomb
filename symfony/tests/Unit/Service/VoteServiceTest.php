@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\User;
+use App\Entity\Vote\CommentVote;
 use App\Entity\Vote\ReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
@@ -136,9 +137,50 @@ class VoteServiceTest extends TestCase
 
     /**
      * @covers \App\Service\VoteService::vote
-     * Test catches exception when thrown by InteractionService::record.
+     * Test successful comment vote where vote already exists.
      */
     public function testVote3(): void
+    {
+        $input = $this->prophesize(SubmitInput::class);
+        $user = $this->prophesize(User::class);
+        $vote = $this->prophesize(CommentVote::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $input->getEntityName()
+            ->shouldBeCalledOnce()
+            ->willReturn('Comment');
+
+        $input->getEntityId()
+            ->shouldBeCalledOnce()
+            ->willReturn(789);
+
+        $this->voteRepository->findOneCommentVoteByUserAndEntity($user, 789)
+            ->shouldBeCalledOnce()
+            ->willReturn($vote);
+
+        $input->isPositive()->shouldBeCalledOnce()->willReturn(true);
+
+        $vote->setPositive(true)->shouldBeCalledOnce();
+
+        $this->assertFlush();
+
+        $vote->getId()->shouldBeCalledOnce()->willReturn(234);
+
+        $this->interactionService->record('Vote', 234, $requestDetails, $user)
+            ->shouldBeCalledOnce();
+
+        $output = $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
+
+        $this->assertTrue($output->isSuccess());
+    }
+
+    /**
+     * @covers \App\Service\VoteService::vote
+     * Test catches exception when thrown by InteractionService::record.
+     */
+    public function testVote4(): void
     {
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);

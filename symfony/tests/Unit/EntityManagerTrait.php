@@ -25,6 +25,11 @@ trait EntityManagerTrait
         foreach ($entities as $entity) {
             $this->entityManager->persist($entity)->shouldBeCalledOnce();
         }
+        $this->assertFlush();
+    }
+
+    private function assertFlush(): void
+    {
         $this->entityManager->flush()->shouldBeCalledOnce();
     }
 }

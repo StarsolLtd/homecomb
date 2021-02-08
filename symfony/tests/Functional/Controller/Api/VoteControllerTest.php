@@ -9,6 +9,7 @@ use App\Entity\Vote\Vote;
 use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\VoteRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,14 +25,7 @@ class VoteControllerTest extends WebTestCase
         $client = static::createClient();
         $entityId = $this->getAnyReviewId();
 
-        $client->request(
-            'POST',
-            '/api/vote',
-            [],
-            [],
-            [],
-            '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}'
-        );
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
     }
@@ -45,14 +39,7 @@ class VoteControllerTest extends WebTestCase
 
         $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $client->request(
-            'POST',
-            '/api/vote',
-            [],
-            [],
-            [],
-            '{MALFORMED//}'
-        );
+        $this->clientVoteRequest($client, '{MALFORMED//}');
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
@@ -67,14 +54,7 @@ class VoteControllerTest extends WebTestCase
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $client->request(
-            'POST',
-            '/api/vote',
-            [],
-            [],
-            [],
-            '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}'
-        );
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
@@ -96,14 +76,7 @@ class VoteControllerTest extends WebTestCase
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $client->request(
-            'POST',
-            '/api/vote',
-            [],
-            [],
-            [],
-            '{"entityId":'.$entityId.',"entityName":"Comment","positive":false,"googleReCaptchaToken":"SAMPLE"}'
-        );
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Comment","positive":false,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
@@ -113,6 +86,18 @@ class VoteControllerTest extends WebTestCase
         $this->assertInstanceOf(CommentVote::class, $latestVote);
         $this->assertFalse($latestVote->isPositive());
         $this->assertEquals($loggedInUser, $latestVote->getUser());
+    }
+
+    private function clientVoteRequest(KernelBrowser $client, string $content): void
+    {
+        $client->request(
+            'POST',
+            '/api/vote',
+            [],
+            [],
+            [],
+            $content
+        );
     }
 
     private function getLatestVote(): ?Vote
