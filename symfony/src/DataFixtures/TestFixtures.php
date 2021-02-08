@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\Comment\ReviewComment;
 use App\Entity\Locale;
 use App\Entity\Property;
 use App\Entity\Review;
@@ -123,6 +124,16 @@ class TestFixtures extends AbstractDataFixtures
             ->setSlug(self::TEST_PROPERTY_SLUG);
         $manager->persist($property);
 
+        $comment = (new ReviewComment())
+            ->setPublished(true)
+            ->setUser($user2)
+            ->setContent('Hello Terrence! The mushrooms that were growing in the garden have been removed.')
+        ;
+        $manager->persist($comment);
+
+        /** @var ReviewComment $reviewComment */
+        $reviewComment = $comment;
+
         $review = (new Review())
             ->setUser($user1)
             ->setProperty($property)
@@ -140,7 +151,8 @@ class TestFixtures extends AbstractDataFixtures
             ->setAgencyStars(null)
             ->setLandlordStars(null)
             ->setPropertyStars(5)
-            ->setPublished(true);
+            ->setPublished(true)
+            ->addComment($reviewComment);
         $manager->persist($review);
 
         $locale = (new Locale())

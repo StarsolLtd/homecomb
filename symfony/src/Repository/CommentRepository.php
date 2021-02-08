@@ -36,4 +36,16 @@ class CommentRepository extends ServiceEntityRepository
 
         return $comment;
     }
+
+    public function findLastPublished(): ?Comment
+    {
+        return $this->findOneBy(
+            [
+                'published' => true,
+            ],
+            [
+                'id' => 'DESC',
+            ]
+        );
+    }
 }

@@ -88,6 +88,11 @@ php-test-functional:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
 	make clear-env-local
 
+php-test-functional-coverage:
+	make copy-test-env-to-local load-fixtures
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --coverage-html var/tests/coverage tests/Functional
+	make clear-env-local
+
 php-test-unit:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Unit
 
