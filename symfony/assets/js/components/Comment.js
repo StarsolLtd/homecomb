@@ -8,6 +8,7 @@ import '../../styles/comment.scss';
 const Comment = (props) => {
     return (
         <div className="comment">
+            <hr />
             <h6>
                 <FontAwesomeIcon icon={faUser} className="text-primary" />
                 {' '}<span className="author">{ props.author }</span>

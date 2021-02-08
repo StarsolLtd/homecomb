@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/review.scss';
 import MonthRange from "./MonthRange";
+import Vote from "./Vote";
 
 class Review extends React.Component {
 
@@ -79,6 +80,13 @@ class Review extends React.Component {
                     agency={this.props.stars.agency}
                     landlord={this.props.stars.landlord}
                     property={this.props.stars.property}
+                />
+
+                <Vote
+                    className="mt-3"
+                    entityName="Review"
+                    entityId={this.props.id}
+                    positiveTerm="Helpful"
                 />
 
                 {this.props.comments && this.props.comments.map(
