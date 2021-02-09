@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Comment\ReviewComment;
 use App\Entity\Vote\ReviewVote;
-use function count;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,6 +20,7 @@ class Review
 {
     use SoftDeleteableEntity;
     use TimestampableEntity;
+    use VoteableTrait;
 
     /**
      * @ORM\Id()
@@ -389,28 +389,5 @@ class Review
         $vote->setReview($this);
 
         return $this;
-    }
-
-    public function getVotesScore(): int
-    {
-        return $this->getPositiveVotesCount() - $this->getNegativeVotesCount();
-    }
-
-    public function getPositiveVotesCount(): int
-    {
-        return count(
-            $this->getVotes()->filter(function (ReviewVote $vote) {
-                return $vote->isPositive();
-            })
-        );
-    }
-
-    public function getNegativeVotesCount(): int
-    {
-        return count(
-            $this->getVotes()->filter(function (ReviewVote $vote) {
-                return !$vote->isPositive();
-            })
-        );
     }
 }

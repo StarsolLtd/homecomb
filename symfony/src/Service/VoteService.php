@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\Vote\CommentVote;
+use App\Entity\Vote\ReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
@@ -66,16 +68,27 @@ class VoteService
             }
         }
 
+        switch ($input->getEntityName()) {
+            case 'Comment':
+                assert($vote instanceof CommentVote);
+
+                return $this->voteFactory->createSubmitOutputFromComment($vote->getComment());
+            case 'Review':
+                assert($vote instanceof ReviewVote);
+
+                return $this->voteFactory->createSubmitOutputFromReview($vote->getReview());
+        }
+
         return new SubmitOutput(true);
     }
 
-    private function findExisting(SubmitInput $submitInput, User $user): ?Vote
+    private function findExisting(SubmitInput $input, User $user): ?Vote
     {
-        switch ($submitInput->getEntityName()) {
+        switch ($input->getEntityName()) {
             case 'Comment':
-                return $this->voteRepository->findOneCommentVoteByUserAndEntity($user, $submitInput->getEntityId());
+                return $this->voteRepository->findOneCommentVoteByUserAndEntity($user, $input->getEntityId());
             case 'Review':
-                return $this->voteRepository->findOneReviewVoteByUserAndEntity($user, $submitInput->getEntityId());
+                return $this->voteRepository->findOneReviewVoteByUserAndEntity($user, $input->getEntityId());
             // @codeCoverageIgnoreStart
             default:
                 return null;

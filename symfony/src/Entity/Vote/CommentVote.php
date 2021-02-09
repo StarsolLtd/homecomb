@@ -14,16 +14,16 @@ class CommentVote extends Vote
      * @ORM\OneToOne(targetEntity="App\Entity\Comment\Comment")
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id")
      */
-    private Comment $Comment;
+    private Comment $comment;
 
     public function getComment(): Comment
     {
-        return $this->Comment;
+        return $this->comment;
     }
 
-    public function setComment(Comment $Comment): self
+    public function setComment(Comment $comment): self
     {
-        $this->Comment = $Comment;
+        $this->comment = $comment;
 
         return $this;
     }

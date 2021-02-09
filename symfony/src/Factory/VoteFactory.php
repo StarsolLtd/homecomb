@@ -2,12 +2,15 @@
 
 namespace App\Factory;
 
+use App\Entity\Comment\Comment;
+use App\Entity\Review;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
 use App\Entity\Vote\ReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
 use App\Model\Vote\SubmitInput;
+use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
 use function sprintf;
@@ -48,5 +51,29 @@ class VoteFactory
             ->setUser($user);
 
         return $vote;
+    }
+
+    public function createSubmitOutputFromReview(Review $review): SubmitOutput
+    {
+        return new SubmitOutput(
+            true,
+            'Review',
+            $review->getId(),
+            $review->getPositiveVotesCount(),
+            $review->getNegativeVotesCount(),
+            $review->getVotesScore()
+        );
+    }
+
+    public function createSubmitOutputFromComment(Comment $comment): SubmitOutput
+    {
+        return new SubmitOutput(
+            true,
+            'Comment',
+            $comment->getId(),
+            $comment->getPositiveVotesCount(),
+            $comment->getNegativeVotesCount(),
+            $comment->getVotesScore()
+        );
     }
 }

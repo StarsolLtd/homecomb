@@ -100,4 +100,48 @@ class VoteFactoryTest extends TestCase
 
         $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
     }
+
+    /**
+     * @covers \App\Factory\VoteFactory::createSubmitOutputFromReview
+     */
+    public function testCreateSubmitOutputFromReview1(): void
+    {
+        $review = $this->prophesize(Review::class);
+
+        $review->getId()->shouldBeCalledOnce()->willReturn(5678);
+        $review->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(5);
+        $review->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
+        $review->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
+
+        $output = $this->voteFactory->createSubmitOutputFromReview($review->reveal());
+
+        $this->assertTrue($output->isSuccess());
+        $this->assertEquals('Review', $output->getEntityName());
+        $this->assertEquals(5678, $output->getEntityId());
+        $this->assertEquals(5, $output->getPositiveVotes());
+        $this->assertEquals(2, $output->getNegativeVotes());
+        $this->assertEquals(3, $output->getVotesScore());
+    }
+
+    /**
+     * @covers \App\Factory\VoteFactory::createSubmitOutputFromComment
+     */
+    public function testCreateSubmitOutputFromComment1(): void
+    {
+        $comment = $this->prophesize(Comment::class);
+
+        $comment->getId()->shouldBeCalledOnce()->willReturn(5678);
+        $comment->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(5);
+        $comment->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
+        $comment->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
+
+        $output = $this->voteFactory->createSubmitOutputFromComment($comment->reveal());
+
+        $this->assertTrue($output->isSuccess());
+        $this->assertEquals('Comment', $output->getEntityName());
+        $this->assertEquals(5678, $output->getEntityId());
+        $this->assertEquals(5, $output->getPositiveVotes());
+        $this->assertEquals(2, $output->getNegativeVotes());
+        $this->assertEquals(3, $output->getVotesScore());
+    }
 }

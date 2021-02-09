@@ -3,6 +3,10 @@
 namespace App\Entity\Comment;
 
 use App\Entity\User;
+use App\Entity\Vote\CommentVote;
+use App\Entity\VoteableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -21,6 +25,7 @@ abstract class Comment
 {
     use SoftDeleteableEntity;
     use TimestampableEntity;
+    use VoteableTrait;
 
     /**
      * @ORM\Id()
@@ -49,6 +54,17 @@ abstract class Comment
      * @ORM\Column(type="boolean", nullable=false, options={"default": false})
      */
     private bool $published = false;
+
+    /**
+     * @var Collection<int, CommentVote>
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote\CommentVote", mappedBy="comment")
+     */
+    private Collection $votes;
+
+    public function __construct()
+    {
+        $this->votes = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -99,6 +115,25 @@ abstract class Comment
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentVote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(CommentVote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            return $this;
+        }
+        $this->votes[] = $vote;
+        $vote->setComment($this);
 
         return $this;
     }
