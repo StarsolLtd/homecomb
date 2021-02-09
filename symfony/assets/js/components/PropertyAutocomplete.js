@@ -34,7 +34,7 @@ class PropertyAutocomplete extends React.Component {
                 <InputGroup className="property-autocomplete-input-group">
                     {this.props.prependSearchIcon &&
                         <span className="input-group-prepend">
-                            <button className="btn border-right-0" type="button">
+                            <button className="btn btn-no-action border-right-0" type="button">
                                 <FontAwesomeIcon icon={faSearch} />
                             </button>
                         </span>
@@ -47,7 +47,7 @@ class PropertyAutocomplete extends React.Component {
                     />
                     {this.props.appendSearchIcon &&
                         <span className="input-group-append">
-                            <button className="btn border-left-0" type="button">
+                            <button className="btn btn-no-action border-left-0" type="button">
                                 <FontAwesomeIcon icon={faSearch} />
                             </button>
                         </span>

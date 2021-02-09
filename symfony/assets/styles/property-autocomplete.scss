@@ -1,6 +1,12 @@
 @import "variables";
+@import "~bootstrap/scss/bootstrap";
+@import "app";
 
 .property-autocomplete-input-group input, .property-autocomplete-input-group button {
   border: 1px solid $gray-500;
   background-color: white;
+}
+
+.input-group-prepend .btn {
+  @extend .pr-1;
 }
