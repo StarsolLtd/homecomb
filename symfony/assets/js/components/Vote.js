@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import {Button} from "reactstrap";
 
 import Constants from "../Constants";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+import '../../styles/vote.scss';
 
 class Vote extends React.Component {
 
@@ -21,6 +23,12 @@ class Vote extends React.Component {
         return (
             <Button onClick={this.handleVote} className={'btn-light ' + this.props.className}>
                 <FontAwesomeIcon icon={faThumbsUp} className="text-primary" /> {this.props.positiveTerm}
+                {this.props.positiveVotes > 0 &&
+                    <Fragment>
+                        {' '}
+                        <span className="positive-votes">{this.props.positiveVotes}</span>
+                    </Fragment>
+                }
             </Button>
         );
     }

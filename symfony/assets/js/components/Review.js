@@ -87,6 +87,7 @@ class Review extends React.Component {
                     entityName="Review"
                     entityId={this.props.id}
                     positiveTerm="Helpful"
+                    positiveVotes={this.props.positiveVotes}
                 />
 
                 {this.props.comments && this.props.comments.map(
