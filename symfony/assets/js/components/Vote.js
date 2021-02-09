@@ -7,33 +7,50 @@ import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import '../../styles/vote.scss';
+import LoadingSpinner from "./LoadingSpinner";
 
 class Vote extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isSubmitting: false
+            hasVoted: false,
+            isSubmitting: false,
+            positiveVotes: this.props.positiveVotes
         };
 
         this.handleVote = this.handleVote.bind(this);
     }
 
     render() {
+        let buttonClassName = 'btn-light ' + this.props.className;
+        if (this.state.hasVoted) {
+            buttonClassName += ' has-voted';
+        }
         return (
-            <Button onClick={this.handleVote} className={'btn-light ' + this.props.className}>
+            <Button onClick={this.handleVote} className={buttonClassName}>
                 <FontAwesomeIcon icon={faThumbsUp} className="text-primary" /> {this.props.positiveTerm}
-                {this.props.positiveVotes > 0 &&
-                    <Fragment>
-                        {' '}
-                        <span className="positive-votes">{this.props.positiveVotes}</span>
-                    </Fragment>
+                {this.state.positiveVotes > 0 &&
+                <Fragment>
+                    {' '}
+                    <span className="positive-votes">{this.state.positiveVotes}</span>
+                </Fragment>
+                }
+                {this.state.isSubmitting &&
+                <Fragment>
+                    {' '}
+                    <LoadingSpinner className="loading-spinner-small"/>
+                </Fragment>
                 }
             </Button>
         );
     }
 
     handleVote() {
+        if (this.state.hasVoted) {
+            return;
+        }
+
         this.setState({isSubmitting: true});
         let payload = {
             entityId: this.props.entityId,
@@ -53,16 +70,15 @@ class Vote extends React.Component {
                                 if (response.status === 401) {
                                     location.href = '/login';
                                 }
-                                if (response.status === 500) {
-                                    // TODO
-                                }
                                 return Promise.reject('Error: ' + response.status)
                             }
+                            component.setState({hasVoted: true});
+
                             return response.json()
                         }
                     )
                     .then((data) => {
-                        // TODO
+                        component.setState({positiveVotes: data.positiveVotes});
                     })
                     .catch(err => console.error("Error:", err));
             });

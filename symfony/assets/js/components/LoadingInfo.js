@@ -8,7 +8,7 @@ const LoadingInfo = (props) => {
     return (
         <Fragment>
             {props.info.loading &&
-                <LoadingSpinner />
+                <LoadingSpinner className="loading-spinner-large" />
             }
             {props.info.loadingError && props.info.loadingErrorCode === 404 &&
                 <Fragment>

@@ -1,3 +1,11 @@
+@import "variables";
+
 .positive-votes {
     font-weight: bold;
+}
+
+.has-voted {
+    cursor: default !important;
+    color: $primary !important;
+    border: 1px solid $primary !important;
 }

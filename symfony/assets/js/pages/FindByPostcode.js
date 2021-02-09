@@ -44,7 +44,7 @@ class FindByPostcode extends React.Component {
             return (<Redirect to={this.state.redirectToUrl} />);
         }
         if (this.state.isPendingRedirect) {
-            return (<LoadingSpinner className="mt-3"/>);
+            return (<LoadingSpinner className="loading-spinner-large mt-3"/>);
         }
         return (
             <div className="find-by-postcode">
