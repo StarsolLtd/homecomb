@@ -26,6 +26,7 @@ const Header = (props) => {
                         inputId="header-property-autocomplete"
                         placeholder="Search for an address..."
                         className="property-autocomplete-container"
+                        prependSearchIcon={true}
                     />
                     <ul className="navbar-nav ml-auto text-center">
                         <li className="nav-item dropdown"><Link to="/about">About</Link></li>

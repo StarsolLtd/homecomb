@@ -86,7 +86,7 @@ class PropertyView extends React.Component {
                                 </p>
                                 <hr />
                                 <h5 className="mb-4">Search for another property address</h5>
-                                <PropertyAutocomplete />
+                                <PropertyAutocomplete prependSearchIcon={true}/>
                             </Fragment>
                             }
                         </Col>

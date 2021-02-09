@@ -47,7 +47,7 @@ class Home extends React.Component {
                         <Form>
                             <FormGroup>
                                 <Label for="propertySearch">Find tenant reviews for properties and lettings agents</Label>
-                                <PropertyAutocomplete />
+                                <PropertyAutocomplete appendSearchIcon={true}/>
                             </FormGroup>
                             <p>
                                 After you've entered a few characters, you will see suggested results

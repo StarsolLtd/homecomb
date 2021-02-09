@@ -32,17 +32,26 @@ class PropertyAutocomplete extends React.Component {
         return (
             <div className={this.props.className}>
                 <InputGroup className="property-autocomplete-input-group">
+                    {this.props.prependSearchIcon &&
+                        <span className="input-group-prepend">
+                            <button className="btn border-right-0" type="button">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </button>
+                        </span>
+                    }
                     <Input
                         type="text"
                         id={this.state.inputId}
                         placeholder={this.props.placeholder || 'Start typing an address... e.g. 249 Victoria Road'}
                         className="property-autocomplete"
                     />
-                    <span className="input-group-append">
-                        <button className="btn border-left-0" type="button">
-                            <FontAwesomeIcon icon={faSearch} />
-                        </button>
-                    </span>
+                    {this.props.appendSearchIcon &&
+                        <span className="input-group-append">
+                            <button className="btn border-left-0" type="button">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </button>
+                        </span>
+                    }
                 </InputGroup>
                 {this.state.redirectToUrl &&
                 <Redirect to={this.state.redirectToUrl} />
