@@ -47,7 +47,7 @@ class LocaleView extends React.Component {
                                 <h5 className="mb-1">Reviews from tenants</h5>
 
                                 {this.state.reviews.map(
-                                    ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments }) => (
+                                    ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
                                         <Fragment>
                                             <Review
                                                 {...this.props}
@@ -64,6 +64,7 @@ class LocaleView extends React.Component {
                                                 stars={stars}
                                                 createdAt={createdAt}
                                                 comments={comments}
+                                                positiveVotes={positiveVotes}
                                             >
                                             </Review>
                                             <hr />

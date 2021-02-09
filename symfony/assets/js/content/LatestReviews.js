@@ -48,6 +48,7 @@ class LatestReviews extends React.Component {
                                                 createdAt={createdAt}
                                                 showBranch={false}
                                                 showOptions={false}
+                                                showVote={false}
                                             />
                                         </Col>
                                     </Col>

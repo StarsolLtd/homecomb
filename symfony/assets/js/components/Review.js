@@ -20,6 +20,7 @@ class Review extends React.Component {
             showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
             showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
             showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
+            showVote: this.props.hasOwnProperty('showVote') ? this.props.showVote : true,
         };
     }
 
@@ -82,13 +83,15 @@ class Review extends React.Component {
                     property={this.props.stars.property}
                 />
 
-                <Vote
-                    className="mt-3"
-                    entityName="Review"
-                    entityId={this.props.id}
-                    positiveTerm="Helpful"
-                    positiveVotes={this.props.positiveVotes}
-                />
+                {this.state.showVote &&
+                    <Vote
+                        className="mt-3"
+                        entityName="Review"
+                        entityId={this.props.id}
+                        positiveTerm="Helpful"
+                        positiveVotes={this.props.positiveVotes}
+                    />
+                }
 
                 {this.props.comments && this.props.comments.map(
                     ({ id, author, content, createdAt }) => (
