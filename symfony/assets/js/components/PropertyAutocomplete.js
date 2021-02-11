@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import $ from 'jquery';
 import 'jquery-ui-bundle';
 import 'jquery-ui-bundle/jquery-ui.css';
@@ -22,7 +22,24 @@ class PropertyAutocomplete extends React.Component {
 
     componentDidMount(){
         $('#' + this.state.inputId).autocomplete({
-            source: this.props.source || '/api/property/suggest-property',
+            source: function(request, response) {
+                $.ajax({
+                    url: '/api/property/suggest-property?term=' + request.term,
+                }).done(function(data) {
+                    if (data.length >= 1) {
+                        response($.map(data, function(item) {
+                            return item;
+                        }));
+                    } else {
+                        response([
+                            {
+                                value: 'No matches found. [Click to find by postcode]',
+                                id: '<FindByPostcode>'
+                            }
+                        ]);
+                    }
+                });
+            },
             minLength: this.props.minLength || 3,
             select: this.redirectToPropertyView
         });
@@ -60,13 +77,20 @@ class PropertyAutocomplete extends React.Component {
         )
     }
 
-    redirectToPropertyView(event, ui){
-        const vendorPropertyId = ui.item.id;
-        fetch('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + vendorPropertyId)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({redirectToUrl: '/property/' + data.slug})
-            });
+    redirectToPropertyView(event, ui)
+    {
+        const redirectTo = ui.item.id;
+        switch (redirectTo) {
+            case '<FindByPostcode>':
+                this.setState({redirectToUrl: '/find-by-postcode'})
+                break;
+            default:
+                fetch('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + redirectTo)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({redirectToUrl: '/property/' + data.slug})
+                    });
+        }
     }
 }
 
