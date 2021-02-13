@@ -51,9 +51,9 @@ class FindByPostcode extends React.Component {
                 <div className="bg-white rounded shadow-sm p-4 mb-4">
                     <h1>Find an address by postcode</h1>
                     <p>
-                        To see all property addresses for a postcode,
+                        To see all property addresses for a UK postcode,
                         simply enter the full postcode in the search box below,
-                        then click the <FontAwesomeIcon icon={faSearch} /> icon.
+                        then click <i>Search</i>.
                     </p>
                     <AvForm className="find-by-postcode-form" onValidSubmit={this.handleValidSubmit}>
                         <AvGroup>
@@ -64,14 +64,17 @@ class FindByPostcode extends React.Component {
                                     required
                                     onChange={this.handleChange}
                                     placeholder="Enter a postcode"
-                                    value={this.state.email}
+                                    value={this.state.postcode}
+                                    validate={{
+                                        pattern: {value: Constants.UK_POSTCODE_PATTERN},
+                                    }}
                                 />
                                 <span className="input-group-append">
                                     <button className="btn border-left-0" type="submit">
                                         <FontAwesomeIcon icon={faSearch} />
                                     </button>
                                 </span>
-                                <AvFeedback>Please enter a valid UK postcode.</AvFeedback>
+                                <AvFeedback>Please enter a full valid UK postcode.<br />Examples: <i>CB4 3LF</i> or <i>EC1V 2NX</i></AvFeedback>
                             </InputGroup>
                         </AvGroup>
                         <Button id="find-by-postcode-submit" color="primary" size="lg" className="mt-1">
