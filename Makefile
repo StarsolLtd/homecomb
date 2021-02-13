@@ -45,10 +45,13 @@ e2e-agency-admin:
 	make e2e-solicit-review e2e-update-agency
 
 e2e-public:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-complete-survey
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey
 
 e2e-complete-survey:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
+
+e2e-find-property-by-postcode:
+	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FindPropertyByPostcode.php
 
 e2e-flag-review:
 	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php

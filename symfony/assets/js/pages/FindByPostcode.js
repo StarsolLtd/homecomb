@@ -86,7 +86,7 @@ class FindByPostcode extends React.Component {
                 <LoadingSpinner className="mt-3"/>
                 }
                 {!this.state.isLoading && this.state.loaded &&
-                <div className="bg-white rounded shadow-sm p-3 mb-4">
+                <div className="find-by-postcode-results bg-white rounded shadow-sm p-3 mb-4">
                     <h3 className="mt-1">{this.state.properties.length} results found in {this.state.postcode}</h3>
                     {this.state.properties.map(
                         ({addressLine1, addressLine2, addressLine3, city, postcode}) => (
