@@ -147,6 +147,10 @@ class GetAddressServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($response);
 
+        $response->getStatusCode()
+            ->shouldBeCalledOnce()
+            ->willReturn(200);
+
         $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($content)
             ->shouldBeCalledOnce()
             ->willReturn($postcodeProperties);
@@ -170,6 +174,30 @@ class GetAddressServiceTest extends TestCase
             ->shouldBeCalledOnce();
 
         $output = $this->getAddressService->find('NN1 3ER');
+
+        $this->assertEmpty($output->getVendorProperties());
+    }
+
+    /**
+     * @covers \App\Service\GetAddressService::getAddress
+     * Test when API returns an HTTP status code indicating failure, error is logged and result has no properties
+     */
+    public function testFind3(): void
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+
+        $this->client->request('GET', Argument::type('string'))
+            ->shouldBeCalledOnce()
+            ->willReturn($response);
+
+        $response->getStatusCode()
+            ->shouldBeCalledOnce()
+            ->willReturn(400);
+
+        $this->logger->info('Error finding addresses by postcode. HTTP status code: 400')
+            ->shouldBeCalledOnce();
+
+        $output = $this->getAddressService->find('PE31 8RC');
 
         $this->assertEmpty($output->getVendorProperties());
     }

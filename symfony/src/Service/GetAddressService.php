@@ -104,6 +104,13 @@ class GetAddressService
             return new PostcodeProperties($inputPostcode, []);
         }
 
+        $responseStatusCode = $response->getStatusCode();
+        if ($responseStatusCode >= 400) {
+            $this->logger->info('Error finding addresses by postcode. HTTP status code: '.$responseStatusCode);
+
+            return new PostcodeProperties($inputPostcode, []);
+        }
+
         return $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($response->getContent());
     }
 }
