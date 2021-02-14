@@ -14,9 +14,10 @@ use App\Model\ReviewSolicitation\View;
 use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewSolicitationService
@@ -96,14 +97,30 @@ class ReviewSolicitationService
         $branch = $reviewSolicitation->getBranch();
         $agency = $branch->getAgency();
         if (null === $agency) {
-            throw new DeveloperException('Unable to send Review Solicitation forBbranch with no Agency.');
+            throw new DeveloperException('Unable to send Review Solicitation for branch with no Agency.');
         }
 
-        $email = (new Email())
-            ->from('mailer@homecomb.co.uk')
-            ->to($reviewSolicitation->getRecipientEmail())
-            ->subject('Please review your tenancy at '.$reviewSolicitation->getProperty()->getAddressLine1().' with '.$agency->getName())
-            ->text($url);
+        $firstName = $reviewSolicitation->getRecipientFirstName();
+        $lastName = $reviewSolicitation->getRecipientLastName();
+        $addressLine1 = $reviewSolicitation->getProperty()->getAddressLine1();
+        $agencyName = $agency->getName();
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('mailer@homecomb.co.uk', 'HomeComb'))
+            ->to(new Address($reviewSolicitation->getRecipientEmail(), $firstName.' '.$lastName))
+            ->subject('Please review your tenancy at '.$addressLine1.' with '.$agencyName)
+            ->text($url)
+            ->htmlTemplate('emails/review-solicitation.html.twig')
+            ->context(
+                [
+                    'url' => $url,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'addressLine1' => $addressLine1,
+                    'agencyName' => $agencyName,
+                ]
+            )
+        ;
 
         $this->mailer->send($email);
     }

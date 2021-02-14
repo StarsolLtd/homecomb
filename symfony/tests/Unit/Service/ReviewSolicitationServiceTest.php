@@ -78,15 +78,48 @@ class ReviewSolicitationServiceTest extends TestCase
     public function testCreateAndSend1(): void
     {
         $input = $this->getValidCreateReviewSolicitationInput();
-        $user = new User();
-        $agency = (new Agency())->setName('Dereham Residential');
-        $branch = (new Branch())->setAgency($agency);
-        $property = (new Property())->setAddressLine1('15 Salmon Street');
-        $reviewSolicitation = (new ReviewSolicitation())
-            ->setProperty($property)
-            ->setBranch($branch)
-            ->setCode('sample')
-            ->setRecipientEmail('sample.tenant@starsol.co.uk');
+        $user = $this->prophesize(User::class);
+        $agency = $this->prophesize(Agency::class);
+        $branch = $this->prophesize(Branch::class);
+        $property = $this->prophesize(Property::class);
+
+        $reviewSolicitation = $this->prophesize(ReviewSolicitation::class);
+
+        $branch->getAgency()
+            ->shouldBeCalledOnce()
+            ->willReturn($agency);
+
+        $agency->getName()
+            ->shouldBeCalledOnce()
+            ->willReturn('Dereham Residential');
+
+        $reviewSolicitation->getCode()
+            ->shouldBeCalledOnce()
+            ->willReturn('testcode');
+
+        $reviewSolicitation->getRecipientFirstName()
+            ->shouldBeCalledOnce()
+            ->willReturn('Jack');
+
+        $reviewSolicitation->getRecipientLastName()
+            ->shouldBeCalledOnce()
+            ->willReturn('Parnell');
+
+        $reviewSolicitation->getBranch()
+            ->shouldBeCalledOnce()
+            ->willReturn($branch);
+
+        $reviewSolicitation->getProperty()
+            ->shouldBeCalledOnce()
+            ->willReturn($property);
+
+        $reviewSolicitation->getRecipientEmail()
+            ->shouldBeCalledOnce()
+            ->willReturn('sample.tenant@starsol.co.uk');
+
+        $property->getAddressLine1()
+            ->shouldBeCalledOnce()
+            ->willReturn('15 Salmon Street');
 
         $this->assertGetUserEntityFromInterface($user);
 
@@ -94,11 +127,11 @@ class ReviewSolicitationServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($reviewSolicitation);
 
-        $this->entityManager->persist($reviewSolicitation)->shouldBeCalledOnce();
-        $this->entityManager->flush()->shouldBeCalledOnce();
+        $this->assertEntitiesArePersistedAndFlush([$reviewSolicitation]);
+
         $this->mailer->send(Argument::type(Email::class))->shouldBeCalledOnce();
 
-        $output = $this->reviewSolicitationService->createAndSend($input, $user);
+        $output = $this->reviewSolicitationService->createAndSend($input, $user->reveal());
 
         $this->assertTrue($output->isSuccess());
     }

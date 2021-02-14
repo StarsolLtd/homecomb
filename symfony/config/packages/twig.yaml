@@ -7,3 +7,5 @@ twig:
         google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
         site_domain: 'homecomb.co.uk'
         site_name: 'HomeComb'
+    paths:
+        '%kernel.project_dir%/assets/images': images
