@@ -109,7 +109,7 @@ class ReviewSolicitationService
             ->from(new Address('mailer@homecomb.co.uk', 'HomeComb'))
             ->to(new Address($reviewSolicitation->getRecipientEmail(), $firstName.' '.$lastName))
             ->subject('Please review your tenancy at '.$addressLine1.' with '.$agencyName)
-            ->text($url)
+            ->textTemplate('emails/review-solicitation.txt.twig')
             ->htmlTemplate('emails/review-solicitation.html.twig')
             ->context(
                 [
