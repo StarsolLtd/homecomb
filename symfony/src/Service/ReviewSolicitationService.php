@@ -90,7 +90,7 @@ class ReviewSolicitationService
         }
     }
 
-    private function send(ReviewSolicitation $reviewSolicitation): void
+    public function send(ReviewSolicitation $reviewSolicitation): void
     {
         $url = $this->baseUrl.'/review-your-tenancy/'.$reviewSolicitation->getCode();
 
