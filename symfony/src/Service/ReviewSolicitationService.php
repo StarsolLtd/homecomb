@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Review;
 use App\Entity\ReviewSolicitation;
+use App\Entity\User;
 use App\Exception\DeveloperException;
 use App\Exception\NotFoundException;
 use App\Factory\ReviewSolicitationFactory;
@@ -14,30 +15,27 @@ use App\Model\ReviewSolicitation\View;
 use App\Repository\ReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewSolicitationService
 {
     private string $baseUrl;
+    private EmailService $emailService;
     private UserService $userService;
     private ReviewSolicitationFactory $reviewSolicitationFactory;
     private ReviewSolicitationRepository $reviewSolicitationRepository;
     private EntityManagerInterface $entityManager;
     private LoggerInterface $logger;
-    private MailerInterface $mailer;
 
     public function __construct(
         RequestStack $requestStack,
+        EmailService $emailService,
         UserService $userService,
         ReviewSolicitationFactory $reviewSolicitationFactory,
         ReviewSolicitationRepository $reviewSolicitationRepository,
         EntityManagerInterface $entityManager,
-        LoggerInterface $logger,
-        MailerInterface $mailer
+        LoggerInterface $logger
     ) {
         $currentRequest = $requestStack->getCurrentRequest();
         if (null === $currentRequest) {
@@ -45,12 +43,12 @@ class ReviewSolicitationService
         } else {
             $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
         }
+        $this->emailService = $emailService;
         $this->userService = $userService;
         $this->reviewSolicitationFactory = $reviewSolicitationFactory;
         $this->reviewSolicitationRepository = $reviewSolicitationRepository;
         $this->entityManager = $entityManager;
         $this->logger = $logger;
-        $this->mailer = $mailer;
     }
 
     public function getFormData(?UserInterface $user): FormData
@@ -68,7 +66,7 @@ class ReviewSolicitationService
         $this->entityManager->persist($reviewSolicitation);
         $this->entityManager->flush();
 
-        $this->send($reviewSolicitation);
+        $this->send($reviewSolicitation, $user);
 
         return new CreateReviewSolicitationOutput(true);
     }
@@ -90,8 +88,10 @@ class ReviewSolicitationService
         }
     }
 
-    public function send(ReviewSolicitation $reviewSolicitation): void
-    {
+    public function send(
+        ReviewSolicitation $reviewSolicitation,
+        ?User $senderUser = null
+    ): void {
         $url = $this->baseUrl.'/review-your-tenancy/'.$reviewSolicitation->getCode();
 
         $branch = $reviewSolicitation->getBranch();
@@ -105,23 +105,22 @@ class ReviewSolicitationService
         $addressLine1 = $reviewSolicitation->getProperty()->getAddressLine1();
         $agencyName = $agency->getName();
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('mailer@homecomb.co.uk', 'HomeComb'))
-            ->to(new Address($reviewSolicitation->getRecipientEmail(), $firstName.' '.$lastName))
-            ->subject('Please review your tenancy at '.$addressLine1.' with '.$agencyName)
-            ->textTemplate('emails/review-solicitation.txt.twig')
-            ->htmlTemplate('emails/review-solicitation.html.twig')
-            ->context(
-                [
-                    'url' => $url,
-                    'firstName' => $firstName,
-                    'lastName' => $lastName,
-                    'addressLine1' => $addressLine1,
-                    'agencyName' => $agencyName,
-                ]
-            )
-        ;
+        $this->emailService->process(
+            $reviewSolicitation->getRecipientEmail(),
+            $firstName.' '.$lastName,
+            'Please review your tenancy at '.$addressLine1.' with '.$agencyName,
+            'review-solicitation',
+            [
+                'url' => $url,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'addressLine1' => $addressLine1,
+                'agencyName' => $agencyName,
+            ],
+            null,
+            $senderUser
+        );
 
-        $this->mailer->send($email);
+        // TODO record recipient user, type
     }
 }

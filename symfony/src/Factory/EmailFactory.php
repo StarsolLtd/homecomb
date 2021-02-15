@@ -19,8 +19,8 @@ class EmailFactory
         ?Email $resendOfEmail = null
     ): Email {
         return (new Email())
-            ->setFrom($from)
-            ->setTo($to)
+            ->setSender($from)
+            ->setRecipient($to)
             ->setSubject($subject)
             ->setText($text)
             ->setHtml($html)

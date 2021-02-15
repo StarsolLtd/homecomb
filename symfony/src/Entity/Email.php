@@ -27,12 +27,12 @@ class Email
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private string $from;
+    private string $sender;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private string $to;
+    private string $recipient;
 
     /**
      * @ORM\Column(type="text", length=65535, nullable=false)
@@ -73,7 +73,7 @@ class Email
     private ?Email $resendOfEmail = null;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTime $sentAt = null;
 
@@ -82,26 +82,26 @@ class Email
         return $this->id;
     }
 
-    public function getFrom(): string
+    public function getSender(): string
     {
-        return $this->from;
+        return $this->sender;
     }
 
-    public function setFrom(string $from): self
+    public function setSender(string $sender): self
     {
-        $this->from = $from;
+        $this->sender = $sender;
 
         return $this;
     }
 
-    public function getTo(): string
+    public function getRecipient(): string
     {
-        return $this->to;
+        return $this->recipient;
     }
 
-    public function setTo(string $to): self
+    public function setRecipient(string $recipient): self
     {
-        $this->to = $to;
+        $this->recipient = $recipient;
 
         return $this;
     }

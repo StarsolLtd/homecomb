@@ -15,6 +15,7 @@ use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\ReviewSolicitation\FormData;
 use App\Model\ReviewSolicitation\View;
 use App\Repository\ReviewSolicitationRepository;
+use App\Service\EmailService;
 use App\Service\ReviewSolicitationService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -27,7 +28,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 /**
  * @covers \App\Service\ReviewSolicitationService
@@ -40,6 +40,7 @@ class ReviewSolicitationServiceTest extends TestCase
 
     private ReviewSolicitationService $reviewSolicitationService;
 
+    private $emailService;
     private $userService;
     private $reviewSolicitationFactory;
     private $reviewSolicitationRepository;
@@ -50,6 +51,7 @@ class ReviewSolicitationServiceTest extends TestCase
     public function setUp(): void
     {
         $requestStack = $this->prophesize(RequestStack::class);
+        $this->emailService = $this->prophesize(EmailService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->reviewSolicitationFactory = $this->prophesize(ReviewSolicitationFactory::class);
         $this->reviewSolicitationRepository = $this->prophesize(ReviewSolicitationRepository::class);
@@ -63,6 +65,7 @@ class ReviewSolicitationServiceTest extends TestCase
 
         $this->reviewSolicitationService = new ReviewSolicitationService(
             $requestStack->reveal(),
+            $this->emailService->reveal(),
             $this->userService->reveal(),
             $this->reviewSolicitationFactory->reveal(),
             $this->reviewSolicitationRepository->reveal(),
@@ -121,6 +124,16 @@ class ReviewSolicitationServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn('15 Salmon Street');
 
+        $this->emailService->process(
+            'sample.tenant@starsol.co.uk',
+            'Jack Parnell',
+            'Please review your tenancy at 15 Salmon Street with Dereham Residential',
+            'review-solicitation',
+            Argument::type('array'),
+            null,
+            $user->reveal()
+        )->shouldBeCalledOnce();
+
         $this->assertGetUserEntityFromInterface($user);
 
         $this->reviewSolicitationFactory->createEntityFromInput($input, $user)
@@ -128,8 +141,6 @@ class ReviewSolicitationServiceTest extends TestCase
             ->willReturn($reviewSolicitation);
 
         $this->assertEntitiesArePersistedAndFlush([$reviewSolicitation]);
-
-        $this->mailer->send(Argument::type(Email::class))->shouldBeCalledOnce();
 
         $output = $this->reviewSolicitationService->createAndSend($input, $user->reveal());
 

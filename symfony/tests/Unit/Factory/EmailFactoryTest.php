@@ -43,8 +43,8 @@ class EmailFactoryTest extends TestCase
             $resendOfEmail->reveal()
         );
 
-        $this->assertEquals('HomeComb <mailer@homecomb.co.uk>', $entity->getFrom());
-        $this->assertEquals('Jack Harper <jack.harper@starsol.co.uk>', $entity->getTo());
+        $this->assertEquals('HomeComb <mailer@homecomb.co.uk>', $entity->getSender());
+        $this->assertEquals('Jack Harper <jack.harper@starsol.co.uk>', $entity->getRecipient());
         $this->assertEquals('How would you like to receive an email solely for the purposes of testing? Well today is your lucky day!', $entity->getSubject());
         $this->assertEquals('Sample body', $entity->getText());
         $this->assertEquals('<span>Sample body</span>', $entity->getHtml());
