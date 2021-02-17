@@ -13,6 +13,7 @@ use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class UserService
 {
@@ -21,19 +22,25 @@ class UserService
     private UserRepository $userRepository;
     private FlatModelFactory $flatModelFactory;
     private EntityManagerInterface $entityManager;
+    private VerifyEmailHelperInterface $verifyEmailHelper;
+    private EmailService $emailService;
 
     public function __construct(
         UserFactory $userFactory,
         BranchRepository $branchRepository,
         UserRepository $userRepository,
         FlatModelFactory $flatModelFactory,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        VerifyEmailHelperInterface $verifyEmailHelper,
+        EmailService $emailService
     ) {
         $this->userFactory = $userFactory;
         $this->branchRepository = $branchRepository;
         $this->userRepository = $userRepository;
         $this->flatModelFactory = $flatModelFactory;
         $this->entityManager = $entityManager;
+        $this->verifyEmailHelper = $verifyEmailHelper;
+        $this->emailService = $emailService;
     }
 
     public function getUserEntityOrNullFromUserInterface(?UserInterface $user): ?User
@@ -102,6 +109,34 @@ class UserService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
+        $this->sendVerificationEmail($user);
+
         return $user;
+    }
+
+    public function sendVerificationEmail(User $user): void
+    {
+        $userEmail = $user->getEmail();
+        $userFullName = $user->getFirstName().' '.$user->getLastName();
+
+        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+            'app_verify_email',
+            (string) $user->getId(),
+            $userEmail
+        );
+
+        $this->emailService->process(
+            $userEmail,
+            $userFullName,
+            'Welcome to HomeComb! Please verify your email address',
+            'email-verification',
+            [
+                'signedUrl' => $signatureComponents->getSignedUrl(),
+                'expiresAt' => $signatureComponents->getExpiresAt(),
+            ],
+            null,
+            $user,
+            $user
+        );
     }
 }

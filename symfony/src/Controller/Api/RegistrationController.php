@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
-use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Model\User\RegisterInput;
 use App\Security\EmailVerifier;
@@ -11,11 +10,9 @@ use App\Security\LoginFormAuthenticator;
 use App\Service\GoogleReCaptchaService;
 use App\Service\UserService;
 use Exception;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -78,8 +75,6 @@ class RegistrationController extends AppController
             return $this->jsonResponse(null, Response::HTTP_CONFLICT);
         }
 
-        $this->sendVerificationEmail($user);
-
         $token = $this->authenticator->createAuthenticatedToken($user, 'main');
         $this->guardHandler->authenticateWithToken($token, $request, 'main');
 
@@ -89,17 +84,5 @@ class RegistrationController extends AppController
         );
 
         return $this->jsonResponse(null, Response::HTTP_CREATED);
-    }
-
-    private function sendVerificationEmail(User $user): void
-    {
-        // TODO service for emails
-        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            (new TemplatedEmail())
-                ->from(new Address('mailer@homecomb.co.uk', 'HomeComb'))
-                ->to($user->getEmail())
-                ->subject('Please confirm your email for HomeComb')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
     }
 }

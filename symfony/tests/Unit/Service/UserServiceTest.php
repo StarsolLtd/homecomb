@@ -13,12 +13,17 @@ use App\Model\User\Flat;
 use App\Model\User\RegisterInput;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 /**
  * @covers \App\Service\UserService
@@ -35,6 +40,8 @@ class UserServiceTest extends TestCase
     private $userRepository;
     private $flatModelFactory;
     private $entityManager;
+    private $verifyEmailHelper;
+    private $emailService;
 
     public function setUp(): void
     {
@@ -43,6 +50,8 @@ class UserServiceTest extends TestCase
         $this->userRepository = $this->prophesize(UserRepository::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->verifyEmailHelper = $this->prophesize(VerifyEmailHelperInterface::class);
+        $this->emailService = $this->prophesize(EmailService::class);
 
         $this->userService = new UserService(
             $this->userFactory->reveal(),
@@ -50,6 +59,8 @@ class UserServiceTest extends TestCase
             $this->userRepository->reveal(),
             $this->flatModelFactory->reveal(),
             $this->entityManager->reveal(),
+            $this->verifyEmailHelper->reveal(),
+            $this->emailService->reveal(),
         );
     }
 
@@ -173,16 +184,16 @@ class UserServiceTest extends TestCase
     /**
      * @covers \App\Service\UserService::register
      */
-    public function testRegister(): void
+    public function testRegister1(): void
     {
         $input = $this->prophesize(RegisterInput::class);
-        $user = $this->prophesize(User::class);
+        $user = $this->prophesizeSendVerificationEmail();
 
         $input->getEmail()
             ->shouldBeCalled()
-            ->willReturn('test@starsol.co.uk');
+            ->willReturn('turanga.leela@planet-express.com');
 
-        $this->userRepository->loadUserByUsername('test@starsol.co.uk')
+        $this->userRepository->loadUserByUsername('turanga.leela@planet-express.com')
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
@@ -201,8 +212,9 @@ class UserServiceTest extends TestCase
 
     /**
      * @covers \App\Service\UserService::register
+     * Test throws ConflictException if already exists
      */
-    public function testRegisterThrowsConflictExceptionIfAlreadyExists(): void
+    public function testRegister2(): void
     {
         $input = $this->prophesize(RegisterInput::class);
         $existingUser = $this->prophesize(User::class);
@@ -252,5 +264,57 @@ class UserServiceTest extends TestCase
         $output = $this->userService->getEntityFromInterface(null);
 
         $this->assertNull($output);
+    }
+
+    /**
+     * @covers \App\Service\UserService::sendVerificationEmail
+     */
+    public function testSendVerificationEmail1(): void
+    {
+        $user = $this->prophesizeSendVerificationEmail();
+
+        $this->userService->sendVerificationEmail($user->reveal());
+    }
+
+    private function prophesizeSendVerificationEmail(): ObjectProphecy
+    {
+        $user = $this->prophesize(User::class);
+
+        $user->getId()->shouldBeCalledOnce()->willReturn(5678);
+        $user->getEmail()->shouldBeCalledOnce()->willReturn('turanga.leela@planet-express.com');
+        $user->getFirstName()->shouldBeCalledOnce()->willReturn('Turanga');
+        $user->getLastName()->shouldBeCalledOnce()->willReturn('Leela');
+
+        $signatureComponents = $this->prophesize(VerifyEmailSignatureComponents::class);
+
+        $expiresAt = $this->prophesize(DateTime::class);
+
+        $this->verifyEmailHelper->generateSignature('app_verify_email', '5678', 'turanga.leela@planet-express.com')
+            ->shouldBeCalledOnce()
+            ->willReturn($signatureComponents);
+
+        $signatureComponents->getSignedUrl()
+            ->shouldBeCalledOnce()
+            ->willReturn('http://test.homecomb.net/test');
+
+        $signatureComponents->getExpiresAt()
+            ->shouldBeCalledOnce()
+            ->willReturn($expiresAt);
+
+        $this->emailService->process(
+            'turanga.leela@planet-express.com',
+            'Turanga Leela',
+            'Welcome to HomeComb! Please verify your email address',
+            'email-verification',
+            [
+                'signedUrl' => 'http://test.homecomb.net/test',
+                'expiresAt' => $expiresAt,
+            ],
+            null,
+            $user,
+            $user
+        )->shouldBeCalledOnce();
+
+        return $user;
     }
 }
