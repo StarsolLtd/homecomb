@@ -1,83 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-gb">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    <style type="text/css">
-        body {
-            font-family: Futura, sans-serif;
-            background-color: #f0f0f0;
-            color: #565656;
-            line-height: 140%;
-            padding: 15px 30px;
-        }
-        @media only screen and (min-width: 620px) {
-            .container {
-                max-width: 600px !important;
-                width: 600px !important;
-            }
-        }
-        @media (max-width: 321px) {
-            .container {
-                min-width: 320px !important;
-                width: 320px !important;
-            }
-        }
-        .call-to-action {
-            padding-top: 10px;
-            padding-bottom: 20px;
-            text-align: center;
-        }
-        .call-to-action a {
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 16px;
-            font-weight: bold;
-            line-height: 24px;
-            padding: 12px 24px;
-            text-align: center;
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #a75151;
-        }
-        .call-to-action a:hover {
-            background-color: #fb7f71;
-        }
-        .social-icons {
-            margin: 10px 20px;
-            padding-top: 10px;
-        }
-        .social-icons a:hover {
-            opacity: .8;
-        }
-        .social-icons a img {
-            width: 28px;
-            height: 28px;
-            margin-right: 5px;
-        }
-        .container {
-            margin: 0 auto;
-        }
-        .content {
-            padding: 20px;
-            background-color: #ffffff;
-            -webkit-box-shadow: 0 5px 9px 0 #C9C9C9;
-            box-shadow: 0 5px 9px 0 #C9C9C9;
-        }
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            line-height: 43px;
-        }
-        .footer {
-            padding: 20px;
-            color: #888888;
-            font-size: 85%;
-        }
-    </style>
-    <title>HomeCome Email</title>
-</head>
-<body>
+{% extends 'emails/base.html.twig' %}
+
+{% block content %}
     <div class="container content">
         <h1>We value your feedback!</h1>
 
@@ -96,18 +19,9 @@
         </div>
     </div>
     <div class="container footer">
-        <div class="social-icons">
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/facebook.png') }}" alt="Facebook"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/twitter.png') }}" alt="Twitter"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/youtube.png') }}" alt="Youtube"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/instagram.png') }}" alt="Instagram"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/linkedin.png') }}" alt="LinkedIn"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/website.png') }}" alt="Website"></a>
-            <a href="http://homecomb.co.uk"><img src="{{ email.image('@images/social-icons/pinterest.png') }}" alt="Pinterest"></a>
-        </div>
+        {% include 'emails/snippets/social-icons.html.twig' %}
         <p>
             You are receiving this email because a lettings agent entered your email address in a form in our application.
         </p>
     </div>
-</body>
-</html>
+{% endblock %}
