@@ -114,8 +114,12 @@ class UserService
         return $user;
     }
 
-    public function sendVerificationEmail(User $user): void
+    public function sendVerificationEmail(User $user): bool
     {
+        if (!$this->isSendingVerificationEmailAppropriate($user)) {
+            return false;
+        }
+
         $userEmail = $user->getEmail();
         $userFullName = $user->getFirstName().' '.$user->getLastName();
 
@@ -138,5 +142,12 @@ class UserService
             $user,
             $user
         );
+
+        return true;
+    }
+
+    private function isSendingVerificationEmailAppropriate(User $user): bool
+    {
+        return !$user->isVerified();
     }
 }

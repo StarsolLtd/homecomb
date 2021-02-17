@@ -280,6 +280,7 @@ class UserServiceTest extends TestCase
     {
         $user = $this->prophesize(User::class);
 
+        $user->isVerified()->shouldBeCalledOnce()->willReturn(false);
         $user->getId()->shouldBeCalledOnce()->willReturn(5678);
         $user->getEmail()->shouldBeCalledOnce()->willReturn('turanga.leela@planet-express.com');
         $user->getFirstName()->shouldBeCalledOnce()->willReturn('Turanga');
