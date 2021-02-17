@@ -13,6 +13,8 @@ use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class UserService
@@ -22,6 +24,7 @@ class UserService
     private UserRepository $userRepository;
     private FlatModelFactory $flatModelFactory;
     private EntityManagerInterface $entityManager;
+    private ResetPasswordHelperInterface $resetPasswordHelper;
     private VerifyEmailHelperInterface $verifyEmailHelper;
     private EmailService $emailService;
 
@@ -31,6 +34,7 @@ class UserService
         UserRepository $userRepository,
         FlatModelFactory $flatModelFactory,
         EntityManagerInterface $entityManager,
+        ResetPasswordHelperInterface $resetPasswordHelper,
         VerifyEmailHelperInterface $verifyEmailHelper,
         EmailService $emailService
     ) {
@@ -39,6 +43,7 @@ class UserService
         $this->userRepository = $userRepository;
         $this->flatModelFactory = $flatModelFactory;
         $this->entityManager = $entityManager;
+        $this->resetPasswordHelper = $resetPasswordHelper;
         $this->verifyEmailHelper = $verifyEmailHelper;
         $this->emailService = $emailService;
     }
@@ -140,6 +145,34 @@ class UserService
             ],
             null,
             $user,
+            $user
+        );
+
+        return true;
+    }
+
+    public function sendResetPasswordEmail(User $user): bool
+    {
+        $userEmail = $user->getEmail();
+        $userFullName = $user->getFirstName().' '.$user->getLastName();
+
+        try {
+            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+        } catch (ResetPasswordExceptionInterface $e) {
+            throw new UserException($e->getMessage());
+        }
+
+        $this->emailService->process(
+            $userEmail,
+            $userFullName,
+            'HomeComb - Reset your password',
+            'reset-password',
+            [
+                'resetToken' => $resetToken,
+                'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
+            ],
+            null,
+            null,
             $user
         );
 

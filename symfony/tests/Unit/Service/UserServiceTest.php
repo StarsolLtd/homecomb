@@ -22,6 +22,8 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
@@ -40,6 +42,7 @@ class UserServiceTest extends TestCase
     private $userRepository;
     private $flatModelFactory;
     private $entityManager;
+    private $resetPasswordHelper;
     private $verifyEmailHelper;
     private $emailService;
 
@@ -50,6 +53,7 @@ class UserServiceTest extends TestCase
         $this->userRepository = $this->prophesize(UserRepository::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->resetPasswordHelper = $this->prophesize(ResetPasswordHelperInterface::class);
         $this->verifyEmailHelper = $this->prophesize(VerifyEmailHelperInterface::class);
         $this->emailService = $this->prophesize(EmailService::class);
 
@@ -59,6 +63,7 @@ class UserServiceTest extends TestCase
             $this->userRepository->reveal(),
             $this->flatModelFactory->reveal(),
             $this->entityManager->reveal(),
+            $this->resetPasswordHelper->reveal(),
             $this->verifyEmailHelper->reveal(),
             $this->emailService->reveal(),
         );
@@ -273,7 +278,49 @@ class UserServiceTest extends TestCase
     {
         $user = $this->prophesizeSendVerificationEmail();
 
-        $this->userService->sendVerificationEmail($user->reveal());
+        $output = $this->userService->sendVerificationEmail($user->reveal());
+
+        $this->assertTrue($output);
+    }
+
+    /**
+     * @covers \App\Service\UserService::sendResetPasswordEmail
+     */
+    public function testSendResetPasswordEmail1(): void
+    {
+        $user = $this->prophesize(User::class);
+
+        $user->getEmail()->shouldBeCalledOnce()->willReturn('turanga.leela@planet-express.com');
+        $user->getFirstName()->shouldBeCalledOnce()->willReturn('Turanga');
+        $user->getLastName()->shouldBeCalledOnce()->willReturn('Leela');
+
+        $resetPasswordToken = $this->prophesize(ResetPasswordToken::class);
+
+        $this->resetPasswordHelper->generateResetToken($user)
+            ->shouldBeCalledOnce()
+            ->willReturn($resetPasswordToken);
+
+        $this->resetPasswordHelper->getTokenLifetime()
+            ->shouldBeCalledOnce()
+            ->willReturn(120);
+
+        $this->emailService->process(
+            'turanga.leela@planet-express.com',
+            'Turanga Leela',
+            'HomeComb - Reset your password',
+            'reset-password',
+            [
+                'resetToken' => $resetPasswordToken,
+                'tokenLifetime' => 120,
+            ],
+            null,
+            null,
+            $user
+        )->shouldBeCalledOnce();
+
+        $output = $this->userService->sendResetPasswordEmail($user->reveal());
+
+        $this->assertTrue($output);
     }
 
     private function prophesizeSendVerificationEmail(): ObjectProphecy
