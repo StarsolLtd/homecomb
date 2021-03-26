@@ -1,0 +1,69 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "php",
+      "host": {
+        "sourcePath": "/var/www/symfony"
+      }
+    },
+    {
+      "name": "nginx",
+      "host": {
+        "sourcePath": "/etc/nginx/conf.d"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "php",
+      "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-php:latest",
+      "environment": [
+        {
+          "name": "Container",
+          "value": "PHP"
+        }
+      ],
+      "essential": true,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "php",
+          "containerPath": "/var/www/symfony",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "name": "nginx",
+      "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-nginx:latest",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 591,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "php"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "php",
+          "containerPath": "/var/www/symfony",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "nginx",
+          "containerPath": "/etc/nginx/conf.d",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "awseb-logs-nginx-proxy",
+          "containerPath": "/var/log/nginx"
+        }
+      ]
+    }
+  ]
+}
