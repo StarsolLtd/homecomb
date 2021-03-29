@@ -1,3 +1,5 @@
-<?php // dev.encrypt.public on Mon, 29 Mar 2021 16:41:50 +0100
+<?php
+
+// dev.encrypt.public on Mon, 29 Mar 2021 16:41:50 +0100
 
 return "qa\xFA\x01\xBD\x8EU\xE6\x88\xD2_e\x40pc\xB1\xE4\xC8B\x1A\x60\x06\x7B\x83e\xD1\x5E\xA1\x29Y\x605";

@@ -1,7 +1,7 @@
 <?php
 
-return array (
-  'DATABASE_PASSWORD' => NULL,
-  'GOOGLE_RECAPTCHA_SECRET_KEY' => NULL,
-  'GOOGLE_RECAPTCHA_SITE_KEY' => NULL,
-);
+return [
+  'DATABASE_PASSWORD' => null,
+  'GOOGLE_RECAPTCHA_SECRET_KEY' => null,
+  'GOOGLE_RECAPTCHA_SITE_KEY' => null,
+];
