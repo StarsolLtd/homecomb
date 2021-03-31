@@ -4,7 +4,7 @@
     {
       "name": "php",
       "host": {
-        "sourcePath": "/var/www/symfony"
+        "sourcePath": "/var/app/current/symfony"
       }
     },
     {
@@ -29,7 +29,7 @@
       "mountPoints": [
         {
           "sourceVolume": "php",
-          "containerPath": "/var/www/symfony",
+          "containerPath": "/var/www/html",
           "readOnly": true
         }
       ]
@@ -51,7 +51,7 @@
       "mountPoints": [
         {
           "sourceVolume": "php",
-          "containerPath": "/var/www/symfony",
+          "containerPath": "/var/www/html",
           "readOnly": true
         },
         {
