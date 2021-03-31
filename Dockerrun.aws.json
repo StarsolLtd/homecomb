@@ -22,6 +22,10 @@
         {
           "name": "Container",
           "value": "PHP"
+        },
+        {
+          "name": "APP_ENV",
+          "value": "prod"
         }
       ],
       "essential": true,
@@ -30,7 +34,7 @@
         {
           "sourceVolume": "php",
           "containerPath": "/var/www/html",
-          "readOnly": true
+          "readOnly": false
         }
       ]
     },
@@ -41,7 +45,7 @@
       "memory": 128,
       "portMappings": [
         {
-          "hostPort": 591,
+          "hostPort": 80,
           "containerPort": 80
         }
       ],
@@ -52,7 +56,7 @@
         {
           "sourceVolume": "php",
           "containerPath": "/var/www/html",
-          "readOnly": true
+          "readOnly": false
         },
         {
           "sourceVolume": "nginx",
