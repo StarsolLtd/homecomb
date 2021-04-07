@@ -1,4 +1,6 @@
 {
+    "name": "starsol/homecomb",
+    "description": "The HomeComb application",
     "type": "project",
     "license": "proprietary",
     "require": {
