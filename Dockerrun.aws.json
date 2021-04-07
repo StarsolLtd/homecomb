@@ -2,40 +2,44 @@
   "AWSEBDockerrunVersion": 2,
   "volumes": [
     {
-      "name": "php-app",
+      "name": "php",
       "host": {
-        "sourcePath": "/var/app/current/php-app"
+        "sourcePath": "/var/app/current/symfony"
       }
     },
     {
-      "name": "nginx-proxy-conf",
+      "name": "nginx",
       "host": {
-        "sourcePath": "/var/app/current/proxy/conf.d"
+        "sourcePath": "/etc/nginx/conf.d"
       }
     }
   ],
   "containerDefinitions": [
     {
-      "name": "php-app",
+      "name": "php",
       "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-php:latest",
-      "essential": true,
       "environment": [
+        {
+          "name": "Container",
+          "value": "PHP"
+        },
         {
           "name": "APP_ENV",
           "value": "prod"
         }
       ],
+      "essential": true,
       "memory": 128,
       "mountPoints": [
         {
-          "sourceVolume": "php-app",
+          "sourceVolume": "php",
           "containerPath": "/var/www/html",
           "readOnly": false
         }
       ]
     },
     {
-      "name": "nginx-proxy",
+      "name": "nginx",
       "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-nginx:latest",
       "essential": true,
       "memory": 128,
@@ -46,22 +50,18 @@
         }
       ],
       "links": [
-        "php-app"
+        "php"
       ],
       "mountPoints": [
         {
-          "sourceVolume": "php-app",
+          "sourceVolume": "php",
           "containerPath": "/var/www/html",
-          "readOnly": false
+          "readOnly": true
         },
         {
-          "sourceVolume": "awseb-logs-nginx-proxy",
-          "containerPath": "/var/log/nginx"
-        },
-        {
-          "sourceVolume": "nginx-proxy-conf",
+          "sourceVolume": "nginx",
           "containerPath": "/etc/nginx/conf.d",
-          "readOnly": false
+          "readOnly": true
         }
       ]
     }
