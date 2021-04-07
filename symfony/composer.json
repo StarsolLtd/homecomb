@@ -100,7 +100,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "test-unit": "vendor/bin/phpunit tests/Unit"
     },
     "conflict": {
         "symfony/symfony": "*"
