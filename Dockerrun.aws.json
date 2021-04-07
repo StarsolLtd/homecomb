@@ -2,9 +2,9 @@
   "AWSEBDockerrunVersion": 2,
   "volumes": [
     {
-      "name": "symfony",
+      "name": "php-app",
       "host": {
-        "sourcePath": "/var/app/current/symfony"
+        "sourcePath": "/var/app/current/php-app"
       }
     },
     {
@@ -16,13 +16,13 @@
   ],
   "containerDefinitions": [
     {
-      "name": "symfony",
+      "name": "php-app",
       "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-php:latest",
       "essential": true,
       "memory": 128,
       "mountPoints": [
         {
-          "sourceVolume": "symfony",
+          "sourceVolume": "php-app",
           "containerPath": "/var/www/html",
           "readOnly": true
         }
@@ -40,11 +40,11 @@
         }
       ],
       "links": [
-        "symfony"
+        "php-app"
       ],
       "mountPoints": [
         {
-          "sourceVolume": "symfony",
+          "sourceVolume": "php-app",
           "containerPath": "/var/www/html",
           "readOnly": true
         },
