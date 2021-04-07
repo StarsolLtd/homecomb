@@ -30,7 +30,7 @@
     },
     {
       "name": "nginx-proxy",
-      "image": "nginx",
+      "image": "105612573986.dkr.ecr.eu-west-2.amazonaws.com/homecomb-nginx:latest",
       "essential": true,
       "memory": 128,
       "portMappings": [
