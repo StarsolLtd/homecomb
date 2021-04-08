@@ -22,7 +22,7 @@ services:
             args:
                 TIMEZONE: ${TIMEZONE}
         volumes:
-            - ./symfony/:/var/www/symfony/
+            - ./:/var/www/
         networks:
             - symfony
     nginx:
@@ -30,7 +30,7 @@ services:
             context: .
             dockerfile: docker/nginx/Dockerfile
         volumes:
-            - ./symfony/:/var/www/symfony/
+            - ./:/var/www/
         ports:
             - 591:80
         networks:

@@ -5,7 +5,7 @@ build:
 	docker-compose --file=docker-compose.yml build
 	docker-compose --file=docker-compose.yml up -d
 	docker exec -it homecomb_php_1 composer install --no-interaction
-	docker exec -it homecomb_php_1 bash -c "mkdir /var/www/symfony/var/cache/dev/vich_uploader"
+	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/dev/vich_uploader"
 	docker exec -it homecomb_php_1 bash -c "npm install --force"
 	make yarn-build
 	docker-compose --file=docker-compose.yml logs -f
@@ -48,31 +48,31 @@ e2e-public:
 	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey
 
 e2e-complete-survey:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
 
 e2e-find-property-by-postcode:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FindPropertyByPostcode.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FindPropertyByPostcode.php
 
 e2e-flag-review:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
 
 e2e-register:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/Register.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/Register.php
 
 e2e-review-solicitation-response:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/ReviewSolicitationResponse.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/ReviewSolicitationResponse.php
 
 e2e-search-for-property-and-review:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SearchForPropertyAndReview.php
 
 e2e-solicit-review:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
 
 e2e-tenancy-review:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/TenancyReview.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/TenancyReview.php
 
 e2e-update-agency:
-	cd symfony && PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/UpdateAgency.php
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/UpdateAgency.php
 
 php-analyse:
 	make php-cs-fixer phpstan
@@ -133,10 +133,10 @@ yarn-watch:
 	docker exec -it homecomb_php_1 yarn encore dev --watch
 
 clear-env-local:
-	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/symfony/.env.local"
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/.env.local"
 
 copy-test-env-to-local:
-	docker exec -it homecomb_php_1 bash -c "cp /var/www/symfony/.env.test /var/www/symfony/.env.local"
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.test /var/www/.env.local"
 
 copy-e2e-env-to-local:
-	docker exec -it homecomb_php_1 bash -c "cp /var/www/symfony/.env.e2e /var/www/symfony/.env.local"
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.e2e /var/www/.env.local"

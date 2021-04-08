@@ -40,12 +40,12 @@ class ImageFixtures extends AbstractDataFixtures implements DependentFixtureInte
 
     private function getImageFixturesPath(): string
     {
-        return '/var/www/symfony/assets/images/';
+        return '/var/www/assets/images/';
     }
 
     private function getPublicImagesPath(): string
     {
-        return '/var/www/symfony/public/images/images/';
+        return '/var/www/public/images/images/';
     }
 
     private function copyImageToPublic(string $filename): void

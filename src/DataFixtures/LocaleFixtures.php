@@ -90,7 +90,7 @@ class LocaleFixtures extends AbstractDataFixtures
 
     private function getLocaleContent(string $slug): ?string
     {
-        $content = file_get_contents(__DIR__ . '/files/locales/content/cambridge.html');
+        $content = file_get_contents(__DIR__.'/files/locales/content/cambridge.html');
         if (false === $content) {
             $content = null;
         }
