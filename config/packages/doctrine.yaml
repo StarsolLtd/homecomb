@@ -1,6 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        password: '%env(DATABASE_PASSWORD)%'
         server_version: '8.0'
     orm:
         auto_generate_proxy_classes: true

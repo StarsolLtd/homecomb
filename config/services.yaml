@@ -31,6 +31,10 @@ services:
         arguments:
             - '%env(GOOGLE_RECAPTCHA_SECRET_KEY)%'
 
+    App\Service\GetAddressService:
+        arguments:
+            $apiKey: '%env(GETADDRESS_API_KEY)%'
+
     App\Service\GoogleReCaptchaService:
         arguments:
             - '%validation.not_robot_check%'
