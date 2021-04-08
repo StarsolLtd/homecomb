@@ -101,6 +101,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "stan": "vendor/bin/phpstan analyse -c phpstan.neon src --level max",
         "test-unit": "vendor/bin/phpunit tests/Unit"
     },
     "conflict": {

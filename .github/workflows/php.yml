@@ -34,3 +34,7 @@ jobs:
     - name: Run unit tests
       run: composer run-script test-unit
       working-directory: ./symfony
+
+    - name: Static analysis
+      run: composer run-script stan
+      working-directory: ./symfony
