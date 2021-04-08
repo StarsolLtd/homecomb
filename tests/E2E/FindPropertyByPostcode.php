@@ -58,7 +58,7 @@ class FindPropertyByPostcode extends PantherTestCase
         $client->waitFor('.find-by-postcode-results', self::TIMEOUT);
 
         $h3 = $crawler->filter('.find-by-postcode-results h3');
-        $this->assertEquals('34 results found in PE31 8RW', $h3->text());
+        $this->assertEquals('35 results found in PE31 8RW', $h3->text());
 
         $propertyLink = $crawler->filter('.address a')->first();
         $propertyLink->click();

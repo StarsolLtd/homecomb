@@ -425,12 +425,12 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
 
     private function getDemoImageFixturesPath(): string
     {
-        return '/var/www/symfony/assets/demo/images/';
+        return '/var/www/assets/demo/images/';
     }
 
     private function getPublicImagesPath(): string
     {
-        return '/var/www/symfony/public/images/images/';
+        return '/var/www/public/images/images/';
     }
 
     private function copyDemoImageToPublic(string $filename): void

@@ -16,7 +16,6 @@ jobs:
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
-      working-directory: ./symfony
 
     - name: Cache Composer packages
       id: composer-cache
@@ -29,12 +28,9 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-      working-directory: ./symfony
 
     - name: Run unit tests
       run: composer run-script test-unit
-      working-directory: ./symfony
 
     - name: Static analysis
       run: composer run-script stan
-      working-directory: ./symfony

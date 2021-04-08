@@ -52,4 +52,4 @@ RUN rm /tmp/chrome.deb
 
 ###< Panther & Chrome ###
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www
