@@ -50,7 +50,7 @@ class GetAddressServiceTest extends TestCase
 
         $response->getContent()
             ->shouldBeCalledOnce()
-            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_autocomplete_response.json'));
+            ->willReturn(file_get_contents(__DIR__ . '/files/getAddress_autocomplete_response.json'));
 
         $this->client->request('GET', Argument::type('string'))
             ->shouldBeCalledOnce()
@@ -92,7 +92,7 @@ class GetAddressServiceTest extends TestCase
 
         $response->getContent()
             ->shouldBeCalledOnce()
-            ->willReturn(file_get_contents(__DIR__.'/files/getAddress_get_response.json'));
+            ->willReturn(file_get_contents(__DIR__ . '/files/getAddress_get_response.json'));
 
         $this->client->request('GET', Argument::type('string'))
             ->shouldBeCalledOnce()

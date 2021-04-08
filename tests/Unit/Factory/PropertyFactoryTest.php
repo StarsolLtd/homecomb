@@ -148,7 +148,7 @@ class PropertyFactoryTest extends TestCase
      */
     public function testCreatePostcodePropertiesFromFindResponseContent1(): void
     {
-        $content = file_get_contents(__DIR__.'/files/getAddress_find_expand_response.json');
+        $content = file_get_contents(__DIR__ . '/files/getAddress_find_expand_response.json');
 
         $output = $this->propertyFactory->createPostcodePropertiesFromFindResponseContent($content);
 
