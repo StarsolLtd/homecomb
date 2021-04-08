@@ -37,7 +37,8 @@ class GetAddressServiceTest extends TestCase
         $this->getAddressService = new GetAddressService(
             $this->logger->reveal(),
             $this->client->reveal(),
-            $this->propertyFactory->reveal()
+            $this->propertyFactory->reveal(),
+            'sample'
         );
     }
 

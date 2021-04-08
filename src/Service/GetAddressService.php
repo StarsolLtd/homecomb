@@ -17,16 +17,18 @@ class GetAddressService
     private LoggerInterface $logger;
     private HttpClientInterface $client;
     private PropertyFactory $propertyFactory;
-    private string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280';
+    private string $apiKey;
 
     public function __construct(
         LoggerInterface $logger,
         HttpClientInterface $client,
-        PropertyFactory $propertyFactory
+        PropertyFactory $propertyFactory,
+        string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280' // TODO how to inject this from secret
     ) {
         $this->client = $client;
         $this->logger = $logger;
         $this->propertyFactory = $propertyFactory;
+        $this->apiKey = $apiKey;
     }
 
     /**
