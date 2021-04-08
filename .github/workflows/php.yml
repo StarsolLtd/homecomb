@@ -31,3 +31,6 @@ jobs:
 
     - name: Run unit tests
       run: composer run-script test
+
+    - name: Static analysis
+      run: composer run-script stan
