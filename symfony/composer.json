@@ -4,11 +4,10 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.4.12",
+        "php": ">=7.4.12",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.11",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^2.2",
@@ -49,6 +48,7 @@
     },
     "require-dev": {
         "behat/behat": "^3.8",
+        "composer/package-versions-deprecated": "1.11.99.1",
         "dama/doctrine-test-bundle": "^6.5",
         "dbrekelmans/bdi": "^0.3.0",
         "dg/bypass-finals": "^1.3",
