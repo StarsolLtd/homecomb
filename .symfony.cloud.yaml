@@ -18,7 +18,7 @@ web:
         start: sleep
     locations:
         "/":
-            root: "public"
+            root: "symfony/public"
             index:
                 - "index.html"
             scripts: false
