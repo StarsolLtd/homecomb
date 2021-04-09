@@ -29,12 +29,6 @@ generate-migration:
 migrate:
 	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate
 
-behat:
-	docker exec -it homecomb_php_1 php bin/console cache:clear --env=test
-	make copy-test-env-to-local
-	docker exec -it homecomb_php_1 vendor/bin/behat --format=progress
-	make clear-env-local
-
 e2e:
 	make copy-e2e-env-to-local load-fixtures e2e-all clear-env-local load-fixtures
 

@@ -3,8 +3,5 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Behat\:
-        resource: '../tests/Behat/*'
-
     App\Service\GetAddressService:
         public: true
