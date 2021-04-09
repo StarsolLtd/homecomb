@@ -2,6 +2,9 @@ name: app
 
 type: php:8.0
 
+relationships:
+    database: "hcdatabase:mysql"
+
 runtime:
     extensions:
         - apcu
@@ -10,6 +13,7 @@ runtime:
         - ctype
         - iconv
         - json
+        - pdo_mysql
         
 
 #variables:
