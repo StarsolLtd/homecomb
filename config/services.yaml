@@ -33,7 +33,7 @@ services:
 
     App\Service\GetAddressService:
         arguments:
-            $apiKey: '%env(GETADDRESS_API_KEY)%'
+            $getAddressApiKey: '%env(GETADDRESS_API_KEY)%'
 
     App\Service\GoogleReCaptchaService:
         arguments:

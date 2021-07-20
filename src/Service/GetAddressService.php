@@ -7,7 +7,6 @@ use App\Factory\PropertyFactory;
 use App\Model\Property\PostcodeProperties;
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
-use function json_decode;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -17,18 +16,18 @@ class GetAddressService
     private LoggerInterface $logger;
     private HttpClientInterface $client;
     private PropertyFactory $propertyFactory;
-    private string $apiKey;
+    private string $getAddressApiKey;
 
     public function __construct(
         LoggerInterface $logger,
         HttpClientInterface $client,
         PropertyFactory $propertyFactory,
-        string $apiKey = 'S2h3muKaRE-RBB4FYHSPag29280' // TODO how to inject this from secret
+        string $getAddressApiKey = 'q_FWAe-wfUGroLwns-12gQ29280' // TODO how to inject this from secret
     ) {
         $this->client = $client;
         $this->logger = $logger;
         $this->propertyFactory = $propertyFactory;
-        $this->apiKey = $apiKey;
+        $this->getAddressApiKey = $getAddressApiKey;
     }
 
     /**
@@ -36,7 +35,7 @@ class GetAddressService
      */
     public function autocomplete(string $term): array
     {
-        $uri = 'https://api.getAddress.io/autocomplete/'.$term.'?api-key='.$this->apiKey.'&top=10';
+        $uri = 'https://api.getAddress.io/autocomplete/'.$term.'?api-key='.$this->getAddressApiKey.'&top=10';
 
         try {
             $response = $this->client->request('GET', $uri);
@@ -62,7 +61,7 @@ class GetAddressService
 
     public function getAddress(string $vendorPropertyId): VendorProperty
     {
-        $uri = 'https://api.getAddress.io/get/'.$vendorPropertyId.'?api-key='.$this->apiKey;
+        $uri = 'https://api.getAddress.io/get/'.$vendorPropertyId.'?api-key='.$this->getAddressApiKey;
 
         try {
             $response = $this->client->request('GET', $uri);
@@ -96,7 +95,7 @@ class GetAddressService
     {
         $inputPostcode = preg_replace('/[^A-Za-z0-9]/', '', trim($inputPostcode)) ?? '';
 
-        $uri = 'https://api.getaddress.io/find/'.$inputPostcode.'?api-key='.$this->apiKey.'&expand=true';
+        $uri = 'https://api.getaddress.io/find/'.$inputPostcode.'?api-key='.$this->getAddressApiKey.'&expand=true';
 
         try {
             $response = $this->client->request('GET', $uri);
