@@ -56,7 +56,9 @@ class PropertyServiceTest extends TestCase
             'propertyslug',
             '33 Bateman Street',
             'CB4 5TW',
-            []
+            [],
+            52.19547,
+            0.1283
         );
 
         $this->propertyRepository->findOnePublishedBySlug('propertyslug')
