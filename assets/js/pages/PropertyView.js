@@ -18,6 +18,8 @@ class PropertyView extends React.Component {
             reviewTenancyFormOpen: false,
             loaded: false,
             reviewCompletedThankYou: false,
+            latitude: null,
+            longitude: null,
         };
         this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
         this.loadData = this.loadData.bind(this);
@@ -52,12 +54,12 @@ class PropertyView extends React.Component {
                     {this.state.latitude && this.state.longitude &&
                         <Row>
                             <Col md={12} className="bg-white rounded shadow-sm p-4 mb-4">
-                                    <Map
-                                        className="property-map"
-                                        addressLine1={this.state.addressLine1}
-                                        latitude={this.state.latitude}
-                                        longitude={this.state.longitude}
-                                    />
+                                <Map
+                                    className="property-map"
+                                    addressLine1={this.state.addressLine1}
+                                    latitude={this.state.latitude}
+                                    longitude={this.state.longitude}
+                                />
                             </Col>
                         </Row>
                     }
