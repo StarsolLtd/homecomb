@@ -24,7 +24,7 @@ class FlagReview extends PantherTestCase
         $session = new Session(new MockFileSessionStorage());
         self::bootKernel()->getContainer()->set('session', $session);
 
-        $crawler = $client->request('GET', $this->baseUrl.'/property/'.TestFixtures::TEST_PROPERTY_SLUG);
+        $crawler = $client->request('GET', $this->baseUrl.'/property/'.TestFixtures::TEST_PROPERTY_1_SLUG);
 
         $client->waitFor('.property-view', self::TIMEOUT);
 

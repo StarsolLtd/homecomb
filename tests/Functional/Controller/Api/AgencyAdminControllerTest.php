@@ -330,7 +330,7 @@ class AgencyAdminControllerTest extends WebTestCase
         $branch = $branchRepository->findOneBy(['slug' => TestFixtures::TEST_BRANCH_101_SLUG]);
 
         $propertyRepository = static::$container->get(PropertyRepository::class);
-        $property = $propertyRepository->findOneBy(['slug' => TestFixtures::TEST_PROPERTY_SLUG]);
+        $property = $propertyRepository->findOneBy(['slug' => TestFixtures::TEST_PROPERTY_1_SLUG]);
 
         $entityManager = static::$container->get(EntityManagerInterface::class);
         $entityManager->flush();
@@ -341,7 +341,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_1_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -376,7 +376,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_1_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -392,7 +392,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_1_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -408,7 +408,7 @@ class AgencyAdminControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"branchSlug_MALFORMED":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
+            '{"branchSlug_MALFORMED":"'.TestFixtures::TEST_BRANCH_101_SLUG.'","propertySlug":"'.TestFixtures::TEST_PROPERTY_1_SLUG.'","recipientTitle":null,"recipientFirstName":"Joanna","recipientLastName":"Jones","recipientEmail":"joanna.jones@starsol.co.uk","captchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());

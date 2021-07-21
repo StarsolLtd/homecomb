@@ -69,19 +69,28 @@ class PropertyControllerTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertCount(3, $content);
+        $this->assertEquals('ZjAwMGE3YzY3ZTFhZDA0IDQwMjIwOTQgMzNmOGU0MWQ0ZTUzNjQz', $content[0]['id']);
+        $this->assertNull($content[0]['slug']);
+        $this->assertEquals('MjkwZjdjNDk4MTA4Njg5IDY1MDU2NzUgMzNmOGU0MWQ0ZTUzNjQz', $content[1]['id']);
+        $this->assertNull($content[1]['slug']);
+        $this->assertNull($content[2]['id']);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_5_SLUG, $content[2]['slug']);
     }
 
     public function testView(): void
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/property/'.TestFixtures::TEST_PROPERTY_SLUG);
+        $client->request('GET', '/api/property/'.TestFixtures::TEST_PROPERTY_1_SLUG);
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $content['slug']);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_1_SLUG, $content['slug']);
         $this->assertEquals('Testerton Hall', $content['addressLine1']);
         $this->assertEquals('NR21 7ES', $content['postcode']);
         $this->assertEquals('Terrence S.', $content['reviews'][0]['author']);

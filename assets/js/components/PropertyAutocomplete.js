@@ -79,7 +79,12 @@ class PropertyAutocomplete extends React.Component {
 
     redirectToPropertyView(event, ui)
     {
+        if (ui.item.slug) {
+            this.setState({redirectToUrl: '/property/' + ui.item.slug})
+        }
+
         const redirectTo = ui.item.id;
+
         switch (redirectTo) {
             case '<FindByPostcode>':
                 this.setState({redirectToUrl: '/find-by-postcode'})
