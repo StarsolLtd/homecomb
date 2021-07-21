@@ -11,6 +11,7 @@ use App\Repository\PropertyRepository;
 use App\Service\GetAddressService;
 use App\Service\PropertyService;
 use App\Tests\Unit\EntityManagerTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -197,5 +198,41 @@ class PropertyServiceTest extends TestCase
         $output = $this->propertyService->determinePropertySlugFromAddress('10101 Nowhere Lane', 'NR99 9ZZ');
 
         $this->assertEquals('newpropertyslug', $output);
+    }
+
+    /**
+     * @covers \App\Service\PropertyService::autocompleteSearch
+     */
+    public function testAutocompleteSearch1()
+    {
+        $suggestions = [new PropertySuggestion('43 Duckula Lane, Whitby, Yorkshire', 'test-vendor-id')];
+
+        $property1 = $this->prophesize(Property::class);
+        $property1->getAddressLine1()->shouldBeCalledOnce()->willReturn("43 Duke's Yard");
+        $property1->getPostcode()->shouldBeCalledOnce()->willReturn('PE31 8RW');
+        $property1->getVendorPropertyId()->shouldBeCalledOnce()->willReturn(null);
+        $property1->getSlug()->shouldBeCalledOnce()->willReturn('test-slug-1');
+
+        $property2 = $this->prophesize(Property::class);
+        $property2->getAddressLine1()->shouldBeCalledOnce()->willReturn('43 Dune Buggy Lane');
+        $property2->getPostcode()->shouldBeCalledOnce()->willReturn('CB1 1ZP');
+        $property2->getVendorPropertyId()->shouldBeCalledOnce()->willReturn(null);
+        $property2->getSlug()->shouldBeCalledOnce()->willReturn('test-slug-2');
+
+        $properties = (new ArrayCollection());
+        $properties->add($property1->reveal());
+        $properties->add($property2->reveal());
+
+        $this->getAddressService->autocomplete('43 Du')->shouldBeCalledOnce()->willReturn($suggestions);
+
+        $this->propertyRepository->findBySearchQuery('43 Du')->shouldBeCalledOnce()->willReturn($properties);
+
+        $output = $this->propertyService->autocompleteSearch('43 Du');
+
+        $this->assertCount(3, $output);
+
+        $this->assertEquals('test-vendor-id', $output[0]->getVendorId());
+        $this->assertEquals('test-slug-1', $output[1]->getPropertySlug());
+        $this->assertEquals('test-slug-2', $output[2]->getPropertySlug());
     }
 }

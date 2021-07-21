@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
+use App\Model\Property\PropertySuggestion;
 use App\Model\Property\View;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,5 +79,25 @@ class PropertyService
         $branch = $this->propertyRepository->findOnePublishedBySlug($slug);
 
         return $this->propertyFactory->createViewFromEntity($branch);
+    }
+
+    /**
+     * @return PropertySuggestion[]
+     */
+    public function autocompleteSearch(string $searchQuery): array
+    {
+        $suggestions = $this->getAddressService->autocomplete($searchQuery);
+
+        $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery);
+
+        foreach ($appDatabaseProperties as $property) {
+            $suggestions[] = new PropertySuggestion(
+                implode(', ', [$property->getAddressLine1(), $property->getPostcode()]),
+                $property->getVendorPropertyId(),
+                $property->getSlug()
+            );
+        }
+
+        return $suggestions;
     }
 }
