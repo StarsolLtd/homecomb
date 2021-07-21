@@ -205,7 +205,10 @@ class PropertyServiceTest extends TestCase
      */
     public function testAutocompleteSearch1()
     {
-        $suggestions = [new PropertySuggestion('43 Duckula Lane, Whitby, Yorkshire', 'test-vendor-id')];
+        $suggestions = [
+            new PropertySuggestion('43 Duckula Lane, Whitby, Yorkshire', 'test-vendor-id-1'),
+            new PropertySuggestion('43 Duopoly Square, Norwich, Norfolk', 'test-vendor-id-2'),
+        ];
 
         $property1 = $this->prophesize(Property::class);
         $property1->getAddressLine1()->shouldBeCalledOnce()->willReturn("43 Duke's Yard");
@@ -219,9 +222,14 @@ class PropertyServiceTest extends TestCase
         $property2->getVendorPropertyId()->shouldBeCalledOnce()->willReturn(null);
         $property2->getSlug()->shouldBeCalledOnce()->willReturn('test-slug-2');
 
+        $property3 = $this->prophesize(Property::class);
+        // Should be skipped as test-vendor-id-2 already in suggestions
+        $property3->getVendorPropertyId()->shouldBeCalledOnce()->willReturn('test-vendor-id-2');
+
         $properties = (new ArrayCollection());
         $properties->add($property1->reveal());
         $properties->add($property2->reveal());
+        $properties->add($property3->reveal());
 
         $this->getAddressService->autocomplete('43 Du')->shouldBeCalledOnce()->willReturn($suggestions);
 
@@ -229,10 +237,11 @@ class PropertyServiceTest extends TestCase
 
         $output = $this->propertyService->autocompleteSearch('43 Du');
 
-        $this->assertCount(3, $output);
+        $this->assertCount(4, $output);
 
-        $this->assertEquals('test-vendor-id', $output[0]->getVendorId());
-        $this->assertEquals('test-slug-1', $output[1]->getPropertySlug());
-        $this->assertEquals('test-slug-2', $output[2]->getPropertySlug());
+        $this->assertEquals('test-vendor-id-1', $output[0]->getVendorId());
+        $this->assertEquals('test-vendor-id-2', $output[1]->getVendorId());
+        $this->assertEquals('test-slug-1', $output[2]->getPropertySlug());
+        $this->assertEquals('test-slug-2', $output[3]->getPropertySlug());
     }
 }

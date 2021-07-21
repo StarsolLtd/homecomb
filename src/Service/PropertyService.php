@@ -91,13 +91,33 @@ class PropertyService
         $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery, 3);
 
         foreach ($appDatabaseProperties as $property) {
+            $vendorPropertyId = $property->getVendorPropertyId();
+            if (null !== $vendorPropertyId && $this->isVendorPropertyIdAlreadySuggested($vendorPropertyId, $suggestions)) {
+                continue;
+            }
+
             $suggestions[] = new PropertySuggestion(
                 implode(', ', [$property->getAddressLine1(), $property->getPostcode()]),
-                $property->getVendorPropertyId(),
+                $vendorPropertyId,
                 $property->getSlug()
             );
         }
 
         return $suggestions;
+    }
+
+    /**
+     * @param PropertySuggestion[] $suggestions
+     */
+    private function isVendorPropertyIdAlreadySuggested(string $vendorPropertyId, array $suggestions): bool
+    {
+        $existing = array_filter(
+            $suggestions,
+            function ($suggestion) use ($vendorPropertyId) {
+                return $suggestion->getVendorId() === $vendorPropertyId;
+            }
+        );
+
+        return [] !== $existing;
     }
 }
