@@ -60,7 +60,9 @@ class PropertyFactory
             $entity->getSlug(),
             $entity->getAddressLine1(),
             $entity->getPostcode(),
-            $reviews
+            $reviews,
+            $entity->getLatitude(),
+            $entity->getLongitude()
         );
     }
 

@@ -122,6 +122,8 @@ class PropertyFactoryTest extends TestCase
             ->setSlug('propertyslug')
             ->setAddressLine1('29 Bateman Street')
             ->setPostcode('CB3 6HC')
+            ->setLatitude(52.19547)
+            ->setLongitude(0.1283)
             ->addReview($review1)
             ->addReview($review2)
         ;
@@ -140,6 +142,8 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('propertyslug', $view->getSlug());
         $this->assertEquals('29 Bateman Street', $view->getAddressLine1());
         $this->assertEquals('CB3 6HC', $view->getPostcode());
+        $this->assertEquals(52.19547, $view->getLatitude());
+        $this->assertEquals(0.1283, $view->getLongitude());
         $this->assertCount(2, $view->getReviews());
     }
 

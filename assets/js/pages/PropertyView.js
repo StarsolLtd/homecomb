@@ -6,6 +6,7 @@ import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
+import Map from "../components/Map";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -48,6 +49,18 @@ class PropertyView extends React.Component {
                             <h1>{this.state.addressLine1}, {this.state.postcode}</h1>
                         </Col>
                     </Row>
+                    {this.state.latitude && this.state.longitude &&
+                        <Row>
+                            <Col md={12} className="bg-white rounded shadow-sm p-4 mb-4">
+                                    <Map
+                                        className="property-map"
+                                        addressLine1={this.state.addressLine1}
+                                        latitude={this.state.latitude}
+                                        longitude={this.state.longitude}
+                                    />
+                            </Col>
+                        </Row>
+                    }
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                             <h5 className="mb-1">Reviews from tenants</h5>
@@ -123,6 +136,8 @@ class PropertyView extends React.Component {
         this.setState({
             addressLine1: data.addressLine1,
             postcode: data.postcode,
+            latitude: data.latitude,
+            longitude: data.longitude,
             reviews: data.reviews,
             loaded: true,
         });
