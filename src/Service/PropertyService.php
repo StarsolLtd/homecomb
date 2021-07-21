@@ -87,12 +87,14 @@ class PropertyService
     public function autocompleteSearch(string $searchQuery): array
     {
         $suggestions = $this->getAddressService->autocomplete($searchQuery);
-
         $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery, 3);
+
+        $suggestionsFoundInAppDatabase = [];
 
         foreach ($appDatabaseProperties as $property) {
             $vendorPropertyId = $property->getVendorPropertyId();
             if (null !== $vendorPropertyId && $this->isVendorPropertyIdAlreadySuggested($vendorPropertyId, $suggestions)) {
+                $suggestionsFoundInAppDatabase[] = $vendorPropertyId;
                 continue;
             }
 
@@ -102,6 +104,18 @@ class PropertyService
                 $property->getSlug()
             );
         }
+
+        // Sort so that suggestions that already exist in the app database appear first
+        usort(
+            $suggestions,
+            function (PropertySuggestion $item1, PropertySuggestion $item2) use ($suggestionsFoundInAppDatabase) {
+                return
+                    in_array($item2->getVendorId(), $suggestionsFoundInAppDatabase)
+                    <=>
+                    in_array($item1->getVendorId(), $suggestionsFoundInAppDatabase)
+                    ;
+            }
+        );
 
         return $suggestions;
     }

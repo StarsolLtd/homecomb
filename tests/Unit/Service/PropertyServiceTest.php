@@ -201,6 +201,11 @@ class PropertyServiceTest extends TestCase
     }
 
     /**
+     * Test that
+     * - An amalgamation of results from GetAddressService and app database are returned.
+     * - Results from the app database should be skipped, if they were already found via GetAddressService.
+     * - Results are sorted so GetAddressService sourced results that already exist in app database appear first.
+     *
      * @covers \App\Service\PropertyService::autocompleteSearch
      */
     public function testAutocompleteSearch1()
@@ -239,8 +244,8 @@ class PropertyServiceTest extends TestCase
 
         $this->assertCount(4, $output);
 
-        $this->assertEquals('test-vendor-id-1', $output[0]->getVendorId());
-        $this->assertEquals('test-vendor-id-2', $output[1]->getVendorId());
+        $this->assertEquals('test-vendor-id-2', $output[0]->getVendorId());
+        $this->assertEquals('test-vendor-id-1', $output[1]->getVendorId());
         $this->assertEquals('test-slug-1', $output[2]->getPropertySlug());
         $this->assertEquals('test-slug-2', $output[3]->getPropertySlug());
     }
