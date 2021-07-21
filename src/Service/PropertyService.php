@@ -88,7 +88,7 @@ class PropertyService
     {
         $suggestions = $this->getAddressService->autocomplete($searchQuery);
 
-        $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery);
+        $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery, 3);
 
         foreach ($appDatabaseProperties as $property) {
             $suggestions[] = new PropertySuggestion(

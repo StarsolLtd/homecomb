@@ -59,15 +59,25 @@ class PropertyRepositoryTest extends KernelTestCase
     public function testFindBySearchQuery2()
     {
         $properties = $this->repository->findBySearchQuery('PE31 8RP');
-        $this->assertCount(2, $properties);
+        $this->assertCount(3, $properties);
         $this->assertEquals(TestFixtures::TEST_PROPERTY_2_SLUG, $properties[0]->getSlug());
         $this->assertEquals(TestFixtures::TEST_PROPERTY_3_SLUG, $properties[1]->getSlug());
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_4_SLUG, $properties[2]->getSlug());
+    }
+
+    /**
+     * Test results set is limited when it exceed $maxResults.
+     */
+    public function testFindBySearchQuery3()
+    {
+        $properties = $this->repository->findBySearchQuery('PE31 8RP', 2);
+        $this->assertCount(2, $properties);
     }
 
     /**
      * Test results set is empty when there should be no results.
      */
-    public function testFindBySearchQuery3()
+    public function testFindBySearchQuery4()
     {
         $properties = $this->repository->findBySearchQuery('The Clangers Moon Base');
         $this->assertCount(0, $properties);

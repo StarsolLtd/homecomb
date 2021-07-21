@@ -6,7 +6,6 @@ use App\Entity\Property;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -83,9 +82,9 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Collection<int, Property>
+     * @return ArrayCollection<int, Property>
      */
-    public function findBySearchQuery(string $searchQuery): Collection
+    public function findBySearchQuery(string $searchQuery, int $maxResults = 10): ArrayCollection
     {
         $results = $this->createQueryBuilder('p')
             ->where('p.addressLine1 LIKE :addressLine1Like')
@@ -96,6 +95,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->setParameter('addressLine1', $searchQuery)
             ->setParameter('postcodeLike', $searchQuery.'%')
             ->setParameter('postcode', $searchQuery)
+            ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult();
 

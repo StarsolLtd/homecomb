@@ -77,7 +77,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals('MjkwZjdjNDk4MTA4Njg5IDY1MDU2NzUgMzNmOGU0MWQ0ZTUzNjQz', $content[1]['id']);
         $this->assertNull($content[1]['slug']);
         $this->assertNull($content[2]['id']);
-        $this->assertEquals(TestFixtures::TEST_PROPERTY_4_SLUG, $content[2]['slug']);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_5_SLUG, $content[2]['slug']);
     }
 
     public function testView(): void

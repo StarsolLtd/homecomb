@@ -225,7 +225,7 @@ class PropertyServiceTest extends TestCase
 
         $this->getAddressService->autocomplete('43 Du')->shouldBeCalledOnce()->willReturn($suggestions);
 
-        $this->propertyRepository->findBySearchQuery('43 Du')->shouldBeCalledOnce()->willReturn($properties);
+        $this->propertyRepository->findBySearchQuery('43 Du', 3)->shouldBeCalledOnce()->willReturn($properties);
 
         $output = $this->propertyService->autocompleteSearch('43 Du');
 
