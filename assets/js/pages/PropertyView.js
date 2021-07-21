@@ -49,18 +49,18 @@ class PropertyView extends React.Component {
                             <h1>{this.state.addressLine1}, {this.state.postcode}</h1>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md={12} className="bg-white rounded shadow-sm p-4 mb-4">
-                            {this.state.latitude && this.state.longitude &&
-                                <Map
-                                    className="property-map"
-                                    addressLine1={this.state.addressLine1}
-                                    latitude={this.state.latitude}
-                                    longitude={this.state.longitude}
-                                />
-                            }
-                        </Col>
-                    </Row>
+                    {this.state.latitude && this.state.longitude &&
+                        <Row>
+                            <Col md={12} className="bg-white rounded shadow-sm p-4 mb-4">
+                                    <Map
+                                        className="property-map"
+                                        addressLine1={this.state.addressLine1}
+                                        latitude={this.state.latitude}
+                                        longitude={this.state.longitude}
+                                    />
+                            </Col>
+                        </Row>
+                    }
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                             <h5 className="mb-1">Reviews from tenants</h5>
