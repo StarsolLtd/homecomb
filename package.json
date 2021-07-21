@@ -41,6 +41,7 @@
         "react-moment": "^1.1.1",
         "react-rating": "^2.0.5",
         "react-router-dom": "^5.2.0",
+        "react-scale-text": "^1.2.2",
         "react-table-v6": "^6.8.6",
         "react-transition-group": "^4.4.1",
         "reactstrap": "^8.8.0"

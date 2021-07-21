@@ -42,12 +42,33 @@ class Home extends React.Component {
             <Row id="home-background" className="no-gutters w-100">
                 <Header className="bg-gradient-primary fixed-top" />
                 <Col id="home" className="align-self-center text-center mt-7 mb-5">
-                    <Container className="rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
-                        <h1 className="logo-large"><TextLogo /></h1>
+                    <Container className="mobile-only bg-light-translucent-90 p-4 mb-4">
+                        <Form>
+                            <FormGroup>
+                                <Label for="propertySearch">Find tenant reviews for<br />properties and lettings agents</Label>
+                                <PropertyAutocomplete
+                                    appendSearchIcon={true}
+                                    placeholder="Start typing an address..."
+                                    inputId="property-autocomplete-mobile"
+                                    className="property-autocomplete-home"
+                                />
+                            </FormGroup>
+                            <p>
+                                After you've entered a few characters,<br />you will see suggested results
+                            </p>
+                        </Form>
+                    </Container>
+
+                    <Container className="desktop-only rounded-lg bg-light-translucent-90 p-5 mt-5 mb-5">
+                        <h1 className="logo logo-large"><TextLogo /></h1>
                         <Form>
                             <FormGroup>
                                 <Label for="propertySearch">Find tenant reviews for properties and lettings agents</Label>
-                                <PropertyAutocomplete appendSearchIcon={true}/>
+                                <PropertyAutocomplete
+                                    appendSearchIcon={true}
+                                    inputId="property-autocomplete-desktop"
+                                    className="property-autocomplete-home"
+                                />
                             </FormGroup>
                             <p>
                                 After you've entered a few characters, you will see suggested results

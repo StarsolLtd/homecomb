@@ -23,7 +23,8 @@ class SearchForPropertyAndReview extends PantherTestCase
 
         $this->assertPageTitleContains('HomeComb');
 
-        $this->propertyAutocomplete($client, '#propertySearch');
+        // TODO Select first visible, as presently this test will only pass on mobile view
+        $this->propertyAutocomplete($client, '#home .property-autocomplete:first-child');
 
         $client->waitFor('.property-view', self::TIMEOUT);
 
