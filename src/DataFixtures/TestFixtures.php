@@ -30,9 +30,10 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_LOCALE_SLUG = 'fakenham';
-    public const TEST_PROPERTY_1_SLUG = 'property1slug';
-    public const TEST_PROPERTY_2_SLUG = 'property2slug';
-    public const TEST_PROPERTY_3_SLUG = 'property3slug';
+    public const TEST_PROPERTY_1_SLUG = 'property-1-slug';
+    public const TEST_PROPERTY_2_SLUG = 'property-2-slug';
+    public const TEST_PROPERTY_3_SLUG = 'property-3-slug';
+    public const TEST_PROPERTY_4_SLUG = 'property-4-slug';
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
     public const TEST_SURVEY_SLUG = 'test-survey';
 
@@ -140,6 +141,13 @@ class TestFixtures extends AbstractDataFixtures
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_3_SLUG);
         $manager->persist($property3);
+
+        $property4 = (new Property())
+            ->setAddressLine1('19 St Botolphs Cloverfield, Gwent')
+            ->setPostcode('CF32 8HG')
+            ->setCountryCode('UK')
+            ->setSlug(self::TEST_PROPERTY_4_SLUG);
+        $manager->persist($property4);
 
         $comment = (new ReviewComment())
             ->setPublished(true)

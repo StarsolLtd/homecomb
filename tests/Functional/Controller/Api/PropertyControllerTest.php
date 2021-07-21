@@ -69,6 +69,15 @@ class PropertyControllerTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertCount(3, $content);
+        $this->assertEquals('ZjAwMGE3YzY3ZTFhZDA0IDQwMjIwOTQgMzNmOGU0MWQ0ZTUzNjQz', $content[0]['id']);
+        $this->assertNull($content[0]['slug']);
+        $this->assertEquals('MjkwZjdjNDk4MTA4Njg5IDY1MDU2NzUgMzNmOGU0MWQ0ZTUzNjQz', $content[1]['id']);
+        $this->assertNull($content[1]['slug']);
+        $this->assertNull($content[2]['id']);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_4_SLUG, $content[2]['slug']);
     }
 
     public function testView(): void

@@ -110,13 +110,14 @@ class PropertyController extends AppController
 
         $input = new SuggestPropertyInput($term);
 
-        $suggestions = $this->getAddressService->autocomplete($input->getSearch());
+        $suggestions = $this->propertyService->autocompleteSearch($input->getSearch());
 
         $output = [];
         foreach ($suggestions as $suggestion) {
             $output[] = [
                 'value' => $suggestion->getAddress(),
                 'id' => $suggestion->getVendorId(),
+                'slug' => $suggestion->getPropertySlug(),
             ];
         }
 
