@@ -28,10 +28,10 @@ class PropertyRepositoryTest extends KernelTestCase
 
     public function testFindOnePublishedBySlug()
     {
-        $property = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_PROPERTY_SLUG);
+        $property = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_PROPERTY_1_SLUG);
 
         $this->assertNotNull($property);
-        $this->assertEquals(TestFixtures::TEST_PROPERTY_SLUG, $property->getSlug());
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_1_SLUG, $property->getSlug());
         $this->assertTrue($property->isPublished());
     }
 
@@ -40,6 +40,37 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->expectException(NotFoundException::class);
 
         $this->repository->findOnePublishedBySlug('testnotexists');
+    }
+
+    /**
+     * Test one result is found when there should only be one result. Found by addressLine1.
+     */
+    public function testFindBySearchQuery1()
+    {
+        $properties = $this->repository->findBySearchQuery('Tester');
+        $this->assertCount(1, $properties);
+        $property = $properties->first();
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_1_SLUG, $property->getSlug());
+    }
+
+    /**
+     * Test multiple properties are found when there are multiple results. Found by postcode.
+     */
+    public function testFindBySearchQuery2()
+    {
+        $properties = $this->repository->findBySearchQuery('PE31 8RP');
+        $this->assertCount(2, $properties);
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_2_SLUG, $properties[0]->getSlug());
+        $this->assertEquals(TestFixtures::TEST_PROPERTY_3_SLUG, $properties[1]->getSlug());
+    }
+
+    /**
+     * Test results set is empty when there should be no results.
+     */
+    public function testFindBySearchQuery3()
+    {
+        $properties = $this->repository->findBySearchQuery('The Clangers Moon Base');
+        $this->assertCount(0, $properties);
     }
 
     protected function tearDown(): void

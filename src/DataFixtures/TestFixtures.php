@@ -30,7 +30,9 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_LOCALE_SLUG = 'fakenham';
-    public const TEST_PROPERTY_SLUG = 'propertyslug';
+    public const TEST_PROPERTY_1_SLUG = 'property1slug';
+    public const TEST_PROPERTY_2_SLUG = 'property2slug';
+    public const TEST_PROPERTY_3_SLUG = 'property3slug';
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
     public const TEST_SURVEY_SLUG = 'test-survey';
 
@@ -118,12 +120,26 @@ class TestFixtures extends AbstractDataFixtures
         ;
         $manager->persist($agency2);
 
-        $property = (new Property())
+        $property1 = (new Property())
             ->setAddressLine1('Testerton Hall')
             ->setPostcode('NR21 7ES')
             ->setCountryCode('UK')
-            ->setSlug(self::TEST_PROPERTY_SLUG);
-        $manager->persist($property);
+            ->setSlug(self::TEST_PROPERTY_1_SLUG);
+        $manager->persist($property1);
+
+        $property2 = (new Property())
+            ->setAddressLine1('Callisto Cottage')
+            ->setPostcode('PE31 8RP')
+            ->setCountryCode('UK')
+            ->setSlug(self::TEST_PROPERTY_2_SLUG);
+        $manager->persist($property2);
+
+        $property3 = (new Property())
+            ->setAddressLine1("43 Duke's Yard")
+            ->setPostcode('PE31 8RP')
+            ->setCountryCode('UK')
+            ->setSlug(self::TEST_PROPERTY_3_SLUG);
+        $manager->persist($property3);
 
         $comment = (new ReviewComment())
             ->setPublished(true)
@@ -151,7 +167,7 @@ class TestFixtures extends AbstractDataFixtures
 
         $review = (new Review())
             ->setUser($user1)
-            ->setProperty($property)
+            ->setProperty($property1)
             ->setBranch($branch101)
             ->setTitle('What a lovely cupboard under the stairs')
             ->setAuthor('Terrence S.')
@@ -183,7 +199,7 @@ class TestFixtures extends AbstractDataFixtures
         $rs = (new ReviewSolicitation())
             ->setBranch($branch101)
             ->setSenderUser($user2)
-            ->setProperty($property)
+            ->setProperty($property1)
             ->setRecipientFirstName('Anna')
             ->setRecipientLastName('Testinova')
             ->setRecipientEmail('anna.testinova@starsol.co.uk')

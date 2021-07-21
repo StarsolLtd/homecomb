@@ -12,7 +12,7 @@ class PropertyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/property/'.TestFixtures::TEST_PROPERTY_SLUG);
+        $client->request('GET', '/property/'.TestFixtures::TEST_PROPERTY_1_SLUG);
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }

@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Property;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
-use function sprintf;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -79,5 +79,25 @@ class PropertyRepository extends ServiceEntityRepository
                 'postcode' => $postcode,
             ]
         );
+    }
+
+    /**
+     * @return Collection<int, Property>
+     */
+    public function findBySearchQuery(string $searchQuery): Collection
+    {
+        $results = $this->createQueryBuilder('p')
+            ->where('p.addressLine1 LIKE :addressLine1Like')
+            ->orWhere('p.addressLine1 = :addressLine1')
+            ->orWhere('p.postcode = :postcodeLike')
+            ->orWhere('p.postcode = :postcode')
+            ->setParameter('addressLine1Like', $searchQuery.'%')
+            ->setParameter('addressLine1', $searchQuery)
+            ->setParameter('postcodeLike', $searchQuery.'%')
+            ->setParameter('postcode', $searchQuery)
+            ->getQuery()
+            ->getResult();
+
+        return new ArrayCollection($results);
     }
 }
