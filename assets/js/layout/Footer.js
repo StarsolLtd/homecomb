@@ -20,6 +20,7 @@ const Footer = (props) => {
                         <li className="list-inline-item"><Link to="/about" className="nav-link about-link">About</Link></li>
                         <li className="list-inline-item"><Link to="/contact" className="nav-link">Contact Us</Link></li>
                         <li className="list-inline-item"><Link to="/privacy-policy" className="nav-link">Privacy Policy</Link></li>
+                        <li className="list-inline-item"><Link to="/terms" className="nav-link">Terms and Conditions</Link></li>
                     </ul>
                 </Collapse>
 

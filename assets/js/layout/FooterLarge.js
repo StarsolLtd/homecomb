@@ -42,6 +42,7 @@ const FooterLarge = (props) => {
                             <li><Link to="/about" className="text-white">About</Link></li>
                             <li><Link to="/contact" className="text-white">Contact Us</Link></li>
                             <li><Link to="/privacy-policy" className="text-white">Privacy Policy</Link></li>
+                            <li><Link to="/terms" className="text-white">Terms and Conditions</Link></li>
                         </ul>
                     </div>
                 </Row>

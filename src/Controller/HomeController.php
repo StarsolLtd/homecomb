@@ -15,7 +15,7 @@ class HomeController extends AbstractController
      * @Route ("/privacy-policy", name="privacy-policy", methods={"GET", "HEAD"})
      * @Route ("/find-by-postcode", name="find-by-postcode", methods={"GET", "HEAD"})
      * @Route ("/review", name="review", methods={"GET", "HEAD"})
-     * @Route ("/terms", name="terms", methods={"GET", "HEAD"})
+     * @Route ("/terms", name="review", methods={"GET", "HEAD"})
      * @Route ("/s/{slug}", name="survey", methods={"GET", "HEAD"})
      */
     public function index(): Response
