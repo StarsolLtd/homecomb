@@ -105,8 +105,9 @@ class RegisterForm extends React.Component {
                         />
                         <AvFeedback>Please enter a password.</AvFeedback>
                     </AvGroup>
-                    <AvCheckboxGroup inline name="agreeTerms" required>
-                        <AvCheckbox label={`I agree to the ${Constants.SITE_NAME} terms and conditions.`} value="yes" />
+                    <AvCheckboxGroup name="agreeTermsGroup" inline required>
+                        <AvCheckbox name="agreeTerms" value="yes" />
+                        I agree to the {Constants.SITE_NAME} <a href="/terms" target="_blank">terms and conditions</a>.
                         <AvFeedback>You must agree to the terms and conditions.</AvFeedback>
                     </AvCheckboxGroup>
                     <Button id="register-form-submit" color="primary" size="lg" className="mt-4">

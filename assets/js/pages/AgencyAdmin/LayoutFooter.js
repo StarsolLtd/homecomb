@@ -25,6 +25,7 @@ const LayoutFooter = (props) => {
                         <ul className="list-unstyled mb-0">
                             <li><a href="/contact" className="text-white">Contact Us</a></li>
                             <li><a href="/privacy-policy" className="text-white">Privacy Policy</a></li>
+                            <li><a href="/terms" className="text-white">Terms and Conditions</a></li>
                         </ul>
                     </div>
                 </Row>

@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import {
     Button, FormGroup, FormText, Label,
 } from "reactstrap";
-import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
+import {AvForm, AvGroup, AvInput, AvFeedback, AvCheckboxGroup, AvCheckbox} from 'availity-reactstrap-validation';
 import Rating from "react-rating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
@@ -47,6 +47,7 @@ class ReviewTenancyForm extends React.Component {
             landlordStars: null,
             agencyStars: null,
             propertyStars: null,
+            agreeTerms: false,
             isFormSubmitting: false,
             completedAndThankYou: false,
             user: null,
@@ -388,6 +389,12 @@ class ReviewTenancyForm extends React.Component {
                             Rate the property itself.
                         </FormText>
                     </FormGroup>
+                    <hr />
+                    <AvCheckboxGroup name="agreeTermsGroup" inline required>
+                        <AvCheckbox name="agreeTerms" value="yes" />
+                        I agree to the {Constants.SITE_NAME} <a href="/terms" target="_blank">terms and conditions</a>.
+                        <AvFeedback>You must agree to the terms and conditions.</AvFeedback>
+                    </AvCheckboxGroup>
                     <Button id="review-tenancy-form-submit" color="primary">
                         Share your tenancy review
                     </Button>
