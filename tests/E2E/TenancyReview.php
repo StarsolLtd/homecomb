@@ -8,7 +8,7 @@ class TenancyReview extends PantherTestCase
 {
     use PropertyAutocompleteTrait;
 
-    private const TIMEOUT = 10;
+    private const TIMEOUT = 10000;
     private string $baseUrl;
 
     public function setUp(): void
@@ -40,6 +40,8 @@ class TenancyReview extends PantherTestCase
         $form['agencyBranch'] = 'Ashbourne';
         $form['reviewTitle'] = 'This was a lovely place to reside';
         $form['reviewContent'] = 'I made friends with a rabbit in the garden';
+        $crawler->filter('input[name=agreeTerms]')->click();
+        $this->assertEquals('true', $crawler->filter('input[name=agreeTerms]')->attr('checked'));
 
         $client->submitForm('Share your tenancy review');
 

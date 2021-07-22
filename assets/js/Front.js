@@ -16,6 +16,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Register from "./pages/Register";
 import Survey from "./pages/Survey";
 import TenancyReview from "./pages/TenancyReview";
+import Terms from "./pages/Terms";
 import HowItWorks from "./content/HowItWorks";
 import FooterLarge from "./layout/FooterLarge";
 import View from "./pages/View";
@@ -56,6 +57,7 @@ class Front extends React.Component {
                         <Route path="/privacy-policy" render={(props) => <View content={PrivacyPolicy} {...props} />}/>
                         <Route path="/register" render={(props) => <View content={Register} {...props} />}/>
                         <Route path="/review" exact render={(props) => <View content={TenancyReview} {...props} />}/>
+                        <Route path="/terms" render={(props) => <View content={Terms} {...props} />}/>
                         <Route path="/agency/:slug" render={(props) => <View content={AgencyView} {...props} />}/>
                         <Route path="/branch/:slug" render={(props) => <View content={BranchView} {...props} />}/>
                         <Route path="/l/:slug" render={(props) => <View content={LocaleView} {...props} />}/>
@@ -63,7 +65,6 @@ class Front extends React.Component {
                         <Route path="/rs/:code" render={(props) => <View content={CreateReview} {...props} />}/>
                         <Route path="/review-your-tenancy/:code" render={(props) => <View content={CreateReview} {...props} />}/>
                         <Route path="/s/:slug" render={(props) => <View content={Survey} {...props} />}/>
-
                     </Switch>
                 </div>
 

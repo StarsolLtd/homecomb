@@ -44,6 +44,8 @@ class SearchForPropertyAndReview extends PantherTestCase
         $form['agencyBranch'] = 'Drayton';
         $form['reviewTitle'] = 'This was a nice place to live';
         $form['reviewContent'] = 'There were some sunflowers in the garden';
+        $crawler->filter('input[name=agreeTerms]')->click();
+        $this->assertEquals('true', $crawler->filter('input[name=agreeTerms]')->attr('checked'));
 
         $client->submitForm('Share your tenancy review');
 

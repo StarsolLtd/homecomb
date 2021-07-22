@@ -25,7 +25,7 @@ class FindPropertyByPostcode extends PantherTestCase
 
         $this->assertPageTitleContains('HomeComb');
 
-        $this->propertyAutocomplete($client, '#propertySearch', 'ZZZZZZZZZZZ_TEST');
+        $this->propertyAutocomplete($client, '#home .property-autocomplete:first-child', 'ZZZZZZZZZZZ_TEST');
 
         // Load find property page
         $client->waitFor('.find-by-postcode', self::TIMEOUT);
