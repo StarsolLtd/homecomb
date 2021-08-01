@@ -134,8 +134,8 @@ class Survey
      */
     public function getPublishedQuestions(): Collection
     {
-        return $this->getQuestions()->filter(function (Question $review) {
-            return $review->isPublished();
+        return $this->getQuestions()->filter(function (Question $question) {
+            return $question->isPublished();
         });
     }
 

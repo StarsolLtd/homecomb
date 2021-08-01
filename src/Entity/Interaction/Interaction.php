@@ -13,7 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\DiscriminatorMap({
  *     "Answer" = "AnswerInteraction",
  *     "Flag" = "FlagInteraction",
- *     "Review" = "ReviewInteraction",
+ *     "Review" = "TenancyReviewInteraction",
  *     "Vote" = "VoteInteraction"
  * })
  */

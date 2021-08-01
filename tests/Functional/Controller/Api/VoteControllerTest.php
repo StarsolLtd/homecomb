@@ -4,10 +4,10 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Repository\CommentRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use App\Repository\VoteRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -54,14 +54,14 @@ class VoteControllerTest extends WebTestCase
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}');
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
         $latestVote = $this->getLatestVote();
 
         $this->assertNotNull($latestVote);
-        $this->assertInstanceOf(ReviewVote::class, $latestVote);
+        $this->assertInstanceOf(TenancyReviewVote::class, $latestVote);
         $this->assertTrue($latestVote->isPositive());
         $this->assertEquals($loggedInUser, $latestVote->getUser());
     }
@@ -110,10 +110,10 @@ class VoteControllerTest extends WebTestCase
 
     private function getAnyReviewId(): int
     {
-        /** @var ReviewRepository $reviewRepository */
-        $reviewRepository = static::$container->get(ReviewRepository::class);
+        /** @var TenancyReviewRepository $tenancyReviewRepository */
+        $tenancyReviewRepository = static::$container->get(TenancyReviewRepository::class);
 
-        return $reviewRepository->findLastPublished()->getId();
+        return $tenancyReviewRepository->findLastPublished()->getId();
     }
 
     private function getAnyCommentId(): int

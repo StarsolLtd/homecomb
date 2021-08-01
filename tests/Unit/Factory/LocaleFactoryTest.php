@@ -5,11 +5,11 @@ namespace App\Tests\Unit\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Locale;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Factory\LocaleFactory;
-use App\Factory\ReviewFactory;
-use App\Model\Review\View as ReviewView;
+use App\Factory\TenancyReviewFactory;
+use App\Model\TenancyReview\View as ReviewView;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,14 +23,14 @@ class LocaleFactoryTest extends TestCase
 
     private LocaleFactory $localeFactory;
 
-    private $reviewFactory;
+    private $tenancyReviewFactory;
 
     public function setUp(): void
     {
-        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
+        $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->localeFactory = new LocaleFactory(
-            $this->reviewFactory->reveal()
+            $this->tenancyReviewFactory->reveal()
         );
     }
 
@@ -39,7 +39,7 @@ class LocaleFactoryTest extends TestCase
      */
     public function testCreateViewFromEntity1(): void
     {
-        $review = (new Review())->setPublished(true);
+        $tenancyReview = (new TenancyReview())->setPublished(true);
 
         $reviewView = $this->prophesize(ReviewView::class);
 
@@ -47,10 +47,10 @@ class LocaleFactoryTest extends TestCase
             ->setName('Penzance')
             ->setSlugForTest('penzance')
             ->setContent('There arrrrre some pirates here.')
-            ->addReview($review)
+            ->addTenancyReview($tenancyReview)
         ;
 
-        $this->reviewFactory->createViewFromEntity($review)
+        $this->tenancyReviewFactory->createViewFromEntity($tenancyReview)
             ->shouldBeCalledOnce()
             ->willReturn($reviewView)
         ;
@@ -59,7 +59,7 @@ class LocaleFactoryTest extends TestCase
 
         $this->assertEquals('Penzance', $view->getName());
         $this->assertEquals('There arrrrre some pirates here.', $view->getContent());
-        $this->assertCount(1, $view->getReviews());
+        $this->assertCount(1, $view->getTenancyReviews());
     }
 
     /**
@@ -73,12 +73,12 @@ class LocaleFactoryTest extends TestCase
         $branch1 = (new Branch())->setAgency($agency1)->setPublished(true);
         $agency2 = (new Agency())->setName('Agency 2')->setPublished(true)->setSlug('ag2');
         $branch2 = (new Branch())->setAgency($agency2)->setPublished(true);
-        $review1 = (new Review())->setBranch($branch1)->setPublished(true)->setAgencyStars(5);
-        $review2 = (new Review())->setBranch($branch1)->setPublished(true)->setAgencyStars(2);
-        $review3 = (new Review())->setBranch($branch2)->setPublished(true)->setAgencyStars(4);
-        $review4 = (new Review())->setBranch($branch2)->setPublished(false)->setAgencyStars(1);
-        $review5 = (new Review())->setBranch($branch2)->setPublished(true)->setAgencyStars(null);
-        $locale->addReview($review1)->addReview($review2)->addReview($review3)->addReview($review4)->addReview($review5);
+        $review1 = (new TenancyReview())->setBranch($branch1)->setPublished(true)->setAgencyStars(5);
+        $review2 = (new TenancyReview())->setBranch($branch1)->setPublished(true)->setAgencyStars(2);
+        $review3 = (new TenancyReview())->setBranch($branch2)->setPublished(true)->setAgencyStars(4);
+        $review4 = (new TenancyReview())->setBranch($branch2)->setPublished(false)->setAgencyStars(1);
+        $review5 = (new TenancyReview())->setBranch($branch2)->setPublished(true)->setAgencyStars(null);
+        $locale->addTenancyReview($review1)->addTenancyReview($review2)->addTenancyReview($review3)->addTenancyReview($review4)->addTenancyReview($review5);
 
         $output = $this->localeFactory->getAgencyReviewsSummary($locale);
 
@@ -105,7 +105,7 @@ class LocaleFactoryTest extends TestCase
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getOneStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getUnratedCount());
 
-        $this->assertEquals(3, $output->getReviewsCount());
+        $this->assertEquals(3, $output->getTenancyReviewsCount());
         $this->assertEquals(2, $output->getAgenciesCount());
     }
 
@@ -115,22 +115,22 @@ class LocaleFactoryTest extends TestCase
      */
     public function testGetAgencyReviewsSummary2(): void
     {
-        $review = $this->prophesize(Review::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $review->getAgency()
+        $tenancyReview->getAgency()
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
-        $review->getId()
+        $tenancyReview->getId()
             ->shouldBeCalledOnce()
             ->willReturn(45);
 
         $locale = $this->prophesize(Locale::class);
 
         $publishedReviewsWithPublishedAgency = (new ArrayCollection());
-        $publishedReviewsWithPublishedAgency->add($review->reveal());
+        $publishedReviewsWithPublishedAgency->add($tenancyReview->reveal());
 
-        $locale->getPublishedReviewsWithPublishedAgency()
+        $locale->getPublishedTenancyReviewsWithPublishedAgency()
             ->shouldBeCalledOnce()
             ->willReturn($publishedReviewsWithPublishedAgency);
 

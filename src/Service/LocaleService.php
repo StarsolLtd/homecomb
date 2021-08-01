@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Locale;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
@@ -35,11 +35,11 @@ class LocaleService
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary
     {
         $agencies = [];
-        /** @var Review $review */
-        foreach ($locale->getPublishedReviewsWithPublishedAgency() as $review) {
-            $agency = $review->getAgency();
+        /** @var TenancyReview $tenancyReview */
+        foreach ($locale->getPublishedTenancyReviewsWithPublishedAgency() as $tenancyReview) {
+            $agency = $tenancyReview->getAgency();
             if (null === $agency) {
-                throw new LogicException(sprintf('Review %s has no agency. ', $review->getId()));
+                throw new LogicException(sprintf('Review %s has no agency. ', $tenancyReview->getId()));
             }
 
             $slug = $agency->getSlug();
@@ -59,8 +59,8 @@ class LocaleService
                     'totalUnrated' => 0,
                 ];
             }
-            if (null !== $review->getAgencyStars()) {
-                $rating = $review->getAgencyStars();
+            if (null !== $tenancyReview->getAgencyStars()) {
+                $rating = $tenancyReview->getAgencyStars();
                 ++$agencies[$slug][(string) $rating];
                 ++$agencies[$slug]['totalRated'];
                 $agencies[$slug]['score'] += $rating;

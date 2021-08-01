@@ -9,7 +9,7 @@ use App\Controller\Admin\ReviewCrudController;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Flag\Flag;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -38,13 +38,13 @@ class NotificationService
         $this->userRepository = $userRepository;
     }
 
-    public function sendReviewModerationNotification(Review $review): void
+    public function sendReviewModerationNotification(TenancyReview $tenancyReview): void
     {
         $url = $this->crudUrlGenerator
             ->build()
             ->setController(ReviewCrudController::class)
             ->setAction(Action::EDIT)
-            ->setEntityId($review->getId())
+            ->setEntityId($tenancyReview->getId())
             ->generateUrl();
 
         $moderators = $this->userRepository->findUsersWithRole('ROLE_MODERATOR');

@@ -66,10 +66,10 @@ class Image
     private ?Locale $locale = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Review", inversedBy="images")
-     * @ORM\JoinColumn(name="review_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="TenancyReview", inversedBy="images")
+     * @ORM\JoinColumn(name="tenancy_review_id", referencedColumnName="id", nullable=true)
      */
-    private ?Review $review = null;
+    private ?TenancyReview $tenancyReview = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
@@ -167,14 +167,14 @@ class Image
         return $this;
     }
 
-    public function getReview(): ?Review
+    public function getTenancyReview(): ?TenancyReview
     {
-        return $this->review;
+        return $this->tenancyReview;
     }
 
-    public function setReview(?Review $review): self
+    public function setTenancyReview(?TenancyReview $tenancyReview): self
     {
-        $this->review = $review;
+        $this->tenancyReview = $tenancyReview;
 
         return $this;
     }

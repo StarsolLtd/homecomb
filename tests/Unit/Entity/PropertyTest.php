@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\Property;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 
 /**
  * @covers \App\Entity\Property
@@ -28,22 +28,22 @@ class PropertyTest extends AbstractEntityTestCase
     public function testGetPublishedReviews1(): void
     {
         $entity = $this->getEntity();
-        $this->assertEmpty($entity->getPublishedReviews());
+        $this->assertEmpty($entity->getPublishedTenancyReviews());
 
-        $reviewA = (new Review())->setPublished(true)->setTitle('A');
-        $entity->addReview($reviewA);
-        $this->assertCount(1, $entity->getPublishedReviews());
+        $reviewA = (new TenancyReview())->setPublished(true)->setTitle('A');
+        $entity->addTenancyReview($reviewA);
+        $this->assertCount(1, $entity->getPublishedTenancyReviews());
 
-        $reviewB = (new Review())->setPublished(false)->setTitle('B');
-        $entity->addReview($reviewB);
-        $this->assertCount(1, $entity->getPublishedReviews());
+        $reviewB = (new TenancyReview())->setPublished(false)->setTitle('B');
+        $entity->addTenancyReview($reviewB);
+        $this->assertCount(1, $entity->getPublishedTenancyReviews());
 
-        $reviewC = (new Review())->setPublished(true)->setTitle('C');
-        $entity->addReview($reviewC);
-        $this->assertCount(2, $entity->getPublishedReviews());
+        $reviewC = (new TenancyReview())->setPublished(true)->setTitle('C');
+        $entity->addTenancyReview($reviewC);
+        $this->assertCount(2, $entity->getPublishedTenancyReviews());
 
-        $entity->addReview($reviewC);
-        $this->assertCount(2, $entity->getPublishedReviews());
+        $entity->addTenancyReview($reviewC);
+        $this->assertCount(2, $entity->getPublishedTenancyReviews());
     }
 
     protected function getEntity(): Property

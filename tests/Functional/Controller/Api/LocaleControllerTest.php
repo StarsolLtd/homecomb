@@ -21,6 +21,6 @@ class LocaleControllerTest extends WebTestCase
         $content = json_decode($response->getContent(), true);
         $this->assertEquals('Fakenham', $content['name']);
         $this->assertEquals(TestFixtures::TEST_LOCALE_SLUG, $content['slug']);
-        $this->assertEquals('Terrence S.', $content['reviews'][0]['author']);
+        $this->assertEquals('Terrence S.', $content['tenancyReviews'][0]['author']);
     }
 }

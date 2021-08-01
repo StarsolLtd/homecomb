@@ -4,13 +4,13 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Factory\AgencyAdminFactory;
 use App\Factory\FlatModelFactory;
-use App\Factory\ReviewFactory;
+use App\Factory\TenancyReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
-use App\Model\Review\View;
+use App\Model\TenancyReview\View;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -26,7 +26,7 @@ class AdminAgencyFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
-        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
+        $this->reviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->adminAgencyFactory = new AgencyAdminFactory(
             $this->flatModelFactory->reveal(),
@@ -36,11 +36,11 @@ class AdminAgencyFactoryTest extends TestCase
 
     public function testCreateHome(): void
     {
-        $review1 = (new Review())->setAuthor('Anna')->setPublished(true);
-        $review2 = (new Review())->setAuthor('Beatrice')->setPublished(true);
-        $review3 = (new Review())->setAuthor('Chloe')->setPublished(true);
-        $review4 = (new Review())->setAuthor('Dora')->setPublished(true);
-        $review5 = (new Review())->setAuthor('Eleanor')->setPublished(true);
+        $review1 = (new TenancyReview())->setAuthor('Anna')->setPublished(true);
+        $review2 = (new TenancyReview())->setAuthor('Beatrice')->setPublished(true);
+        $review3 = (new TenancyReview())->setAuthor('Chloe')->setPublished(true);
+        $review4 = (new TenancyReview())->setAuthor('Dora')->setPublished(true);
+        $review5 = (new TenancyReview())->setAuthor('Eleanor')->setPublished(true);
 
         $review1View = $this->prophesize(View::class);
         $review2View = $this->prophesize(View::class);
@@ -48,8 +48,8 @@ class AdminAgencyFactoryTest extends TestCase
         $review4View = $this->prophesize(View::class);
         $review5View = $this->prophesize(View::class);
 
-        $branch1 = (new Branch())->setName('Dereham')->addReview($review1)->addReview($review2)->addReview($review3);
-        $branch2 = (new Branch())->setName('Swaffham')->addReview($review4)->addReview($review5);
+        $branch1 = (new Branch())->setName('Dereham')->addTenancyReview($review1)->addTenancyReview($review2)->addTenancyReview($review3);
+        $branch2 = (new Branch())->setName('Swaffham')->addTenancyReview($review4)->addTenancyReview($review5);
         $branch3 = (new Branch())->setName('Bawdeswell');
 
         $branch1Model = $this->prophesize(FlatBranch::class);
@@ -75,6 +75,6 @@ class AdminAgencyFactoryTest extends TestCase
 
         $this->assertEquals($agencyModel->reveal(), $output->getAgency());
         $this->assertCount(3, $output->getBranches());
-        $this->assertCount(5, $output->getReviews());
+        $this->assertCount(5, $output->getTenancyReviews());
     }
 }

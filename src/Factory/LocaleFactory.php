@@ -3,7 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Locale;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
@@ -16,19 +16,19 @@ use function usort;
 
 class LocaleFactory
 {
-    private ReviewFactory $reviewFactory;
+    private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
-        ReviewFactory $reviewFactory
+        TenancyReviewFactory $tenancyReviewFactory
     ) {
-        $this->reviewFactory = $reviewFactory;
+        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createViewFromEntity(Locale $entity): View
     {
-        $reviews = [];
-        foreach ($entity->getPublishedReviews() as $reviewEntity) {
-            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        $tenancyReviews = [];
+        foreach ($entity->getPublishedTenancyReviews() as $tenancyReviewEntity) {
+            $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
         $agencyReviewsSummary = $this->getAgencyReviewsSummary($entity);
@@ -37,7 +37,7 @@ class LocaleFactory
             $entity->getSlug(),
             $entity->getName(),
             $entity->getContent(),
-            $reviews,
+            $tenancyReviews,
             $agencyReviewsSummary
         );
     }
@@ -45,11 +45,11 @@ class LocaleFactory
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary
     {
         $agencies = [];
-        /** @var Review $review */
-        foreach ($locale->getPublishedReviewsWithPublishedAgency() as $review) {
-            $agency = $review->getAgency();
+        /** @var TenancyReview $tenancyReview */
+        foreach ($locale->getPublishedTenancyReviewsWithPublishedAgency() as $tenancyReview) {
+            $agency = $tenancyReview->getAgency();
             if (null === $agency) {
-                throw new DeveloperException(sprintf('Review %s has no agency. ', $review->getId()));
+                throw new DeveloperException(sprintf('Review %s has no agency. ', $tenancyReview->getId()));
             }
 
             $slug = $agency->getSlug();
@@ -69,8 +69,8 @@ class LocaleFactory
                     'totalUnrated' => 0,
                 ];
             }
-            if (null !== $review->getAgencyStars()) {
-                $rating = $review->getAgencyStars();
+            if (null !== $tenancyReview->getAgencyStars()) {
+                $rating = $tenancyReview->getAgencyStars();
                 ++$agencies[$slug][(string) $rating];
                 ++$agencies[$slug]['totalRated'];
                 $agencies[$slug]['score'] += $rating;

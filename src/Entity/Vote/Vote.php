@@ -14,7 +14,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\DiscriminatorColumn(name="entity_name", type="string")
  * @ORM\DiscriminatorMap({
  *     "Comment" = "CommentVote",
- *     "Review" = "ReviewVote"
+ *     "TenancyReview" = "TenancyReviewVote"
  * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
  */

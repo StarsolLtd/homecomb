@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Comment\ReviewComment;
+use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Factory\FlatModelFactory;
@@ -78,7 +78,7 @@ class FlatModelFactoryTest extends TestCase
         $createdAt = new DateTime('2021-01-08 12:34:56');
 
         $user = $this->prophesize(User::class);
-        $comment = $this->prophesize(ReviewComment::class);
+        $comment = $this->prophesize(TenancyReviewComment::class);
 
         $comment->getId()->shouldBeCalledOnce()->willReturn(33);
         $comment->getContent()->shouldBeCalledOnce()->willReturn($content);

@@ -62,10 +62,10 @@ class Branch
     private string $slug;
 
     /**
-     * @var Collection<int, Review>
-     * @ORM\OneToMany(targetEntity="Review", mappedBy="branch")
+     * @var Collection<int, TenancyReview>
+     * @ORM\OneToMany(targetEntity="TenancyReview", mappedBy="branch")
      */
-    private Collection $reviews;
+    private Collection $tenancyReviews;
 
     /**
      * @var Collection<int, Image>
@@ -75,7 +75,7 @@ class Branch
 
     public function __construct()
     {
-        $this->reviews = new ArrayCollection();
+        $this->tenancyReviews = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
 
@@ -162,31 +162,31 @@ class Branch
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getReviews(): Collection
+    public function getTenancyReviews(): Collection
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 
-    public function addReview(Review $review): self
+    public function addTenancyReview(TenancyReview $tenancyReview): self
     {
-        if ($this->reviews->contains($review)) {
+        if ($this->tenancyReviews->contains($tenancyReview)) {
             return $this;
         }
-        $this->reviews[] = $review;
-        $review->setBranch($this);
+        $this->tenancyReviews[] = $tenancyReview;
+        $tenancyReview->setBranch($this);
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getPublishedReviews(): Collection
+    public function getPublishedTenancyReviews(): Collection
     {
-        return $this->getReviews()->filter(function (Review $review) {
-            return $review->isPublished();
+        return $this->getTenancyReviews()->filter(function (TenancyReview $tenancyReview) {
+            return $tenancyReview->isPublished();
         });
     }
 

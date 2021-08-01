@@ -4,14 +4,13 @@ namespace App\Service;
 
 use App\Entity\Interaction\AnswerInteraction;
 use App\Entity\Interaction\FlagInteraction;
-use App\Entity\Interaction\ReviewInteraction;
+use App\Entity\Interaction\TenancyReviewInteraction;
 use App\Exception\UnexpectedValueException;
 use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
-use App\Repository\ReviewRepository;
 use App\Repository\Survey\AnswerRepository;
+use App\Repository\TenancyReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class InteractionService
@@ -20,20 +19,20 @@ class InteractionService
     private UserService $userService;
     private AnswerRepository $answerRepository;
     private FlagRepository $flagRepository;
-    private ReviewRepository $reviewRepository;
+    private TenancyReviewRepository $reviewRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UserService $userService,
         AnswerRepository $answerRepository,
         FlagRepository $flagRepository,
-        ReviewRepository $reviewRepository
+        TenancyReviewRepository $tenancyReviewRepository
     ) {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->answerRepository = $answerRepository;
         $this->flagRepository = $flagRepository;
-        $this->reviewRepository = $reviewRepository;
+        $this->reviewRepository = $tenancyReviewRepository;
     }
 
     public function record(
@@ -51,9 +50,9 @@ class InteractionService
                 $flag = $this->flagRepository->findOneById($entityId);
                 $interaction = (new FlagInteraction())->setFlag($flag);
                 break;
-            case 'Review':
-                $review = $this->reviewRepository->findOneById($entityId);
-                $interaction = (new ReviewInteraction())->setReview($review);
+            case 'TenancyReview':
+                $tenancyReview = $this->reviewRepository->findOneById($entityId);
+                $interaction = (new TenancyReviewInteraction())->setTenancyReview($tenancyReview);
                 break;
             default:
                 throw new UnexpectedValueException(sprintf('%s is not a valid interaction entity name.', $entityName));

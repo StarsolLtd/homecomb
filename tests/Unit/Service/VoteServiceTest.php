@@ -3,10 +3,10 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\Comment\Comment;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetails;
@@ -65,8 +65,8 @@ class VoteServiceTest extends TestCase
         $input = $this->prophesize(SubmitInput::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
-        $vote = $this->prophesize(ReviewVote::class);
-        $review = $this->prophesize(Review::class);
+        $vote = $this->prophesize(TenancyReviewVote::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
 
         $this->assertGetUserEntityFromInterface($user);
@@ -94,9 +94,9 @@ class VoteServiceTest extends TestCase
         $this->interactionService->record('Vote', 234, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
-        $vote->getReview()->shouldBeCalledOnce()->willReturn($review);
+        $vote->getTenancyReview()->shouldBeCalledOnce()->willReturn($tenancyReview);
 
-        $this->voteFactory->createSubmitOutputFromReview($review)->willReturn($output);
+        $this->voteFactory->createSubmitOutputFromReview($tenancyReview)->willReturn($output);
 
         $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
     }
@@ -200,8 +200,8 @@ class VoteServiceTest extends TestCase
         $input = $this->prophesize(SubmitInput::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
-        $vote = $this->prophesize(ReviewVote::class);
-        $review = $this->prophesize(Review::class);
+        $vote = $this->prophesize(TenancyReviewVote::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
 
         $this->assertGetUserEntityFromInterface($user);
@@ -230,9 +230,9 @@ class VoteServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willThrow(UnexpectedValueException::class);
 
-        $vote->getReview()->shouldBeCalledOnce()->willReturn($review);
+        $vote->getTenancyReview()->shouldBeCalledOnce()->willReturn($tenancyReview);
 
-        $this->voteFactory->createSubmitOutputFromReview($review)->willReturn($output);
+        $this->voteFactory->createSubmitOutputFromReview($tenancyReview)->willReturn($output);
 
         $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
     }

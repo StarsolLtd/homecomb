@@ -4,24 +4,24 @@ namespace App\Model\AgencyAdmin;
 
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
-use App\Model\Review\View as ReviewView;
+use App\Model\TenancyReview\View as TenancyReviewView;
 
 class Home
 {
     private FlatAgency $agency;
     /** @var FlatBranch[] */
     private array $branches;
-    /** @var ReviewView[] */
-    private array $reviews;
+    /** @var TenancyReviewView[] */
+    private array $tenancyReviews;
 
     public function __construct(
         FlatAgency $agency,
         array $branches = [],
-        array $reviews = []
+        array $tenancyReviews = []
     ) {
         $this->agency = $agency;
         $this->branches = $branches;
-        $this->reviews = $reviews;
+        $this->tenancyReviews = $tenancyReviews;
     }
 
     public function getAgency(): FlatAgency
@@ -38,10 +38,10 @@ class Home
     }
 
     /**
-     * @return ReviewView[]
+     * @return TenancyReviewView[]
      */
-    public function getReviews(): array
+    public function getTenancyReviews(): array
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 }

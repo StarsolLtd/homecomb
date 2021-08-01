@@ -8,14 +8,14 @@ use App\Model\AgencyAdmin\Home;
 class AgencyAdminFactory
 {
     private FlatModelFactory $flatModelFactory;
-    private ReviewFactory $reviewFactory;
+    private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         FlatModelFactory $flatModelFactory,
-        ReviewFactory $reviewFactory
+        TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->flatModelFactory = $flatModelFactory;
-        $this->reviewFactory = $reviewFactory;
+        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function getHome(Agency $agencyEntity): Home
@@ -27,15 +27,15 @@ class AgencyAdminFactory
             $branches[] = $this->flatModelFactory->getBranchFlatModel($branchEntity);
         }
 
-        $reviews = [];
-        foreach ($agencyEntity->getPublishedReviews() as $reviewEntity) {
-            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        $tenancyReviews = [];
+        foreach ($agencyEntity->getPublishedTenancyReviews() as $tenancyReviewEntity) {
+            $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
         return new Home(
             $agency,
             $branches,
-            $reviews
+            $tenancyReviews
         );
     }
 }

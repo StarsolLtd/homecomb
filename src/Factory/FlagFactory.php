@@ -6,14 +6,14 @@ use App\Entity\Flag\AgencyFlag;
 use App\Entity\Flag\BranchFlag;
 use App\Entity\Flag\Flag;
 use App\Entity\Flag\PropertyFlag;
-use App\Entity\Flag\ReviewFlag;
+use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInput;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use function sprintf;
 
 class FlagFactory
@@ -21,18 +21,18 @@ class FlagFactory
     private AgencyRepository $agencyRepository;
     private BranchRepository $branchRepository;
     private PropertyRepository $propertyRepository;
-    private ReviewRepository $reviewRepository;
+    private TenancyReviewRepository $tenancyReviewRepository;
 
     public function __construct(
         AgencyRepository $agencyRepository,
         BranchRepository $branchRepository,
         PropertyRepository $propertyRepository,
-        ReviewRepository $reviewRepository
+        TenancyReviewRepository $tenancyReviewRepository
     ) {
         $this->agencyRepository = $agencyRepository;
         $this->branchRepository = $branchRepository;
         $this->propertyRepository = $propertyRepository;
-        $this->reviewRepository = $reviewRepository;
+        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, ?User $user): Flag
@@ -54,8 +54,8 @@ class FlagFactory
                 $flag = (new PropertyFlag())->setProperty($property);
                 break;
             case 'Review':
-                $review = $this->reviewRepository->findOnePublishedById($entityId);
-                $flag = (new ReviewFlag())->setReview($review);
+                $tenancyReview = $this->tenancyReviewRepository->findOnePublishedById($entityId);
+                $flag = (new TenancyReviewFlag())->setTenancyReview($tenancyReview);
                 break;
             default:
                 throw new UnexpectedValueException(sprintf('%s is not a valid flag entity name.', $entityName));

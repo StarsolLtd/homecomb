@@ -4,13 +4,13 @@ namespace App\Tests\Functional\Repository;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Comment\Comment;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Repository\CommentRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use App\Repository\UserRepository;
 use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,11 +26,11 @@ class VoteRepositoryTest extends KernelTestCase
     private VoteRepository $voteRepository;
 
     private CommentRepository $commentRepository;
-    private ReviewRepository $reviewRepository;
+    private TenancyReviewRepository $reviewRepository;
     private UserRepository $userRepository;
 
     private ?Comment $commentFixture;
-    private ?Review $reviewFixture;
+    private ?TenancyReview $tenancyReviewFixture;
     private ?User $userFixture;
 
     protected function setUp(): void
@@ -44,7 +44,7 @@ class VoteRepositoryTest extends KernelTestCase
         $this->voteRepository = $this->entityManager->getRepository(Vote::class);
 
         $this->commentRepository = $this->entityManager->getRepository(Comment::class);
-        $this->reviewRepository = $this->entityManager->getRepository(Review::class);
+        $this->reviewRepository = $this->entityManager->getRepository(TenancyReview::class);
         $this->userRepository = $this->entityManager->getRepository(User::class);
 
         $this->createFixtures();
@@ -55,10 +55,10 @@ class VoteRepositoryTest extends KernelTestCase
      */
     public function testFindOneReviewVoteByUserAndEntity1()
     {
-        $vote = $this->voteRepository->findOneReviewVoteByUserAndEntity($this->userFixture, $this->reviewFixture->getId());
+        $vote = $this->voteRepository->findOneReviewVoteByUserAndEntity($this->userFixture, $this->tenancyReviewFixture->getId());
 
         $this->assertNotNull($vote);
-        $this->assertEquals($vote->getReview(), $this->reviewFixture);
+        $this->assertEquals($vote->getTenancyReview(), $this->tenancyReviewFixture);
         $this->assertEquals($vote->getUser(), $this->userFixture);
         $this->assertTrue($vote->isPositive());
     }
@@ -86,10 +86,10 @@ class VoteRepositoryTest extends KernelTestCase
     private function createFixtures()
     {
         $this->commentFixture = $this->commentRepository->findLastPublished();
-        $this->reviewFixture = $this->reviewRepository->findLastPublished();
+        $this->tenancyReviewFixture = $this->reviewRepository->findLastPublished();
         $this->userFixture = $this->userRepository->loadUserByUsername(TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $reviewVoteEntity = (new ReviewVote())->setUser($this->userFixture)->setReview($this->reviewFixture)->setPositive(true);
+        $reviewVoteEntity = (new TenancyReviewVote())->setUser($this->userFixture)->setTenancyReview($this->tenancyReviewFixture)->setPositive(true);
         $this->entityManager->persist($reviewVoteEntity);
 
         $commentVoteEntity = (new CommentVote())->setUser($this->userFixture)->setComment($this->commentFixture)->setPositive(false);

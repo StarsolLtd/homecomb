@@ -4,31 +4,29 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Comment\ReviewComment;
+use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\Image;
 use App\Entity\Property;
-use App\Entity\Review;
-use App\Entity\ReviewSolicitation;
 use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
+use App\Entity\TenancyReview;
+use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
-use App\Entity\Vote\ReviewVote;
-use App\Service\ReviewService;
+use App\Entity\Vote\TenancyReviewVote;
+use App\Service\TenancyReviewService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
-use function copy;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use function preg_replace;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
     private AgencyHelper $agencyHelper;
     private BranchHelper $branchHelper;
-    private ReviewService $reviewService;
+    private TenancyReviewService $tenancyReviewService;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     private const USER_1 = 'jack@mimas.io';
@@ -40,12 +38,12 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
     public function __construct(
         AgencyHelper $agencyHelper,
         BranchHelper $branchHelper,
-        ReviewService $reviewService,
+        TenancyReviewService $tenancyReviewService,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->agencyHelper = $agencyHelper;
         $this->branchHelper = $branchHelper;
-        $this->reviewService = $reviewService;
+        $this->tenancyReviewService = $tenancyReviewService;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -62,7 +60,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         $branches = $this->loadBranches($manager, $agencies);
         $this->loadReviewSolicitations($manager);
 
-        $reviews = [];
+        $tenancyReviews = [];
 
         /** @var Property $property249 */
         $property249 = $this->getReference('property-'.PropertyFixtures::PROPERTY_249_VENDOR_PROPERTY_ID);
@@ -71,7 +69,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         /** @var Property $property44 */
         $property44 = $this->getReference('property-'.PropertyFixtures::PROPERTY_44_VENDOR_PROPERTY_ID);
 
-        $comment = (new ReviewComment())
+        $comment = (new TenancyReviewComment())
             ->setPublished(true)
             ->setUser($users[self::USER_5])
             ->setContent(
@@ -82,32 +80,32 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         ;
         $manager->persist($comment);
 
-        // TODO why would phpstan otherwise think this is a Comment and not a ReviewComment?
-        /** @var ReviewComment $reviewComment */
-        $reviewComment = $comment;
+        // TODO why would phpstan otherwise think this is a Comment and not a TenancyReviewComment?
+        /** @var TenancyReviewComment $tenancyReviewComment */
+        $tenancyReviewComment = $comment;
 
-        $positiveVote1 = (new ReviewVote())
+        $positiveVote1 = (new TenancyReviewVote())
             ->setPositive(true)
             ->setUser($users[self::USER_5]);
         $manager->persist($positiveVote1);
-        /** @var ReviewVote $positiveReviewVote1 */
+        /** @var TenancyReviewVote $positiveReviewVote1 */
         $positiveReviewVote1 = $positiveVote1;
 
-        $positiveVote2 = (new ReviewVote())
+        $positiveVote2 = (new TenancyReviewVote())
             ->setPositive(true)
             ->setUser($users[self::USER_4]);
         $manager->persist($positiveVote2);
-        /** @var ReviewVote $positiveReviewVote2 */
+        /** @var TenancyReviewVote $positiveReviewVote2 */
         $positiveReviewVote2 = $positiveVote2;
 
-        $negativeVote1 = (new ReviewVote())
+        $negativeVote1 = (new TenancyReviewVote())
             ->setPositive(false)
             ->setUser($users[self::USER_3]);
         $manager->persist($negativeVote1);
-        /** @var ReviewVote $negativeReviewVote1 */
+        /** @var TenancyReviewVote $negativeReviewVote1 */
         $negativeReviewVote1 = $negativeVote1;
 
-        $reviews[] = (new Review())
+        $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_1])
             ->setProperty($property249)
             ->setBranch($branches[0])
@@ -125,13 +123,13 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true)
             ->setStart(new DateTime('2013-08-01'))
             ->setEnd(new DateTime('2015-07-01'))
-            ->addComment($reviewComment)
+            ->addComment($tenancyReviewComment)
             ->addVote($positiveReviewVote1)
             ->addVote($positiveReviewVote2)
             ->addVote($negativeReviewVote1)
         ;
 
-        $reviews[] = (new Review())
+        $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_2])
             ->setProperty($property249)
             ->setBranch($branches[0])
@@ -150,7 +148,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPropertyStars(5)
             ->setPublished(true);
 
-        $reviews[] = (new Review())
+        $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_3])
             ->setProperty($property249)
             ->setBranch($branches[4])
@@ -169,7 +167,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPropertyStars(5)
             ->setPublished(true);
 
-        $reviews[] = (new Review())
+        $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_3])
             ->setProperty($property25)
             ->setBranch($branches[3])
@@ -188,7 +186,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPropertyStars(3)
             ->setPublished(true);
 
-        $reviews[] = (new Review())
+        $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_4])
             ->setProperty($property44)
             ->setBranch($branches[4])
@@ -207,9 +205,9 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPropertyStars(4)
             ->setPublished(true);
 
-        foreach ($reviews as $review) {
-            $this->reviewService->generateLocales($review);
-            $manager->persist($review);
+        foreach ($tenancyReviews as $tenancyReview) {
+            $this->tenancyReviewService->generateLocales($tenancyReview);
+            $manager->persist($tenancyReview);
         }
 
         $manager->flush();
@@ -368,7 +366,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         /** @var Branch $arburyBranch */
         $arburyBranch = $this->getReference('branch-Cambridge Residential-Arbury');
 
-        $rs = (new ReviewSolicitation())
+        $rs = (new TenancyReviewSolicitation())
             ->setBranch($arburyBranch)
             ->setSenderUser($cambridgeResidentialAdmin)
             ->setProperty($property17)
