@@ -2,14 +2,14 @@
 
 namespace App\Model\Property;
 
-use App\Model\Review\View as ReviewView;
+use App\Model\TenancyReview\View as ReviewView;
 
 class View
 {
     private string $slug;
     private ?string $addressLine1;
     private ?string $postcode;
-    private array $reviews;
+    private array $tenancyReviews;
     private ?float $latitude;
     private ?float $longitude;
 
@@ -17,14 +17,14 @@ class View
         string $slug,
         ?string $addressLine1,
         ?string $postcode,
-        array $reviews,
+        array $tenancyReviews,
         ?float $latitude = null,
         ?float $longitude = null
     ) {
         $this->slug = $slug;
         $this->addressLine1 = $addressLine1;
         $this->postcode = $postcode;
-        $this->reviews = $reviews;
+        $this->tenancyReviews = $tenancyReviews;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
@@ -47,9 +47,9 @@ class View
     /**
      * @return ReviewView[]
      */
-    public function getReviews(): array
+    public function getTenancyReviews(): array
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 
     public function getLatitude(): ?float

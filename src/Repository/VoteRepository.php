@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -35,10 +35,10 @@ class VoteRepository extends ServiceEntityRepository
         return $vote;
     }
 
-    public function findOneReviewVoteByUserAndEntity(User $user, int $entityId): ?ReviewVote
+    public function findOneReviewVoteByUserAndEntity(User $user, int $entityId): ?TenancyReviewVote
     {
         $qb = $this->createQueryBuilder('v');
-        $qb->where($qb->expr()->isInstanceOf('v', ReviewVote::class))
+        $qb->where($qb->expr()->isInstanceOf('v', TenancyReviewVote::class))
             ->andWhere('v.entityId = :entityId')
             ->andWhere('v.user = :user')
             ->setMaxResults(1)

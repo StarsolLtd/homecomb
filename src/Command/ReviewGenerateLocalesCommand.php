@@ -3,8 +3,8 @@
 namespace App\Command;
 
 use App\Exception\NotFoundException;
-use App\Repository\ReviewRepository;
-use App\Service\ReviewService;
+use App\Repository\TenancyReviewRepository;
+use App\Service\TenancyReviewService;
 use function gettype;
 use function sprintf;
 use Symfony\Component\Console\Command\Command;
@@ -17,15 +17,15 @@ class ReviewGenerateLocalesCommand extends Command
 {
     protected static $defaultName = 'review:generate-locales';
 
-    private ReviewRepository $reviewRepository;
-    private ReviewService $reviewService;
+    private TenancyReviewRepository $tenancyReviewRepository;
+    private TenancyReviewService $tenancyReviewService;
 
     public function __construct(
-        ReviewRepository $reviewRepository,
-        ReviewService $reviewService
+        TenancyReviewRepository $tenancyReviewRepository,
+        TenancyReviewService $tenancyReviewService
     ) {
-        $this->reviewRepository = $reviewRepository;
-        $this->reviewService = $reviewService;
+        $this->tenancyReviewRepository = $tenancyReviewRepository;
+        $this->tenancyReviewService = $tenancyReviewService;
 
         parent::__construct();
     }
@@ -41,25 +41,25 @@ class ReviewGenerateLocalesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $reviewId = $input->getArgument('arg1');
+        $tenancyReviewId = $input->getArgument('arg1');
 
-        $arg1Type = gettype($reviewId);
+        $arg1Type = gettype($tenancyReviewId);
         if ('string' === $arg1Type) {
             /** @phpstan-ignore-next-line */
-            $reviewId = (int) $reviewId;
+            $tenancyReviewId = (int) $tenancyReviewId;
         } elseif ('int' !== $arg1Type) {
             throw new \RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 
-        $io->note(sprintf('Generating locals for review %s', $reviewId));
+        $io->note(sprintf('Generating locals for review %s', $tenancyReviewId));
 
-        $review = $this->reviewRepository->find($reviewId);
+        $tenancyReview = $this->tenancyReviewRepository->find($tenancyReviewId);
 
-        if (!$review) {
-            throw new NotFoundException(sprintf('Review %s not found.', $reviewId));
+        if (!$tenancyReview) {
+            throw new NotFoundException(sprintf('TenancyReview %s not found.', $tenancyReviewId));
         }
 
-        $locales = $this->reviewService->generateLocales($review);
+        $locales = $this->tenancyReviewService->generateLocales($tenancyReview);
 
         foreach ($locales as $locale) {
             $io->note(sprintf('Locale %s associated with review.', $locale->getName()));

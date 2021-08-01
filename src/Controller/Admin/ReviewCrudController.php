@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -14,7 +14,7 @@ class ReviewCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Review::class;
+        return TenancyReview::class;
     }
 
     public function configureFields(string $pageName): iterable

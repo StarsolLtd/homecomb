@@ -13,14 +13,14 @@ use App\Util\BranchHelper;
 class BranchFactory
 {
     private BranchHelper $branchHelper;
-    private ReviewFactory $reviewFactory;
+    private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         BranchHelper $branchHelper,
-        ReviewFactory $reviewFactory
+        TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->branchHelper = $branchHelper;
-        $this->reviewFactory = $reviewFactory;
+        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createEntityFromCreateBranchInput(CreateBranchInput $input, Agency $agency): Branch
@@ -58,15 +58,15 @@ class BranchFactory
             $branchEntity->getEmail()
         );
 
-        $reviews = [];
-        foreach ($branchEntity->getPublishedReviews() as $reviewEntity) {
-            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        $tenancyReviews = [];
+        foreach ($branchEntity->getPublishedTenancyReviews() as $tenancyReviewEntity) {
+            $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
         return new View(
             $branch,
             $agency,
-            $reviews
+            $tenancyReviews
         );
     }
 }

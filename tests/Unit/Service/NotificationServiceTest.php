@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\ReviewCrudController;
 use App\Entity\Flag\Flag;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\NotificationService;
@@ -50,8 +50,8 @@ class NotificationServiceTest extends TestCase
 
     public function testSendReviewModerationNotification(): void
     {
-        $review = $this->prophesize(Review::class);
-        $review->getId()->shouldBeCalledOnce()->willReturn(42);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
+        $tenancyReview->getId()->shouldBeCalledOnce()->willReturn(42);
 
         $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
 
@@ -72,7 +72,7 @@ class NotificationServiceTest extends TestCase
 
         $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
-        $this->notificationService->sendReviewModerationNotification($review->reveal());
+        $this->notificationService->sendReviewModerationNotification($tenancyReview->reveal());
     }
 
     public function testFlagReviewModerationNotification(): void

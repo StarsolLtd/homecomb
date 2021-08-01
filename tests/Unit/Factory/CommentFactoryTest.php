@@ -2,13 +2,13 @@
 
 namespace App\Tests\Unit\Factory;
 
-use App\Entity\Comment\ReviewComment;
-use App\Entity\Review;
+use App\Entity\Comment\TenancyReviewComment;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
 use App\Model\Comment\SubmitInput;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -21,14 +21,14 @@ class CommentFactoryTest extends TestCase
 
     private CommentFactory $commentFactory;
 
-    private $reviewRepository;
+    private $tenancyReviewRepository;
 
     public function setUp(): void
     {
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->commentFactory = new CommentFactory(
-            $this->reviewRepository->reveal(),
+            $this->tenancyReviewRepository->reveal(),
         );
     }
 
@@ -44,15 +44,15 @@ class CommentFactoryTest extends TestCase
             null
         );
         $user = new User();
-        $review = new Review();
+        $tenancyReview = new TenancyReview();
 
-        $this->reviewRepository->findOnePublishedById($input->getEntityId())
+        $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId())
             ->shouldBeCalledOnce()
-            ->willReturn($review);
+            ->willReturn($tenancyReview);
 
         $comment = $this->commentFactory->createEntityFromSubmitInput($input, $user);
 
-        $this->assertInstanceOf(ReviewComment::class, $comment);
+        $this->assertInstanceOf(TenancyReviewComment::class, $comment);
         $this->assertEquals(876, $comment->getRelatedEntityId());
         $this->assertEquals('On behalf of my Agency I would like to say thank you for your review.', $comment->getContent());
         $this->assertEquals($user, $comment->getUser());

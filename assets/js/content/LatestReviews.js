@@ -10,7 +10,7 @@ class LatestReviews extends React.Component {
         super(props);
         this.state = {
             title: '',
-            reviews: [],
+            tenancyReviews: [],
             loaded: false,
         };
         this.loadData = this.loadData.bind(this);
@@ -30,7 +30,7 @@ class LatestReviews extends React.Component {
                             loadComponentData={this.loadData}
                         />
                         {this.state.loaded &&
-                            this.state.reviews.map(
+                            this.state.tenancyReviews.map(
                                 ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt }) => (
                                     <Col key={id} lg={4} md={6} sm={12} className="d-flex">
                                         <Col md={12} className="bg-white rounded shadow-sm pl-3 pr-4 m-1">
@@ -64,7 +64,7 @@ class LatestReviews extends React.Component {
     loadData(data) {
         this.setState({
             agency: data.title,
-            reviews: data.reviews,
+            tenancyReviews: data.tenancyReviews,
             loaded: true
         });
     }

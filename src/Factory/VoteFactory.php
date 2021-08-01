@@ -3,29 +3,29 @@
 namespace App\Factory;
 
 use App\Entity\Comment\Comment;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
 use App\Model\Vote\SubmitInput;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use function sprintf;
 
 class VoteFactory
 {
     private CommentRepository $commentRepository;
-    private ReviewRepository $reviewRepository;
+    private TenancyReviewRepository $tenancyReviewRepository;
 
     public function __construct(
         CommentRepository $commentRepository,
-        ReviewRepository $reviewRepository
+        TenancyReviewRepository $tenancyReviewRepository
     ) {
         $this->commentRepository = $commentRepository;
-        $this->reviewRepository = $reviewRepository;
+        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, User $user): Vote
@@ -38,9 +38,9 @@ class VoteFactory
                 $comment = $this->commentRepository->findOnePublishedById($entityId);
                 $vote = (new CommentVote())->setComment($comment);
                 break;
-            case 'Review':
-                $review = $this->reviewRepository->findOnePublishedById($entityId);
-                $vote = (new ReviewVote())->setReview($review);
+            case 'TenancyReview':
+                $tenancyReview = $this->tenancyReviewRepository->findOnePublishedById($entityId);
+                $vote = (new TenancyReviewVote())->setTenancyReview($tenancyReview);
                 break;
             default:
                 throw new UnexpectedValueException(sprintf('%s is not a valid Vote entity name.', $entityName));
@@ -53,15 +53,15 @@ class VoteFactory
         return $vote;
     }
 
-    public function createSubmitOutputFromReview(Review $review): SubmitOutput
+    public function createSubmitOutputFromReview(TenancyReview $tenancyReview): SubmitOutput
     {
         return new SubmitOutput(
             true,
             'Review',
-            $review->getId(),
-            $review->getPositiveVotesCount(),
-            $review->getNegativeVotesCount(),
-            $review->getVotesScore()
+            $tenancyReview->getId(),
+            $tenancyReview->getPositiveVotesCount(),
+            $tenancyReview->getNegativeVotesCount(),
+            $tenancyReview->getVotesScore()
         );
     }
 

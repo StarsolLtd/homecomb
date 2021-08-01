@@ -93,7 +93,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(TestFixtures::TEST_PROPERTY_1_SLUG, $content['slug']);
         $this->assertEquals('Testerton Hall', $content['addressLine1']);
         $this->assertEquals('NR21 7ES', $content['postcode']);
-        $this->assertEquals('Terrence S.', $content['reviews'][0]['author']);
-        $this->assertEquals(5, $content['reviews'][0]['stars']['overall']);
+        $this->assertEquals('Terrence S.', $content['tenancyReviews'][0]['author']);
+        $this->assertEquals(5, $content['tenancyReviews'][0]['stars']['overall']);
     }
 }

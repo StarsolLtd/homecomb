@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Controller\Api;
+
+use App\Controller\AppController;
+use App\Exception\NotFoundException;
+use App\Service\TenancyReviewSolicitationService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class TenancyReviewSolicitationController extends AppController
+{
+    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
+
+    public function __construct(
+        TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        SerializerInterface $serializer
+    ) {
+        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @Route (
+     *     "/api/rs/{code}",
+     *     name="api-review-solicitation-view",
+     *     methods={"GET"}
+     * )
+     */
+    public function view(string $code): JsonResponse
+    {
+        try {
+            $view = $this->tenancyReviewSolicitationService->getViewByCode($code);
+        } catch (NotFoundException $e) {
+            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->jsonResponse($view, Response::HTTP_OK);
+    }
+}

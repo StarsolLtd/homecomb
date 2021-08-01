@@ -96,14 +96,14 @@ class Property
     private bool $published = true;
 
     /**
-     * @var Collection<int, Review>
-     * @ORM\OneToMany(targetEntity="Review", mappedBy="property")
+     * @var Collection<int, TenancyReview>
+     * @ORM\OneToMany(targetEntity="TenancyReview", mappedBy="property")
      */
-    private Collection $reviews;
+    private Collection $tenancyReviews;
 
     public function __construct()
     {
-        $this->reviews = new ArrayCollection();
+        $this->tenancyReviews = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -285,31 +285,31 @@ class Property
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getReviews(): Collection
+    public function getTenancyReviews(): Collection
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 
-    public function addReview(Review $review): self
+    public function addTenancyReview(TenancyReview $tenancyReview): self
     {
-        if ($this->reviews->contains($review)) {
+        if ($this->tenancyReviews->contains($tenancyReview)) {
             return $this;
         }
-        $this->reviews[] = $review;
-        $review->setProperty($this);
+        $this->tenancyReviews[] = $tenancyReview;
+        $tenancyReview->setProperty($this);
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getPublishedReviews(): Collection
+    public function getPublishedTenancyReviews(): Collection
     {
-        return $this->getReviews()->filter(function (Review $review) {
-            return $review->isPublished();
+        return $this->getTenancyReviews()->filter(function (TenancyReview $tenancyReview) {
+            return $tenancyReview->isPublished();
         });
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Tests\Unit\Service;
 
-use App\Entity\Flag\ReviewFlag;
-use App\Entity\Review;
+use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
@@ -61,7 +60,7 @@ class FlagServiceTest extends TestCase
     {
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
-        $flag = $this->prophesize(ReviewFlag::class);
+        $flag = $this->prophesize(TenancyReviewFlag::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
 
         $this->assertGetUserEntityOrNullFromInterface($user);
@@ -92,7 +91,7 @@ class FlagServiceTest extends TestCase
     {
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
-        $flag = $this->prophesize(ReviewFlag::class);
+        $flag = $this->prophesize(TenancyReviewFlag::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
 
         $this->assertGetUserEntityOrNullFromInterface($user);

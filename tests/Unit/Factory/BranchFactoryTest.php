@@ -4,11 +4,11 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Factory\BranchFactory;
-use App\Factory\ReviewFactory;
+use App\Factory\TenancyReviewFactory;
 use App\Model\Branch\CreateBranchInput;
-use App\Model\Review\View;
+use App\Model\TenancyReview\View;
 use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -24,16 +24,16 @@ class BranchFactoryTest extends TestCase
     private BranchFactory $branchFactory;
 
     private $branchHelper;
-    private $reviewFactory;
+    private $tenancyReviewFactory;
 
     public function setUp(): void
     {
         $this->branchHelper = $this->prophesize(BranchHelper::class);
-        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
+        $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->branchFactory = new BranchFactory(
             $this->branchHelper->reveal(),
-            $this->reviewFactory->reveal(),
+            $this->tenancyReviewFactory->reveal(),
         );
     }
 
@@ -81,24 +81,24 @@ class BranchFactoryTest extends TestCase
             ->addBranch($branch)
         ;
 
-        $review1 = $this->prophesize(Review::class);
+        $review1 = $this->prophesize(TenancyReview::class);
         $review1->isPublished()->shouldBeCalledOnce()->willReturn(true);
         $review1->setBranch($branch)->shouldBeCalledOnce()->willReturn($review1);
         $review1View = $this->prophesize(View::class);
 
-        $review2 = $this->prophesize(Review::class);
+        $review2 = $this->prophesize(TenancyReview::class);
         $review2->isPublished()->shouldBeCalledOnce()->willReturn(true);
         $review2->setBranch($branch)->shouldBeCalledOnce()->willReturn($review2);
         $review2View = $this->prophesize(View::class);
 
-        $branch->addReview($review1->reveal())->addReview($review2->reveal());
+        $branch->addTenancyReview($review1->reveal())->addTenancyReview($review2->reveal());
 
-        $this->reviewFactory->createViewFromEntity($review1)
+        $this->tenancyReviewFactory->createViewFromEntity($review1)
             ->shouldBeCalledOnce()
             ->willReturn($review1View)
         ;
 
-        $this->reviewFactory->createViewFromEntity($review2)
+        $this->tenancyReviewFactory->createViewFromEntity($review2)
             ->shouldBeCalledOnce()
             ->willReturn($review2View)
         ;

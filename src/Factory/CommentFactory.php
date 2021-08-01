@@ -3,21 +3,21 @@
 namespace App\Factory;
 
 use App\Entity\Comment\Comment;
-use App\Entity\Comment\ReviewComment;
+use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Comment\SubmitInput;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use function sprintf;
 
 class CommentFactory
 {
-    private ReviewRepository $reviewRepository;
+    private TenancyReviewRepository $tenancyReviewRepository;
 
     public function __construct(
-        ReviewRepository $reviewRepository
+        TenancyReviewRepository $tenancyReviewRepository
     ) {
-        $this->reviewRepository = $reviewRepository;
+        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, User $user): Comment
@@ -26,9 +26,9 @@ class CommentFactory
 
         switch ($input->getEntityName()) {
             case 'Review':
-                $review = $this->reviewRepository->findOnePublishedById($input->getEntityId());
-                $comment = new ReviewComment();
-                $review->addComment($comment);
+                $tenancyReview = $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId());
+                $comment = new TenancyReviewComment();
+                $tenancyReview->addComment($comment);
                 break;
             default:
                 throw new UnexpectedValueException(sprintf('%s is not a valid comment related entity name.', $entityName));

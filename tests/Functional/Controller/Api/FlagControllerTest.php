@@ -4,9 +4,9 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Flag\Flag;
-use App\Entity\Flag\ReviewFlag;
+use App\Entity\Flag\TenancyReviewFlag;
 use App\Repository\FlagRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +33,7 @@ class FlagControllerTest extends WebTestCase
         $latestFlag = $this->getLatestFlag();
 
         $this->assertNotNull($latestFlag);
-        $this->assertInstanceOf(ReviewFlag::class, $latestFlag);
+        $this->assertInstanceOf(TenancyReviewFlag::class, $latestFlag);
         $this->assertEquals('Explanation', $latestFlag->getContent());
         $this->assertNull($latestFlag->getUser());
     }
@@ -59,7 +59,7 @@ class FlagControllerTest extends WebTestCase
         $latestFlag = $this->getLatestFlag();
 
         $this->assertNotNull($latestFlag);
-        $this->assertInstanceOf(ReviewFlag::class, $latestFlag);
+        $this->assertInstanceOf(TenancyReviewFlag::class, $latestFlag);
         $this->assertEquals('Explanation', $latestFlag->getContent());
         $this->assertEquals($loggedInUser, $latestFlag->getUser());
     }
@@ -90,9 +90,9 @@ class FlagControllerTest extends WebTestCase
 
     private function getAnyReviewId(): int
     {
-        /** @var ReviewRepository $reviewRepository */
-        $reviewRepository = static::$container->get(ReviewRepository::class);
+        /** @var TenancyReviewRepository $tenancyReviewRepository */
+        $tenancyReviewRepository = static::$container->get(TenancyReviewRepository::class);
 
-        return $reviewRepository->findLastPublished()->getId();
+        return $tenancyReviewRepository->findLastPublished()->getId();
     }
 }

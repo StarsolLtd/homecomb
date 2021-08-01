@@ -14,7 +14,7 @@ class PropertyView extends React.Component {
         this.state = {
             addressLine1: '',
             postcode: '',
-            reviews: [],
+            tenancyReviews: [],
             reviewTenancyFormOpen: false,
             loaded: false,
             reviewCompletedThankYou: false,
@@ -65,9 +65,9 @@ class PropertyView extends React.Component {
                     }
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                            <h5 className="mb-1">Reviews from tenants</h5>
+                            <h5 className="mb-1">TenancyReviews from tenants</h5>
 
-                            {this.state.reviews.map(
+                            {this.state.tenancyReviews.map(
                                 ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
                                     <Fragment key={id}>
                                         <Review
@@ -94,10 +94,10 @@ class PropertyView extends React.Component {
                                 )
                             )}
 
-                            {this.state.reviews.length === 0 &&
+                            {this.state.tenancyReviews.length === 0 &&
                             <Fragment>
                                 <p className="mt-3">
-                                    There are no reviews yet for this property.
+                                    There are no tenancyReviews yet for this property.
                                 </p>
                                 <hr />
                                 <h5 className="mb-4">Search for another property address</h5>
@@ -140,7 +140,7 @@ class PropertyView extends React.Component {
             postcode: data.postcode,
             latitude: data.latitude,
             longitude: data.longitude,
-            reviews: data.reviews,
+            tenancyReviews: data.tenancyReviews,
             loaded: true,
         });
 

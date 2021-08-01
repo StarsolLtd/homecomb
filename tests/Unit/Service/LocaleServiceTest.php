@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Locale;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;
 use App\Repository\LocaleRepository;
@@ -59,12 +59,12 @@ class LocaleServiceTest extends TestCase
         $branch1 = (new Branch())->setAgency($agency1)->setPublished(true);
         $agency2 = (new Agency())->setName('Agency 2')->setPublished(true)->setSlug('ag2');
         $branch2 = (new Branch())->setAgency($agency2)->setPublished(true);
-        $review1 = (new Review())->setBranch($branch1)->setPublished(true)->setAgencyStars(5);
-        $review2 = (new Review())->setBranch($branch1)->setPublished(true)->setAgencyStars(2);
-        $review3 = (new Review())->setBranch($branch2)->setPublished(true)->setAgencyStars(4);
-        $review4 = (new Review())->setBranch($branch2)->setPublished(false)->setAgencyStars(1);
-        $review5 = (new Review())->setBranch($branch2)->setPublished(true)->setAgencyStars(null);
-        $locale->addReview($review1)->addReview($review2)->addReview($review3)->addReview($review4)->addReview($review5);
+        $review1 = (new TenancyReview())->setBranch($branch1)->setPublished(true)->setAgencyStars(5);
+        $review2 = (new TenancyReview())->setBranch($branch1)->setPublished(true)->setAgencyStars(2);
+        $review3 = (new TenancyReview())->setBranch($branch2)->setPublished(true)->setAgencyStars(4);
+        $review4 = (new TenancyReview())->setBranch($branch2)->setPublished(false)->setAgencyStars(1);
+        $review5 = (new TenancyReview())->setBranch($branch2)->setPublished(true)->setAgencyStars(null);
+        $locale->addTenancyReview($review1)->addTenancyReview($review2)->addTenancyReview($review3)->addTenancyReview($review4)->addTenancyReview($review5);
 
         $output = $this->localeService->getAgencyReviewsSummary($locale);
 
@@ -91,7 +91,7 @@ class LocaleServiceTest extends TestCase
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getOneStarCount());
         $this->assertEquals(0, $output->getAgencyReviewSummaries()[1]->getUnratedCount());
 
-        $this->assertEquals(3, $output->getReviewsCount());
+        $this->assertEquals(3, $output->getTenancyReviewsCount());
         $this->assertEquals(2, $output->getAgenciesCount());
     }
 }
