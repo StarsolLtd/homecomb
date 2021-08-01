@@ -66,6 +66,12 @@ class Image
     private ?Locale $locale = null;
 
     /**
+     * @ORM\ManyToOne(targetEntity="LocaleReview", inversedBy="images")
+     * @ORM\JoinColumn(name="localeReview_id", referencedColumnName="id", nullable=true)
+     */
+    private ?LocaleReview $localeReview = null;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Review", inversedBy="images")
      * @ORM\JoinColumn(name="review_id", referencedColumnName="id", nullable=true)
      */
@@ -163,6 +169,18 @@ class Image
     public function setLocale(?Locale $locale): self
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getLocaleReview(): ?LocaleReview
+    {
+        return $this->localeReview;
+    }
+
+    public function setLocaleReview(?LocaleReview $localeReview): self
+    {
+        $this->localeReview = $localeReview;
 
         return $this;
     }
