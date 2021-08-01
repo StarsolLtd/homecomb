@@ -16,7 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *     "Agency" = "AgencyFlag",
  *     "Branch" = "BranchFlag",
  *     "Property" = "PropertyFlag",
- *     "Review" = "ReviewFlag"
+ *     "TenancyReview" = "TenancyReviewFlag"
  * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
  */

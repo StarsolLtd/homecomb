@@ -2,22 +2,22 @@
 
 namespace App\Model\Branch;
 
-use App\Model\Review\View as ReviewView;
+use App\Model\TenancyReview\View as ReviewView;
 
 class View
 {
     private Branch $branch;
     private ?Agency $agency;
-    private array $reviews;
+    private array $tenancyReviews;
 
     public function __construct(
         Branch $branch,
         ?Agency $agency,
-        array $reviews
+        array $tenancyReviews
     ) {
         $this->branch = $branch;
         $this->agency = $agency;
-        $this->reviews = $reviews;
+        $this->tenancyReviews = $tenancyReviews;
     }
 
     public function getBranch(): Branch
@@ -33,8 +33,8 @@ class View
     /**
      * @return ReviewView[]
      */
-    public function getReviews(): array
+    public function getTenancyReviews(): array
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 }

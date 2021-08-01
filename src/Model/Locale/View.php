@@ -2,27 +2,27 @@
 
 namespace App\Model\Locale;
 
-use App\Model\Review\View as ReviewView;
+use App\Model\TenancyReview\View as ReviewView;
 
 class View
 {
     private string $slug;
     private string $name;
     private ?string $content;
-    private array $reviews;
+    private array $tenancyReviews;
     private ?AgencyReviewsSummary $agencyReviewsSummary;
 
     public function __construct(
         string $slug,
         string $name,
         ?string $content = null,
-        array $reviews = [],
+        array $tenancyReviews = [],
         ?AgencyReviewsSummary $agencyReviewsSummary = null
     ) {
         $this->slug = $slug;
         $this->name = $name;
         $this->content = $content;
-        $this->reviews = $reviews;
+        $this->tenancyReviews = $tenancyReviews;
         $this->agencyReviewsSummary = $agencyReviewsSummary;
     }
 
@@ -44,9 +44,9 @@ class View
     /**
      * @return ReviewView[]
      */
-    public function getReviews(): array
+    public function getTenancyReviews(): array
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 
     public function getAgencyReviewsSummary(): ?AgencyReviewsSummary

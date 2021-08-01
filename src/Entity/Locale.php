@@ -54,11 +54,11 @@ class Locale
     private Collection $postcodes;
 
     /**
-     * @var Collection<int, Review>
-     * @ORM\ManyToMany(targetEntity="Review", inversedBy="locales", cascade={"persist"})
-     * @ORM\JoinTable(name="locale_review")
+     * @var Collection<int, TenancyReview>
+     * @ORM\ManyToMany(targetEntity="TenancyReview", inversedBy="locales", cascade={"persist"})
+     * @ORM\JoinTable(name="locale_tenancy_review")
      */
-    private Collection $reviews;
+    private Collection $tenancyReviews;
 
     /**
      * @var Collection<int, Locale>
@@ -85,7 +85,7 @@ class Locale
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
-        $this->reviews = new ArrayCollection();
+        $this->tenancyReviews = new ArrayCollection();
         $this->localesRelating = new ArrayCollection();
         $this->relatedLocales = new ArrayCollection();
         $this->images = new ArrayCollection();
@@ -169,41 +169,41 @@ class Locale
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getReviews(): Collection
+    public function getTenancyReviews(): Collection
     {
-        return $this->reviews;
+        return $this->tenancyReviews;
     }
 
-    public function addReview(Review $review): self
+    public function addTenancyReview(TenancyReview $tenancyReview): self
     {
-        if ($this->reviews->contains($review)) {
+        if ($this->tenancyReviews->contains($tenancyReview)) {
             return $this;
         }
-        $review->addLocale($this);
-        $this->reviews[] = $review;
+        $tenancyReview->addLocale($this);
+        $this->tenancyReviews[] = $tenancyReview;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getPublishedReviews(): Collection
+    public function getPublishedTenancyReviews(): Collection
     {
-        return $this->getReviews()->filter(function (Review $review) {
-            return $review->isPublished();
+        return $this->getTenancyReviews()->filter(function (TenancyReview $tenancyReview) {
+            return $tenancyReview->isPublished();
         });
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getPublishedReviewsWithPublishedAgency(): Collection
+    public function getPublishedTenancyReviewsWithPublishedAgency(): Collection
     {
-        return $this->getReviews()->filter(function (Review $review) {
-            return $review->isPublished() && null !== $review->getAgency() && $review->getAgency()->isPublished();
+        return $this->getTenancyReviews()->filter(function (TenancyReview $tenancyReview) {
+            return $tenancyReview->isPublished() && null !== $tenancyReview->getAgency() && $tenancyReview->getAgency()->isPublished();
         });
     }
 

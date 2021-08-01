@@ -3,7 +3,7 @@
 namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,8 +84,8 @@ class CommentControllerTest extends WebTestCase
 
     private function getAnyReviewId(): int
     {
-        /** @var ReviewRepository $reviewRepository */
-        $reviewRepository = static::$container->get(ReviewRepository::class);
+        /** @var TenancyReviewRepository $reviewRepository */
+        $reviewRepository = static::$container->get(TenancyReviewRepository::class);
 
         return $reviewRepository->findLastPublished()->getId();
     }

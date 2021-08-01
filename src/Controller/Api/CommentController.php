@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Exception\NotFoundException;
 use App\Exception\UnexpectedValueException;
 use App\Model\Comment\SubmitInput;
@@ -56,7 +56,7 @@ class CommentController extends AppController
             return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
-        if (!$this->checkPrivilege('comment', Review::class, $input->getEntityId())) {
+        if (!$this->checkPrivilege('comment', TenancyReview::class, $input->getEntityId())) {
             return $this->jsonResponse(null, Response::HTTP_FORBIDDEN);
         }
 

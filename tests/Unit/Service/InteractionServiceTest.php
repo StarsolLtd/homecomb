@@ -4,14 +4,14 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Flag\Flag;
 use App\Entity\Interaction\Interaction;
-use App\Entity\Review;
 use App\Entity\Survey\Answer;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
-use App\Repository\ReviewRepository;
 use App\Repository\Survey\AnswerRepository;
+use App\Repository\TenancyReviewRepository;
 use App\Service\InteractionService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -35,7 +35,7 @@ class InteractionServiceTest extends TestCase
 
     private $answerRepository;
     private $flagRepository;
-    private $reviewRepository;
+    private $tenancyReviewRepository;
 
     public function setUp(): void
     {
@@ -43,31 +43,31 @@ class InteractionServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->flagRepository = $this->prophesize(FlagRepository::class);
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->interactionService = new InteractionService(
             $this->entityManager->reveal(),
             $this->userService->reveal(),
             $this->answerRepository->reveal(),
             $this->flagRepository->reveal(),
-            $this->reviewRepository->reveal(),
+            $this->tenancyReviewRepository->reveal(),
         );
     }
 
     /**
      * @covers \App\Service\InteractionService::record
-     * Test successfully record a ReviewInteraction
+     * Test successfully record a TenancyReviewInteraction
      */
     public function testRecord1(): void
     {
         $user = new User();
-        $review = $this->prophesize(Review::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
         $requestDetails = $this->prophesize(RequestDetails::class);
         $this->prophesizeRequestDetails($requestDetails);
 
-        $this->reviewRepository->findOneById(789)
+        $this->tenancyReviewRepository->findOneById(789)
             ->shouldBeCalledOnce()
-            ->willReturn($review)
+            ->willReturn($tenancyReview)
         ;
 
         $this->assertGetUserEntityOrNullFromInterface($user);
@@ -76,7 +76,7 @@ class InteractionServiceTest extends TestCase
         $this->entityManager->flush()->shouldBeCalledOnce();
 
         $this->interactionService->record(
-            'Review',
+            'TenancyReview',
             789,
             $requestDetails->reveal(),
             $user

@@ -72,7 +72,7 @@ class PropertyServiceTest extends TestCase
         $view = $this->propertyService->getViewBySlug('propertyslug');
 
         $this->assertEquals('propertyslug', $view->getSlug());
-        $this->assertCount(0, $view->getReviews());
+        $this->assertCount(0, $view->getTenancyReviews());
     }
 
     /**

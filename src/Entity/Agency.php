@@ -175,8 +175,8 @@ class Agency
      */
     public function getPublishedBranches(): Collection
     {
-        return $this->getBranches()->filter(function (Branch $review) {
-            return $review->isPublished();
+        return $this->getBranches()->filter(function (Branch $branch) {
+            return $branch->isPublished();
         });
     }
 
@@ -250,17 +250,17 @@ class Agency
     }
 
     /**
-     * @return Collection<int, Review>
+     * @return Collection<int, TenancyReview>
      */
-    public function getPublishedReviews(): Collection
+    public function getPublishedTenancyReviews(): Collection
     {
-        $reviews = new ArrayCollection();
+        $tenancyReviews = new ArrayCollection();
         foreach ($this->getBranches() as $branch) {
-            foreach ($branch->getPublishedReviews() as $review) {
-                $reviews->add($review);
+            foreach ($branch->getPublishedTenancyReviews() as $tenancyReview) {
+                $tenancyReviews->add($tenancyReview);
             }
         }
 
-        return $reviews;
+        return $tenancyReviews;
     }
 }

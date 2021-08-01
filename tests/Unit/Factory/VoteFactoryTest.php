@@ -3,15 +3,15 @@
 namespace App\Tests\Unit\Factory;
 
 use App\Entity\Comment\Comment;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Vote\SubmitInput;
 use App\Repository\CommentRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -30,7 +30,7 @@ class VoteFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->commentRepository = $this->prophesize(CommentRepository::class);
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->voteFactory = new VoteFactory(
             $this->commentRepository->reveal(),
@@ -40,24 +40,24 @@ class VoteFactoryTest extends TestCase
 
     /**
      * @covers \App\Factory\VoteFactory::createEntityFromSubmitInput
-     * Test create ReviewVote
+     * Test create TenancyReviewVote
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
-        $input = new SubmitInput('Review', 789, false);
+        $input = new SubmitInput('TenancyReview', 789, false);
 
         $user = $this->prophesize(User::class);
-        $review = $this->prophesize(Review::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
 
         $this->reviewRepository->findOnePublishedById($input->getEntityId())
             ->shouldBeCalledOnce()
-            ->willReturn($review);
+            ->willReturn($tenancyReview);
 
-        /** @var ReviewVote $vote */
+        /** @var TenancyReviewVote $vote */
         $vote = $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
 
-        $this->assertInstanceOf(ReviewVote::class, $vote);
-        $this->assertEquals($review->reveal(), $vote->getReview());
+        $this->assertInstanceOf(TenancyReviewVote::class, $vote);
+        $this->assertEquals($tenancyReview->reveal(), $vote->getTenancyReview());
         $this->assertFalse($vote->isPositive());
         $this->assertEquals($user->reveal(), $vote->getUser());
     }
@@ -106,14 +106,14 @@ class VoteFactoryTest extends TestCase
      */
     public function testCreateSubmitOutputFromReview1(): void
     {
-        $review = $this->prophesize(Review::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $review->getId()->shouldBeCalledOnce()->willReturn(5678);
-        $review->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(5);
-        $review->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
-        $review->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
+        $tenancyReview->getId()->shouldBeCalledOnce()->willReturn(5678);
+        $tenancyReview->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(5);
+        $tenancyReview->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
+        $tenancyReview->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
 
-        $output = $this->voteFactory->createSubmitOutputFromReview($review->reveal());
+        $output = $this->voteFactory->createSubmitOutputFromReview($tenancyReview->reveal());
 
         $this->assertTrue($output->isSuccess());
         $this->assertEquals('Review', $output->getEntityName());

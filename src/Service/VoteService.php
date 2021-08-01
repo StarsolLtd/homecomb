@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
@@ -74,9 +74,9 @@ class VoteService
 
                 return $this->voteFactory->createSubmitOutputFromComment($vote->getComment());
             case 'Review':
-                assert($vote instanceof ReviewVote);
+                assert($vote instanceof TenancyReviewVote);
 
-                return $this->voteFactory->createSubmitOutputFromReview($vote->getReview());
+                return $this->voteFactory->createSubmitOutputFromReview($vote->getTenancyReview());
         }
 
         return new SubmitOutput(true);

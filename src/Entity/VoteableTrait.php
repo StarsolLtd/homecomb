@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Vote\Vote;
-use function count;
 
 trait VoteableTrait
 {

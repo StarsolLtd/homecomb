@@ -3,14 +3,13 @@
 namespace App\Tests\Unit\Factory;
 
 use App\Entity\Property;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Factory\PropertyFactory;
-use App\Factory\ReviewFactory;
+use App\Factory\TenancyReviewFactory;
 use App\Model\Property\VendorProperty;
-use App\Model\Review\View;
+use App\Model\TenancyReview\View;
 use App\Util\PropertyHelper;
-use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -25,16 +24,16 @@ class PropertyFactoryTest extends TestCase
     private PropertyFactory $propertyFactory;
 
     private $propertyHelper;
-    private $reviewFactory;
+    private $tenancyReviewFactory;
 
     public function setUp(): void
     {
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
-        $this->reviewFactory = $this->prophesize(ReviewFactory::class);
+        $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
             $this->propertyHelper->reveal(),
-            $this->reviewFactory->reveal(),
+            $this->tenancyReviewFactory->reveal(),
         );
     }
 
@@ -100,7 +99,7 @@ class PropertyFactoryTest extends TestCase
      */
     public function testCreateViewFromEntity1(): void
     {
-        $review1 = (new Review())
+        $review1 = (new TenancyReview())
             ->setAuthor('Jack Harper')
             ->setTitle('I was a tenant here')
             ->setContent('I liked the colour of the sink')
@@ -109,7 +108,7 @@ class PropertyFactoryTest extends TestCase
 
         $review1View = $this->prophesize(View::class);
 
-        $review2 = (new Review())
+        $review2 = (new TenancyReview())
             ->setAuthor('Andrea Smith')
             ->setTitle('I stayed here 2 years')
             ->setContent('I liked the colour of the curtains')
@@ -124,15 +123,15 @@ class PropertyFactoryTest extends TestCase
             ->setPostcode('CB3 6HC')
             ->setLatitude(52.19547)
             ->setLongitude(0.1283)
-            ->addReview($review1)
-            ->addReview($review2)
+            ->addTenancyReview($review1)
+            ->addTenancyReview($review2)
         ;
 
-        $this->reviewFactory->createViewFromEntity($review1)
+        $this->tenancyReviewFactory->createViewFromEntity($review1)
             ->shouldBeCalledOnce()
             ->willReturn($review1View)
         ;
-        $this->reviewFactory->createViewFromEntity($review2)
+        $this->tenancyReviewFactory->createViewFromEntity($review2)
             ->shouldBeCalledOnce()
             ->willReturn($review2View)
         ;
@@ -144,7 +143,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('CB3 6HC', $view->getPostcode());
         $this->assertEquals(52.19547, $view->getLatitude());
         $this->assertEquals(0.1283, $view->getLongitude());
-        $this->assertCount(2, $view->getReviews());
+        $this->assertCount(2, $view->getTenancyReviews());
     }
 
     /**

@@ -7,7 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Flag\Flag;
 use App\Entity\Image;
 use App\Entity\Property;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -39,7 +39,7 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::section('Content'),
-            MenuItem::linkToCrud('Reviews', 'fa fa-comment', Review::class),
+            MenuItem::linkToCrud('Reviews', 'fa fa-comment', TenancyReview::class),
             MenuItem::linkToCrud('Flags', 'fa fa-flag', Flag::class),
 
             MenuItem::section('Agencies'),

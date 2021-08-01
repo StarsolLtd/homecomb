@@ -7,9 +7,9 @@ use App\Entity\Branch;
 use App\Entity\Flag\AgencyFlag;
 use App\Entity\Flag\BranchFlag;
 use App\Entity\Flag\PropertyFlag;
-use App\Entity\Flag\ReviewFlag;
+use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\Property;
-use App\Entity\Review;
+use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
@@ -17,7 +17,7 @@ use App\Model\Flag\SubmitInput;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\ReviewRepository;
+use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -40,7 +40,7 @@ class FlagFactoryTest extends TestCase
         $this->agencyRepository = $this->prophesize(AgencyRepository::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
         $this->propertyRepository = $this->prophesize(PropertyRepository::class);
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->flagFactory = new FlagFactory(
             $this->agencyRepository->reveal(),
@@ -59,17 +59,17 @@ class FlagFactoryTest extends TestCase
         $input = new SubmitInput('Review', 789, 'This is spam');
 
         $user = $this->prophesize(User::class);
-        $review = $this->prophesize(Review::class);
+        $tenancyReview = $this->prophesize(TenancyReview::class);
 
         $this->reviewRepository->findOnePublishedById($input->getEntityId())
             ->shouldBeCalledOnce()
-            ->willReturn($review);
+            ->willReturn($tenancyReview);
 
-        /** @var ReviewFlag $flag */
+        /** @var TenancyReviewFlag $flag */
         $flag = $this->flagFactory->createEntityFromSubmitInput($input, $user->reveal());
 
-        $this->assertInstanceOf(ReviewFlag::class, $flag);
-        $this->assertEquals($review->reveal(), $flag->getReview());
+        $this->assertInstanceOf(TenancyReviewFlag::class, $flag);
+        $this->assertEquals($tenancyReview->reveal(), $flag->getTenancyReview());
         $this->assertEquals('This is spam', $flag->getContent());
         $this->assertEquals($user->reveal(), $flag->getUser());
     }

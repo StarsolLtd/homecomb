@@ -4,16 +4,16 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Comment\ReviewComment;
+use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\Locale;
 use App\Entity\Property;
-use App\Entity\Review;
-use App\Entity\ReviewSolicitation;
 use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
+use App\Entity\TenancyReview;
+use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
-use App\Entity\Vote\ReviewVote;
+use App\Entity\Vote\TenancyReviewVote;
 use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -157,31 +157,31 @@ class TestFixtures extends AbstractDataFixtures
             ->setSlug(self::TEST_PROPERTY_5_SLUG);
         $manager->persist($property5);
 
-        $comment = (new ReviewComment())
+        $comment = (new TenancyReviewComment())
             ->setPublished(true)
             ->setUser($user2)
             ->setContent('Hello Terrence! The mushrooms that were growing in the garden have been removed.')
         ;
         $manager->persist($comment);
 
-        /** @var ReviewComment $reviewComment */
-        $reviewComment = $comment;
+        /** @var TenancyReviewComment $tenancyReviewComment */
+        $tenancyReviewComment = $comment;
 
-        $positiveVote1 = (new ReviewVote())
+        $positiveVote1 = (new TenancyReviewVote())
             ->setPositive(true)
             ->setUser($user2);
         $manager->persist($positiveVote1);
-        /** @var ReviewVote $positiveReviewVote1 */
+        /** @var TenancyReviewVote $positiveReviewVote1 */
         $positiveReviewVote1 = $positiveVote1;
 
-        $positiveVote2 = (new ReviewVote())
+        $positiveVote2 = (new TenancyReviewVote())
             ->setPositive(true)
             ->setUser($user3);
         $manager->persist($positiveVote2);
-        /** @var ReviewVote $positiveReviewVote2 */
+        /** @var TenancyReviewVote $positiveReviewVote2 */
         $positiveReviewVote2 = $positiveVote2;
 
-        $review = (new Review())
+        $tenancyReview = (new TenancyReview())
             ->setUser($user1)
             ->setProperty($property1)
             ->setBranch($branch101)
@@ -199,20 +199,20 @@ class TestFixtures extends AbstractDataFixtures
             ->setLandlordStars(null)
             ->setPropertyStars(5)
             ->setPublished(true)
-            ->addComment($reviewComment)
+            ->addComment($tenancyReviewComment)
             ->addVote($positiveReviewVote1)
             ->addVote($positiveReviewVote2)
         ;
-        $manager->persist($review);
+        $manager->persist($tenancyReview);
 
         $locale = (new Locale())
             ->setName('Fakenham')
             ->setPublished(true)
-            ->addReview($review)
+            ->addTenancyReview($tenancyReview)
         ;
         $manager->persist($locale);
 
-        $rs = (new ReviewSolicitation())
+        $rs = (new TenancyReviewSolicitation())
             ->setBranch($branch101)
             ->setSenderUser($user2)
             ->setProperty($property1)

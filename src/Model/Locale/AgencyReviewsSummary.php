@@ -7,16 +7,16 @@ use App\Model\Agency\ReviewsSummary;
 class AgencyReviewsSummary
 {
     private array $agencyReviewSummaries;
-    private int $reviewsCount;
+    private int $tenancyReviewsCount;
     private int $agenciesCount;
 
     public function __construct(
         array $agencyReviewSummaries = [],
-        int $reviewsCount = 0,
+        int $tenancyReviewsCount = 0,
         int $agenciesCount = 0
     ) {
         $this->agencyReviewSummaries = $agencyReviewSummaries;
-        $this->reviewsCount = $reviewsCount;
+        $this->tenancyReviewsCount = $tenancyReviewsCount;
         $this->agenciesCount = $agenciesCount;
     }
 
@@ -28,9 +28,9 @@ class AgencyReviewsSummary
         return $this->agencyReviewSummaries;
     }
 
-    public function getReviewsCount(): int
+    public function getTenancyReviewsCount(): int
     {
-        return $this->reviewsCount;
+        return $this->tenancyReviewsCount;
     }
 
     public function getAgenciesCount(): int

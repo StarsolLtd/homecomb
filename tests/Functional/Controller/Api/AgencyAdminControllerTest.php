@@ -6,11 +6,11 @@ use App\DataFixtures\TestFixtures;
 use App\Model\Agency\Flat;
 use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat as FlatBranch;
-use App\Model\ReviewSolicitation\FormData;
+use App\Model\TenancyReviewSolicitation\FormData;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\ReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -346,7 +346,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
-        $reviewSolicitationRepository = static::$container->get(ReviewSolicitationRepository::class);
+        $reviewSolicitationRepository = static::$container->get(TenancyReviewSolicitationRepository::class);
         $reviewSolicitationRepository = $reviewSolicitationRepository->findOneBy([
             'branch' => $branch,
             'property' => $property,
@@ -443,7 +443,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
         $this->assertEquals('Testerton Lettings', $home->getAgency()->getName());
         $this->assertCount(2, $home->getBranches());
-        $this->assertCount(1, $home->getReviews());
+        $this->assertCount(1, $home->getTenancyReviews());
     }
 
     public function testBranch(): void

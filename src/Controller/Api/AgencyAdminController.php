@@ -9,13 +9,13 @@ use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
-use App\Model\ReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
 use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
-use App\Service\ReviewSolicitationService;
+use App\Service\TenancyReviewSolicitationService;
 use App\Service\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +34,7 @@ class AgencyAdminController extends AppController
     private AgencyAdminService $agencyAdminService;
     private AgencyService $agencyService;
     private BranchService $branchService;
-    private ReviewSolicitationService $reviewSolicitationService;
+    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
     private UserService $userService;
     private AgencyRepository $agencyRepository;
 
@@ -43,7 +43,7 @@ class AgencyAdminController extends AppController
         AgencyService $agencyService,
         BranchService $branchService,
         GoogleReCaptchaService $googleReCaptchaService,
-        ReviewSolicitationService $reviewSolicitationService,
+        TenancyReviewSolicitationService $tenancyReviewSolicitationService,
         UserService $userService,
         AgencyRepository $agencyRepository,
         SerializerInterface $serializer
@@ -52,7 +52,7 @@ class AgencyAdminController extends AppController
         $this->agencyService = $agencyService;
         $this->branchService = $branchService;
         $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->reviewSolicitationService = $reviewSolicitationService;
+        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
         $this->userService = $userService;
         $this->agencyRepository = $agencyRepository;
         $this->serializer = $serializer;
@@ -280,7 +280,7 @@ class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        $output = $this->reviewSolicitationService->getFormData($this->getUserInterface());
+        $output = $this->tenancyReviewSolicitationService->getFormData($this->getUserInterface());
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }
@@ -323,7 +323,7 @@ class AgencyAdminController extends AppController
         }
 
         try {
-            $output = $this->reviewSolicitationService->createAndSend($input, $user);
+            $output = $this->tenancyReviewSolicitationService->createAndSend($input, $user);
         } catch (NotFoundException $e) {
             return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
         }

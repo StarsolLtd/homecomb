@@ -13,14 +13,14 @@ use function json_decode;
 class PropertyFactory
 {
     private PropertyHelper $propertyHelper;
-    private ReviewFactory $reviewFactory;
+    private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         PropertyHelper $propertyHelper,
-        ReviewFactory $reviewFactory
+        TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->propertyHelper = $propertyHelper;
-        $this->reviewFactory = $reviewFactory;
+        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property
@@ -51,16 +51,16 @@ class PropertyFactory
 
     public function createViewFromEntity(Property $entity): View
     {
-        $reviews = [];
-        foreach ($entity->getPublishedReviews() as $reviewEntity) {
-            $reviews[] = $this->reviewFactory->createViewFromEntity($reviewEntity);
+        $tenancyReviews = [];
+        foreach ($entity->getPublishedTenancyReviews() as $tenancyReviewEntity) {
+            $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
         return new View(
             $entity->getSlug(),
             $entity->getAddressLine1(),
             $entity->getPostcode(),
-            $reviews,
+            $tenancyReviews,
             $entity->getLatitude(),
             $entity->getLongitude()
         );
