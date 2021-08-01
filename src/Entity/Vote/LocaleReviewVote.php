@@ -2,7 +2,7 @@
 
 namespace App\Entity\Vote;
 
-use App\Entity\LocaleReview;
+use App\Entity\Review\LocaleReview;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class LocaleReviewVote extends Vote
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\LocaleReview")
+     * @ORM\OneToOne(targetEntity="App\Entity\Review\LocaleReview")
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id")
      */
     private LocaleReview $localeReview;

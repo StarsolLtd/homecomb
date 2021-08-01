@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Unit\Entity\Review;
 
-use App\Entity\LocaleReview;
+use App\Entity\Review\LocaleReview;
 use App\Entity\Vote\LocaleReviewVote;
+use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
 /**
  * @covers \App\Entity\LocaleReview
@@ -11,7 +12,7 @@ use App\Entity\Vote\LocaleReviewVote;
 class LocaleReviewTest extends AbstractEntityTestCase
 {
     /**
-     * @covers \App\Entity\LocaleReview::getVotesScore
+     * @covers \App\Entity\Review\LocaleReview::getVotesScore
      */
     public function testGetVotesScore1(): void
     {
@@ -31,7 +32,7 @@ class LocaleReviewTest extends AbstractEntityTestCase
     }
 
     /**
-     * @covers \App\Entity\LocaleReview::getPositiveVotesCount
+     * @covers \App\Entity\Review\LocaleReview::getPositiveVotesCount
      */
     public function testGetPositiveVotesCount1(): void
     {
@@ -51,7 +52,7 @@ class LocaleReviewTest extends AbstractEntityTestCase
     }
 
     /**
-     * @covers \App\Entity\LocaleReview::getNegativeVotesCount
+     * @covers \App\Entity\Review\LocaleReview::getNegativeVotesCount
      */
     public function testGetNegativeVotesCount1(): void
     {
