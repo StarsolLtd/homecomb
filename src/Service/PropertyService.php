@@ -76,9 +76,9 @@ class PropertyService
 
     public function getViewBySlug(string $slug): View
     {
-        $branch = $this->propertyRepository->findOnePublishedBySlug($slug);
+        $property = $this->propertyRepository->findOnePublishedBySlug($slug);
 
-        return $this->propertyFactory->createViewFromEntity($branch);
+        return $this->propertyFactory->createViewFromEntity($property);
     }
 
     /**

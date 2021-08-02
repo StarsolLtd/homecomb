@@ -8,6 +8,8 @@ class View
 {
     private string $slug;
     private ?string $addressLine1;
+    private ?string $locality;
+    private ?string $city;
     private ?string $postcode;
     private array $tenancyReviews;
     private ?float $latitude;
@@ -16,6 +18,8 @@ class View
     public function __construct(
         string $slug,
         ?string $addressLine1,
+        ?string $locality,
+        ?string $city,
         ?string $postcode,
         array $tenancyReviews,
         ?float $latitude = null,
@@ -23,6 +27,8 @@ class View
     ) {
         $this->slug = $slug;
         $this->addressLine1 = $addressLine1;
+        $this->locality = $locality;
+        $this->city = $city;
         $this->postcode = $postcode;
         $this->tenancyReviews = $tenancyReviews;
         $this->latitude = $latitude;
@@ -37,6 +43,16 @@ class View
     public function getAddressLine1(): ?string
     {
         return $this->addressLine1;
+    }
+
+    public function getLocality(): ?string
+    {
+        return $this->locality;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
     }
 
     public function getPostcode(): ?string

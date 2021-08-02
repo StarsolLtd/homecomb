@@ -59,6 +59,8 @@ class PropertyFactory
         return new View(
             $entity->getSlug(),
             $entity->getAddressLine1(),
+            $entity->getLocality(),
+            $entity->getCity(),
             $entity->getPostcode(),
             $tenancyReviews,
             $entity->getLatitude(),
