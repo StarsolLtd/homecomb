@@ -83,6 +83,7 @@ class GetAddressService
             $result['town_or_city'],
             $result['county'],
             $result['district'],
+            $result['thoroughfare'],
             $result['country'],
             $result['postcode'],
             $result['latitude'],

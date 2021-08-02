@@ -66,6 +66,16 @@ class Property
     private string $postcode;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $district;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $thoroughfare;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private string $countryCode;
@@ -196,6 +206,30 @@ class Property
     public function setCounty(?string $county): self
     {
         $this->county = $county;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?string
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?string $district): self
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    public function getThoroughfare(): ?string
+    {
+        return $this->thoroughfare;
+    }
+
+    public function setThoroughfare(?string $thoroughfare): self
+    {
+        $this->thoroughfare = $thoroughfare;
 
         return $this;
     }

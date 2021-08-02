@@ -40,6 +40,8 @@ class PropertyFactory
             ->setCounty($vendorProperty->getCounty())
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode('UK')
+            ->setDistrict($vendorProperty->getDistrict())
+            ->setThoroughfare($vendorProperty->getThoroughFare())
             ->setLatitude($vendorProperty->getLatitude())
             ->setLongitude($vendorProperty->getLongitude())
             ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
@@ -89,6 +91,7 @@ class PropertyFactory
                 $address['town_or_city'],
                 $address['county'],
                 $address['district'],
+                $address['thoroughfare'],
                 $address['country'],
                 $postcode,
                 $latitude,

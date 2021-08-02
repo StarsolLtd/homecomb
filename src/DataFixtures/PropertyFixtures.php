@@ -37,6 +37,8 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressLine1('249 Victoria Road')
             ->setCity('Cambridge')
             ->setPostcode('CB4 3LF')
+            ->setDistrict('Cambridge')
+            ->setThoroughfare('Victoria Road')
             ->setLatitude(52.21507263)
             ->setLongitude(0.11237954);
 
@@ -45,6 +47,8 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressLine1('25 Bateman Street')
             ->setCity('Cambridge')
             ->setPostcode('CB2 1NB')
+            ->setDistrict('Cambridge')
+            ->setThoroughfare('Bateman Street')
             ->setLatitude(52.19556427)
             ->setLongitude(0.12813538);
 
@@ -53,24 +57,30 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressLine1('44 Fanshawe Road')
             ->setCity('Cambridge')
             ->setPostcode('CB1 3QY')
+            ->setDistrict('Cambridge')
+            ->setThoroughfare('Fanshawe Road')
             ->setLatitude(52.19140625)
             ->setLongitude(0.14332861);
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_22_VENDOR_PROPERTY_ID)
             ->setAddressLine1('22 Mingle Lane')
-            ->setAddressLine2('Great Shelford')
+            ->setLocality('Great Shelford')
             ->setCity('Cambridge')
             ->setPostcode('CB22 5BG')
+            ->setDistrict('South Cambridgeshire')
+            ->setThoroughfare('Mingle Lane')
             ->setLatitude(52.14856600)
             ->setLongitude(0.14268900);
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_1_VENDOR_PROPERTY_ID)
             ->setAddressLine1('1 Primrose Lane')
-            ->setAddressLine2('Waterbeach')
+            ->setLocality('Waterbeach')
             ->setCity('Cambridge')
             ->setPostcode('CB25 9JZ')
+            ->setDistrict('South Cambridgeshire')
+            ->setThoroughfare('Primrose Lane')
             ->setLatitude(52.26825500)
             ->setLongitude(0.18656500);
 
@@ -80,6 +90,8 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressLine2('Girton')
             ->setCity('Cambridge')
             ->setPostcode('CB3 0PP')
+            ->setDistrict('South Cambridgeshire')
+            ->setThoroughfare('Redgate Road')
             ->setLatitude(52.23755646)
             ->setLongitude(0.08636630);
 

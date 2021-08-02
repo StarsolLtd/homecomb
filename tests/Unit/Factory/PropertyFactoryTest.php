@@ -52,6 +52,7 @@ class PropertyFactoryTest extends TestCase
             'Cambridge',
             'Cambridgeshire',
             'Cambridge',
+            'Victoria Road',
             'England',
             'CB4 3LF',
             52.10101,
@@ -73,6 +74,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('Arbury', $property->getLocality());
         $this->assertEquals('Cambridge', $property->getCity());
         $this->assertEquals('Cambridgeshire', $property->getCounty());
+        $this->assertEquals('Victoria Road', $property->getThoroughfare());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());

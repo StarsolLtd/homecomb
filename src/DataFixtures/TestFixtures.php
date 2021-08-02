@@ -133,21 +133,30 @@ class TestFixtures extends AbstractDataFixtures
 
         $property2 = (new Property())
             ->setAddressLine1('Callisto Cottage')
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_2_SLUG);
         $manager->persist($property2);
 
         $property3 = (new Property())
             ->setAddressLine1("43 Duke's Yard")
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_3_SLUG);
         $manager->persist($property3);
 
         $property4 = (new Property())
             ->setAddressLine1('Lysithea Lodge')
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_4_SLUG);
         $manager->persist($property4);
