@@ -33,6 +33,6 @@ class ReviewHelperTest extends TestCase
 
         $actual = $this->reviewHelper->generateSlug($localeReview);
 
-        $this->assertEquals('c5fbe6f6189dd75', $actual);
+        $this->assertEquals('36903cd72b9fc4d', $actual);
     }
 }

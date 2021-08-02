@@ -56,7 +56,7 @@ class ReviewServiceTest extends TestCase
         $locale = $this->prophesize(Locale::class);
         $user = new User();
 
-        $this->assertGetUserEntityFromInterface($user);
+        $this->assertGetUserEntityOrNullFromInterface($user);
 
         $submitInput->getLocaleSlug()
             ->shouldBeCalledOnce()

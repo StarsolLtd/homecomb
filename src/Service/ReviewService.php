@@ -30,7 +30,7 @@ class ReviewService
 
     public function submitLocaleReview(SubmitLocaleReviewInput $submitInput, ?UserInterface $user): SubmitLocaleReviewOutput
     {
-        $userEntity = $this->userService->getEntityFromInterface($user);
+        $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
         $locale = $this->localeRepository->findOnePublishedBySlug($submitInput->getLocaleSlug());
 

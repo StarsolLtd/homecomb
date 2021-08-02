@@ -13,9 +13,9 @@ class ReviewHelper
         $user = $review->getUser();
 
         $fields = implode('_', [
-            $review->getRelatedEntityId(),
             $review->getAuthor(),
             $review->getTitle(),
+            $review->getContent(),
             null !== $user ? $user->getId() : '0',
         ]);
 
