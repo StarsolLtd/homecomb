@@ -38,7 +38,7 @@ abstract class Review
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private ?User $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(type="integer")
