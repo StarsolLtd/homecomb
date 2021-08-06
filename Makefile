@@ -39,7 +39,7 @@ e2e-agency-admin:
 	make e2e-solicit-review e2e-update-agency
 
 e2e-public:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey e2e-submit-contact-form
 
 e2e-complete-survey:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
@@ -61,6 +61,9 @@ e2e-search-for-property-and-review:
 
 e2e-solicit-review:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SolicitReview.php
+
+e2e-submit-contact-form:
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SubmitContactForm.php
 
 e2e-tenancy-review:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/TenancyReview.php
