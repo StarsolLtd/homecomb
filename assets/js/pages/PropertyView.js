@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Button, Container, Col, Row} from 'reactstrap';
+import {Button, Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
@@ -7,13 +7,16 @@ import Constants from "../Constants";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import Map from "../components/Map";
+import {Link} from "react-router-dom";
 
 class PropertyView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             addressLine1: '',
+            locality: null,
             postcode: '',
+            city: null,
             tenancyReviews: [],
             reviewTenancyFormOpen: false,
             loaded: false,
@@ -47,9 +50,17 @@ class PropertyView extends React.Component {
                 {this.state.loaded &&
                 <div className="property-view">
                     <Row>
-                        <Col md="12" className="page-title">
-                            <h1>{this.state.addressLine1}, {this.state.postcode}</h1>
-                        </Col>
+                        <Breadcrumb className="w-100">
+                            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                            {this.state.city &&
+                                <BreadcrumbItem className="city">{this.state.city.name}</BreadcrumbItem>
+                            }
+                            {this.state.locality &&
+                                <BreadcrumbItem className="locality">{this.state.locality}</BreadcrumbItem>
+                            }
+                            <BreadcrumbItem className="postcode">{this.state.postcode}</BreadcrumbItem>
+                            <BreadcrumbItem className="active address-line-1">{this.state.addressLine1}</BreadcrumbItem>
+                        </Breadcrumb>
                     </Row>
                     {this.state.latitude && this.state.longitude &&
                         <Row>
@@ -137,10 +148,12 @@ class PropertyView extends React.Component {
     loadData(data) {
         this.setState({
             addressLine1: data.addressLine1,
+            locality: data.locality,
             postcode: data.postcode,
             latitude: data.latitude,
             longitude: data.longitude,
             tenancyReviews: data.tenancyReviews,
+            city: data.city,
             loaded: true,
         });
 
