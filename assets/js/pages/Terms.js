@@ -1,7 +1,8 @@
 import React from 'react';
-import { Col, Container, Row } from 'reactstrap';
+import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 
 import Constants from "../Constants";
+import {Link} from "react-router-dom";
 
 class PrivacyPolicy extends React.Component {
 
@@ -12,6 +13,12 @@ class PrivacyPolicy extends React.Component {
     render() {
         return (
             <Container>
+                <Row>
+                    <Breadcrumb className="w-100">
+                        <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                        <BreadcrumbItem className="active">Terms and Conditions</BreadcrumbItem>
+                    </Breadcrumb>
+                </Row>
                 <Row>
                     <Col md="12">
                         <h1>Terms and Conditions for {Constants.SITE_NAME}</h1>

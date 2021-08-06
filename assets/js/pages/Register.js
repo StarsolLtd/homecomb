@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
-import {Container, Col, Row} from 'reactstrap';
+import {Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import Constants from "../Constants";
 import RegisterForm from "../components/RegisterForm";
+import {Link} from "react-router-dom";
 
 const Register = (props) => {
 
@@ -12,9 +13,10 @@ const Register = (props) => {
     return (
         <Container>
             <Row>
-                <Col md="12" className="page-title">
-                    <h1>Register with {Constants.SITE_NAME}</h1>
-                </Col>
+                <Breadcrumb className="w-100">
+                    <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                    <BreadcrumbItem className="active">Register with {Constants.SITE_NAME}</BreadcrumbItem>
+                </Breadcrumb>
             </Row>
 
             <Row>
