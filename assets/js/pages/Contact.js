@@ -21,7 +21,7 @@ class Contact extends React.Component {
                 </Row>
                 <Row>
                     <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                        <ContactForm />
+                        <ContactForm {...this.props} />
                     </Col>
                 </Row>
             </Container>

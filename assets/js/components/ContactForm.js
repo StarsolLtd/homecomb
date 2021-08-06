@@ -14,7 +14,7 @@ class ContactForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
+            emailAddress: '',
             name: '',
             message: '',
             agreeTerms: false,
@@ -57,11 +57,11 @@ class ContactForm extends React.Component {
                         <Label for="email">Your email</Label>
                         <AvInput
                             type="email"
-                            name="email"
+                            name="emailAddress"
                             required
                             onChange={this.handleChange}
-                            placeholder="Enter your email"
-                            value={this.state.email}
+                            placeholder="Enter your email address"
+                            value={this.state.emailAddress}
                         />
                         <AvFeedback>Please enter a valid email address, example: jane.doe@gmail.com</AvFeedback>
                     </AvGroup>
@@ -100,7 +100,7 @@ class ContactForm extends React.Component {
     handleValidSubmit() {
         this.setState({isFormSubmitting: true});
         let payload = {
-            email: this.state.email,
+            emailAddress: this.state.emailAddress,
             name: this.state.name,
             message: this.state.message,
             captchaToken: null
@@ -129,7 +129,6 @@ class ContactForm extends React.Component {
                     )
                     .then((data) => {
                         component.clearForm();
-                        component.setState({redirectToUrl: '/'})
                         component.props.fetchFlashMessages();
                     })
                     .catch(err => console.error("Error:", err));
