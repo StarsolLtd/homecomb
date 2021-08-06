@@ -2,13 +2,17 @@
 
 namespace App\Tests\Unit\Factory;
 
+use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
+use App\Factory\FlatModelFactory;
 use App\Factory\PropertyFactory;
 use App\Factory\TenancyReviewFactory;
+use App\Model\City\Flat;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
+use App\Service\CityService;
 use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -23,16 +27,22 @@ class PropertyFactoryTest extends TestCase
 
     private PropertyFactory $propertyFactory;
 
+    private $cityService;
     private $propertyHelper;
+    private $flatModelFactory;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
+        $this->cityService = $this->prophesize(CityService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
+            $this->cityService->reveal(),
             $this->propertyHelper->reveal(),
+            $this->flatModelFactory->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
     }
@@ -58,10 +68,15 @@ class PropertyFactoryTest extends TestCase
             -0.47261,
             true
         );
+        $city = $this->prophesize(City::class);
 
         $this->propertyHelper->generateSlug(Argument::type(Property::class))
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
+
+        $this->cityService->findOrCreate('Cambridge', 'Cambridgeshire', 'UK')
+            ->shouldBeCalledOnce()
+            ->willReturn($city);
 
         $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel);
 
@@ -71,11 +86,12 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('', $property->getAddressLine3());
         $this->assertEquals('', $property->getAddressLine4());
         $this->assertEquals('Arbury', $property->getLocality());
-        $this->assertEquals('Cambridge', $property->getCity());
+        $this->assertEquals('Cambridge', $property->getAddressCity());
         $this->assertEquals('Cambridgeshire', $property->getCounty());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());
+        $this->assertEquals($city->reveal(), $property->getCity());
     }
 
     /**
@@ -117,12 +133,19 @@ class PropertyFactoryTest extends TestCase
 
         $review2View = $this->prophesize(View::class);
 
+        $city = (new City())
+            ->setSlug('test')
+            ->setName('Cambridge')
+            ->setCounty('Cambridgeshire')
+            ->setCountryCode('UK');
+
         $property = (new Property())
             ->setSlug('propertyslug')
             ->setAddressLine1('29 Bateman Street')
             ->setPostcode('CB3 6HC')
             ->setLatitude(52.19547)
             ->setLongitude(0.1283)
+            ->setCity($city)
             ->addTenancyReview($review1)
             ->addTenancyReview($review2)
         ;
@@ -136,6 +159,12 @@ class PropertyFactoryTest extends TestCase
             ->willReturn($review2View)
         ;
 
+        $cityFlatModel = $this->prophesize(Flat::class);
+
+        $this->flatModelFactory->getCityFlatModel($city)
+            ->shouldBeCalledOnce()
+            ->willReturn($cityFlatModel);
+
         $view = $this->propertyFactory->createViewFromEntity($property);
 
         $this->assertEquals('propertyslug', $view->getSlug());
@@ -144,6 +173,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(52.19547, $view->getLatitude());
         $this->assertEquals(0.1283, $view->getLongitude());
         $this->assertCount(2, $view->getTenancyReviews());
+        $this->assertEquals($cityFlatModel->reveal(), $view->getCity());
     }
 
     /**

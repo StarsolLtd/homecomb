@@ -53,7 +53,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $city;
+    private string $addressCity;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -94,6 +94,12 @@ class Property
      * @ORM\Column(type="boolean", nullable=false, options={"default": true})
      */
     private bool $published = true;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="City", inversedBy="properties")
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id", nullable=true)
+     */
+    private ?City $city = null;
 
     /**
      * @var Collection<int, TenancyReview>
@@ -176,14 +182,14 @@ class Property
         return $this;
     }
 
-    public function getCity(): string
+    public function getAddressCity(): string
     {
-        return $this->city;
+        return $this->addressCity;
     }
 
-    public function setCity(string $city): self
+    public function setAddressCity(string $addressCity): self
     {
-        $this->city = $city;
+        $this->addressCity = $addressCity;
 
         return $this;
     }
@@ -268,6 +274,18 @@ class Property
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Tests\Repository;
+namespace App\Tests\Functional\Repository;
 
 use App\DataFixtures\TestFixtures;
+use App\Entity\City;
 use App\Entity\Property;
 use App\Exception\NotFoundException;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @covers \App\Repository\PropertyRepository
+ */
 class PropertyRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
@@ -81,6 +85,20 @@ class PropertyRepositoryTest extends KernelTestCase
     {
         $properties = $this->repository->findBySearchQuery('The Clangers Moon Base');
         $this->assertCount(0, $properties);
+    }
+
+    /**
+     * @covers \App\Repository\PropertyRepository::testFindPublishedByCity1
+     */
+    public function testFindPublishedByCity1()
+    {
+        $cityRepository = $this->entityManager->getRepository(City::class);
+        $city = $cityRepository->findOneBy(['name' => "King's Lynn"]);
+
+        $properties = $this->repository->findPublishedByCity($city);
+        $this->assertCount(3, $properties);
+        $property = $properties->first();
+        $this->assertEquals('Callisto Cottage', $property->getAddressLine1());
     }
 
     protected function tearDown(): void

@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\Property;
 use App\Entity\User;
@@ -65,6 +66,28 @@ class FlatModelFactoryTest extends TestCase
         $this->assertTrue($model->isPublished());
         $this->assertNull($model->getTelephone());
         $this->assertNull($model->getEmail());
+    }
+
+    /**
+     * @covers \App\Factory\FlatModelFactory::getCityFlatModel
+     */
+    public function testGetCityFlatModel(): void
+    {
+        $city = $this->prophesize(City::class);
+
+        $city->getSlug()->shouldBeCalledOnce()->willReturn('test-city-slug');
+        $city->getName()->shouldBeCalledOnce()->willReturn('Colchester');
+        $city->getCounty()->shouldBeCalledOnce()->willReturn('Essex');
+        $city->getCountryCode()->shouldBeCalledOnce()->willReturn('UK');
+        $city->isPublished()->shouldBeCalledOnce()->willReturn(true);
+
+        $model = $this->flatModelFactory->getCityFlatModel($city->reveal());
+
+        $this->assertEquals('test-city-slug', $model->getSlug());
+        $this->assertEquals('Colchester', $model->getName());
+        $this->assertEquals('Essex', $model->getCounty());
+        $this->assertEquals('UK', $model->getCountryCode());
+        $this->assertTrue($model->isPublished());
     }
 
     /**
