@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\Locale;
 use App\Entity\Property;
@@ -54,6 +55,8 @@ class TestFixtures extends AbstractDataFixtures
 
     protected function doLoad(ObjectManager $manager): void
     {
+        $this->loadCities($manager);
+
         $user1 = (new User())
             ->setEmail(self::TEST_USER_STANDARD_EMAIL)
             ->setTitle('Mr')
@@ -131,10 +134,14 @@ class TestFixtures extends AbstractDataFixtures
             ->setSlug(self::TEST_PROPERTY_1_SLUG);
         $manager->persist($property1);
 
+        /** @var City $kingsLynn */
+        $kingsLynn = $this->getReference('city-kings-lynn');
+
         $property2 = (new Property())
             ->setAddressLine1('Callisto Cottage')
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setCity($kingsLynn)
             ->setDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
@@ -145,6 +152,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setAddressLine1("43 Duke's Yard")
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setCity($kingsLynn)
             ->setDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
@@ -155,6 +163,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setAddressLine1('Lysithea Lodge')
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
+            ->setCity($kingsLynn)
             ->setDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
@@ -294,5 +303,28 @@ class TestFixtures extends AbstractDataFixtures
             ->setPublished(true)
         ;
         $manager->persist($localeReview);
+    }
+
+    private function loadCities(ObjectManager $manager): void
+    {
+        $cambridge = (new City())
+            ->setName('Cambridge')
+            ->setCounty('Cambridgeshire')
+            ->setSlug('test-city-slug-cambridge')
+            ->setCountryCode('UK')
+        ;
+
+        $kingsLynn = (new City())
+            ->setName("King's Lynn")
+            ->setCounty('Norfolk')
+            ->setSlug('test-city-slug-kings-lynn')
+            ->setCountryCode('UK')
+        ;
+
+        $manager->persist($cambridge);
+        $manager->persist($kingsLynn);
+
+        $this->addReference('city-cambridge', $cambridge);
+        $this->addReference('city-kings-lynn', $kingsLynn);
     }
 }

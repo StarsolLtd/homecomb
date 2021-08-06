@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\City;
 use App\Entity\Property;
 use App\Util\PropertyHelper;
 use Doctrine\Persistence\ObjectManager;
@@ -30,70 +31,85 @@ class PropertyFixtures extends AbstractDataFixtures
 
     protected function doLoad(ObjectManager $manager): void
     {
+        /** @var City $cambridge */
+        $cambridge = $this->getReference('city-'.CityFixtures::CAMBRIDGE_SLUG);
+
         $properties = [];
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_249_VENDOR_PROPERTY_ID)
             ->setAddressLine1('249 Victoria Road')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB4 3LF')
             ->setDistrict('Cambridge')
             ->setThoroughfare('Victoria Road')
             ->setLatitude(52.21507263)
-            ->setLongitude(0.11237954);
+            ->setLongitude(0.11237954)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_25_VENDOR_PROPERTY_ID)
             ->setAddressLine1('25 Bateman Street')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB2 1NB')
             ->setDistrict('Cambridge')
             ->setThoroughfare('Bateman Street')
             ->setLatitude(52.19556427)
-            ->setLongitude(0.12813538);
+            ->setLongitude(0.12813538)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_44_VENDOR_PROPERTY_ID)
             ->setAddressLine1('44 Fanshawe Road')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB1 3QY')
             ->setDistrict('Cambridge')
             ->setThoroughfare('Fanshawe Road')
             ->setLatitude(52.19140625)
-            ->setLongitude(0.14332861);
+            ->setLongitude(0.14332861)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_22_VENDOR_PROPERTY_ID)
             ->setAddressLine1('22 Mingle Lane')
             ->setLocality('Great Shelford')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB22 5BG')
             ->setDistrict('South Cambridgeshire')
             ->setThoroughfare('Mingle Lane')
             ->setLatitude(52.14856600)
-            ->setLongitude(0.14268900);
+            ->setLongitude(0.14268900)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_1_VENDOR_PROPERTY_ID)
             ->setAddressLine1('1 Primrose Lane')
             ->setLocality('Waterbeach')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB25 9JZ')
             ->setDistrict('South Cambridgeshire')
             ->setThoroughfare('Primrose Lane')
             ->setLatitude(52.26825500)
-            ->setLongitude(0.18656500);
+            ->setLongitude(0.18656500)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_17_VENDOR_PROPERTY_ID)
             ->setAddressLine1('17 Redgate Road')
             ->setAddressLine2('Girton')
-            ->setCity('Cambridge')
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB3 0PP')
             ->setDistrict('South Cambridgeshire')
             ->setThoroughfare('Redgate Road')
             ->setLatitude(52.23755646)
-            ->setLongitude(0.08636630);
+            ->setLongitude(0.08636630)
+            ->setCity($cambridge)
+        ;
 
         foreach ($properties as $property) {
             $property->setPublished(true);

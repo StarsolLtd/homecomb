@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\City;
 use App\Entity\Property;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -98,6 +99,21 @@ class PropertyRepository extends ServiceEntityRepository
             ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult();
+
+        return new ArrayCollection($results);
+    }
+
+    /**
+     * @return ArrayCollection<int, Property>
+     */
+    public function findPublishedByCity(City $city): ArrayCollection
+    {
+        $results = $this->findBy(
+            [
+                'city' => $city,
+                'published' => true,
+            ]
+        );
 
         return new ArrayCollection($results);
     }

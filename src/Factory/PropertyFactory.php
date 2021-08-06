@@ -7,19 +7,28 @@ use App\Exception\DeveloperException;
 use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
+use App\Service\CityService;
 use App\Util\PropertyHelper;
 use function json_decode;
 
 class PropertyFactory
 {
+    private const COUNTRY_CODE = 'UK';
+
+    private CityService $cityService;
     private PropertyHelper $propertyHelper;
+    private FlatModelFactory $flatModelFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
+        CityService $cityService,
         PropertyHelper $propertyHelper,
+        FlatModelFactory $flatModelFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
+        $this->cityService = $cityService;
         $this->propertyHelper = $propertyHelper;
+        $this->flatModelFactory = $flatModelFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
@@ -30,16 +39,19 @@ class PropertyFactory
             throw new DeveloperException('Unable to create a property entity without a vendor property ID.');
         }
 
+        $addressCity = $vendorProperty->getCity();
+        $addressCounty = $vendorProperty->getCounty();
+
         $property = (new Property())
             ->setAddressLine1($vendorProperty->getAddressLine1())
             ->setAddressLine2($vendorProperty->getAddressLine2())
             ->setAddressLine3($vendorProperty->getAddressLine3())
             ->setAddressLine4($vendorProperty->getAddressLine4())
             ->setLocality($vendorProperty->getLocality())
-            ->setCity($vendorProperty->getCity())
-            ->setCounty($vendorProperty->getCounty())
+            ->setAddressCity($addressCity)
+            ->setCounty($addressCounty)
             ->setPostcode($vendorProperty->getPostcode())
-            ->setCountryCode('UK')
+            ->setCountryCode(self::COUNTRY_CODE)
             ->setDistrict($vendorProperty->getDistrict())
             ->setThoroughfare($vendorProperty->getThoroughFare())
             ->setLatitude($vendorProperty->getLatitude())
@@ -47,6 +59,10 @@ class PropertyFactory
             ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
 
         $this->propertyHelper->generateSlug($property);
+
+        $city = $this->cityService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
+
+        $property->setCity($city);
 
         return $property;
     }
@@ -58,6 +74,9 @@ class PropertyFactory
             $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
+        $cityEntity = $entity->getCity();
+        $city = null !== $cityEntity ? $this->flatModelFactory->getCityFlatModel($cityEntity) : null;
+
         return new View(
             $entity->getSlug(),
             $entity->getAddressLine1(),
@@ -66,7 +85,8 @@ class PropertyFactory
             $entity->getPostcode(),
             $tenancyReviews,
             $entity->getLatitude(),
-            $entity->getLongitude()
+            $entity->getLongitude(),
+            $city
         );
     }
 
