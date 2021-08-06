@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import AgencyBranch from "../components/AgencyBranch";
-import {Container} from "reactstrap";
+import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from "reactstrap";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
+import {Link} from "react-router-dom";
 
 class AgencyView extends React.Component {
     constructor(props) {
@@ -22,12 +23,15 @@ class AgencyView extends React.Component {
                     loadComponentData={this.loadData}
                 />
                 {this.state.loaded &&
-                    <div>
-                        <div className="col-md-12 page-title">
-                            <h1>{this.state.agency.name}</h1>
-                        </div>
-                        <div className="col-md-12">
-                            <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+                    <Fragment>
+                        <Row>
+                            <Breadcrumb className="w-100">
+                                <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                                <BreadcrumbItem className="active agency-name">{this.state.agency.name}</BreadcrumbItem>
+                            </Breadcrumb>
+                        </Row>
+                        <Row className="bg-white rounded shadow-sm p-4 mb-4">
+                            <Col md={12}>
                                 {this.state.agency.branches.map(
                                     ({ slug, name, telephone, email }) => (
                                         <AgencyBranch
@@ -36,13 +40,12 @@ class AgencyView extends React.Component {
                                             name={name}
                                             telephone={telephone}
                                             email={email}
-                                        >
-                                        </AgencyBranch>
+                                        />
                                     )
                                 )}
-                            </div>
-                        </div>
-                    </div>
+                            </Col>
+                        </Row>
+                    </Fragment>
                 }
             </Container>
         );
@@ -53,6 +56,7 @@ class AgencyView extends React.Component {
             agency: data,
             loaded: true
         });
+        console.log(this.state);
         document.title = this.state.agency.name + ' Reviews | ' + Constants.SITE_NAME;
     }
 }
