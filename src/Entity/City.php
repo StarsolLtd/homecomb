@@ -43,6 +43,11 @@ class City
      */
     private bool $published = true;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private string $slug;
+
     public function __toString(): string
     {
         return $this->getName();
@@ -97,6 +102,18 @@ class City
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

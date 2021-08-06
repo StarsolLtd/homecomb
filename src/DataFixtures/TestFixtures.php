@@ -284,12 +284,14 @@ class TestFixtures extends AbstractDataFixtures
         $cambridge = (new City())
             ->setName('Cambridge')
             ->setCounty('Cambridgeshire')
+            ->setSlug('test-city-slug-cambridge')
             ->setCountryCode('UK')
         ;
 
         $kingsLynn = (new City())
             ->setName("King's Lynn")
             ->setCounty('Norfolk')
+            ->setSlug('test-city-slug-kings-lynn')
             ->setCountryCode('UK')
         ;
 
