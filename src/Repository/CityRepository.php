@@ -19,13 +19,13 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
-    public function findOneByUnique(string $city, string $county, string $country): ?City
+    public function findOneByUnique(string $city, string $county, string $countryCode): ?City
     {
         return $this->findOneBy(
             [
                 'name' => $city,
                 'county' => $county,
-                'country' => $country,
+                'countryCode' => $countryCode,
             ]
         );
     }

@@ -71,7 +71,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('', $property->getAddressLine3());
         $this->assertEquals('', $property->getAddressLine4());
         $this->assertEquals('Arbury', $property->getLocality());
-        $this->assertEquals('Cambridge', $property->getCity());
+        $this->assertEquals('Cambridge', $property->getAddressCity());
         $this->assertEquals('Cambridgeshire', $property->getCounty());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());

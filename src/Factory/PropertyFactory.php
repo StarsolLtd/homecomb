@@ -36,7 +36,7 @@ class PropertyFactory
             ->setAddressLine3($vendorProperty->getAddressLine3())
             ->setAddressLine4($vendorProperty->getAddressLine4())
             ->setLocality($vendorProperty->getLocality())
-            ->setCity($vendorProperty->getCity())
+            ->setAddressCity($vendorProperty->getCity())
             ->setCounty($vendorProperty->getCounty())
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode('UK')
