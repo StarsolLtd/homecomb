@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\City;
 use App\Entity\Property;
 use App\Util\PropertyHelper;
 use Doctrine\Persistence\ObjectManager;
@@ -30,6 +31,9 @@ class PropertyFixtures extends AbstractDataFixtures
 
     protected function doLoad(ObjectManager $manager): void
     {
+        /** @var City $cambridge */
+        $cambridge = $this->getReference('city-'.CityFixtures::CAMBRIDGE_SLUG);
+
         $properties = [];
 
         $properties[] = (new Property())
@@ -38,7 +42,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB4 3LF')
             ->setLatitude(52.21507263)
-            ->setLongitude(0.11237954);
+            ->setLongitude(0.11237954)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_25_VENDOR_PROPERTY_ID)
@@ -46,7 +52,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB2 1NB')
             ->setLatitude(52.19556427)
-            ->setLongitude(0.12813538);
+            ->setLongitude(0.12813538)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_44_VENDOR_PROPERTY_ID)
@@ -54,7 +62,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB1 3QY')
             ->setLatitude(52.19140625)
-            ->setLongitude(0.14332861);
+            ->setLongitude(0.14332861)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_22_VENDOR_PROPERTY_ID)
@@ -63,7 +73,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB22 5BG')
             ->setLatitude(52.14856600)
-            ->setLongitude(0.14268900);
+            ->setLongitude(0.14268900)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_1_VENDOR_PROPERTY_ID)
@@ -72,7 +84,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB25 9JZ')
             ->setLatitude(52.26825500)
-            ->setLongitude(0.18656500);
+            ->setLongitude(0.18656500)
+            ->setCity($cambridge)
+        ;
 
         $properties[] = (new Property())
             ->setVendorPropertyId(self::PROPERTY_17_VENDOR_PROPERTY_ID)
@@ -81,7 +95,9 @@ class PropertyFixtures extends AbstractDataFixtures
             ->setAddressCity('Cambridge')
             ->setPostcode('CB3 0PP')
             ->setLatitude(52.23755646)
-            ->setLongitude(0.08636630);
+            ->setLongitude(0.08636630)
+            ->setCity($cambridge)
+        ;
 
         foreach ($properties as $property) {
             $property->setPublished(true);
