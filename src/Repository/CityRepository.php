@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\City;
-use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,21 +19,14 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
-    public function findOnePublishedByUnique(string $city, string $county, string $country): City
+    public function findOneByUnique(string $city, string $county, string $country): ?City
     {
-        $city = $this->findOneBy(
+        return $this->findOneBy(
             [
                 'name' => $city,
                 'county' => $county,
                 'country' => $country,
-                'published' => true,
             ]
         );
-
-        if (null === $city) {
-            throw new NotFoundException(sprintf('No published City with name %s could be found.', $city));
-        }
-
-        return $city;
     }
 }
