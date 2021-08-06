@@ -23,7 +23,7 @@ class CityService
         $this->cityRepository = $cityRepository;
     }
 
-    public function findOrCreate(string $cityName, string $county, string $countryCode = 'UK'): City
+    public function findOrCreate(string $cityName, ?string $county, string $countryCode = 'UK'): City
     {
         $city = $this->cityRepository->findOneByUnique($cityName, $county, $countryCode);
 

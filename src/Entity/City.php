@@ -29,9 +29,9 @@ class City
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=false)
+     * @ORM\Column(type="string", length=255, unique=false, nullable=true)
      */
-    private string $county;
+    private ?string $county;
 
     /**
      * @ORM\Column(type="string", length=255, unique=false)
@@ -65,12 +65,12 @@ class City
         return $this;
     }
 
-    public function getCounty(): string
+    public function getCounty(): ?string
     {
         return $this->county;
     }
 
-    public function setCounty(string $county): self
+    public function setCounty(?string $county): self
     {
         $this->county = $county;
 

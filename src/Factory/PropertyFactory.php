@@ -7,18 +7,24 @@ use App\Exception\DeveloperException;
 use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
+use App\Service\CityService;
 use App\Util\PropertyHelper;
 use function json_decode;
 
 class PropertyFactory
 {
+    private const COUNTRY_CODE = 'UK';
+
+    private CityService $cityService;
     private PropertyHelper $propertyHelper;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
+        CityService $cityService,
         PropertyHelper $propertyHelper,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
+        $this->cityService = $cityService;
         $this->propertyHelper = $propertyHelper;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
@@ -30,21 +36,28 @@ class PropertyFactory
             throw new DeveloperException('Unable to create a property entity without a vendor property ID.');
         }
 
+        $addressCity = $vendorProperty->getCity();
+        $addressCounty = $vendorProperty->getCounty();
+
         $property = (new Property())
             ->setAddressLine1($vendorProperty->getAddressLine1())
             ->setAddressLine2($vendorProperty->getAddressLine2())
             ->setAddressLine3($vendorProperty->getAddressLine3())
             ->setAddressLine4($vendorProperty->getAddressLine4())
             ->setLocality($vendorProperty->getLocality())
-            ->setAddressCity($vendorProperty->getCity())
-            ->setCounty($vendorProperty->getCounty())
+            ->setAddressCity($addressCity)
+            ->setCounty($addressCounty)
             ->setPostcode($vendorProperty->getPostcode())
-            ->setCountryCode('UK')
+            ->setCountryCode(self::COUNTRY_CODE)
             ->setLatitude($vendorProperty->getLatitude())
             ->setLongitude($vendorProperty->getLongitude())
             ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
 
         $this->propertyHelper->generateSlug($property);
+
+        $city = $this->cityService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
+
+        $property->setCity($city);
 
         return $property;
     }

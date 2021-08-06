@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Factory;
 
+use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
@@ -9,6 +10,7 @@ use App\Factory\PropertyFactory;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
+use App\Service\CityService;
 use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -23,15 +25,18 @@ class PropertyFactoryTest extends TestCase
 
     private PropertyFactory $propertyFactory;
 
+    private $cityService;
     private $propertyHelper;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
+        $this->cityService = $this->prophesize(CityService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
+            $this->cityService->reveal(),
             $this->propertyHelper->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
@@ -58,10 +63,15 @@ class PropertyFactoryTest extends TestCase
             -0.47261,
             true
         );
+        $city = $this->prophesize(City::class);
 
         $this->propertyHelper->generateSlug(Argument::type(Property::class))
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
+
+        $this->cityService->findOrCreate('Cambridge', 'Cambridgeshire', 'UK')
+            ->shouldBeCalledOnce()
+            ->willReturn($city);
 
         $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel);
 
@@ -76,6 +86,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());
+        $this->assertEquals($city->reveal(), $property->getCity());
     }
 
     /**
