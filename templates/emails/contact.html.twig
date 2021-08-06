@@ -1,0 +1,15 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block content %}
+
+    <div class="container content">
+        <p>
+            Contact form submission from {{ fromName}} ({{ fromEmail }}):
+        </p>
+
+        <p>
+            {{ message }}
+        </p>
+    </div>
+
+{% endblock %}

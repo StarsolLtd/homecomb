@@ -38,3 +38,8 @@ services:
     App\Service\GoogleReCaptchaService:
         arguments:
             - '%validation.not_robot_check%'
+
+    App\Service\ContactService:
+        arguments:
+            $siteName: '%env(SITE_NAME)%'
+            $siteAdminEmail: '%env(SITE_ADMIN_EMAIL)%'
