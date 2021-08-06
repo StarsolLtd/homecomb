@@ -192,12 +192,12 @@ class Property
         return $this;
     }
 
-    public function getCity(): string
+    public function getAddressCity(): ?string
     {
         return $this->addressCity;
     }
 
-    public function setCity(string $city): self
+    public function setAddressCity(?string $addressCity): self
     {
         $this->addressCity = $addressCity;
 

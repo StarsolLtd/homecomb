@@ -10,7 +10,7 @@ class View
     private string $slug;
     private ?string $addressLine1;
     private ?string $locality;
-    private ?string $city;
+    private ?string $addressCity;
     private ?string $postcode;
     private array $tenancyReviews;
     private ?float $latitude;
@@ -21,7 +21,7 @@ class View
         string $slug,
         ?string $addressLine1,
         ?string $locality,
-        ?string $city,
+        ?string $addressCity,
         ?string $postcode,
         array $tenancyReviews,
         ?float $latitude = null,
@@ -31,7 +31,7 @@ class View
         $this->slug = $slug;
         $this->addressLine1 = $addressLine1;
         $this->locality = $locality;
-        $this->city = $city;
+        $this->addressCity = $addressCity;
         $this->postcode = $postcode;
         $this->tenancyReviews = $tenancyReviews;
         $this->latitude = $latitude;
@@ -54,9 +54,9 @@ class View
         return $this->locality;
     }
 
-    public function getCity(): ?string
+    public function getAddressCity(): ?string
     {
-        return $this->city;
+        return $this->addressCity;
     }
 
     public function getPostcode(): ?string
