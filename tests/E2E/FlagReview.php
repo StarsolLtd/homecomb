@@ -30,8 +30,11 @@ class FlagReview extends PantherTestCase
 
         $this->assertPageTitleContains('Testerton Hall');
 
-        $h1 = $crawler->filter('h1');
-        $this->assertEquals('Testerton Hall, NR21 7ES', $h1->text());
+        $postcode = $crawler->filter('.postcode');
+        $this->assertEquals('NR21 7ES', $postcode->text());
+
+        $postcode = $crawler->filter('.address-line-1');
+        $this->assertEquals('Testerton Hall', $postcode->text());
 
         $reviewOptionsButton = $crawler->filter('.review-options button')->first();
 
