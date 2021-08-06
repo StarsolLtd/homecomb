@@ -17,15 +17,18 @@ class PropertyFactory
 
     private CityService $cityService;
     private PropertyHelper $propertyHelper;
+    private FlatModelFactory $flatModelFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         CityService $cityService,
         PropertyHelper $propertyHelper,
+        FlatModelFactory $flatModelFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->cityService = $cityService;
         $this->propertyHelper = $propertyHelper;
+        $this->flatModelFactory = $flatModelFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
@@ -69,13 +72,17 @@ class PropertyFactory
             $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
+        $cityEntity = $entity->getCity();
+        $city = null !== $cityEntity ? $this->flatModelFactory->getCityFlatModel($cityEntity) : null;
+
         return new View(
             $entity->getSlug(),
             $entity->getAddressLine1(),
             $entity->getPostcode(),
             $tenancyReviews,
             $entity->getLatitude(),
-            $entity->getLongitude()
+            $entity->getLongitude(),
+            $city
         );
     }
 

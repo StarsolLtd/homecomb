@@ -6,8 +6,10 @@ use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
+use App\Factory\FlatModelFactory;
 use App\Factory\PropertyFactory;
 use App\Factory\TenancyReviewFactory;
+use App\Model\City\Flat;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
 use App\Service\CityService;
@@ -27,17 +29,20 @@ class PropertyFactoryTest extends TestCase
 
     private $cityService;
     private $propertyHelper;
+    private $flatModelFactory;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
         $this->cityService = $this->prophesize(CityService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
             $this->cityService->reveal(),
             $this->propertyHelper->reveal(),
+            $this->flatModelFactory->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
     }
@@ -128,12 +133,19 @@ class PropertyFactoryTest extends TestCase
 
         $review2View = $this->prophesize(View::class);
 
+        $city = (new City())
+            ->setSlug('test')
+            ->setName('Cambridge')
+            ->setCounty('Cambridgeshire')
+            ->setCountryCode('UK');
+
         $property = (new Property())
             ->setSlug('propertyslug')
             ->setAddressLine1('29 Bateman Street')
             ->setPostcode('CB3 6HC')
             ->setLatitude(52.19547)
             ->setLongitude(0.1283)
+            ->setCity($city)
             ->addTenancyReview($review1)
             ->addTenancyReview($review2)
         ;
@@ -147,6 +159,12 @@ class PropertyFactoryTest extends TestCase
             ->willReturn($review2View)
         ;
 
+        $cityFlatModel = $this->prophesize(Flat::class);
+
+        $this->flatModelFactory->getCityFlatModel($city)
+            ->shouldBeCalledOnce()
+            ->willReturn($cityFlatModel);
+
         $view = $this->propertyFactory->createViewFromEntity($property);
 
         $this->assertEquals('propertyslug', $view->getSlug());
@@ -155,6 +173,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(52.19547, $view->getLatitude());
         $this->assertEquals(0.1283, $view->getLongitude());
         $this->assertCount(2, $view->getTenancyReviews());
+        $this->assertEquals($cityFlatModel->reveal(), $view->getCity());
     }
 
     /**
