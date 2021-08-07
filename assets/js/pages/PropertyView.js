@@ -76,7 +76,7 @@ class PropertyView extends React.Component {
                     }
                     <Row>
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                            <h5 className="mb-1">TenancyReviews from tenants</h5>
+                            <h5 className="mb-1">Reviews from tenants</h5>
 
                             {this.state.tenancyReviews.map(
                                 ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
@@ -108,7 +108,7 @@ class PropertyView extends React.Component {
                             {this.state.tenancyReviews.length === 0 &&
                             <Fragment>
                                 <p className="mt-3">
-                                    There are no tenancyReviews yet for this property.
+                                    There are no tenant reviews yet for this property.
                                 </p>
                                 <hr />
                                 <h5 className="mb-4">Search for another property address</h5>

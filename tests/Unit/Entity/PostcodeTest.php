@@ -2,7 +2,7 @@
 
 namespace App\Tests\Unit\Entity;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
 
 /**

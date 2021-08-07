@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;

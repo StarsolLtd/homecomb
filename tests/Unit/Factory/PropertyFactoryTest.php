@@ -62,6 +62,7 @@ class PropertyFactoryTest extends TestCase
             'Cambridge',
             'Cambridgeshire',
             'Cambridge',
+            'Victoria Road',
             'England',
             'CB4 3LF',
             52.10101,
@@ -88,6 +89,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('Arbury', $property->getLocality());
         $this->assertEquals('Cambridge', $property->getAddressCity());
         $this->assertEquals('Cambridgeshire', $property->getCounty());
+        $this->assertEquals('Victoria Road', $property->getThoroughfare());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());
@@ -142,6 +144,8 @@ class PropertyFactoryTest extends TestCase
         $property = (new Property())
             ->setSlug('propertyslug')
             ->setAddressLine1('29 Bateman Street')
+            ->setLocality(null)
+            ->setAddressCity('Cambridge')
             ->setPostcode('CB3 6HC')
             ->setLatitude(52.19547)
             ->setLongitude(0.1283)
@@ -169,6 +173,8 @@ class PropertyFactoryTest extends TestCase
 
         $this->assertEquals('propertyslug', $view->getSlug());
         $this->assertEquals('29 Bateman Street', $view->getAddressLine1());
+        $this->assertNull($view->getLocality());
+        $this->assertEquals('Cambridge', $view->getAddressCity());
         $this->assertEquals('CB3 6HC', $view->getPostcode());
         $this->assertEquals(52.19547, $view->getLatitude());
         $this->assertEquals(0.1283, $view->getLongitude());

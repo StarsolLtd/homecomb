@@ -3,8 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Image;
-use App\Entity\Locale;
-use function copy;
+use App\Entity\Locale\Locale;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -25,7 +24,7 @@ class ImageFixtures extends AbstractDataFixtures implements DependentFixtureInte
         $this->copyImageToPublic('cambridge.jpg');
 
         /** @var Locale $cambridgeLocale */
-        $cambridgeLocale = $this->getReference('locale-cambridge');
+        $cambridgeLocale = $this->getReference('locale-Cambridge');
         $cambridgeLocale->addImage($cambridgeImage);
 
         $manager->flush();

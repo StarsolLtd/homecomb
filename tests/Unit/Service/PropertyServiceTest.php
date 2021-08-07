@@ -55,6 +55,8 @@ class PropertyServiceTest extends TestCase
         $view = new View(
             'propertyslug',
             '33 Bateman Street',
+            '',
+            'Cambridge',
             'CB4 5TW',
             [],
             52.19547,

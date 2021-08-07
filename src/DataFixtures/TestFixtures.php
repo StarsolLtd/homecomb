@@ -6,8 +6,9 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Property;
+use App\Entity\Review\LocaleReview;
 use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Survey;
@@ -31,6 +32,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_LOCALE_SLUG = 'fakenham';
+    public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
     public const TEST_PROPERTY_1_SLUG = 'property-1-slug';
     public const TEST_PROPERTY_2_SLUG = 'property-2-slug';
     public const TEST_PROPERTY_3_SLUG = 'property-3-slug';
@@ -137,24 +139,33 @@ class TestFixtures extends AbstractDataFixtures
 
         $property2 = (new Property())
             ->setAddressLine1('Callisto Cottage')
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_2_SLUG);
         $manager->persist($property2);
 
         $property3 = (new Property())
             ->setAddressLine1("43 Duke's Yard")
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_3_SLUG);
         $manager->persist($property3);
 
         $property4 = (new Property())
             ->setAddressLine1('Lysithea Lodge')
+            ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
+            ->setDistrict("King's Lynn And West Norfolk")
+            ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_4_SLUG);
         $manager->persist($property4);
@@ -214,13 +225,6 @@ class TestFixtures extends AbstractDataFixtures
         ;
         $manager->persist($tenancyReview);
 
-        $locale = (new Locale())
-            ->setName('Fakenham')
-            ->setPublished(true)
-            ->addTenancyReview($tenancyReview)
-        ;
-        $manager->persist($locale);
-
         $rs = (new TenancyReviewSolicitation())
             ->setBranch($branch101)
             ->setSenderUser($user2)
@@ -234,6 +238,7 @@ class TestFixtures extends AbstractDataFixtures
         $manager->persist($rs);
 
         $this->loadSurvey($manager);
+        $this->loadLocale($manager, $tenancyReview);
 
         $manager->flush();
     }
@@ -277,6 +282,28 @@ class TestFixtures extends AbstractDataFixtures
         ;
 
         $manager->persist($survey);
+    }
+
+    private function loadLocale(ObjectManager $manager, TenancyReview $tenancyReview): void
+    {
+        $locale = (new Locale())
+            ->setName('Fakenham')
+            ->setSlug('fakenham')
+            ->setPublished(true)
+            ->addTenancyReview($tenancyReview)
+        ;
+        $manager->persist($locale);
+
+        $localeReview = (new LocaleReview())
+            ->setLocale($locale)
+            ->setAuthor('Bumblebee Man')
+            ->setTitle('This place exists')
+            ->setContent('Test review content')
+            ->setOverallStars(4)
+            ->setSlug(self::TEST_REVIEW_SLUG_1)
+            ->setPublished(true)
+        ;
+        $manager->persist($localeReview);
     }
 
     private function loadCities(ObjectManager $manager): void

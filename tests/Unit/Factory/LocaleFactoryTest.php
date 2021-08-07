@@ -4,14 +4,18 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Locale;
+use App\Entity\City;
+use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Factory\LocaleFactory;
 use App\Factory\TenancyReviewFactory;
 use App\Model\TenancyReview\View as ReviewView;
+use App\Util\LocaleHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -23,13 +27,16 @@ class LocaleFactoryTest extends TestCase
 
     private LocaleFactory $localeFactory;
 
+    private $localeHelper;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
+        $this->localeHelper = $this->prophesize(LocaleHelper::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->localeFactory = new LocaleFactory(
+            $this->localeHelper->reveal(),
             $this->tenancyReviewFactory->reveal()
         );
     }
@@ -45,7 +52,7 @@ class LocaleFactoryTest extends TestCase
 
         $locale = (new Locale())
             ->setName('Penzance')
-            ->setSlugForTest('penzance')
+            ->setSlug('penzance')
             ->setContent('There arrrrre some pirates here.')
             ->addTenancyReview($tenancyReview)
         ;
@@ -137,5 +144,25 @@ class LocaleFactoryTest extends TestCase
         $this->expectException(DeveloperException::class);
 
         $this->localeFactory->getAgencyReviewsSummary($locale->reveal());
+    }
+
+    /**
+     * @covers \App\Factory\LocaleFactory::createCityLocaleEntity
+     */
+    public function testCreateCityLocaleEntity1(): void
+    {
+        $city = $this->prophesize(City::class);
+
+        $city->getName()->shouldBeCalledOnce()->willReturn('Ely');
+
+        $this->localeHelper->generateSlug(Argument::type(CityLocale::class))
+            ->shouldBeCalledOnce()
+            ->willReturn('test-slug');
+
+        $entity = $this->localeFactory->createCityLocaleEntity($city->reveal());
+
+        $this->assertEquals('Ely', $entity->getName());
+        $this->assertEquals('test-slug', $entity->getSlug());
+        $this->assertTrue($entity->isPublished());
     }
 }

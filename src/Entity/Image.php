@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Locale\Locale;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -60,7 +61,7 @@ class Image
     private ?Branch $branch = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Locale", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Locale\Locale", inversedBy="images")
      * @ORM\JoinColumn(name="locale_id", referencedColumnName="id", nullable=true)
      */
     private ?Locale $locale = null;

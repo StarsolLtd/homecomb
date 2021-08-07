@@ -13,6 +13,7 @@ class VendorProperty
     private string $city;
     private ?string $county;
     private ?string $district;
+    private ?string $thoroughfare;
     private ?string $country;
     private string $postcode;
     private ?float $latitude;
@@ -29,6 +30,7 @@ class VendorProperty
         string $city,
         ?string $county,
         ?string $district,
+        ?string $thoroughfare,
         ?string $country,
         string $postcode,
         ?float $latitude,
@@ -44,6 +46,7 @@ class VendorProperty
         $this->city = $city;
         $this->county = $county;
         $this->district = $district;
+        $this->thoroughfare = $thoroughfare;
         $this->country = $country;
         $this->postcode = $postcode;
         $this->latitude = $latitude;
@@ -94,6 +97,11 @@ class VendorProperty
     public function getDistrict(): ?string
     {
         return $this->district;
+    }
+
+    public function getThoroughFare(): ?string
+    {
+        return $this->thoroughfare;
     }
 
     public function getCountry(): ?string

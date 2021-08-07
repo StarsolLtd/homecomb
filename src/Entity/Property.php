@@ -53,7 +53,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $addressCity;
+    private ?string $addressCity;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -64,6 +64,16 @@ class Property
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private string $postcode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $district;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $thoroughfare;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -182,12 +192,12 @@ class Property
         return $this;
     }
 
-    public function getAddressCity(): string
+    public function getAddressCity(): ?string
     {
         return $this->addressCity;
     }
 
-    public function setAddressCity(string $addressCity): self
+    public function setAddressCity(?string $addressCity): self
     {
         $this->addressCity = $addressCity;
 
@@ -202,6 +212,30 @@ class Property
     public function setCounty(?string $county): self
     {
         $this->county = $county;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?string
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?string $district): self
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    public function getThoroughfare(): ?string
+    {
+        return $this->thoroughfare;
+    }
+
+    public function setThoroughfare(?string $thoroughfare): self
+    {
+        $this->thoroughfare = $thoroughfare;
 
         return $this;
     }
