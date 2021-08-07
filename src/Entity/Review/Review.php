@@ -75,10 +75,6 @@ abstract class Review
      */
     private string $slug;
 
-    /**
-     * @var Collection<int, Vote>
-     * @ORM\OneToMany(targetEntity="App\Entity\Vote\Vote", mappedBy="Review")
-     */
     protected Collection $votes;
 
     abstract public function addVote(Vote $vote): self;

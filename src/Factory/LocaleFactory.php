@@ -7,6 +7,7 @@ use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
+use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
@@ -15,13 +16,16 @@ use App\Util\LocaleHelper;
 class LocaleFactory
 {
     private LocaleHelper $localeHelper;
+    private LocaleReviewFactory $localeReviewFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         LocaleHelper $localeHelper,
+        LocaleReviewFactory $localeReviewFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->localeHelper = $localeHelper;
+        $this->localeReviewFactory = $localeReviewFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
@@ -32,12 +36,18 @@ class LocaleFactory
             $tenancyReviews[] = $this->tenancyReviewFactory->createViewFromEntity($tenancyReviewEntity);
         }
 
+        $localeReviews = [];
+        foreach ($entity->getPublishedReviews() as $localeReviewEntity) {
+            $localeReviews[] = $this->localeReviewFactory->createViewFromEntity($localeReviewEntity);
+        }
+
         $agencyReviewsSummary = $this->getAgencyReviewsSummary($entity);
 
         return new View(
             $entity->getSlug(),
             $entity->getName(),
             $entity->getContent(),
+            $localeReviews,
             $tenancyReviews,
             $agencyReviewsSummary
         );
