@@ -2,20 +2,26 @@
 
 namespace App\Factory;
 
+use App\Entity\City;
+use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
+use App\Util\LocaleHelper;
 
 class LocaleFactory
 {
+    private LocaleHelper $localeHelper;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
+        LocaleHelper $localeHelper,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
+        $this->localeHelper = $localeHelper;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
@@ -35,6 +41,20 @@ class LocaleFactory
             $tenancyReviews,
             $agencyReviewsSummary
         );
+    }
+
+    public function createCityLocaleEntity(City $city): CityLocale
+    {
+        $cityLocale = (new CityLocale())
+            ->setCity($city)
+            ->setName($city->getName())
+            ->setPublished(true);
+
+        $cityLocale->setSlug($this->localeHelper->generateSlug($cityLocale));
+
+        assert($cityLocale instanceof CityLocale);
+
+        return $cityLocale;
     }
 
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary

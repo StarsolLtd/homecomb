@@ -288,6 +288,7 @@ class TestFixtures extends AbstractDataFixtures
     {
         $locale = (new Locale())
             ->setName('Fakenham')
+            ->setSlug('fakenham')
             ->setPublished(true)
             ->addTenancyReview($tenancyReview)
         ;

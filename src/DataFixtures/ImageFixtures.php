@@ -24,7 +24,7 @@ class ImageFixtures extends AbstractDataFixtures implements DependentFixtureInte
         $this->copyImageToPublic('cambridge.jpg');
 
         /** @var Locale $cambridgeLocale */
-        $cambridgeLocale = $this->getReference('locale-cambridge');
+        $cambridgeLocale = $this->getReference('locale-Cambridge');
         $cambridgeLocale->addImage($cambridgeImage);
 
         $manager->flush();

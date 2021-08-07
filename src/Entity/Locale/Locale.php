@@ -45,7 +45,6 @@ class Locale
     private ?string $content;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private string $slug;
@@ -139,7 +138,7 @@ class Locale
         return $this->slug;
     }
 
-    public function setSlugForTest(string $slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 

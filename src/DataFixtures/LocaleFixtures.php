@@ -4,8 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
+use App\Util\LocaleHelper;
 use Doctrine\Persistence\ObjectManager;
-use function file_get_contents;
 
 class LocaleFixtures extends AbstractDataFixtures
 {
@@ -23,6 +23,14 @@ class LocaleFixtures extends AbstractDataFixtures
         'CB3 0QA', 'CB3 0QB', 'CB3 0QD', 'CB3 0QE', 'CB3 0QF', 'CB3 0QG', 'CB3 0QH', 'CB3 0QL', 'CB3 0QN', 'CB3 0QQ',
         'CB3 0QR', 'CB3 0QW', 'CB3 0RX', 'CB3 0RY', 'CB3 0XA', 'CB3 0XB', 'CB3 0JG', 'CB3 0JX',
     ];
+
+    private LocaleHelper $localeHelper;
+
+    public function __construct(
+        LocaleHelper $localeHelper
+    ) {
+        $this->localeHelper = $localeHelper;
+    }
 
     protected function getEnvironments(): array
     {
@@ -77,6 +85,7 @@ class LocaleFixtures extends AbstractDataFixtures
         /** @var Locale $locale */
         foreach ($locales as $locale) {
             $locale->setPublished(true);
+            $locale->setSlug($this->localeHelper->generateSlug($locale));
             $manager->persist($locale);
         }
 
@@ -84,7 +93,7 @@ class LocaleFixtures extends AbstractDataFixtures
 
         /** @var Locale $locale */
         foreach ($locales as $locale) {
-            $this->addReference('locale-'.$locale->getSlug(), $locale);
+            $this->addReference('locale-'.$locale->getName(), $locale);
         }
     }
 
