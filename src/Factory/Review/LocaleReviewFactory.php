@@ -5,6 +5,7 @@ namespace App\Factory\Review;
 use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\User;
+use App\Model\Review\LocaleReviewView;
 use App\Model\Review\SubmitLocaleReviewInput;
 use App\Util\ReviewHelper;
 
@@ -36,5 +37,20 @@ class LocaleReviewFactory
         assert($localeReview instanceof LocaleReview);
 
         return $localeReview;
+    }
+
+    public function createViewFromEntity(LocaleReview $review): LocaleReviewView
+    {
+        return new LocaleReviewView(
+            $review->getSlug(),
+            $review->getAuthor(),
+            $review->getTitle(),
+            $review->getContent(),
+            $review->getOverallStars(),
+            $review->getCreatedAt(),
+            $review->getPositiveVotesCount(),
+            $review->getNegativeVotesCount(),
+            $review->getVotesScore(),
+        );
     }
 }

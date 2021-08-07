@@ -1,9 +1,10 @@
 import React, {Fragment} from 'react';
-import {Container, Col, Row} from 'reactstrap';
+import {Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
+import {Link} from "react-router-dom";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -29,9 +30,10 @@ class LocaleView extends React.Component {
                 {this.state.loaded &&
                     <div>
                         <Row>
-                            <Col md="12" className="page-title">
-                                <h1>{this.state.name}</h1>
-                            </Col>
+                            <Breadcrumb className="w-100">
+                                <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                                <BreadcrumbItem className="active locale-name">{this.state.name}</BreadcrumbItem>
+                            </Breadcrumb>
                         </Row>
                         <Row className="bg-white rounded shadow-sm mb-4">
                             <Col md="6" className="p-4" dangerouslySetInnerHTML={{ __html: this.state.content }} />
@@ -44,7 +46,7 @@ class LocaleView extends React.Component {
                         </Row>
                         <Row>
                             <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                                <h5 className="mb-1">Reviews from tenants</h5>
+                                <h5 className="mb-1">Property reviews from tenants</h5>
 
                                 {this.state.tenancyReviews.map(
                                     ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
@@ -65,8 +67,7 @@ class LocaleView extends React.Component {
                                                 createdAt={createdAt}
                                                 comments={comments}
                                                 positiveVotes={positiveVotes}
-                                            >
-                                            </Review>
+                                            />
                                             <hr />
                                         </Fragment>
                                     )
