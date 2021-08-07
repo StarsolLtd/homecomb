@@ -86,7 +86,7 @@ class Review extends React.Component {
                 {this.state.showVote &&
                     <Vote
                         className="mt-3"
-                        entityName="Review"
+                        entityName="TenancyReview"
                         entityId={this.props.id}
                         positiveTerm="Helpful"
                         positiveVotes={this.props.positiveVotes}

@@ -7,6 +7,7 @@ use App\Entity\Review\LocaleReview;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
+use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -18,6 +19,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class LocaleReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
+    use SetIdByReflectionTrait;
 
     private LocaleReviewFactory $localeReviewFactory;
 
@@ -78,8 +80,11 @@ class LocaleReviewFactoryTest extends TestCase
             ->addVote($positiveVote)
         ;
 
+        $this->setIdByReflection($localeReview, 125);
+
         $view = $this->localeReviewFactory->createViewFromEntity($localeReview);
 
+        $this->assertEquals(125, $view->getId());
         $this->assertEquals('test-slug', $view->getSlug());
         $this->assertEquals('John Smith', $view->getAuthor());
         $this->assertEquals('There is a market place', $view->getTitle());

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
@@ -73,10 +74,14 @@ class VoteService
                 assert($vote instanceof CommentVote);
 
                 return $this->voteFactory->createSubmitOutputFromComment($vote->getComment());
-            case 'Review':
+            case 'LocaleReview':
+                assert($vote instanceof LocaleReviewVote);
+
+                return $this->voteFactory->createSubmitOutputFromReview($vote->getLocaleReview());
+            case 'TenancyReview':
                 assert($vote instanceof TenancyReviewVote);
 
-                return $this->voteFactory->createSubmitOutputFromReview($vote->getTenancyReview());
+                return $this->voteFactory->createSubmitOutputFromTenancyReview($vote->getTenancyReview());
         }
 
         return new SubmitOutput(true);
@@ -87,8 +92,10 @@ class VoteService
         switch ($input->getEntityName()) {
             case 'Comment':
                 return $this->voteRepository->findOneCommentVoteByUserAndEntity($user, $input->getEntityId());
-            case 'Review':
-                return $this->voteRepository->findOneReviewVoteByUserAndEntity($user, $input->getEntityId());
+            case 'LocaleReview':
+                return $this->voteRepository->findOneLocaleReviewVoteByUserAndEntity($user, $input->getEntityId());
+            case 'TenancyReview':
+                return $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($user, $input->getEntityId());
             // @codeCoverageIgnoreStart
             default:
                 return null;

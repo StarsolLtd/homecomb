@@ -5,6 +5,7 @@ import RatedAgencies from "../components/RatedAgencies";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import {Link} from "react-router-dom";
+import LocaleReview from "../components/LocaleReview";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class LocaleView extends React.Component {
         this.state = {
             name: '',
             content: '',
-            reviews: [],
+            localeReviews: [],
+            tenancyReviews: [],
             agencyReviewsSummary: null,
             loaded: false,
         };
@@ -74,6 +76,32 @@ class LocaleView extends React.Component {
                                 )}
                             </Col>
                         </Row>
+                        <Row>
+                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
+                                <h5 className="mb-1">Reviews of {this.state.name} from residents</h5>
+
+                                {this.state.localeReviews.map(
+                                    ({ id, slug, author, title, content, overallStars, createdAt, positiveVotes }) => (
+                                        <Fragment>
+                                            <LocaleReview
+                                                {...this.props}
+                                                key={slug}
+                                                id={id}
+                                                slug={slug}
+                                                author={author}
+                                                title={title}
+                                                content={content}
+                                                overallStars={overallStars}
+                                                createdAt={createdAt}
+                                                positiveVotes={positiveVotes}
+                                                showVote={true}
+                                            />
+                                            <hr />
+                                        </Fragment>
+                                    )
+                                )}
+                            </Col>
+                        </Row>
                     </div>
                 }
             </Container>
@@ -84,6 +112,7 @@ class LocaleView extends React.Component {
         this.setState({
             name: data.name,
             content: data.content,
+            localeReviews: data.localeReviews,
             tenancyReviews: data.tenancyReviews,
             agencyReviewsSummary: data.agencyReviewsSummary,
             loaded: true,

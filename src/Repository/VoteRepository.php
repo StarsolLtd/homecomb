@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\NotFoundException;
@@ -35,7 +36,25 @@ class VoteRepository extends ServiceEntityRepository
         return $vote;
     }
 
-    public function findOneReviewVoteByUserAndEntity(User $user, int $entityId): ?TenancyReviewVote
+    public function findOneLocaleReviewVoteByUserAndEntity(User $user, int $entityId): ?TenancyReviewVote
+    {
+        $qb = $this->createQueryBuilder('v');
+        $qb->where($qb->expr()->isInstanceOf('v', LocaleReviewVote::class))
+            ->andWhere('v.entityId = :entityId')
+            ->andWhere('v.user = :user')
+            ->setMaxResults(1)
+            ->setParameter('entityId', $entityId)
+            ->setParameter('user', $user)
+        ;
+
+        $query = $qb->getQuery();
+
+        $result = $query->getResult();
+
+        return $result[0] ?? null;
+    }
+
+    public function findOneTenancyReviewVoteByUserAndEntity(User $user, int $entityId): ?TenancyReviewVote
     {
         $qb = $this->createQueryBuilder('v');
         $qb->where($qb->expr()->isInstanceOf('v', TenancyReviewVote::class))

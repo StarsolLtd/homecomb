@@ -6,6 +6,7 @@ use DateTime;
 
 class LocaleReviewView
 {
+    private int $id;
     private string $slug;
     private ?string $author;
     private ?string $title;
@@ -17,6 +18,7 @@ class LocaleReviewView
     private int $votesScore;
 
     public function __construct(
+        int $id,
         string $slug,
         ?string $author,
         ?string $title,
@@ -27,6 +29,7 @@ class LocaleReviewView
         int $negativeVotes,
         int $votesScore
     ) {
+        $this->id = $id;
         $this->slug = $slug;
         $this->author = $author;
         $this->title = $title;
@@ -36,6 +39,11 @@ class LocaleReviewView
         $this->positiveVotes = $positiveVotes;
         $this->negativeVotes = $negativeVotes;
         $this->votesScore = $votesScore;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getSlug(): string

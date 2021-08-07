@@ -32,7 +32,7 @@ abstract class Review
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected ?int $id = null;
+    protected int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
@@ -92,7 +92,7 @@ abstract class Review
         $this->votes = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

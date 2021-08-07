@@ -29,11 +29,11 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
     private TenancyReviewService $tenancyReviewService;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    private const USER_1 = 'jack@mimas.io';
-    private const USER_2 = 'andrea@starsol.co.uk';
-    private const USER_3 = 'lauren@starsol.co.uk';
-    private const USER_4 = 'zora@starsol.co.uk';
-    private const USER_5 = 'jo@cambridgeresidential.com';
+    public const USER_1 = 'jack@mimas.io';
+    public const USER_2 = 'andrea@starsol.co.uk';
+    public const USER_3 = 'lauren@starsol.co.uk';
+    public const USER_4 = 'zora@starsol.co.uk';
+    public const USER_5 = 'jo@cambridgeresidential.com';
 
     public function __construct(
         AgencyHelper $agencyHelper,

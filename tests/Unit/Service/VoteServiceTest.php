@@ -73,13 +73,13 @@ class VoteServiceTest extends TestCase
 
         $input->getEntityName()
             ->shouldBeCalledTimes(2)
-            ->willReturn('Review');
+            ->willReturn('TenancyReview');
 
         $input->getEntityId()
             ->shouldBeCalledOnce()
             ->willReturn(789);
 
-        $this->voteRepository->findOneReviewVoteByUserAndEntity($user, 789)
+        $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($user, 789)
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
@@ -96,7 +96,7 @@ class VoteServiceTest extends TestCase
 
         $vote->getTenancyReview()->shouldBeCalledOnce()->willReturn($tenancyReview);
 
-        $this->voteFactory->createSubmitOutputFromReview($tenancyReview)->willReturn($output);
+        $this->voteFactory->createSubmitOutputFromTenancyReview($tenancyReview)->willReturn($output);
 
         $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
     }
@@ -208,13 +208,13 @@ class VoteServiceTest extends TestCase
 
         $input->getEntityName()
             ->shouldBeCalledTimes(2)
-            ->willReturn('Review');
+            ->willReturn('TenancyReview');
 
         $input->getEntityId()
             ->shouldBeCalledOnce()
             ->willReturn(789);
 
-        $this->voteRepository->findOneReviewVoteByUserAndEntity($user, 789)
+        $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($user, 789)
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
@@ -232,7 +232,7 @@ class VoteServiceTest extends TestCase
 
         $vote->getTenancyReview()->shouldBeCalledOnce()->willReturn($tenancyReview);
 
-        $this->voteFactory->createSubmitOutputFromReview($tenancyReview)->willReturn($output);
+        $this->voteFactory->createSubmitOutputFromTenancyReview($tenancyReview)->willReturn($output);
 
         $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
     }

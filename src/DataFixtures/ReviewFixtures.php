@@ -4,10 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Review;
+use App\Entity\User;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Util\ReviewHelper;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ReviewFixtures extends AbstractDataFixtures
+class ReviewFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
     private ReviewHelper $reviewHelper;
 
@@ -19,7 +22,14 @@ class ReviewFixtures extends AbstractDataFixtures
 
     protected function getEnvironments(): array
     {
-        return ['dev', 'prod'];
+        return ['dev', 'demo'];
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            DemoFixtures::class,
+        ];
     }
 
     protected function doLoad(ObjectManager $manager): void
@@ -27,7 +37,17 @@ class ReviewFixtures extends AbstractDataFixtures
         /** @var Locale $cambridgeLocale */
         $cambridgeLocale = $this->getReference('locale-Cambridge');
 
+        /** @var User $user */
+        $user = $this->getReference('user-'.DemoFixtures::USER_1);
+
         $reviews = [];
+
+        $positiveVote1 = (new LocaleReviewVote())
+            ->setPositive(true)
+            ->setUser($user)
+        ;
+        assert($positiveVote1 instanceof LocaleReviewVote);
+        $manager->persist($positiveVote1);
 
         $reviews[] = (new Review\LocaleReview())
             ->setLocale($cambridgeLocale)
@@ -35,6 +55,7 @@ class ReviewFixtures extends AbstractDataFixtures
             ->setTitle('A mostly enjoyable city to live in')
             ->setContent('I had a delightful time living in Cambridge. There is much to do.')
             ->setOverallStars(4)
+            ->addVote($positiveVote1)
         ;
 
         foreach ($reviews as $review) {

@@ -42,6 +42,7 @@ class LocaleReviewFactory
     public function createViewFromEntity(LocaleReview $review): LocaleReviewView
     {
         return new LocaleReviewView(
+            $review->getId(),
             $review->getSlug(),
             $review->getAuthor(),
             $review->getTitle(),
