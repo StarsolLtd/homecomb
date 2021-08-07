@@ -46,7 +46,7 @@ class LocaleView extends React.Component {
                             <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                                 <h5 className="mb-1">Reviews from tenants</h5>
 
-                                {this.state.reviews.map(
+                                {this.state.tenancyReviews.map(
                                     ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
                                         <Fragment>
                                             <Review
@@ -83,7 +83,7 @@ class LocaleView extends React.Component {
         this.setState({
             name: data.name,
             content: data.content,
-            reviews: data.reviews,
+            tenancyReviews: data.tenancyReviews,
             agencyReviewsSummary: data.agencyReviewsSummary,
             loaded: true,
         });

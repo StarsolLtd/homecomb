@@ -36,11 +36,7 @@ const Header = (props) => {
                                 Popular Locations
                             </a>
                             <div className="dropdown-menu bg-secondary-light" aria-labelledby="navbarDropdown">
-                                <a className="dropdown-item" href="/l/clerkenwell">Clerkenwell</a>
-                                <a className="dropdown-item" href="/l/shoreditch">Shoreditch</a>
-                                <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="/l/cambridge">Cambridge</a>
-                                <a className="dropdown-item" href="/l/norwich">Norwich</a>
+                                <a className="dropdown-item" href="/l/acdebc98f77">Cambridge</a>
                             </div>
                         </li>
                     </ul>

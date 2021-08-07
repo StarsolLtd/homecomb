@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\City;
+use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
 use App\Util\LocaleHelper;
@@ -41,7 +43,6 @@ class LocaleFixtures extends AbstractDataFixtures
     {
         $localeNames = [
             'Birmingham',
-            'Cambridge',
             'Clerkenwell',
             'Coventry',
             'Ely',
@@ -52,7 +53,12 @@ class LocaleFixtures extends AbstractDataFixtures
             'Shoreditch',
         ];
 
-        $locales = [];
+        /** @var City $cambridgeCity */
+        $cambridgeCity = $this->getReference('city-'.CityFixtures::CAMBRIDGE_SLUG);
+
+        $locales = [
+            'Cambridge' => (new CityLocale())->setCity($cambridgeCity)->setName('Cambridge'),
+        ];
         foreach ($localeNames as $localeName) {
             $locales[$localeName] = (new Locale())->setName($localeName);
         }
