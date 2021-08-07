@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;

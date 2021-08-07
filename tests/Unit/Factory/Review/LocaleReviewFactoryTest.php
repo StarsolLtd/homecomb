@@ -2,7 +2,7 @@
 
 namespace App\Tests\Unit\Factory\Review;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;

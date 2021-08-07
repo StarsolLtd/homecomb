@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Unit\Entity\Locale;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
+use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
 /**
  * @covers \App\Entity\Locale

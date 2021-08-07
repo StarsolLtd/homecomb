@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Locale\Locale;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +33,7 @@ class Postcode
 
     /**
      * @var Collection<int, Locale>
-     * @ORM\ManyToMany(targetEntity="Locale", mappedBy="postcodes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Locale\Locale", mappedBy="postcodes")
      * @ORM\JoinTable(name="locale_postcode")
      */
     private Collection $locales;

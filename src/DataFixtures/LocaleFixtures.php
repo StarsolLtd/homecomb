@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
 use Doctrine\Persistence\ObjectManager;
 use function file_get_contents;

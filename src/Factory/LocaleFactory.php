@@ -2,17 +2,12 @@
 
 namespace App\Factory;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
-use function count;
-use function round;
-use function sprintf;
-use function strcmp;
-use function usort;
 
 class LocaleFactory
 {

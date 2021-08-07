@@ -3,8 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Image;
-use App\Entity\Locale;
-use function copy;
+use App\Entity\Locale\Locale;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

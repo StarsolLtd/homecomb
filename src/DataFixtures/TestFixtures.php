@@ -6,7 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\Review\LocaleReview;
 use App\Entity\Survey\Choice;

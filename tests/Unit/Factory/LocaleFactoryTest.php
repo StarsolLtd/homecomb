@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Factory\LocaleFactory;

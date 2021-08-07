@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Locale;
 
+use App\Entity\Image;
+use App\Entity\Postcode;
+use App\Entity\TenancyReview;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +14,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LocaleRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "City" = "CityLocale",
+ *     "Locale" = "Locale",
+ * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
  */
 class Locale
@@ -48,27 +57,27 @@ class Locale
 
     /**
      * @var Collection<int, Postcode>
-     * @ORM\ManyToMany(targetEntity="Postcode", inversedBy="locales", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Postcode", inversedBy="locales", cascade={"persist"})
      * @ORM\JoinTable(name="locale_postcode")
      */
     private Collection $postcodes;
 
     /**
      * @var Collection<int, TenancyReview>
-     * @ORM\ManyToMany(targetEntity="TenancyReview", inversedBy="locales", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\TenancyReview", inversedBy="locales", cascade={"persist"})
      * @ORM\JoinTable(name="locale_tenancy_review")
      */
     private Collection $tenancyReviews;
 
     /**
      * @var Collection<int, Locale>
-     * @ORM\ManyToMany(targetEntity="Locale", mappedBy="relatedLocales")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Locale\Locale", mappedBy="relatedLocales")
      */
     private Collection $localesRelating;
 
     /**
      * @var Collection<int, Locale>
-     * @ORM\ManyToMany(targetEntity="Locale", inversedBy="locatedRelating")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Locale\Locale", inversedBy="locatedRelating")
      * @ORM\JoinTable(name="locale_related",
      *      joinColumns={@ORM\JoinColumn(name="locale_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="related_locale_id", referencedColumnName="id")}
@@ -78,7 +87,7 @@ class Locale
 
     /**
      * @var Collection<int, Image>
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="locale")
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="locale")
      */
     private Collection $images;
 

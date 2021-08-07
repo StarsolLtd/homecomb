@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Comment\TenancyReviewComment;
+use App\Entity\Locale\Locale;
 use App\Entity\Vote\TenancyReviewVote;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -99,7 +100,7 @@ class TenancyReview
 
     /**
      * @var Collection<int, Locale>
-     * @ORM\ManyToMany(targetEntity="Locale", mappedBy="tenancyReviews")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Locale\Locale", mappedBy="tenancyReviews")
      * @ORM\JoinTable(name="locale_tenancy_review")
      */
     private Collection $locales;

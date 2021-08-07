@@ -2,7 +2,7 @@
 
 namespace App\Entity\Review;
 
-use App\Entity\Locale;
+use App\Entity\Locale\Locale;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\DeveloperException;
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class LocaleReview extends Review
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Locale")
+     * @ORM\OneToOne(targetEntity="App\Entity\Locale\Locale")
      * @ORM\JoinColumn(name="related_entity_id", referencedColumnName="id")
      */
     private Locale $locale;
