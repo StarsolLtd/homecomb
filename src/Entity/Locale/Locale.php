@@ -4,6 +4,7 @@ namespace App\Entity\Locale;
 
 use App\Entity\Image;
 use App\Entity\Postcode;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -62,6 +63,12 @@ class Locale
     private Collection $postcodes;
 
     /**
+     * @var Collection<int, LocaleReview>
+     * @ORM\OneToMany(targetEntity="App\Entity\Review\LocaleReview", mappedBy="locale")
+     */
+    private Collection $reviews;
+
+    /**
      * @var Collection<int, TenancyReview>
      * @ORM\ManyToMany(targetEntity="App\Entity\TenancyReview", inversedBy="locales", cascade={"persist"})
      * @ORM\JoinTable(name="locale_tenancy_review")
@@ -93,6 +100,7 @@ class Locale
     public function __construct()
     {
         $this->postcodes = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
         $this->tenancyReviews = new ArrayCollection();
         $this->localesRelating = new ArrayCollection();
         $this->relatedLocales = new ArrayCollection();
@@ -174,6 +182,35 @@ class Locale
         $this->postcodes[] = $postcode;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, LocaleReview>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(LocaleReview $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            return $this;
+        }
+        $this->reviews[] = $review;
+        $review->setLocale($this);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LocaleReview>
+     */
+    public function getPublishedReviews(): Collection
+    {
+        return $this->getReviews()->filter(function (LocaleReview $Review) {
+            return $Review->isPublished();
+        });
     }
 
     /**
