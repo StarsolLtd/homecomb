@@ -11,6 +11,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Vote\SubmitInput;
 use App\Repository\CommentRepository;
+use App\Repository\ReviewRepository;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -26,15 +27,18 @@ class VoteFactoryTest extends TestCase
 
     private $commentRepository;
     private $reviewRepository;
+    private $tenancyReviewRepository;
 
     public function setUp(): void
     {
         $this->commentRepository = $this->prophesize(CommentRepository::class);
-        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->voteFactory = new VoteFactory(
             $this->commentRepository->reveal(),
             $this->reviewRepository->reveal(),
+            $this->tenancyReviewRepository->reveal(),
         );
     }
 
@@ -49,7 +53,7 @@ class VoteFactoryTest extends TestCase
         $user = $this->prophesize(User::class);
         $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $this->reviewRepository->findOnePublishedById($input->getEntityId())
+        $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId())
             ->shouldBeCalledOnce()
             ->willReturn($tenancyReview);
 
@@ -102,9 +106,9 @@ class VoteFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\VoteFactory::createSubmitOutputFromReview
+     * @covers \App\Factory\VoteFactory::createSubmitOutputFromTenancyReview
      */
-    public function testCreateSubmitOutputFromReview1(): void
+    public function testCreateSubmitOutputFromTenancyReview1(): void
     {
         $tenancyReview = $this->prophesize(TenancyReview::class);
 
@@ -113,10 +117,10 @@ class VoteFactoryTest extends TestCase
         $tenancyReview->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
         $tenancyReview->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
 
-        $output = $this->voteFactory->createSubmitOutputFromReview($tenancyReview->reveal());
+        $output = $this->voteFactory->createSubmitOutputFromTenancyReview($tenancyReview->reveal());
 
         $this->assertTrue($output->isSuccess());
-        $this->assertEquals('Review', $output->getEntityName());
+        $this->assertEquals('TenancyReview', $output->getEntityName());
         $this->assertEquals(5678, $output->getEntityId());
         $this->assertEquals(5, $output->getPositiveVotes());
         $this->assertEquals(2, $output->getNegativeVotes());

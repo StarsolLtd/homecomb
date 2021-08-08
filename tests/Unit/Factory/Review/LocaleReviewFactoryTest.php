@@ -4,8 +4,10 @@ namespace App\Tests\Unit\Factory\Review;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
+use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -17,6 +19,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class LocaleReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
+    use SetIdByReflectionTrait;
 
     private LocaleReviewFactory $localeReviewFactory;
 
@@ -58,5 +61,38 @@ class LocaleReviewFactoryTest extends TestCase
         $this->assertEquals(4, $entity->getOverallStars());
         $this->assertFalse($entity->isPublished());
         $this->assertCount(0, $entity->getVotes());
+    }
+
+    /**
+     * @covers \App\Factory\Review\LocaleReviewFactory::createViewFromEntity
+     */
+    public function testCreateViewFromEntity1(): void
+    {
+        $positiveVote = (new LocaleReviewVote())->setPositive(true);
+
+        $localeReview = (new LocaleReview())
+            ->setSlug('test-slug')
+            ->setAuthor('John Smith')
+            ->setTitle('There is a market place')
+            ->setContent('I like living here, there is a Greggs.')
+            ->setOverallStars(4)
+            ->setCreatedAt(new \DateTime('2020-02-02 12:00:00'))
+            ->addVote($positiveVote)
+        ;
+
+        $this->setIdByReflection($localeReview, 125);
+
+        $view = $this->localeReviewFactory->createViewFromEntity($localeReview);
+
+        $this->assertEquals(125, $view->getId());
+        $this->assertEquals('test-slug', $view->getSlug());
+        $this->assertEquals('John Smith', $view->getAuthor());
+        $this->assertEquals('There is a market place', $view->getTitle());
+        $this->assertEquals('I like living here, there is a Greggs.', $view->getContent());
+        $this->assertEquals(4, $view->getOverallStars());
+        $this->assertEquals('2020-02-02', $view->getCreatedAt()->format('Y-m-d'));
+        $this->assertEquals(1, $view->getPositiveVotes());
+        $this->assertEquals(0, $view->getNegativeVotes());
+        $this->assertEquals(1, $view->getVotesScore());
     }
 }

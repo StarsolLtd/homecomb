@@ -7,11 +7,14 @@ use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
 use App\Factory\LocaleFactory;
+use App\Factory\Review\LocaleReviewFactory;
 use App\Factory\TenancyReviewFactory;
-use App\Model\TenancyReview\View as ReviewView;
+use App\Model\Review\LocaleReviewView;
+use App\Model\TenancyReview\View as TenancyReviewView;
 use App\Util\LocaleHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -28,15 +31,18 @@ class LocaleFactoryTest extends TestCase
     private LocaleFactory $localeFactory;
 
     private $localeHelper;
+    private $localeReviewFactory;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
         $this->localeHelper = $this->prophesize(LocaleHelper::class);
+        $this->localeReviewFactory = $this->prophesize(LocaleReviewFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->localeFactory = new LocaleFactory(
             $this->localeHelper->reveal(),
+            $this->localeReviewFactory->reveal(),
             $this->tenancyReviewFactory->reveal()
         );
     }
@@ -46,26 +52,39 @@ class LocaleFactoryTest extends TestCase
      */
     public function testCreateViewFromEntity1(): void
     {
-        $tenancyReview = (new TenancyReview())->setPublished(true);
-
-        $reviewView = $this->prophesize(ReviewView::class);
-
         $locale = (new Locale())
             ->setName('Penzance')
             ->setSlug('penzance')
             ->setContent('There arrrrre some pirates here.')
-            ->addTenancyReview($tenancyReview)
+        ;
+
+        $localeReview = $this->prophesize(LocaleReview::class);
+        $localeReview->setLocale($locale)->shouldBeCalledOnce()->willReturn($localeReview);
+        $localeReview->isPublished()->shouldBeCalledOnce()->willReturn(true);
+
+        $locale->addReview($localeReview->reveal());
+
+        $tenancyReview = (new TenancyReview())->setPublished(true);
+        $locale->addTenancyReview($tenancyReview);
+
+        $localeReviewView = $this->prophesize(LocaleReviewView::class);
+        $tenancyReviewView = $this->prophesize(TenancyReviewView::class);
+
+        $this->localeReviewFactory->createViewFromEntity($localeReview)
+            ->shouldBeCalledOnce()
+            ->willReturn($localeReviewView)
         ;
 
         $this->tenancyReviewFactory->createViewFromEntity($tenancyReview)
             ->shouldBeCalledOnce()
-            ->willReturn($reviewView)
+            ->willReturn($tenancyReviewView)
         ;
 
         $view = $this->localeFactory->createViewFromEntity($locale);
 
         $this->assertEquals('Penzance', $view->getName());
         $this->assertEquals('There arrrrre some pirates here.', $view->getContent());
+        $this->assertCount(1, $view->getLocaleReviews());
         $this->assertCount(1, $view->getTenancyReviews());
     }
 

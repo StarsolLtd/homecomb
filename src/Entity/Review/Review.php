@@ -32,7 +32,7 @@ abstract class Review
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected ?int $id = null;
+    protected int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
@@ -75,10 +75,6 @@ abstract class Review
      */
     private string $slug;
 
-    /**
-     * @var Collection<int, Vote>
-     * @ORM\OneToMany(targetEntity="App\Entity\Vote\Vote", mappedBy="Review")
-     */
     protected Collection $votes;
 
     abstract public function addVote(Vote $vote): self;
@@ -96,7 +92,7 @@ abstract class Review
         $this->votes = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

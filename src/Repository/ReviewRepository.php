@@ -20,6 +20,22 @@ class ReviewRepository extends ServiceEntityRepository
         parent::__construct($registry, Review::class);
     }
 
+    public function findOnePublishedById(int $id): Review
+    {
+        $review = $this->findOneBy(
+            [
+                'id' => $id,
+                'published' => true,
+            ]
+        );
+
+        if (null === $review) {
+            throw new NotFoundException(sprintf('Review %d could not be found.', $id));
+        }
+
+        return $review;
+    }
+
     public function findOnePublishedBySlug(string $slug): Review
     {
         $review = $this->findOneBy(

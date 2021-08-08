@@ -6,6 +6,7 @@ use App\Entity\Locale\Locale;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\DeveloperException;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,12 @@ class LocaleReview extends Review
      * @ORM\JoinColumn(name="related_entity_id", referencedColumnName="id")
      */
     private Locale $locale;
+
+    /**
+     * @var Collection<int, Vote>
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote\LocaleReviewVote", mappedBy="localeReview")
+     */
+    protected Collection $votes;
 
     public function addVote(Vote $vote): self
     {

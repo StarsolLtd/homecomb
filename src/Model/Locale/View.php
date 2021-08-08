@@ -2,6 +2,7 @@
 
 namespace App\Model\Locale;
 
+use App\Model\Review\LocaleReviewView;
 use App\Model\TenancyReview\View as ReviewView;
 
 class View
@@ -9,6 +10,7 @@ class View
     private string $slug;
     private string $name;
     private ?string $content;
+    private array $localeReviews;
     private array $tenancyReviews;
     private ?AgencyReviewsSummary $agencyReviewsSummary;
 
@@ -16,12 +18,14 @@ class View
         string $slug,
         string $name,
         ?string $content = null,
+        array $localeReviews = [],
         array $tenancyReviews = [],
         ?AgencyReviewsSummary $agencyReviewsSummary = null
     ) {
         $this->slug = $slug;
         $this->name = $name;
         $this->content = $content;
+        $this->localeReviews = $localeReviews;
         $this->tenancyReviews = $tenancyReviews;
         $this->agencyReviewsSummary = $agencyReviewsSummary;
     }
@@ -39,6 +43,14 @@ class View
     public function getContent(): ?string
     {
         return $this->content;
+    }
+
+    /**
+     * @return LocaleReviewView[]
+     */
+    public function getLocaleReviews(): array
+    {
+        return $this->localeReviews;
     }
 
     /**

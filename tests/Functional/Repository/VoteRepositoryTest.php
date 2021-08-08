@@ -51,11 +51,11 @@ class VoteRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\VoteRepository::findOneReviewVoteByUserAndEntity
+     * @covers \App\Repository\VoteRepository::findOneTenancyReviewVoteByUserAndEntity
      */
     public function testFindOneReviewVoteByUserAndEntity1()
     {
-        $vote = $this->voteRepository->findOneReviewVoteByUserAndEntity($this->userFixture, $this->tenancyReviewFixture->getId());
+        $vote = $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($this->userFixture, $this->tenancyReviewFixture->getId());
 
         $this->assertNotNull($vote);
         $this->assertEquals($vote->getTenancyReview(), $this->tenancyReviewFixture);

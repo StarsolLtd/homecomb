@@ -25,7 +25,7 @@ class VoteControllerTest extends WebTestCase
         $client = static::createClient();
         $entityId = $this->getAnyReviewId();
 
-        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Review","positive":true,"googleReCaptchaToken":"SAMPLE"}');
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
     }
