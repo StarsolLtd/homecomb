@@ -3,6 +3,7 @@
 namespace App\Entity\Review;
 
 use App\Entity\Locale\Locale;
+use App\Entity\TenancyReview;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\DeveloperException;
@@ -21,6 +22,12 @@ class LocaleReview extends Review
     private Locale $locale;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\TenancyReview")
+     * @ORM\JoinColumn(name="tenancy_review_id", referencedColumnName="id", nullable=true)
+     */
+    private ?TenancyReview $tenancyReview = null;
+
+    /**
      * @var Collection<int, Vote>
      * @ORM\OneToMany(targetEntity="App\Entity\Vote\LocaleReviewVote", mappedBy="localeReview")
      */
@@ -36,6 +43,18 @@ class LocaleReview extends Review
         }
         $this->votes->add($vote);
         $vote->setLocaleReview($this);
+
+        return $this;
+    }
+
+    public function getTenancyReview(): ?TenancyReview
+    {
+        return $this->tenancyReview;
+    }
+
+    public function setTenancyReview(?TenancyReview $tenancyReview): self
+    {
+        $this->tenancyReview = $tenancyReview;
 
         return $this;
     }

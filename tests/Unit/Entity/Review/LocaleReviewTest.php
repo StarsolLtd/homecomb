@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Entity\Review;
 
 use App\Entity\Review\LocaleReview;
+use App\Entity\TenancyReview;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
@@ -71,8 +72,16 @@ class LocaleReviewTest extends AbstractEntityTestCase
         $this->assertEquals(3, $localeReview->getNegativeVotesCount());
     }
 
+    public function testGetTenancyReview1(): void
+    {
+        $this->assertEquals('Test tenancy review title', $this->getEntity()->getTenancyReview()->getTitle());
+    }
+
     protected function getEntity(): LocaleReview
     {
-        return new LocaleReview();
+        $tenancyReview = (new TenancyReview())->setTitle('Test tenancy review title');
+
+        return (new LocaleReview())
+            ->setTenancyReview($tenancyReview);
     }
 }
