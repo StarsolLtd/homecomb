@@ -86,11 +86,13 @@ class TenancyReviewService
 
         $this->notificationService->sendReviewModerationNotification($tenancyReview);
 
+        $tenancyReviewId = $tenancyReview->getId();
+
         if (null !== $requestDetails) {
             try {
                 $this->interactionService->record(
                     'Review',
-                    $tenancyReview->getId(),
+                    $tenancyReviewId,
                     $requestDetails,
                     $user
                 );
@@ -99,7 +101,7 @@ class TenancyReviewService
             }
         }
 
-        return new SubmitOutput(true);
+        return new SubmitOutput(true, $tenancyReviewId);
     }
 
     public function publishReview(TenancyReview $tenancyReview): void

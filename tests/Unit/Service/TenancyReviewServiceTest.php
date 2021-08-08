@@ -154,6 +154,7 @@ class TenancyReviewServiceTest extends TestCase
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
+        $this->assertEquals(45, $submitOutput->getEntityId());
     }
 
     /**
@@ -177,6 +178,7 @@ class TenancyReviewServiceTest extends TestCase
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
+        $this->assertEquals(45, $submitOutput->getEntityId());
     }
 
     /**
