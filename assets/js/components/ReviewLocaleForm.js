@@ -144,9 +144,8 @@ class ReviewLocaleForm extends React.Component {
                         </FormText>
                     </AvGroup>
                     <hr />
-                    <h2>Star ratings</h2>
                     <FormGroup>
-                        <Label for="overallStars">Overall</Label><br />
+                        <Label for="overallStars">Overall Rating</Label><br />
                         <Rating
                             name="overallStars"
                             onChange={this.handleOverallStarsChange}
@@ -163,7 +162,7 @@ class ReviewLocaleForm extends React.Component {
                             }
                         />
                         <FormText>
-                            Rate your overall tenant experience.
+                            Rate your overall experience living in {this.state.localeName}.
                         </FormText>
                     </FormGroup>
                     <hr />
