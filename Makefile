@@ -33,7 +33,10 @@ migrate:
 	docker exec -it homecomb_php_1 php bin/console doctrine:migrations:migrate
 
 e2e:
-	make copy-e2e-env-to-local load-fixtures e2e-all clear-env-local load-fixtures
+	make e2e-setup e2e-all clear-env-local load-fixtures
+
+e2e-setup:
+	make copy-e2e-env-to-local load-fixtures
 
 e2e-all:
 	make e2e-public e2e-agency-admin
@@ -42,7 +45,7 @@ e2e-agency-admin:
 	make e2e-solicit-review e2e-update-agency
 
 e2e-public:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey e2e-submit-contact-form
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey e2e-submit-contact-form e2e-submit-locale-review
 
 e2e-complete-survey:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
@@ -67,6 +70,9 @@ e2e-solicit-review:
 
 e2e-submit-contact-form:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SubmitContactForm.php
+
+e2e-submit-locale-review:
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/SubmitLocaleReview.php
 
 e2e-tenancy-review:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/TenancyReview.php
