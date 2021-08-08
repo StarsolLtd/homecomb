@@ -4,35 +4,49 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\City;
+use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;
 use App\Repository\LocaleRepository;
 use App\Service\LocaleService;
+use App\Tests\Unit\EntityManagerTrait;
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * @covers \App\Service\LocaleService
+ */
 class LocaleServiceTest extends TestCase
 {
     use ProphecyTrait;
+    use EntityManagerTrait;
 
     private LocaleService $localeService;
 
+    private $entityManager;
     private $localeFactory;
     private $localeRepository;
 
     public function setUp(): void
     {
+        $this->entityManager = $this->prophesize(EntityManager::class);
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
         $this->localeRepository = $this->prophesize(LocaleRepository::class);
 
         $this->localeService = new LocaleService(
+            $this->entityManager->reveal(),
             $this->localeFactory->reveal(),
             $this->localeRepository->reveal(),
         );
     }
 
+    /**
+     * @covers \App\Service\LocaleService::getViewBySlug
+     */
     public function testGetViewBySlug(): void
     {
         $locale = (new Locale());
@@ -51,6 +65,47 @@ class LocaleServiceTest extends TestCase
         $this->assertEquals($view, $output);
     }
 
+    /**
+     * @covers \App\Service\LocaleService::findOrCreateByCity
+     * Test a pre-existing CityLocale is returned.
+     */
+    public function testFindOrCreateByCity1()
+    {
+        $city = $this->prophesize(City::class);
+        $cityLocale = $this->prophesize(CityLocale::class);
+
+        $this->localeRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn($cityLocale);
+
+        $this->assertEntityManagerUnused();
+
+        $output = $this->localeService->findOrCreateByCity($city->reveal());
+
+        $this->assertEquals($output, $cityLocale->reveal());
+    }
+
+    /**
+     * @covers \App\Service\LocaleService::findOrCreateByCity
+     * Test a CityLocale is created if one does not already exist.
+     */
+    public function testFindOrCreateByCity2()
+    {
+        $city = $this->prophesize(City::class);
+        $cityLocale = $this->prophesize(CityLocale::class);
+
+        $this->localeRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn(null);
+
+        $this->localeFactory->createCityLocaleEntity($city)->shouldBeCalledOnce()->willReturn($cityLocale);
+
+        $this->assertEntitiesArePersistedAndFlush([$cityLocale]);
+
+        $output = $this->localeService->findOrCreateByCity($city->reveal());
+
+        $this->assertEquals($output, $cityLocale->reveal());
+    }
+
+    /**
+     * @covers \App\Service\LocaleService::getAgencyReviewsSummary
+     */
     public function testGetAgencyReviewsSummary(): void
     {
         $locale = new Locale();
