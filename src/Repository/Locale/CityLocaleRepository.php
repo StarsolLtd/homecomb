@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Locale;
 
 use App\Entity\City;
 use App\Entity\Locale\CityLocale;

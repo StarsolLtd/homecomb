@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Functional\Repository;
+namespace App\Tests\Functional\Repository\Locale;
 
 use App\Entity\Locale\Locale;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\LocaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

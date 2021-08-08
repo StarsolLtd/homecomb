@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
 use App\Model\Review\SubmitLocaleReviewOutput;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\LocaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

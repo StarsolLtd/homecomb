@@ -10,8 +10,8 @@ use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
-use App\Repository\CityLocaleRepository;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\CityLocaleRepository;
+use App\Repository\Locale\LocaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
