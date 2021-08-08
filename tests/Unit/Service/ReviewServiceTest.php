@@ -7,7 +7,7 @@ use App\Entity\Review\LocaleReview;
 use App\Entity\User;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\LocaleRepository;
 use App\Service\ReviewService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;

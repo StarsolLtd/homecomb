@@ -2,26 +2,36 @@
 
 namespace App\Service;
 
+use App\Entity\City;
+use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\CityLocaleRepository;
+use App\Repository\Locale\LocaleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
 class LocaleService
 {
+    private EntityManagerInterface $entityManager;
     private LocaleFactory $localeFactory;
     private LocaleRepository $localeRepository;
+    private CityLocaleRepository $cityLocaleRepository;
 
     public function __construct(
+        EntityManagerInterface $entityManager,
         LocaleFactory $localeFactory,
-        LocaleRepository $localeRepository
+        LocaleRepository $localeRepository,
+        CityLocaleRepository $cityLocaleRepository
     ) {
+        $this->entityManager = $entityManager;
         $this->localeFactory = $localeFactory;
         $this->localeRepository = $localeRepository;
+        $this->cityLocaleRepository = $cityLocaleRepository;
     }
 
     public function getViewBySlug(string $slug): View
@@ -29,6 +39,22 @@ class LocaleService
         $locale = $this->localeRepository->findOnePublishedBySlug($slug);
 
         return $this->localeFactory->createViewFromEntity($locale);
+    }
+
+    public function findOrCreateByCity(City $city): CityLocale
+    {
+        $cityLocale = $this->cityLocaleRepository->findOneNullableByCity($city);
+
+        if (null !== $cityLocale) {
+            return $cityLocale;
+        }
+
+        $cityLocale = $this->localeFactory->createCityLocaleEntity($city);
+
+        $this->entityManager->persist($cityLocale);
+        $this->entityManager->flush();
+
+        return $cityLocale;
     }
 
     // TODO replace with version in factory
