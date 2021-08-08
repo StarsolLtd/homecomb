@@ -102,6 +102,15 @@ class LocaleView extends React.Component {
                                                 </Fragment>
                                             )
                                         )}
+
+                                        {this.state.localeReviews.length === 0 &&
+                                            <Fragment>
+                                                <hr />
+                                                <p>
+                                                    There are no reviews of {this.state.name} yet.
+                                                </p>
+                                            </Fragment>
+                                        }
                                     </div>
                                     <div className="tab-pane container" id="tenancy-reviews-pane">
                                         <h5 className="mb-1">Property reviews from tenants in {this.state.name}</h5>
@@ -130,6 +139,15 @@ class LocaleView extends React.Component {
                                                 </Fragment>
                                             )
                                         )}
+
+                                        {this.state.tenancyReviews.length === 0 &&
+                                            <Fragment>
+                                                <hr />
+                                                <p>
+                                                    There are no tenant reviews yet for {this.state.name}.
+                                                </p>
+                                            </Fragment>
+                                        }
                                     </div>
                                 </div>
 
