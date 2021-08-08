@@ -5,7 +5,6 @@ import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
-import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import Map from "../components/Map";
 import {Link} from "react-router-dom";
 import TenancyReviewCompletedThankYou from "../content/TenancyReviewCompletedThankYou";

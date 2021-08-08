@@ -17,7 +17,7 @@ const TenancyReviewCompletedThankYou = (props) => {
                     <h5 className="mt-1 mb-4">Would you also like to review <span className="city-name">{props.city.name}</span> generally?</h5>
 
                     <Link to={'/c/' + props.city.slug}>
-                        <Button className="btn btn-primary navigate-to-city-locale-review-form">Yes! Take me to the form</Button>
+                        <Button className="btn btn-primary city-locale-review-form-link-button">Yes! Take me to the <span className="city-name">{props.city.name}</span> page</Button>
                     </Link>
                 </Fragment>
             }
