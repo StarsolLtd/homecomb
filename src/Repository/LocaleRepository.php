@@ -2,8 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\City;
-use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -36,17 +34,5 @@ class LocaleRepository extends ServiceEntityRepository
         }
 
         return $locale;
-    }
-
-    public function findOneNullableByCity(City $city): ?CityLocale
-    {
-        $cityLocale = $this->findOneBy(
-            [
-                'city' => $city,
-            ]
-        );
-        assert($cityLocale instanceof CityLocale);
-
-        return $cityLocale;
     }
 }

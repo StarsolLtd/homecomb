@@ -10,6 +10,7 @@ use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;
+use App\Repository\CityLocaleRepository;
 use App\Repository\LocaleRepository;
 use App\Service\LocaleService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -30,17 +31,20 @@ class LocaleServiceTest extends TestCase
     private $entityManager;
     private $localeFactory;
     private $localeRepository;
+    private $cityLocaleRepository;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
         $this->localeRepository = $this->prophesize(LocaleRepository::class);
+        $this->cityLocaleRepository = $this->prophesize(CityLocaleRepository::class);
 
         $this->localeService = new LocaleService(
             $this->entityManager->reveal(),
             $this->localeFactory->reveal(),
             $this->localeRepository->reveal(),
+            $this->cityLocaleRepository->reveal(),
         );
     }
 
@@ -74,7 +78,7 @@ class LocaleServiceTest extends TestCase
         $city = $this->prophesize(City::class);
         $cityLocale = $this->prophesize(CityLocale::class);
 
-        $this->localeRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn($cityLocale);
+        $this->cityLocaleRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn($cityLocale);
 
         $this->assertEntityManagerUnused();
 
@@ -92,7 +96,7 @@ class LocaleServiceTest extends TestCase
         $city = $this->prophesize(City::class);
         $cityLocale = $this->prophesize(CityLocale::class);
 
-        $this->localeRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn(null);
+        $this->cityLocaleRepository->findOneNullableByCity($city)->shouldBeCalledOnce()->willReturn(null);
 
         $this->localeFactory->createCityLocaleEntity($city)->shouldBeCalledOnce()->willReturn($cityLocale);
 

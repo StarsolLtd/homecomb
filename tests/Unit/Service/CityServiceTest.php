@@ -3,9 +3,11 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\City;
+use App\Entity\Locale\CityLocale;
 use App\Factory\CityFactory;
 use App\Repository\CityRepository;
 use App\Service\CityService;
+use App\Service\LocaleService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -24,17 +26,20 @@ class CityServiceTest extends TestCase
     private $entityManager;
     private $cityFactory;
     private $cityRepository;
+    private $localeService;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->cityFactory = $this->prophesize(CityFactory::class);
         $this->cityRepository = $this->prophesize(CityRepository::class);
+        $this->localeService = $this->prophesize(LocaleService::class);
 
         $this->cityService = new CityService(
             $this->entityManager->reveal(),
             $this->cityFactory->reveal(),
             $this->cityRepository->reveal(),
+            $this->localeService->reveal(),
         );
     }
 
@@ -78,5 +83,22 @@ class CityServiceTest extends TestCase
         $this->assertEntityManagerUnused();
 
         $this->assertEquals($city->reveal(), $output);
+    }
+
+    /**
+     * @covers \App\Service\CityService::getLocaleSlugByCitySlug
+     */
+    public function testGetLocaleSlugByCitySlug1(): void
+    {
+        $city = $this->prophesize(City::class);
+        $cityLocale = $this->prophesize(CityLocale::class);
+
+        $this->cityRepository->findOneBySlug('test-city-slug')->willReturn($city->reveal());
+        $this->localeService->findOrCreateByCity($city)->willReturn($cityLocale->reveal());
+        $cityLocale->getSlug()->shouldBeCalledOnce()->willReturn('test-locale-slug');
+
+        $output = $this->cityService->getLocaleSlugByCitySlug('test-city-slug');
+
+        $this->assertEquals('test-locale-slug', $output);
     }
 }
