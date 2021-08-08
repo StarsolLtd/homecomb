@@ -25,7 +25,7 @@ class VoteControllerTest extends WebTestCase
         $client = static::createClient();
         $entityId = $this->getAnyReviewId();
 
-        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entitySlug":null,"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
     }
@@ -54,7 +54,7 @@ class VoteControllerTest extends WebTestCase
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entitySlug":null,"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
@@ -76,7 +76,7 @@ class VoteControllerTest extends WebTestCase
 
         $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
 
-        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entitySlug":null,"entityName":"Comment","positive":false,"googleReCaptchaToken":"SAMPLE"}');
+        $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Comment","positive":false,"googleReCaptchaToken":"SAMPLE"}');
 
         $this->assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
 
