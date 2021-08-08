@@ -1,11 +1,13 @@
 import React, {Fragment} from 'react';
-import {Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import {Container, Col, Row, Breadcrumb, BreadcrumbItem, Button} from 'reactstrap';
 import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import {Link} from "react-router-dom";
 import LocaleReview from "../components/LocaleReview";
+import ReviewLocaleForm from "../components/ReviewLocaleForm";
+import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -17,14 +19,32 @@ class LocaleView extends React.Component {
             tenancyReviews: [],
             agencyReviewsSummary: null,
             loaded: false,
+            reviewLocaleFormOpen: false,
+            localeReviewCompletedThankYou: false,
         };
 
         this.loadData = this.loadData.bind(this);
+        this.openReviewLocaleForm = this.openReviewLocaleForm.bind(this);
+        this.localeReviewCompletedThankYou = this.localeReviewCompletedThankYou.bind(this);
+    }
+
+    openReviewLocaleForm() {
+        this.setState({reviewLocaleFormOpen: true});
+    }
+
+    localeReviewCompletedThankYou() {
+        this.setState({
+            localeReviewCompletedThankYou: true,
+            reviewLocaleFormOpen: false
+        })
     }
 
     render() {
         return (
             <Container>
+                {this.state.localeReviewCompletedThankYou &&
+                    <ReviewCompletedThankYou />
+                }
                 <DataLoader
                     url={'/api/l/' + this.props.match.params.slug}
                     loadComponentData={this.loadData}
@@ -113,6 +133,28 @@ class LocaleView extends React.Component {
                                     </div>
                                 </div>
 
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
+                                <h5 className="mb-4">Review {this.state.name}</h5>
+
+                                <p className="mb-2">
+                                    Are you a current or past resident of {this.state.name}?
+                                    We'd love it if you could review your experience of living in {this.state.name}!
+                                </p>
+                                <hr />
+                                {!this.state.reviewLocaleFormOpen &&
+                                <Button onClick={this.openReviewLocaleForm} color="primary">Yes! I want to write a review</Button>
+                                }
+                                {this.state.reviewLocaleFormOpen &&
+                                <ReviewLocaleForm
+                                    localeName={this.state.name}
+                                    localeSlug={this.props.match.params.slug}
+                                    completedThankYou={this.localeReviewCompletedThankYou}
+                                    {...this.props}
+                                />
+                                }
                             </Col>
                         </Row>
                     </div>
