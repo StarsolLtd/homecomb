@@ -34,7 +34,10 @@ class PropertyView extends React.Component {
     }
 
     reviewCompletedThankYou() {
-        this.setState({reviewCompletedThankYou: true})
+        this.setState({
+            reviewCompletedThankYou: true,
+            reviewTenancyFormOpen: false
+        })
     }
 
     render() {

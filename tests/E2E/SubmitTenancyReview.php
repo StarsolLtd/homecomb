@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class TenancyReview extends PantherTestCase
+class SubmitTenancyReview extends PantherTestCase
 {
     use PropertyAutocompleteTrait;
 
@@ -46,5 +46,6 @@ class TenancyReview extends PantherTestCase
         $client->submitForm('Share your tenancy review');
 
         $client->waitFor('.review-completed-thank-you', self::TIMEOUT);
+        $client->waitForInvisibility('#review-tenancy-form', self::TIMEOUT);
     }
 }
