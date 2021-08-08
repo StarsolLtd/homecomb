@@ -19,8 +19,6 @@ class ReviewLocaleForm extends React.Component {
         super(props);
 
         this.state = {
-            localeName: this.props.localeName,
-            localeSlug: this.props.localeSlug,
             reviewerEmail: this.props.reviewerEmail,
             reviewerName: this.props.reviewerName,
             reviewTitle: '',
@@ -67,7 +65,6 @@ class ReviewLocaleForm extends React.Component {
                 spinner={<Loader active type='ball-triangle-path' />}
             >
                 <AvForm id="review-locale-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-                    <AvInput type="hidden" name="localeSlug" value={this.state.localeSlug}/>
                     {this.state.user &&
                     <AvGroup>
                         <Label for="reviewerEmail">Your email/username</Label>
@@ -184,7 +181,8 @@ class ReviewLocaleForm extends React.Component {
         this.setState({isFormSubmitting: true});
 
         let payload = {
-            localeSlug: this.state.localeSlug,
+            localeSlug: this.props.localeSlug,
+            tenancyReviewSlug: this.props.tenancyReviewSlug,
             reviewerName: this.state.reviewerName,
             reviewerEmail: this.state.reviewerEmail,
             reviewTitle: this.state.reviewTitle,
