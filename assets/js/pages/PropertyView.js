@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Button, Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import {Button, Container, Col, Row, Breadcrumb, BreadcrumbItem, Alert} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import DataLoader from "../components/DataLoader";
@@ -8,6 +8,7 @@ import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import Map from "../components/Map";
 import {Link} from "react-router-dom";
+import TenancyReviewCompletedThankYou from "../content/TenancyReviewCompletedThankYou";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class PropertyView extends React.Component {
         return (
             <Container>
                 {this.state.reviewCompletedThankYou &&
-                    <ReviewCompletedThankYou />
+                    <TenancyReviewCompletedThankYou city={this.state.city} />
                 }
                 <DataLoader
                     url={'/api/property/' + this.props.match.params.slug}

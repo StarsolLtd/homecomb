@@ -47,5 +47,6 @@ class SubmitTenancyReview extends PantherTestCase
 
         $client->waitFor('.review-completed-thank-you', self::TIMEOUT);
         $client->waitForInvisibility('#review-tenancy-form', self::TIMEOUT);
+        $client->waitForVisibility('.navigate-to-city-locale-review-form', self::TIMEOUT);
     }
 }
