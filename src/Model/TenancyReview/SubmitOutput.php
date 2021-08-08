@@ -5,14 +5,14 @@ namespace App\Model\TenancyReview;
 class SubmitOutput
 {
     private bool $success;
-    private int $entityId;
+    private string $entitySlug;
 
     public function __construct(
         bool $success,
-        int $entityId
+        string $entitySlug
     ) {
         $this->success = $success;
-        $this->entityId = $entityId;
+        $this->entitySlug = $entitySlug;
     }
 
     public function isSuccess(): bool
@@ -20,8 +20,8 @@ class SubmitOutput
         return $this->success;
     }
 
-    public function getEntityId(): int
+    public function getEntitySlug(): string
     {
-        return $this->entityId;
+        return $this->entitySlug;
     }
 }

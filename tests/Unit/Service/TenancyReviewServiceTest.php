@@ -154,7 +154,7 @@ class TenancyReviewServiceTest extends TestCase
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
-        $this->assertEquals(45, $submitOutput->getEntityId());
+        $this->assertEquals('test-tr-slug', $submitOutput->getEntitySlug());
     }
 
     /**
@@ -178,7 +178,7 @@ class TenancyReviewServiceTest extends TestCase
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
-        $this->assertEquals(45, $submitOutput->getEntityId());
+        $this->assertEquals('test-tr-slug', $submitOutput->getEntitySlug());
     }
 
     /**
@@ -262,9 +262,9 @@ class TenancyReviewServiceTest extends TestCase
 
         $this->notificationService->sendReviewModerationNotification(Argument::type(TenancyReview::class))->shouldBeCalledOnce();
 
-        $tenancyReview->getId()
-            ->shouldBeCalledOnce()
-            ->willReturn(45);
+        $tenancyReview->getId()->shouldBeCalledOnce()->willReturn(45);
+
+        $tenancyReview->getSlug()->shouldBeCalledOnce()->willReturn('test-tr-slug');
 
         return [$input, $user];
     }
