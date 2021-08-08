@@ -47,59 +47,72 @@ class LocaleView extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                                <h5 className="mb-1">Property reviews from tenants</h5>
+                            <Col md="12" className="m-0 p-0">
 
-                                {this.state.tenancyReviews.map(
-                                    ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
-                                        <Fragment>
-                                            <Review
-                                                {...this.props}
-                                                key={id}
-                                                id={id}
-                                                author={author}
-                                                start={start}
-                                                end={end}
-                                                title={title}
-                                                content={content}
-                                                property={property}
-                                                branch={branch}
-                                                agency={agency}
-                                                stars={stars}
-                                                createdAt={createdAt}
-                                                comments={comments}
-                                                positiveVotes={positiveVotes}
-                                            />
-                                            <hr />
-                                        </Fragment>
-                                    )
-                                )}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
-                                <h5 className="mb-1">Reviews of {this.state.name} from residents</h5>
+                                <ul className="nav nav-tabs">
+                                    <li className="nav-item">
+                                        <a className="nav-link active" data-toggle="tab" href="#locale-reviews-pane">{this.state.name} reviews</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" data-toggle="tab" href="#tenancy-reviews-pane">Tenancy reviews</a>
+                                    </li>
+                                </ul>
 
-                                {this.state.localeReviews.map(
-                                    ({ id, slug, author, title, content, overallStars, createdAt, positiveVotes }) => (
-                                        <Fragment>
-                                            <LocaleReview
-                                                {...this.props}
-                                                key={slug}
-                                                id={id}
-                                                slug={slug}
-                                                author={author}
-                                                title={title}
-                                                content={content}
-                                                overallStars={overallStars}
-                                                createdAt={createdAt}
-                                                positiveVotes={positiveVotes}
-                                                showVote={true}
-                                            />
-                                            <hr />
-                                        </Fragment>
-                                    )
-                                )}
+                                <div className="tab-content bg-white rounded shadow-sm p-2 pt-4 mb-4">
+                                    <div className="tab-pane active container" id="locale-reviews-pane">
+                                        <h5 className="mb-1">Reviews of {this.state.name} from residents</h5>
+
+                                        {this.state.localeReviews.map(
+                                            ({ id, slug, author, title, content, overallStars, createdAt, positiveVotes }) => (
+                                                <Fragment>
+                                                    <LocaleReview
+                                                        {...this.props}
+                                                        key={slug}
+                                                        id={id}
+                                                        slug={slug}
+                                                        author={author}
+                                                        title={title}
+                                                        content={content}
+                                                        overallStars={overallStars}
+                                                        createdAt={createdAt}
+                                                        positiveVotes={positiveVotes}
+                                                        showVote={true}
+                                                    />
+                                                    <hr />
+                                                </Fragment>
+                                            )
+                                        )}
+                                    </div>
+                                    <div className="tab-pane container" id="tenancy-reviews-pane">
+                                        <h5 className="mb-1">Property reviews from tenants in {this.state.name}</h5>
+
+                                        {this.state.tenancyReviews.map(
+                                            ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
+                                                <Fragment>
+                                                    <Review
+                                                        {...this.props}
+                                                        key={id}
+                                                        id={id}
+                                                        author={author}
+                                                        start={start}
+                                                        end={end}
+                                                        title={title}
+                                                        content={content}
+                                                        property={property}
+                                                        branch={branch}
+                                                        agency={agency}
+                                                        stars={stars}
+                                                        createdAt={createdAt}
+                                                        comments={comments}
+                                                        positiveVotes={positiveVotes}
+                                                    />
+                                                    <hr />
+                                                </Fragment>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
+
                             </Col>
                         </Row>
                     </div>
