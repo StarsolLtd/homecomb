@@ -53,7 +53,11 @@ class PropertyView extends React.Component {
                         <Breadcrumb className="w-100">
                             <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
                             {this.state.city &&
-                                <BreadcrumbItem className="city">{this.state.city.name}</BreadcrumbItem>
+                                <BreadcrumbItem className="city">
+                                    <a href={'/c/' + this.state.city.slug}>
+                                        {this.state.city.name}
+                                    </a>
+                                </BreadcrumbItem>
                             }
                             {this.state.locality &&
                                 <BreadcrumbItem className="locality">{this.state.locality}</BreadcrumbItem>
