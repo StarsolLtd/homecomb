@@ -10,16 +10,20 @@ use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\Stars;
 use App\Model\TenancyReview\SubmitInput;
 use App\Model\TenancyReview\View;
+use App\Util\TenancyReviewHelper;
 use DateTime;
 
 class TenancyReviewFactory
 {
     private FlatModelFactory $flatModelFactory;
+    private TenancyReviewHelper $tenancyReviewHelper;
 
     public function __construct(
-        FlatModelFactory $flatModelFactory
+        FlatModelFactory $flatModelFactory,
+        TenancyReviewHelper $tenancyReviewHelper
     ) {
         $this->flatModelFactory = $flatModelFactory;
+        $this->tenancyReviewHelper = $tenancyReviewHelper;
     }
 
     public function createEntity(
@@ -49,6 +53,8 @@ class TenancyReviewFactory
         if (null !== $end) {
             $tenancyReview->setEnd(new DateTime($end));
         }
+
+        $tenancyReview->setSlug($this->tenancyReviewHelper->generateSlug($tenancyReview));
 
         return $tenancyReview;
     }

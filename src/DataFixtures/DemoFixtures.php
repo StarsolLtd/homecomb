@@ -106,6 +106,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         $negativeReviewVote1 = $negativeVote1;
 
         $tenancyReviews[] = (new TenancyReview())
+            ->setSlug('tenancy-review-1')
             ->setUser($users[self::USER_1])
             ->setProperty($property249)
             ->setBranch($branches[0])
@@ -130,6 +131,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         ;
 
         $tenancyReviews[] = (new TenancyReview())
+            ->setSlug('tenancy-review-2')
             ->setUser($users[self::USER_2])
             ->setProperty($property249)
             ->setBranch($branches[0])
@@ -149,6 +151,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true);
 
         $tenancyReviews[] = (new TenancyReview())
+            ->setSlug('tenancy-review-3')
             ->setUser($users[self::USER_3])
             ->setProperty($property249)
             ->setBranch($branches[4])
@@ -168,6 +171,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true);
 
         $tenancyReviews[] = (new TenancyReview())
+            ->setSlug('tenancy-review-4')
             ->setUser($users[self::USER_3])
             ->setProperty($property25)
             ->setBranch($branches[3])
@@ -187,6 +191,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setPublished(true);
 
         $tenancyReviews[] = (new TenancyReview())
+            ->setSlug('tenancy-review-5')
             ->setUser($users[self::USER_4])
             ->setProperty($property44)
             ->setBranch($branches[4])

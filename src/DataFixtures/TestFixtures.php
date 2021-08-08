@@ -202,6 +202,7 @@ class TestFixtures extends AbstractDataFixtures
         $positiveReviewVote2 = $positiveVote2;
 
         $tenancyReview = (new TenancyReview())
+            ->setSlug('tenancy-review-test-1')
             ->setUser($user1)
             ->setProperty($property1)
             ->setBranch($branch101)
