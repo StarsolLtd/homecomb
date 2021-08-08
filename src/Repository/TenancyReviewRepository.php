@@ -61,6 +61,15 @@ class TenancyReviewRepository extends ServiceEntityRepository
         return $tenancyReview;
     }
 
+    public function findOneNullableBySlug(string $slug): ?TenancyReview
+    {
+        return $this->findOneBy(
+            [
+                'slug' => $slug,
+            ]
+        );
+    }
+
     public function findLastPublished(): ?TenancyReview
     {
         return $this->findOneBy(

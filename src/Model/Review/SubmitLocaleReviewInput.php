@@ -5,7 +5,7 @@ namespace App\Model\Review;
 class SubmitLocaleReviewInput
 {
     private string $localeSlug;
-    private ?string $code;
+    private ?string $tenancyReviewSlug;
     private ?string $reviewerName;
     private ?string $reviewerEmail;
     private ?string $reviewTitle;
@@ -15,7 +15,7 @@ class SubmitLocaleReviewInput
 
     public function __construct(
         string $localeSlug,
-        ?string $code = null,
+        ?string $tenancyReviewSlug = null,
         ?string $reviewerName = null,
         ?string $reviewerEmail = null,
         ?string $reviewTitle = null,
@@ -24,7 +24,7 @@ class SubmitLocaleReviewInput
         ?string $captchaToken = null
     ) {
         $this->localeSlug = $localeSlug;
-        $this->code = $code;
+        $this->tenancyReviewSlug = $tenancyReviewSlug;
         $this->reviewerName = $reviewerName;
         $this->reviewerEmail = $reviewerEmail;
         $this->reviewTitle = $reviewTitle;
@@ -38,9 +38,9 @@ class SubmitLocaleReviewInput
         return $this->localeSlug;
     }
 
-    public function getCode(): ?string
+    public function getTenancyReviewSlug(): ?string
     {
-        return $this->code;
+        return $this->tenancyReviewSlug;
     }
 
     public function getReviewerName(): ?string

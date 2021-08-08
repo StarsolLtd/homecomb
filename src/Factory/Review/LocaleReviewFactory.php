@@ -7,16 +7,20 @@ use App\Entity\Review\LocaleReview;
 use App\Entity\User;
 use App\Model\Review\LocaleReviewView;
 use App\Model\Review\SubmitLocaleReviewInput;
+use App\Repository\TenancyReviewRepository;
 use App\Util\ReviewHelper;
 
 class LocaleReviewFactory
 {
     private ReviewHelper $reviewHelper;
+    private TenancyReviewRepository $tenancyReviewRepository;
 
     public function __construct(
-        ReviewHelper $reviewHelper
+        ReviewHelper $reviewHelper,
+        TenancyReviewRepository $tenancyReviewRepository
     ) {
         $this->reviewHelper = $reviewHelper;
+        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntity(
@@ -32,9 +36,15 @@ class LocaleReviewFactory
             ->setAuthor($input->getReviewerName())
             ->setOverallStars($input->getOverallStars());
 
-        $localeReview->setSlug($this->reviewHelper->generateSlug($localeReview));
-
         assert($localeReview instanceof LocaleReview);
+
+        $tenancyReviewSlug = $input->getTenancyReviewSlug();
+        if (null !== $tenancyReviewSlug && '' !== $tenancyReviewSlug) {
+            $tenancyReview = $this->tenancyReviewRepository->findOneNullableBySlug($tenancyReviewSlug);
+            $localeReview->setTenancyReview($tenancyReview);
+        }
+
+        $localeReview->setSlug($this->reviewHelper->generateSlug($localeReview));
 
         return $localeReview;
     }
