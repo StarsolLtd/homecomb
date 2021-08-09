@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20210809101852 extends AbstractMigration
+final class Version20210809105921 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create district table';
+        return 'Create district table and relationships';
     }
 
     public function up(Schema $schema): void
@@ -22,6 +22,9 @@ final class Version20210809101852 extends AbstractMigration
         $this->addSql('ALTER TABLE locale ADD district_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE locale ADD CONSTRAINT FK_4180C698B08FA272 FOREIGN KEY (district_id) REFERENCES district (id)');
         $this->addSql('CREATE INDEX IDX_4180C698B08FA272 ON locale (district_id)');
+        $this->addSql('ALTER TABLE property ADD district_id INT DEFAULT NULL, CHANGE district address_district VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE property ADD CONSTRAINT FK_8BF21CDEB08FA272 FOREIGN KEY (district_id) REFERENCES district (id)');
+        $this->addSql('CREATE INDEX IDX_8BF21CDEB08FA272 ON property (district_id)');
     }
 
     public function down(Schema $schema): void
@@ -29,8 +32,11 @@ final class Version20210809101852 extends AbstractMigration
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE locale DROP FOREIGN KEY FK_4180C698B08FA272');
+        $this->addSql('ALTER TABLE property DROP FOREIGN KEY FK_8BF21CDEB08FA272');
         $this->addSql('DROP TABLE district');
         $this->addSql('DROP INDEX IDX_4180C698B08FA272 ON locale');
         $this->addSql('ALTER TABLE locale DROP district_id');
+        $this->addSql('DROP INDEX IDX_8BF21CDEB08FA272 ON property');
+        $this->addSql('ALTER TABLE property DROP district_id, CHANGE address_district district VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
     }
 }

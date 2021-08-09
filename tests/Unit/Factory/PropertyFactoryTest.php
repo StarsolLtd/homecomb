@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Factory;
 
 use App\Entity\City;
+use App\Entity\District;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
@@ -13,6 +14,7 @@ use App\Model\City\Flat;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
 use App\Service\CityService;
+use App\Service\DistrictService;
 use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -28,6 +30,7 @@ class PropertyFactoryTest extends TestCase
     private PropertyFactory $propertyFactory;
 
     private $cityService;
+    private $districtService;
     private $propertyHelper;
     private $flatModelFactory;
     private $tenancyReviewFactory;
@@ -35,12 +38,14 @@ class PropertyFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->cityService = $this->prophesize(CityService::class);
+        $this->districtService = $this->prophesize(DistrictService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
             $this->cityService->reveal(),
+            $this->districtService->reveal(),
             $this->propertyHelper->reveal(),
             $this->flatModelFactory->reveal(),
             $this->tenancyReviewFactory->reveal(),
@@ -61,7 +66,7 @@ class PropertyFactoryTest extends TestCase
             'Arbury',
             'Cambridge',
             'Cambridgeshire',
-            'Cambridge',
+            'City of Cambridge',
             'Victoria Road',
             'England',
             'CB4 3LF',
@@ -70,6 +75,7 @@ class PropertyFactoryTest extends TestCase
             true
         );
         $city = $this->prophesize(City::class);
+        $district = $this->prophesize(District::class);
 
         $this->propertyHelper->generateSlug(Argument::type(Property::class))
             ->shouldBeCalledOnce()
@@ -78,6 +84,10 @@ class PropertyFactoryTest extends TestCase
         $this->cityService->findOrCreate('Cambridge', 'Cambridgeshire', 'UK')
             ->shouldBeCalledOnce()
             ->willReturn($city);
+
+        $this->districtService->findOrCreate('City of Cambridge', 'Cambridgeshire', 'UK')
+            ->shouldBeCalledOnce()
+            ->willReturn($district);
 
         $property = $this->propertyFactory->createEntityFromVendorPropertyModel($vendorPropertyModel);
 
@@ -88,17 +98,19 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals('', $property->getAddressLine4());
         $this->assertEquals('Arbury', $property->getLocality());
         $this->assertEquals('Cambridge', $property->getAddressCity());
+        $this->assertEquals('City of Cambridge', $property->getAddressDistrict());
         $this->assertEquals('Cambridgeshire', $property->getCounty());
         $this->assertEquals('Victoria Road', $property->getThoroughfare());
         $this->assertEquals('CB4 3LF', $property->getPostcode());
         $this->assertEquals(52.10101, $property->getLatitude());
         $this->assertEquals(-0.47261, $property->getLongitude());
         $this->assertEquals($city->reveal(), $property->getCity());
+        $this->assertEquals($district->reveal(), $property->getDistrict());
     }
 
     /**
      * @covers \App\Factory\PropertyFactory::createEntityFromVendorPropertyModel
-     * Test throws exception if vendor vendor property ID is null
+     * Test throws exception if vendor property ID is null
      */
     public function testCreatePropertyEntityFromVendorPropertyModel2(): void
     {

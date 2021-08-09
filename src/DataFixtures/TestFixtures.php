@@ -144,7 +144,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
-            ->setDistrict("King's Lynn And West Norfolk")
+            ->setAddressDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_2_SLUG);
@@ -155,7 +155,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
-            ->setDistrict("King's Lynn And West Norfolk")
+            ->setAddressDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_3_SLUG);
@@ -166,7 +166,7 @@ class TestFixtures extends AbstractDataFixtures
             ->setAddressLine2('Lynn Road')
             ->setPostcode('PE31 8RP')
             ->setCity($kingsLynn)
-            ->setDistrict("King's Lynn And West Norfolk")
+            ->setAddressDistrict("King's Lynn And West Norfolk")
             ->setThoroughfare('Lynn Road')
             ->setCountryCode('UK')
             ->setSlug(self::TEST_PROPERTY_4_SLUG);

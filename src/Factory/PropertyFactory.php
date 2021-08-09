@@ -8,6 +8,7 @@ use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
 use App\Service\CityService;
+use App\Service\DistrictService;
 use App\Util\PropertyHelper;
 use function json_decode;
 
@@ -16,17 +17,20 @@ class PropertyFactory
     private const COUNTRY_CODE = 'UK';
 
     private CityService $cityService;
+    private DistrictService $districtService;
     private PropertyHelper $propertyHelper;
     private FlatModelFactory $flatModelFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         CityService $cityService,
+        DistrictService $districtService,
         PropertyHelper $propertyHelper,
         FlatModelFactory $flatModelFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->cityService = $cityService;
+        $this->districtService = $districtService;
         $this->propertyHelper = $propertyHelper;
         $this->flatModelFactory = $flatModelFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
@@ -40,6 +44,7 @@ class PropertyFactory
         }
 
         $addressCity = $vendorProperty->getCity();
+        $addressDistrict = $vendorProperty->getDistrict();
         $addressCounty = $vendorProperty->getCounty();
 
         $property = (new Property())
@@ -52,7 +57,7 @@ class PropertyFactory
             ->setCounty($addressCounty)
             ->setPostcode($vendorProperty->getPostcode())
             ->setCountryCode(self::COUNTRY_CODE)
-            ->setDistrict($vendorProperty->getDistrict())
+            ->setAddressDistrict($addressDistrict)
             ->setThoroughfare($vendorProperty->getThoroughFare())
             ->setLatitude($vendorProperty->getLatitude())
             ->setLongitude($vendorProperty->getLongitude())
@@ -61,8 +66,12 @@ class PropertyFactory
         $this->propertyHelper->generateSlug($property);
 
         $city = $this->cityService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
-
         $property->setCity($city);
+
+        if (null !== $addressDistrict) {
+            $district = $this->districtService->findOrCreate($addressDistrict, $addressCounty, self::COUNTRY_CODE);
+            $property->setDistrict($district);
+        }
 
         return $property;
     }
