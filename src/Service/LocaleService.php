@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\City;
+use App\Entity\District;
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
@@ -11,6 +13,7 @@ use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
+use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -21,17 +24,20 @@ class LocaleService
     private LocaleFactory $localeFactory;
     private LocaleRepository $localeRepository;
     private CityLocaleRepository $cityLocaleRepository;
+    private DistrictLocaleRepository $districtLocaleRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         LocaleFactory $localeFactory,
         LocaleRepository $localeRepository,
-        CityLocaleRepository $cityLocaleRepository
+        CityLocaleRepository $cityLocaleRepository,
+        DistrictLocaleRepository $districtLocaleRepository
     ) {
         $this->entityManager = $entityManager;
         $this->localeFactory = $localeFactory;
         $this->localeRepository = $localeRepository;
         $this->cityLocaleRepository = $cityLocaleRepository;
+        $this->districtLocaleRepository = $districtLocaleRepository;
     }
 
     public function getViewBySlug(string $slug): View
@@ -55,6 +61,22 @@ class LocaleService
         $this->entityManager->flush();
 
         return $cityLocale;
+    }
+
+    public function findOrCreateByDistrict(District $district): DistrictLocale
+    {
+        $districtLocale = $this->districtLocaleRepository->findOneNullableByDistrict($district);
+
+        if (null !== $districtLocale) {
+            return $districtLocale;
+        }
+
+        $districtLocale = $this->localeFactory->createDistrictLocaleEntity($district);
+
+        $this->entityManager->persist($districtLocale);
+        $this->entityManager->flush();
+
+        return $districtLocale;
     }
 
     // TODO replace with version in factory

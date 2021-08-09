@@ -5,7 +5,9 @@ namespace App\Tests\Unit\Factory;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
+use App\Entity\District;
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
@@ -182,6 +184,26 @@ class LocaleFactoryTest extends TestCase
 
         $this->assertEquals('Ely', $entity->getName());
         $this->assertEquals('test-slug', $entity->getSlug());
+        $this->assertTrue($entity->isPublished());
+    }
+
+    /**
+     * @covers \App\Factory\LocaleFactory::createDistrictLocaleEntity
+     */
+    public function testCreateDistrictLocaleEntity1(): void
+    {
+        $district = $this->prophesize(District::class);
+
+        $district->getName()->shouldBeCalledOnce()->willReturn('East Cambridgeshire');
+
+        $this->localeHelper->generateSlug(Argument::type(DistrictLocale::class))
+            ->shouldBeCalledOnce()
+            ->willReturn('test-district-slug');
+
+        $entity = $this->localeFactory->createDistrictLocaleEntity($district->reveal());
+
+        $this->assertEquals('East Cambridgeshire', $entity->getName());
+        $this->assertEquals('test-district-slug', $entity->getSlug());
         $this->assertTrue($entity->isPublished());
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 
 class LocaleHelper
@@ -12,6 +13,8 @@ class LocaleHelper
         $type = 'Locale';
         if ($locale instanceof CityLocale) {
             $type = 'City';
+        } elseif ($locale instanceof DistrictLocale) {
+            $type = 'District';
         }
 
         $fields = implode('_', [
