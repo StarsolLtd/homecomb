@@ -6,6 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
+use App\Entity\District;
 use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\Review\LocaleReview;
@@ -56,6 +57,7 @@ class TestFixtures extends AbstractDataFixtures
     protected function doLoad(ObjectManager $manager): void
     {
         $this->loadCities($manager);
+        $this->loadDistricts($manager);
 
         $user1 = (new User())
             ->setEmail(self::TEST_USER_STANDARD_EMAIL)
@@ -327,5 +329,37 @@ class TestFixtures extends AbstractDataFixtures
 
         $this->addReference('city-cambridge', $cambridge);
         $this->addReference('city-kings-lynn', $kingsLynn);
+    }
+
+    private function loadDistricts(ObjectManager $manager): void
+    {
+        $cambridge = (new District())
+            ->setName('Cambridge')
+            ->setCounty('Cambridgeshire')
+            ->setSlug('test-district-slug-1')
+            ->setCountryCode('UK')
+        ;
+
+        $eastCambridgeshire = (new District())
+            ->setName('East Cambridgeshire')
+            ->setCounty('Cambridgeshire')
+            ->setSlug('test-district-slug-2')
+            ->setCountryCode('UK')
+        ;
+
+        $kingsLynn = (new District())
+            ->setName("King's Lynn And West Norfolk")
+            ->setCounty('Norfolk')
+            ->setSlug('test-district-slug-3')
+            ->setCountryCode('UK')
+        ;
+
+        $manager->persist($cambridge);
+        $manager->persist($eastCambridgeshire);
+        $manager->persist($kingsLynn);
+
+        $this->addReference('district-cambridge', $cambridge);
+        $this->addReference('district-east-cambridgeshire', $eastCambridgeshire);
+        $this->addReference('district-kings-lynn', $kingsLynn);
     }
 }
