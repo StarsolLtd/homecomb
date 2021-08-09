@@ -10,7 +10,8 @@ use App\Exception\DeveloperException;
 use App\Factory\FlatModelFactory;
 use App\Factory\PropertyFactory;
 use App\Factory\TenancyReviewFactory;
-use App\Model\City\Flat;
+use App\Model\City\Flat as FlatCity;
+use App\Model\District\Flat as FlatDistrict;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
 use App\Service\CityService;
@@ -153,6 +154,12 @@ class PropertyFactoryTest extends TestCase
             ->setCounty('Cambridgeshire')
             ->setCountryCode('UK');
 
+        $district = (new District())
+            ->setSlug('test-district-slug')
+            ->setName('City of Cambridge')
+            ->setCounty('Cambridgeshire')
+            ->setCountryCode('UK');
+
         $property = (new Property())
             ->setSlug('propertyslug')
             ->setAddressLine1('29 Bateman Street')
@@ -162,6 +169,7 @@ class PropertyFactoryTest extends TestCase
             ->setLatitude(52.19547)
             ->setLongitude(0.1283)
             ->setCity($city)
+            ->setDistrict($district)
             ->addTenancyReview($review1)
             ->addTenancyReview($review2)
         ;
@@ -175,11 +183,17 @@ class PropertyFactoryTest extends TestCase
             ->willReturn($review2View)
         ;
 
-        $cityFlatModel = $this->prophesize(Flat::class);
+        $cityFlatModel = $this->prophesize(FlatCity::class);
 
         $this->flatModelFactory->getCityFlatModel($city)
             ->shouldBeCalledOnce()
             ->willReturn($cityFlatModel);
+
+        $districtFlatModel = $this->prophesize(FlatDistrict::class);
+
+        $this->flatModelFactory->getDistrictFlatModel($district)
+            ->shouldBeCalledOnce()
+            ->willReturn($districtFlatModel);
 
         $view = $this->propertyFactory->createViewFromEntity($property);
 
@@ -192,6 +206,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(0.1283, $view->getLongitude());
         $this->assertCount(2, $view->getTenancyReviews());
         $this->assertEquals($cityFlatModel->reveal(), $view->getCity());
+        $this->assertEquals($districtFlatModel->reveal(), $view->getDistrict());
     }
 
     /**

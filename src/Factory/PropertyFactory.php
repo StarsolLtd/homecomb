@@ -86,6 +86,9 @@ class PropertyFactory
         $cityEntity = $entity->getCity();
         $city = null !== $cityEntity ? $this->flatModelFactory->getCityFlatModel($cityEntity) : null;
 
+        $districtEntity = $entity->getDistrict();
+        $district = null !== $districtEntity ? $this->flatModelFactory->getDistrictFlatModel($districtEntity) : null;
+
         return new View(
             $entity->getSlug(),
             $entity->getAddressLine1(),
@@ -95,7 +98,8 @@ class PropertyFactory
             $tenancyReviews,
             $entity->getLatitude(),
             $entity->getLongitude(),
-            $city
+            $city,
+            $district,
         );
     }
 
