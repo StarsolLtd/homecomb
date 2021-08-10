@@ -15,6 +15,6 @@ class CityControllerTest extends WebTestCase
         $client->request('GET', '/c/'.TestFixtures::TEST_CITY_KINGS_LYNN_SLUG);
 
         $this->assertEquals(Response::HTTP_MOVED_PERMANENTLY, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString('/l/88b5dd5f8b7', $client->getResponse()->getContent());
+        $this->assertStringContainsString('/l/test-city-locale-slug', $client->getResponse()->getContent());
     }
 }

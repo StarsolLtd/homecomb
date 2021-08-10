@@ -93,7 +93,7 @@ php-test:
 	make php-test-unit php-test-functional php-test-end
 
 php-test-controller:
-	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional/Repository
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional/Controller
 
 php-test-repository:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional/Repository
