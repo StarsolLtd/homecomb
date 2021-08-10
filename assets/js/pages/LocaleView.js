@@ -82,26 +82,23 @@ class LocaleView extends React.Component {
                                     <div className="tab-pane active container" id="locale-reviews-pane">
                                         <h5 className="mb-1">Reviews of {this.state.name} from residents</h5>
 
-                                        {this.state.localeReviews.map(
+                                        {this.state.localeReviews.length > 0 && this.state.localeReviews.map(
                                             ({ id, slug, author, title, content, overallStars, createdAt, positiveVotes }) => (
-                                                <Fragment>
-                                                    <LocaleReview
-                                                        {...this.props}
-                                                        key={slug}
-                                                        id={id}
-                                                        slug={slug}
-                                                        author={author}
-                                                        title={title}
-                                                        content={content}
-                                                        overallStars={overallStars}
-                                                        createdAt={createdAt}
-                                                        positiveVotes={positiveVotes}
-                                                        showVote={true}
-                                                    />
-                                                    <hr />
-                                                </Fragment>
+                                                <LocaleReview
+                                                    {...this.props}
+                                                    key={slug}
+                                                    id={id}
+                                                    slug={slug}
+                                                    author={author}
+                                                    title={title}
+                                                    content={content}
+                                                    overallStars={overallStars}
+                                                    createdAt={createdAt}
+                                                    positiveVotes={positiveVotes}
+                                                    showVote={true}
+                                                />
                                             )
-                                        )}
+                                        ).reduce((prev, curr) => [prev, <hr />, curr])}
 
                                         {this.state.localeReviews.length === 0 &&
                                             <Fragment>
@@ -115,30 +112,27 @@ class LocaleView extends React.Component {
                                     <div className="tab-pane container" id="tenancy-reviews-pane">
                                         <h5 className="mb-1">Property reviews from tenants in {this.state.name}</h5>
 
-                                        {this.state.tenancyReviews.map(
+                                        {this.state.tenancyReviews.length > 0 && this.state.tenancyReviews.map(
                                             ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
-                                                <Fragment>
-                                                    <Review
-                                                        {...this.props}
-                                                        key={id}
-                                                        id={id}
-                                                        author={author}
-                                                        start={start}
-                                                        end={end}
-                                                        title={title}
-                                                        content={content}
-                                                        property={property}
-                                                        branch={branch}
-                                                        agency={agency}
-                                                        stars={stars}
-                                                        createdAt={createdAt}
-                                                        comments={comments}
-                                                        positiveVotes={positiveVotes}
-                                                    />
-                                                    <hr />
-                                                </Fragment>
+                                                <Review
+                                                    {...this.props}
+                                                    key={id}
+                                                    id={id}
+                                                    author={author}
+                                                    start={start}
+                                                    end={end}
+                                                    title={title}
+                                                    content={content}
+                                                    property={property}
+                                                    branch={branch}
+                                                    agency={agency}
+                                                    stars={stars}
+                                                    createdAt={createdAt}
+                                                    comments={comments}
+                                                    positiveVotes={positiveVotes}
+                                                />
                                             )
-                                        )}
+                                        ).reduce((prev, curr) => [prev, <hr />, curr])}
 
                                         {this.state.tenancyReviews.length === 0 &&
                                             <Fragment>

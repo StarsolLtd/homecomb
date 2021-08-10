@@ -41,33 +41,28 @@ class BranchView extends React.Component {
                             <Col xs="12" md="8">
                                 <h5 className="mb-1">Reviews from tenants</h5>
 
-                                {this.state.tenancyReviews.map(
+                                {this.state.tenancyReviews.length > 0 && this.state.tenancyReviews.map(
                                     ({ id, author, title, content, start, end, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
-                                        <Fragment key={id}>
-                                            <Review
-                                                {...this.props}
-                                                key={id}
-                                                id={id}
-                                                author={author}
-                                                start={start}
-                                                end={end}
-                                                title={title}
-                                                content={content}
-                                                property={property}
-                                                branch={branch}
-                                                agency={agency}
-                                                stars={stars}
-                                                createdAt={createdAt}
-                                                comments={comments}
-                                                positiveVotes={positiveVotes}
-                                                showBranch={false}
-                                            >
-                                            </Review>
-                                            <hr />
-                                        </Fragment>
+                                        <Review
+                                            {...this.props}
+                                            key={id}
+                                            id={id}
+                                            author={author}
+                                            start={start}
+                                            end={end}
+                                            title={title}
+                                            content={content}
+                                            property={property}
+                                            branch={branch}
+                                            agency={agency}
+                                            stars={stars}
+                                            createdAt={createdAt}
+                                            comments={comments}
+                                            positiveVotes={positiveVotes}
+                                            showBranch={false}
+                                        />
                                     )
-                                )}
-
+                                ).reduce((prev, curr) => [prev, <hr />, curr])}
                             </Col>
 
                             <Col md="4" className="d-sm-none d-md-block branch-agency">
