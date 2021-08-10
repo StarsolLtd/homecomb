@@ -11,6 +11,7 @@ class CityFixtures extends AbstractDataFixtures
     private CityHelper $cityHelper;
 
     public const CAMBRIDGE_SLUG = '4ab26f4387989e70';
+    public const KINGS_LYNN_SLUG = '8475b53127850aba';
 
     public function __construct(
         CityHelper $cityHelper
@@ -31,6 +32,13 @@ class CityFixtures extends AbstractDataFixtures
             ->setName('Cambridge')
             ->setCounty('Cambridgeshire')
             ->setSlug(self::CAMBRIDGE_SLUG)
+            ->setCountryCode('UK')
+        ;
+
+        $cities[] = (new City())
+            ->setName("King's Lynn")
+            ->setCounty('Norfolk')
+            ->setSlug(self::KINGS_LYNN_SLUG)
             ->setCountryCode('UK')
         ;
 

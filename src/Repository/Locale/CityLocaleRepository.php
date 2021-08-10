@@ -22,17 +22,8 @@ class CityLocaleRepository extends ServiceEntityRepository
 
     public function findOneNullableByCity(City $city): ?CityLocale
     {
-        $qb = $this->createQueryBuilder('l');
-        $qb->where($qb->expr()->isInstanceOf('l', CityLocale::class))
-            ->andWhere('l.city = :city')
-            ->setMaxResults(1)
-            ->setParameter('city', $city)
-        ;
-
-        $query = $qb->getQuery();
-
-        $result = $query->getResult();
-
-        return $result[0] ?? null;
+        return $this->findOneBy([
+            'city' => $city,
+        ]);
     }
 }

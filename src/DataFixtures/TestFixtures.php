@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\District;
+use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\Review\LocaleReview;
@@ -306,7 +307,19 @@ class TestFixtures extends AbstractDataFixtures
             ->setSlug(self::TEST_REVIEW_SLUG_1)
             ->setPublished(true)
         ;
+
         $manager->persist($localeReview);
+
+        /** @var City $kingsLynn */
+        $kingsLynnCity = $this->getReference('city-kings-lynn');
+
+        $cityLocale = (new CityLocale())
+            ->setName("King's Lynn")
+            ->setSlug(self::TEST_CITY_KINGS_LYNN_SLUG)
+            ->setPublished(true)
+            ->setCity($kingsLynnCity)
+        ;
+        $manager->persist($cityLocale);
     }
 
     private function loadCities(ObjectManager $manager): void

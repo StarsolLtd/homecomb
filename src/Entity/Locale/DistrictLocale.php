@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Locale\DistrictLocaleRepository")
- * @ORM\Entity
  */
 class DistrictLocale extends Locale
 {
