@@ -37,7 +37,7 @@ class Locale
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=false)
      */
     private string $name;
 
