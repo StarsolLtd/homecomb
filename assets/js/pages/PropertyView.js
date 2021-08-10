@@ -91,32 +91,28 @@ class PropertyView extends React.Component {
                         <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
                             <h5 className="mb-1">Reviews from tenants</h5>
 
-                            {this.state.tenancyReviews.map(
+                            {this.state.tenancyReviews.length > 0 && this.state.tenancyReviews.map(
                                 ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt, comments, positiveVotes }) => (
-                                    <Fragment key={id}>
-                                        <Review
-                                            {...this.props}
-                                            key={id}
-                                            id={id}
-                                            author={author}
-                                            start={start}
-                                            end={end}
-                                            title={title}
-                                            content={content}
-                                            property={property}
-                                            branch={branch}
-                                            agency={agency}
-                                            stars={stars}
-                                            createdAt={createdAt}
-                                            comments={comments}
-                                            positiveVotes={positiveVotes}
-                                            showProperty={false}
-                                        >
-                                        </Review>
-                                        <hr />
-                                    </Fragment>
+                                    <Review
+                                        {...this.props}
+                                        key={id}
+                                        id={id}
+                                        author={author}
+                                        start={start}
+                                        end={end}
+                                        title={title}
+                                        content={content}
+                                        property={property}
+                                        branch={branch}
+                                        agency={agency}
+                                        stars={stars}
+                                        createdAt={createdAt}
+                                        comments={comments}
+                                        positiveVotes={positiveVotes}
+                                        showProperty={false}
+                                    />
                                 )
-                            )}
+                            ).reduce((prev, curr) => [prev, <hr />, curr])}
 
                             {this.state.tenancyReviews.length === 0 &&
                             <Fragment>
@@ -183,25 +179,22 @@ class PropertyView extends React.Component {
                                              overallStars,
                                              createdAt,
                                              positiveVotes
-                                         }) => (
-                                            <Fragment>
-                                                <LocaleReview
-                                                    {...this.props}
-                                                    key={slug}
-                                                    id={id}
-                                                    slug={slug}
-                                                    author={author}
-                                                    title={title}
-                                                    content={content}
-                                                    overallStars={overallStars}
-                                                    createdAt={createdAt}
-                                                    positiveVotes={positiveVotes}
-                                                    showVote={true}
-                                                />
-                                                <hr/>
-                                            </Fragment>
+                                        }) => (
+                                            <LocaleReview
+                                                {...this.props}
+                                                key={slug}
+                                                id={id}
+                                                slug={slug}
+                                                author={author}
+                                                title={title}
+                                                content={content}
+                                                overallStars={overallStars}
+                                                createdAt={createdAt}
+                                                positiveVotes={positiveVotes}
+                                                showVote={true}
+                                            />
                                         )
-                                    )}
+                                    ).reduce((prev, curr) => [prev, <hr />, curr])}
                                 </div>
                             </div>
                             }
