@@ -22,17 +22,8 @@ class DistrictLocaleRepository extends ServiceEntityRepository
 
     public function findOneNullableByDistrict(District $district): ?DistrictLocale
     {
-        $qb = $this->createQueryBuilder('l');
-        $qb->where($qb->expr()->isInstanceOf('l', DistrictLocale::class))
-            ->andWhere('l.district = :district')
-            ->setMaxResults(1)
-            ->setParameter('district', $district)
-        ;
-
-        $query = $qb->getQuery();
-
-        $result = $query->getResult();
-
-        return $result[0] ?? null;
+        return $this->findOneBy([
+            'district' => $district,
+        ]);
     }
 }

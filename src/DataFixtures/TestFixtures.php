@@ -8,6 +8,7 @@ use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\District;
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\Review\LocaleReview;
@@ -34,6 +35,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_CITY_KINGS_LYNN_SLUG = '8475b53127850aba';
+    public const TEST_DISTRICT_ISLINGTON_SLUG = 'f9a1d092051730ae';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
     public const TEST_PROPERTY_1_SLUG = 'property-1-slug';
@@ -310,16 +312,27 @@ class TestFixtures extends AbstractDataFixtures
 
         $manager->persist($localeReview);
 
-        /** @var City $kingsLynn */
+        /** @var City $kingsLynnCity */
         $kingsLynnCity = $this->getReference('city-kings-lynn');
 
         $cityLocale = (new CityLocale())
-            ->setName("King's Lynn")
-            ->setSlug(self::TEST_CITY_KINGS_LYNN_SLUG)
-            ->setPublished(true)
             ->setCity($kingsLynnCity)
+            ->setName("King's Lynn")
+            ->setSlug('test-city-locale-slug')
+            ->setPublished(true)
         ;
         $manager->persist($cityLocale);
+
+        /** @var District $islingtonDistrict */
+        $islingtonDistrict = $this->getReference('district-islington');
+
+        $districtLocale = (new DistrictLocale())
+            ->setDistrict($islingtonDistrict)
+            ->setName('Islington')
+            ->setSlug('test-district-locale-slug')
+            ->setPublished(true)
+        ;
+        $manager->persist($districtLocale);
     }
 
     private function loadCities(ObjectManager $manager): void
@@ -361,19 +374,27 @@ class TestFixtures extends AbstractDataFixtures
             ->setCountryCode('UK')
         ;
 
+        $islington = (new District())
+            ->setName('Islington')
+            ->setSlug(self::TEST_DISTRICT_ISLINGTON_SLUG)
+            ->setCountryCode('UK')
+        ;
+
         $kingsLynn = (new District())
             ->setName("King's Lynn And West Norfolk")
             ->setCounty('Norfolk')
-            ->setSlug('test-district-slug-3')
+            ->setSlug('test-district-slug-4')
             ->setCountryCode('UK')
         ;
 
         $manager->persist($cambridge);
         $manager->persist($eastCambridgeshire);
+        $manager->persist($islington);
         $manager->persist($kingsLynn);
 
         $this->addReference('district-cambridge', $cambridge);
         $this->addReference('district-east-cambridgeshire', $eastCambridgeshire);
+        $this->addReference('district-islington', $islington);
         $this->addReference('district-kings-lynn', $kingsLynn);
     }
 }
