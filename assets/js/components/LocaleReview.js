@@ -27,6 +27,8 @@ class LocaleReview extends React.Component {
                     </p>
                 </div>
 
+                <h3>{this.props.title}</h3>
+
                 <p>{this.props.content}</p>
 
                 <ReviewStars overall={this.props.overallStars} />
