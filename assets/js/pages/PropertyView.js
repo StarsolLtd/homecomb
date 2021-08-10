@@ -17,6 +17,7 @@ class PropertyView extends React.Component {
             locality: null,
             postcode: '',
             city: null,
+            district: null,
             tenancyReviews: [],
             reviewTenancyFormOpen: false,
             loaded: false,
@@ -56,6 +57,13 @@ class PropertyView extends React.Component {
                                 <BreadcrumbItem className="city">
                                     <a href={'/c/' + this.state.city.slug}>
                                         {this.state.city.name}
+                                    </a>
+                                </BreadcrumbItem>
+                            }
+                            {this.showDistrictInBreadcrumb() &&
+                                <BreadcrumbItem className="district">
+                                    <a href={'/d/' + this.state.district.slug}>
+                                        {this.state.district.name}
                                     </a>
                                 </BreadcrumbItem>
                             }
@@ -149,6 +157,10 @@ class PropertyView extends React.Component {
         );
     }
 
+    showDistrictInBreadcrumb() {
+        return this.state.district && this.state.city.name === 'London';
+    }
+
     loadData(data) {
         this.setState({
             addressLine1: data.addressLine1,
@@ -158,6 +170,7 @@ class PropertyView extends React.Component {
             longitude: data.longitude,
             tenancyReviews: data.tenancyReviews,
             city: data.city,
+            district: data.district,
             loaded: true,
         });
 

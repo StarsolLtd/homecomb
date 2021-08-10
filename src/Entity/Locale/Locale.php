@@ -19,6 +19,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *     "City" = "CityLocale",
+ *     "District" = "DistrictLocale",
  *     "Locale" = "Locale",
  * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
@@ -36,7 +37,7 @@ class Locale
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=false)
      */
     private string $name;
 

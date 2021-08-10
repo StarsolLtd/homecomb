@@ -3,7 +3,9 @@
 namespace App\Factory;
 
 use App\Entity\City;
+use App\Entity\District;
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
@@ -65,6 +67,20 @@ class LocaleFactory
         assert($cityLocale instanceof CityLocale);
 
         return $cityLocale;
+    }
+
+    public function createDistrictLocaleEntity(District $district): DistrictLocale
+    {
+        $districtLocale = (new DistrictLocale())
+            ->setDistrict($district)
+            ->setName($district->getName())
+            ->setPublished(true);
+
+        $districtLocale->setSlug($this->localeHelper->generateSlug($districtLocale));
+
+        assert($districtLocale instanceof DistrictLocale);
+
+        return $districtLocale;
     }
 
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary

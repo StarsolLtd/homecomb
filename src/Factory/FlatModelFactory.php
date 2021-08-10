@@ -6,12 +6,14 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\Comment;
+use App\Entity\District;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\City\Flat as FlatCity;
 use App\Model\Comment\Flat as FlatComment;
+use App\Model\District\Flat as FlatDistrict;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\User\Flat as FlatUser;
 
@@ -63,6 +65,18 @@ class FlatModelFactory
             $user->getFirstName().' '.$user->getLastName(),
             $entity->getContent(),
             $entity->getCreatedAt(),
+        );
+    }
+
+    public function getDistrictFlatModel(District $entity): FlatDistrict
+    {
+        return new FlatDistrict(
+            $entity->getSlug(),
+            $entity->getName(),
+            $entity->getCounty(),
+            $entity->getCountryCode(),
+            $entity->getType(),
+            $entity->isPublished(),
         );
     }
 

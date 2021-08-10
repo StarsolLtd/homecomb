@@ -5,12 +5,15 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
+use App\Entity\District;
 use App\Entity\Locale\CityLocale;
+use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
+use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
 use App\Service\LocaleService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -32,6 +35,7 @@ class LocaleServiceTest extends TestCase
     private $localeFactory;
     private $localeRepository;
     private $cityLocaleRepository;
+    private $districtLocaleRepository;
 
     public function setUp(): void
     {
@@ -39,12 +43,14 @@ class LocaleServiceTest extends TestCase
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
         $this->localeRepository = $this->prophesize(LocaleRepository::class);
         $this->cityLocaleRepository = $this->prophesize(CityLocaleRepository::class);
+        $this->districtLocaleRepository = $this->prophesize(DistrictLocaleRepository::class);
 
         $this->localeService = new LocaleService(
             $this->entityManager->reveal(),
             $this->localeFactory->reveal(),
             $this->localeRepository->reveal(),
             $this->cityLocaleRepository->reveal(),
+            $this->districtLocaleRepository->reveal(),
         );
     }
 
@@ -105,6 +111,44 @@ class LocaleServiceTest extends TestCase
         $output = $this->localeService->findOrCreateByCity($city->reveal());
 
         $this->assertEquals($output, $cityLocale->reveal());
+    }
+
+    /**
+     * @covers \App\Service\LocaleService::findOrCreateByDistrict
+     * Test a pre-existing DistrictLocale is returned.
+     */
+    public function testFindOrCreateByDistrict1()
+    {
+        $district = $this->prophesize(District::class);
+        $districtLocale = $this->prophesize(DistrictLocale::class);
+
+        $this->districtLocaleRepository->findOneNullableByDistrict($district)->shouldBeCalledOnce()->willReturn($districtLocale);
+
+        $this->assertEntityManagerUnused();
+
+        $output = $this->localeService->findOrCreateByDistrict($district->reveal());
+
+        $this->assertEquals($output, $districtLocale->reveal());
+    }
+
+    /**
+     * @covers \App\Service\LocaleService::findOrCreateByDistrict
+     * Test a DistrictLocale is created if one does not already exist.
+     */
+    public function testFindOrCreateByDistrict2()
+    {
+        $district = $this->prophesize(District::class);
+        $districtLocale = $this->prophesize(DistrictLocale::class);
+
+        $this->districtLocaleRepository->findOneNullableByDistrict($district)->shouldBeCalledOnce()->willReturn(null);
+
+        $this->localeFactory->createDistrictLocaleEntity($district)->shouldBeCalledOnce()->willReturn($districtLocale);
+
+        $this->assertEntitiesArePersistedAndFlush([$districtLocale]);
+
+        $output = $this->localeService->findOrCreateByDistrict($district->reveal());
+
+        $this->assertEquals($output, $districtLocale->reveal());
     }
 
     /**

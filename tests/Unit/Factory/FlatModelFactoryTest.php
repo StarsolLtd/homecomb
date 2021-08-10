@@ -6,6 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
+use App\Entity\District;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Factory\FlatModelFactory;
@@ -117,6 +118,30 @@ class FlatModelFactoryTest extends TestCase
         $this->assertEquals('Cecilia Marina', $model->getAuthor());
         $this->assertEquals($content, $model->getContent());
         $this->assertEquals($createdAt, $model->getCreatedAt());
+    }
+
+    /**
+     * @covers \App\Factory\FlatModelFactory::getDistrictFlatModel
+     */
+    public function testGetDistrictFlatModel(): void
+    {
+        $district = $this->prophesize(District::class);
+
+        $district->getSlug()->shouldBeCalledOnce()->willReturn('test-district-slug');
+        $district->getName()->shouldBeCalledOnce()->willReturn('Islington');
+        $district->getCounty()->shouldBeCalledOnce()->willReturn(null);
+        $district->getType()->shouldBeCalledOnce()->willReturn('Borough');
+        $district->getCountryCode()->shouldBeCalledOnce()->willReturn('UK');
+        $district->isPublished()->shouldBeCalledOnce()->willReturn(true);
+
+        $model = $this->flatModelFactory->getDistrictFlatModel($district->reveal());
+
+        $this->assertEquals('test-district-slug', $model->getSlug());
+        $this->assertEquals('Islington', $model->getName());
+        $this->assertNull($model->getCounty());
+        $this->assertEquals('Borough', $model->getType());
+        $this->assertEquals('UK', $model->getCountryCode());
+        $this->assertTrue($model->isPublished());
     }
 
     /**

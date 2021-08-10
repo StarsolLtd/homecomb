@@ -68,7 +68,7 @@ class Property
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $district;
+    private ?string $addressDistrict;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -110,6 +110,12 @@ class Property
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id", nullable=true)
      */
     private ?City $city = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="District", inversedBy="properties")
+     * @ORM\JoinColumn(name="district_id", referencedColumnName="id", nullable=true)
+     */
+    private ?District $district = null;
 
     /**
      * @var Collection<int, TenancyReview>
@@ -216,14 +222,14 @@ class Property
         return $this;
     }
 
-    public function getDistrict(): ?string
+    public function getAddressDistrict(): ?string
     {
-        return $this->district;
+        return $this->addressDistrict;
     }
 
-    public function setDistrict(?string $district): self
+    public function setAddressDistrict(?string $addressDistrict): self
     {
-        $this->district = $district;
+        $this->addressDistrict = $addressDistrict;
 
         return $this;
     }
@@ -320,6 +326,18 @@ class Property
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?District
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?District $district): self
+    {
+        $this->district = $district;
 
         return $this;
     }

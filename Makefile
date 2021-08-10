@@ -92,10 +92,14 @@ php-cs-fixer:
 php-test:
 	make php-test-unit php-test-functional php-test-end
 
+php-test-controller:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional/Controller
+
+php-test-repository:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional/Repository
+
 php-test-functional:
-	make copy-test-env-to-local load-fixtures
-	docker exec -it homecomb_php_1 vendor/bin/phpunit --no-coverage tests/Functional
-	make clear-env-local
+	make copy-test-env-to-local load-fixtures php-test-controller php-test-repository clear-env-local
 
 php-test-functional-coverage:
 	make copy-test-env-to-local load-fixtures

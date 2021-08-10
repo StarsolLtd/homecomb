@@ -55,9 +55,12 @@ class LocaleFixtures extends AbstractDataFixtures
 
         /** @var City $cambridgeCity */
         $cambridgeCity = $this->getReference('city-'.CityFixtures::CAMBRIDGE_SLUG);
+        /** @var City $kingsLynnCity */
+        $kingsLynnCity = $this->getReference('city-'.CityFixtures::KINGS_LYNN_SLUG);
 
         $locales = [
             'Cambridge' => (new CityLocale())->setCity($cambridgeCity)->setName('Cambridge'),
+            "King's Lynn" => (new CityLocale())->setCity($kingsLynnCity)->setName("King's Lynn"),
         ];
         foreach ($localeNames as $localeName) {
             $locales[$localeName] = (new Locale())->setName($localeName);
