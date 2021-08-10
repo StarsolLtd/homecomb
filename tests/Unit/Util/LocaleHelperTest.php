@@ -9,6 +9,7 @@ use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Util\LocaleHelper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -34,6 +35,7 @@ class LocaleHelperTest extends TestCase
         $city = $this->prophesize(City::class);
         $city->getCounty()->shouldBeCalledOnce()->willReturn('Cambridgeshire');
         $city->getCountryCode()->shouldBeCalledOnce()->willReturn('UK');
+        $city->setLocale(Argument::type(CityLocale::class))->shouldBeCalledOnce()->willReturn($city);
 
         $input = (new CityLocale())->setName('Ely')->setCity($city->reveal());
 
