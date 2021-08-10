@@ -32,6 +32,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_101_SLUG = 'branch101slug';
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
+    public const TEST_CITY_KINGS_LYNN_SLUG = '8475b53127850aba';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
     public const TEST_PROPERTY_1_SLUG = 'property-1-slug';
@@ -320,7 +321,7 @@ class TestFixtures extends AbstractDataFixtures
         $kingsLynn = (new City())
             ->setName("King's Lynn")
             ->setCounty('Norfolk')
-            ->setSlug('test-city-slug-kings-lynn')
+            ->setSlug(self::TEST_CITY_KINGS_LYNN_SLUG)
             ->setCountryCode('UK')
         ;
 
