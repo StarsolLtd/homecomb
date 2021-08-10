@@ -80,6 +80,9 @@ e2e-tenancy-review:
 e2e-update-agency:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/UpdateAgency.php
 
+npm-test:
+	docker exec -it homecomb_php_1 bash -c "npm test"
+
 php-analyse:
 	make php-cs-fixer phpstan
 
