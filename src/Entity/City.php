@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Locale\CityLocale;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -47,6 +48,11 @@ class City
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private string $slug;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Locale\CityLocale", mappedBy="city")
+     */
+    private ?CityLocale $locale = null;
 
     public function __toString(): string
     {
@@ -114,6 +120,18 @@ class City
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getLocale(): ?CityLocale
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?CityLocale $locale): self
+    {
+        $this->locale = $locale;
 
         return $this;
     }

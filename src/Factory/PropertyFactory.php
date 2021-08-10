@@ -19,6 +19,7 @@ class PropertyFactory
     private CityService $cityService;
     private DistrictService $districtService;
     private PropertyHelper $propertyHelper;
+    private CityFactory $cityFactory;
     private FlatModelFactory $flatModelFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
@@ -26,12 +27,14 @@ class PropertyFactory
         CityService $cityService,
         DistrictService $districtService,
         PropertyHelper $propertyHelper,
+        CityFactory $cityFactory,
         FlatModelFactory $flatModelFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->cityService = $cityService;
         $this->districtService = $districtService;
         $this->propertyHelper = $propertyHelper;
+        $this->cityFactory = $cityFactory;
         $this->flatModelFactory = $flatModelFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
@@ -84,7 +87,7 @@ class PropertyFactory
         }
 
         $cityEntity = $entity->getCity();
-        $city = null !== $cityEntity ? $this->flatModelFactory->getCityFlatModel($cityEntity) : null;
+        $city = null !== $cityEntity ? $this->cityFactory->createModelFromEntity($cityEntity) : null;
 
         $districtEntity = $entity->getDistrict();
         $district = null !== $districtEntity ? $this->flatModelFactory->getDistrictFlatModel($districtEntity) : null;

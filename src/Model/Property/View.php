@@ -2,7 +2,7 @@
 
 namespace App\Model\Property;
 
-use App\Model\City\Flat as FlatCity;
+use App\Model\City\City;
 use App\Model\District\Flat as FlatDistrict;
 use App\Model\TenancyReview\View as ReviewView;
 
@@ -16,7 +16,7 @@ class View
     private array $tenancyReviews;
     private ?float $latitude;
     private ?float $longitude;
-    private ?FlatCity $city;
+    private ?City $city;
     private ?FlatDistrict $district;
 
     public function __construct(
@@ -28,7 +28,7 @@ class View
         array $tenancyReviews,
         ?float $latitude = null,
         ?float $longitude = null,
-        ?FlatCity $city = null,
+        ?City $city = null,
         ?FlatDistrict $district = null
     ) {
         $this->slug = $slug;
@@ -86,7 +86,7 @@ class View
         return $this->longitude;
     }
 
-    public function getCity(): ?FlatCity
+    public function getCity(): ?City
     {
         return $this->city;
     }

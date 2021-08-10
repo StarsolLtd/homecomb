@@ -8,6 +8,7 @@ import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import Map from "../components/Map";
 import {Link} from "react-router-dom";
+import LocaleReview from "../components/LocaleReview";
 
 class PropertyView extends React.Component {
     constructor(props) {
@@ -151,6 +152,62 @@ class PropertyView extends React.Component {
                             }
                         </Col>
                     </Row>
+                    {this.state.city &&
+
+                    <Row>
+                        <Col md="12" className="p-0 mb-4">
+
+                            <ul className="nav nav-tabs">
+                                {this.state.city.localeReviews.length > 0 &&
+                                <li className="nav-item">
+                                    <a className="nav-link active" data-toggle="tab"
+                                       href="#locale-reviews-city-pane">{this.state.city.name} reviews</a>
+                                </li>
+                                }
+                            </ul>
+
+                            {this.state.city.localeReviews.length > 0 &&
+                            <div className="bg-white rounded shadow-sm tab-content p-2 pt-4 mb-4">
+                                <div className="tab-pane active container" id="locale-reviews-city-pane">
+                                    <h6 className="mb-1">
+                                        Here is what residents have said about <a href={'/c/' + this.state.city.slug}>{this.state.city.name}</a> generally:
+                                    </h6>
+
+                                    {this.state.city.localeReviews.map(
+                                        ({
+                                             id,
+                                             slug,
+                                             author,
+                                             title,
+                                             content,
+                                             overallStars,
+                                             createdAt,
+                                             positiveVotes
+                                         }) => (
+                                            <Fragment>
+                                                <LocaleReview
+                                                    {...this.props}
+                                                    key={slug}
+                                                    id={id}
+                                                    slug={slug}
+                                                    author={author}
+                                                    title={title}
+                                                    content={content}
+                                                    overallStars={overallStars}
+                                                    createdAt={createdAt}
+                                                    positiveVotes={positiveVotes}
+                                                    showVote={true}
+                                                />
+                                                <hr/>
+                                            </Fragment>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                            }
+                        </Col>
+                    </Row>
+                    }
                 </div>
                 }
             </Container>

@@ -7,10 +7,11 @@ use App\Entity\District;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
+use App\Factory\CityFactory;
 use App\Factory\FlatModelFactory;
 use App\Factory\PropertyFactory;
 use App\Factory\TenancyReviewFactory;
-use App\Model\City\Flat as FlatCity;
+use App\Model\City\City as CityModel;
 use App\Model\District\Flat as FlatDistrict;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
@@ -33,6 +34,7 @@ class PropertyFactoryTest extends TestCase
     private $cityService;
     private $districtService;
     private $propertyHelper;
+    private $cityFactory;
     private $flatModelFactory;
     private $tenancyReviewFactory;
 
@@ -41,6 +43,7 @@ class PropertyFactoryTest extends TestCase
         $this->cityService = $this->prophesize(CityService::class);
         $this->districtService = $this->prophesize(DistrictService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
+        $this->cityFactory = $this->prophesize(CityFactory::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
@@ -48,6 +51,7 @@ class PropertyFactoryTest extends TestCase
             $this->cityService->reveal(),
             $this->districtService->reveal(),
             $this->propertyHelper->reveal(),
+            $this->cityFactory->reveal(),
             $this->flatModelFactory->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
@@ -183,11 +187,11 @@ class PropertyFactoryTest extends TestCase
             ->willReturn($review2View)
         ;
 
-        $cityFlatModel = $this->prophesize(FlatCity::class);
+        $cityModel = $this->prophesize(CityModel::class);
 
-        $this->flatModelFactory->getCityFlatModel($city)
+        $this->cityFactory->createModelFromEntity($city)
             ->shouldBeCalledOnce()
-            ->willReturn($cityFlatModel);
+            ->willReturn($cityModel);
 
         $districtFlatModel = $this->prophesize(FlatDistrict::class);
 
@@ -205,7 +209,7 @@ class PropertyFactoryTest extends TestCase
         $this->assertEquals(52.19547, $view->getLatitude());
         $this->assertEquals(0.1283, $view->getLongitude());
         $this->assertCount(2, $view->getTenancyReviews());
-        $this->assertEquals($cityFlatModel->reveal(), $view->getCity());
+        $this->assertEquals($cityModel->reveal(), $view->getCity());
         $this->assertEquals($districtFlatModel->reveal(), $view->getDistrict());
     }
 

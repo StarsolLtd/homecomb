@@ -24,6 +24,7 @@ class CityLocale extends Locale
     public function setCity(City $city): self
     {
         $this->city = $city;
+        $city->setLocale($this);
 
         return $this;
     }

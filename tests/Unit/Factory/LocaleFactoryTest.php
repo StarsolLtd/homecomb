@@ -173,6 +173,7 @@ class LocaleFactoryTest extends TestCase
     public function testCreateCityLocaleEntity1(): void
     {
         $city = $this->prophesize(City::class);
+        $city->setLocale(Argument::type(CityLocale::class))->shouldBeCalledOnce()->willReturn($city);
 
         $city->getName()->shouldBeCalledOnce()->willReturn('Ely');
 
@@ -184,6 +185,7 @@ class LocaleFactoryTest extends TestCase
 
         $this->assertEquals('Ely', $entity->getName());
         $this->assertEquals('test-slug', $entity->getSlug());
+        $this->assertEquals($city->reveal(), $entity->getCity());
         $this->assertTrue($entity->isPublished());
     }
 
