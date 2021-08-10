@@ -35,6 +35,7 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_CITY_KINGS_LYNN_SLUG = '8475b53127850aba';
+    public const TEST_CITY_LOCALE_KINGS_LYNN_SLUG = 'test-kl-city-locale';
     public const TEST_DISTRICT_ISLINGTON_SLUG = 'f9a1d092051730ae';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
@@ -318,7 +319,7 @@ class TestFixtures extends AbstractDataFixtures
         $cityLocale = (new CityLocale())
             ->setCity($kingsLynnCity)
             ->setName("King's Lynn")
-            ->setSlug('test-city-locale-slug')
+            ->setSlug(self::TEST_CITY_LOCALE_KINGS_LYNN_SLUG)
             ->setPublished(true)
         ;
         $manager->persist($cityLocale);
