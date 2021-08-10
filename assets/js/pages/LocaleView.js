@@ -53,7 +53,7 @@ class LocaleView extends React.Component {
                     <div>
                         <Row>
                             <Breadcrumb className="w-100">
-                                <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                                <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
                                 <BreadcrumbItem className="active locale-name">{this.state.name}</BreadcrumbItem>
                             </Breadcrumb>
                         </Row>
