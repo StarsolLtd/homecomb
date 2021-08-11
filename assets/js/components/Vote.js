@@ -35,7 +35,7 @@ class Vote extends React.Component {
     }
 
     render() {
-        let buttonClassName = 'btn-light ' + this.props.className;
+        let buttonClassName = 'vote-button btn-light ' + this.props.className;
         if (this.state.hasVoted) {
             buttonClassName += ' has-voted';
         }

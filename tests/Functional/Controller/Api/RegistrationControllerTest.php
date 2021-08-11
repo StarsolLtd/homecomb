@@ -70,7 +70,7 @@ class RegistrationControllerTest extends WebTestCase
             [],
             [],
             [],
-            '{"email": "'.TestFixtures::TEST_USER_STANDARD_EMAIL.'","firstName":"Jelena","lastName":"Harpova","plainPassword":"&L_5YMe<+NC<,n]FhwR=_Q4","googleReCaptchaToken":"SAMPLE"}'
+            '{"email": "'.TestFixtures::TEST_USER_STANDARD_1_EMAIL.'","firstName":"Jelena","lastName":"Harpova","plainPassword":"&L_5YMe<+NC<,n]FhwR=_Q4","googleReCaptchaToken":"SAMPLE"}'
         );
 
         $this->assertEquals(Response::HTTP_CONFLICT, $client->getResponse()->getStatusCode());

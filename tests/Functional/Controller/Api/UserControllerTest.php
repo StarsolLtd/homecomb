@@ -26,7 +26,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request('GET', '/api/user');
 
@@ -36,7 +36,7 @@ class UserControllerTest extends WebTestCase
         /** @var Flat $userModel */
         $userModel = $this->serializer->deserialize($response->getContent(), Flat::class, 'json');
 
-        $this->assertEquals(TestFixtures::TEST_USER_STANDARD_EMAIL, $userModel->getUsername());
+        $this->assertEquals(TestFixtures::TEST_USER_STANDARD_1_EMAIL, $userModel->getUsername());
         $this->assertEquals('Mr', $userModel->getTitle());
         $this->assertEquals('Terry', $userModel->getFirstName());
         $this->assertEquals('Sterling', $userModel->getLastName());
