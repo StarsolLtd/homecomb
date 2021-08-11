@@ -38,7 +38,7 @@ class ReviewFixtures extends AbstractDataFixtures implements DependentFixtureInt
         $cambridgeLocale = $this->getReference('locale-Cambridge');
 
         /** @var User $user */
-        $user = $this->getReference('user-'.DemoFixtures::USER_1);
+        $user = $this->getReference('user-'.DemoFixtures::USER_2);
 
         $reviews = [];
 
