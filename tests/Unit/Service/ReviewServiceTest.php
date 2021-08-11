@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
 use App\Repository\Locale\LocaleRepository;
+use App\Service\NotificationService;
 use App\Service\ReviewService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -27,19 +28,21 @@ class ReviewServiceTest extends TestCase
 
     private ReviewService $reviewService;
 
-    private $logger;
+    private $notificationService;
     private $localeReviewFactory;
     private $localeRepository;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
+        $this->notificationService = $this->prophesize(NotificationService::class);
         $this->localeReviewFactory = $this->prophesize(LocaleReviewFactory::class);
         $this->localeRepository = $this->prophesize(LocaleRepository::class);
         $this->userService = $this->prophesize(UserService::class);
 
         $this->reviewService = new ReviewService(
             $this->entityManager->reveal(),
+            $this->notificationService->reveal(),
             $this->localeReviewFactory->reveal(),
             $this->localeRepository->reveal(),
             $this->userService->reveal(),
@@ -71,6 +74,8 @@ class ReviewServiceTest extends TestCase
             ->willReturn($localeReview);
 
         $this->assertEntitiesArePersistedAndFlush([$localeReview]);
+
+        $this->notificationService->sendLocaleReviewModerationNotification($localeReview)->shouldBeCalledOnce();
 
         $output = $this->reviewService->submitLocaleReview($submitInput->reveal(), $user);
 
