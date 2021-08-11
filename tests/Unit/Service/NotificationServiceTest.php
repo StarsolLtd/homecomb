@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Service;
 
 use App\Controller\Admin\FlagCrudController;
-use App\Controller\Admin\ReviewCrudController;
+use App\Controller\Admin\TenancyReviewCrudController;
 use App\Entity\Flag\Flag;
 use App\Entity\TenancyReview;
 use App\Entity\User;
@@ -56,7 +56,7 @@ class NotificationServiceTest extends TestCase
         $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
 
         $this->crudUrlGeneratorMock->build()->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
-        $crudUrlBuilder->setController(ReviewCrudController::class)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setController(TenancyReviewCrudController::class)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
         $crudUrlBuilder->setAction(Action::EDIT)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
         $crudUrlBuilder->setEntityId(42)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
         $crudUrlBuilder->generateUrl()->shouldBeCalledOnce()->willReturn('http://homecomb/test');
@@ -72,7 +72,7 @@ class NotificationServiceTest extends TestCase
 
         $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
-        $this->notificationService->sendReviewModerationNotification($tenancyReview->reveal());
+        $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview->reveal());
     }
 
     public function testFlagReviewModerationNotification(): void

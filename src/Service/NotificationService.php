@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Controller\Admin\AgencyCrudController;
 use App\Controller\Admin\BranchCrudController;
 use App\Controller\Admin\FlagCrudController;
-use App\Controller\Admin\ReviewCrudController;
+use App\Controller\Admin\TenancyReviewCrudController;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Flag\Flag;
@@ -38,11 +38,11 @@ class NotificationService
         $this->userRepository = $userRepository;
     }
 
-    public function sendReviewModerationNotification(TenancyReview $tenancyReview): void
+    public function sendTenancyReviewModerationNotification(TenancyReview $tenancyReview): void
     {
         $url = $this->crudUrlGenerator
             ->build()
-            ->setController(ReviewCrudController::class)
+            ->setController(TenancyReviewCrudController::class)
             ->setAction(Action::EDIT)
             ->setEntityId($tenancyReview->getId())
             ->generateUrl();

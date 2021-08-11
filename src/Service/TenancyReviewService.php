@@ -84,7 +84,7 @@ class TenancyReviewService
 
         $this->entityManager->flush();
 
-        $this->notificationService->sendReviewModerationNotification($tenancyReview);
+        $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview);
 
         if (null !== $requestDetails) {
             try {

@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\Flag\Flag;
 use App\Entity\Image;
 use App\Entity\Property;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -26,7 +27,7 @@ class DashboardController extends AbstractDashboardController
         $crudUrlGenerator = $this->get(CrudUrlGenerator::class);
         $routeBuilder = $crudUrlGenerator->build();
 
-        return $this->redirect($routeBuilder->setController(ReviewCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(TenancyReviewCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -39,7 +40,8 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::section('Content'),
-            MenuItem::linkToCrud('Reviews', 'fa fa-comment', TenancyReview::class),
+            MenuItem::linkToCrud('Tenancy Reviews', 'fa fa-comment', TenancyReview::class),
+            MenuItem::linkToCrud('Locale Reviews', 'fa fa-city', LocaleReview::class),
             MenuItem::linkToCrud('Flags', 'fa fa-flag', Flag::class),
 
             MenuItem::section('Agencies'),
