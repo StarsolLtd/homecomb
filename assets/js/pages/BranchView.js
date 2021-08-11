@@ -62,7 +62,7 @@ class BranchView extends React.Component {
                                             showBranch={false}
                                         />
                                     )
-                                ).reduce((prev, curr) => [prev, <hr />, curr])}
+                                ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.id} />, curr])}
                             </Col>
 
                             <Col md="4" className="d-sm-none d-md-block branch-agency">
