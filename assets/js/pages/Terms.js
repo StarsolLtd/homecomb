@@ -4,7 +4,7 @@ import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 import Constants from "../Constants";
 import {Link} from "react-router-dom";
 
-class PrivacyPolicy extends React.Component {
+class Terms extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Terms and Conditions';
@@ -710,4 +710,4 @@ class PrivacyPolicy extends React.Component {
     }
 }
 
-export default PrivacyPolicy;
+export default Terms;
