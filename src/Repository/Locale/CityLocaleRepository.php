@@ -4,6 +4,7 @@ namespace App\Repository\Locale;
 
 use App\Entity\City;
 use App\Entity\Locale\CityLocale;
+use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,5 +26,20 @@ class CityLocaleRepository extends ServiceEntityRepository
         return $this->findOneBy([
             'city' => $city,
         ]);
+    }
+
+    public function findOneBySlug(string $slug): CityLocale
+    {
+        $cityLocale = $this->findOneBy(
+            [
+                'slug' => $slug,
+            ]
+        );
+
+        if (null === $cityLocale) {
+            throw new NotFoundException(sprintf('No CityLocale with slug %s could be found.', $slug));
+        }
+
+        return $cityLocale;
     }
 }
