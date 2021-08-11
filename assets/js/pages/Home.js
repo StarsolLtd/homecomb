@@ -1,6 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
-import 'jquery-ui-bundle';
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import TextLogo from "../components/TextLogo";
 import {Col, Container, Form, FormGroup, Label, Row} from "reactstrap";
