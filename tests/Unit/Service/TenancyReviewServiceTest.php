@@ -258,7 +258,7 @@ class TenancyReviewServiceTest extends TestCase
 
         $this->assertEntitiesArePersistedAndFlush([$tenancyReview]);
 
-        $this->notificationService->sendReviewModerationNotification(Argument::type(TenancyReview::class))->shouldBeCalledOnce();
+        $this->notificationService->sendTenancyReviewModerationNotification(Argument::type(TenancyReview::class))->shouldBeCalledOnce();
 
         $tenancyReview->getId()
             ->shouldBeCalledOnce()

@@ -5,10 +5,12 @@ namespace App\Service;
 use App\Controller\Admin\AgencyCrudController;
 use App\Controller\Admin\BranchCrudController;
 use App\Controller\Admin\FlagCrudController;
-use App\Controller\Admin\ReviewCrudController;
+use App\Controller\Admin\LocaleReviewCrudController;
+use App\Controller\Admin\TenancyReviewCrudController;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\Flag\Flag;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -38,11 +40,27 @@ class NotificationService
         $this->userRepository = $userRepository;
     }
 
-    public function sendReviewModerationNotification(TenancyReview $tenancyReview): void
+    public function sendLocaleReviewModerationNotification(LocaleReview $localeReview): void
     {
         $url = $this->crudUrlGenerator
             ->build()
-            ->setController(ReviewCrudController::class)
+            ->setController(LocaleReviewCrudController::class)
+            ->setAction(Action::EDIT)
+            ->setEntityId($localeReview->getId())
+            ->generateUrl();
+
+        $moderators = $this->userRepository->findUsersWithRole('ROLE_MODERATOR');
+
+        foreach ($moderators as $moderator) {
+            $this->notifyModerator($moderator, 'New locale review added to HomeComb', 'Go to '.$url.' to moderate.');
+        }
+    }
+
+    public function sendTenancyReviewModerationNotification(TenancyReview $tenancyReview): void
+    {
+        $url = $this->crudUrlGenerator
+            ->build()
+            ->setController(TenancyReviewCrudController::class)
             ->setAction(Action::EDIT)
             ->setEntityId($tenancyReview->getId())
             ->generateUrl();
@@ -50,7 +68,7 @@ class NotificationService
         $moderators = $this->userRepository->findUsersWithRole('ROLE_MODERATOR');
 
         foreach ($moderators as $moderator) {
-            $this->notifyModerator($moderator, 'New review added to HomeComb', 'Go to '.$url.' to moderate.');
+            $this->notifyModerator($moderator, 'New tenancy review added to HomeComb', 'Go to '.$url.' to moderate.');
         }
     }
 

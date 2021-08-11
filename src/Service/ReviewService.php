@@ -12,17 +12,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ReviewService
 {
     private EntityManagerInterface $entityManager;
+    private NotificationService $notificationService;
     private LocaleReviewFactory $localeReviewFactory;
     private LocaleRepository $localeRepository;
     private UserService $userService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
         LocaleReviewFactory $localeReviewFactory,
         LocaleRepository $localeRepository,
         UserService $userService
     ) {
         $this->entityManager = $entityManager;
+        $this->notificationService = $notificationService;
         $this->localeReviewFactory = $localeReviewFactory;
         $this->localeRepository = $localeRepository;
         $this->userService = $userService;
@@ -38,6 +41,8 @@ class ReviewService
 
         $this->entityManager->persist($localeReview);
         $this->entityManager->flush();
+
+        $this->notificationService->sendLocaleReviewModerationNotification($localeReview);
 
         return new SubmitLocaleReviewOutput(true);
     }
