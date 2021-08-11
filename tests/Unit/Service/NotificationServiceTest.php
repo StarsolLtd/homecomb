@@ -3,8 +3,10 @@
 namespace App\Tests\Unit\Service;
 
 use App\Controller\Admin\FlagCrudController;
+use App\Controller\Admin\LocaleReviewCrudController;
 use App\Controller\Admin\TenancyReviewCrudController;
 use App\Entity\Flag\Flag;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -20,6 +22,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
+/**
+ * @covers \App\Service\NotificationService
+ */
 class NotificationServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -48,7 +53,40 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function testSendReviewModerationNotification(): void
+    /**
+     * @covers \App\Service\NotificationService::sendLocaleReviewModerationNotification
+     */
+    public function testLocaleSendReviewModerationNotification(): void
+    {
+        $LocaleReview = $this->prophesize(LocaleReview::class);
+        $LocaleReview->getId()->shouldBeCalledOnce()->willReturn(42);
+
+        $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
+
+        $this->crudUrlGeneratorMock->build()->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setController(LocaleReviewCrudController::class)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setAction(Action::EDIT)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setEntityId(42)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->generateUrl()->shouldBeCalledOnce()->willReturn('http://homecomb/test');
+
+        $this->userRepositoryMock
+            ->findUsersWithRole('ROLE_MODERATOR')
+            ->shouldBeCalledOnce()
+            ->willReturn([
+                (new User())->setEmail('gina@starsol.co.uk'),
+            ]);
+
+        $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
+
+        $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
+
+        $this->notificationService->sendLocaleReviewModerationNotification($LocaleReview->reveal());
+    }
+
+    /**
+     * @covers \App\Service\NotificationService::sendTenancyReviewModerationNotification
+     */
+    public function testTenancySendReviewModerationNotification(): void
     {
         $tenancyReview = $this->prophesize(TenancyReview::class);
         $tenancyReview->getId()->shouldBeCalledOnce()->willReturn(42);
@@ -75,6 +113,9 @@ class NotificationServiceTest extends TestCase
         $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview->reveal());
     }
 
+    /**
+     * @covers \App\Service\NotificationService::sendFlagModerationNotification
+     */
     public function testFlagReviewModerationNotification(): void
     {
         $flag = $this->prophesize(Flag::class);
