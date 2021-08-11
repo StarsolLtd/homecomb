@@ -36,7 +36,7 @@ class VoteRepository extends ServiceEntityRepository
         return $vote;
     }
 
-    public function findOneLocaleReviewVoteByUserAndEntity(User $user, int $entityId): ?TenancyReviewVote
+    public function findOneLocaleReviewVoteByUserAndEntity(User $user, int $entityId): ?LocaleReviewVote
     {
         $qb = $this->createQueryBuilder('v');
         $qb->where($qb->expr()->isInstanceOf('v', LocaleReviewVote::class))

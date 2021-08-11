@@ -25,7 +25,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TestFixtures extends AbstractDataFixtures
 {
-    public const TEST_USER_STANDARD_EMAIL = 'test.user.standard@starsol.co.uk';
+    public const TEST_USER_STANDARD_1_EMAIL = 'test.user.standard.1@starsol.co.uk';
+    public const TEST_USER_STANDARD_2_EMAIL = 'test.user.standard.2@starsol.co.uk';
     public const TEST_USER_AGENCY_1_ADMIN_EMAIL = 'test.agency.1.admin@starsol.co.uk';
     public const TEST_USER_AGENCY_2_ADMIN_EMAIL = 'test.agency.2.admin@starsol.co.uk';
 
@@ -64,15 +65,25 @@ class TestFixtures extends AbstractDataFixtures
         $this->loadCities($manager);
         $this->loadDistricts($manager);
 
-        $user1 = (new User())
-            ->setEmail(self::TEST_USER_STANDARD_EMAIL)
+        $standardUser1 = (new User())
+            ->setEmail(self::TEST_USER_STANDARD_1_EMAIL)
             ->setTitle('Mr')
             ->setFirstName('Terry')
             ->setLastName('Sterling')
             ->setIsVerified(true);
 
-        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, 'Password1'));
-        $manager->persist($user1);
+        $standardUser1->setPassword($this->userPasswordEncoder->encodePassword($standardUser1, 'Password1'));
+        $manager->persist($standardUser1);
+
+        $standardUser2 = (new User())
+            ->setEmail(self::TEST_USER_STANDARD_2_EMAIL)
+            ->setTitle('Mr')
+            ->setFirstName('Stan')
+            ->setLastName('Dardman')
+            ->setIsVerified(true);
+
+        $standardUser2->setPassword($this->userPasswordEncoder->encodePassword($standardUser2, 'Password2'));
+        $manager->persist($standardUser2);
 
         $user2 = (new User())
             ->setEmail(self::TEST_USER_AGENCY_1_ADMIN_EMAIL)
@@ -209,7 +220,7 @@ class TestFixtures extends AbstractDataFixtures
         $positiveReviewVote2 = $positiveVote2;
 
         $tenancyReview = (new TenancyReview())
-            ->setUser($user1)
+            ->setUser($standardUser1)
             ->setProperty($property1)
             ->setBranch($branch101)
             ->setTitle('What a lovely cupboard under the stairs')

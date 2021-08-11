@@ -13,7 +13,7 @@ class ReviewControllerTest extends WebTestCase
     public function testSubmitLocaleReview1(): void
     {
         $client = static::createClient();
-        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request(
             'POST',

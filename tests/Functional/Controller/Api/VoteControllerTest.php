@@ -37,7 +37,7 @@ class VoteControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $this->clientVoteRequest($client, '{MALFORMED//}');
 
@@ -52,7 +52,7 @@ class VoteControllerTest extends WebTestCase
         $client = static::createClient();
         $entityId = $this->getAnyReviewId();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"TenancyReview","positive":true,"googleReCaptchaToken":"SAMPLE"}');
 
@@ -74,7 +74,7 @@ class VoteControllerTest extends WebTestCase
         $client = static::createClient();
         $entityId = $this->getAnyCommentId();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $this->clientVoteRequest($client, '{"entityId":'.$entityId.',"entityName":"Comment","positive":false,"googleReCaptchaToken":"SAMPLE"}');
 

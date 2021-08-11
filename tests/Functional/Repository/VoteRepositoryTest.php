@@ -87,7 +87,7 @@ class VoteRepositoryTest extends KernelTestCase
     {
         $this->commentFixture = $this->commentRepository->findLastPublished();
         $this->tenancyReviewFixture = $this->reviewRepository->findLastPublished();
-        $this->userFixture = $this->userRepository->loadUserByUsername(TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $this->userFixture = $this->userRepository->loadUserByUsername(TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $reviewVoteEntity = (new TenancyReviewVote())->setUser($this->userFixture)->setTenancyReview($this->tenancyReviewFixture)->setPositive(true);
         $this->entityManager->persist($reviewVoteEntity);

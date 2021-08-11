@@ -32,7 +32,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testCreateAgency(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request(
             'POST',
@@ -61,7 +61,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
         $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
@@ -90,7 +90,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testCreateAgencyReturnsBadRequestWhenContentMalformed(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request(
             'POST',
@@ -162,7 +162,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
         $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
@@ -196,7 +196,7 @@ class AgencyAdminControllerTest extends WebTestCase
 
     public function testCreateBranchFailsWhenUserIsNotAnAgencyAdmin(): void
     {
-        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $client = $this->createClientAndLoginUser(TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request(
             'POST',
@@ -320,7 +320,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $agencyRepository = static::$container->get(AgencyRepository::class);
         $agency = $agencyRepository->findOneBy(['slug' => TestFixtures::TEST_AGENCY_1_SLUG]);
@@ -362,7 +362,7 @@ class AgencyAdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
         $loggedInUser->setAdminAgency(null);
 
         $entityManager = static::$container->get(EntityManagerInterface::class);

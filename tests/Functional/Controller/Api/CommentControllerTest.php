@@ -77,7 +77,7 @@ class CommentControllerTest extends WebTestCase
     public function submitCommentReturnsForbiddenWhenUserDoesNotHavePermissionUserEmailDataProvider(): array
     {
         return [
-            [TestFixtures::TEST_USER_STANDARD_EMAIL],
+            [TestFixtures::TEST_USER_STANDARD_1_EMAIL],
             [TestFixtures::TEST_USER_AGENCY_2_ADMIN_EMAIL],
         ];
     }

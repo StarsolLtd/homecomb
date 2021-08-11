@@ -45,7 +45,7 @@ class TenancyReviewControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_EMAIL);
+        $loggedInUser = $this->loginUser($client, TestFixtures::TEST_USER_STANDARD_1_EMAIL);
 
         $client->request(
             'POST',

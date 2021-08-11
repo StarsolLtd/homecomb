@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import '../../styles/vote.scss';
 import LoadingSpinner from "./LoadingSpinner";
+import LoginOrRegister from "../modals/LoginOrRegister";
 
 class Vote extends React.Component {
 
@@ -16,16 +17,30 @@ class Vote extends React.Component {
         this.state = {
             hasVoted: false,
             isSubmitting: false,
-            positiveVotes: this.props.positiveVotes
+            positiveVotes: this.props.positiveVotes,
+            showLoginModal: false
         };
 
         this.handleVote = this.handleVote.bind(this);
+        this.hideLoginModal = this.hideLoginModal.bind(this);
+        this.showLoginModal = this.showLoginModal.bind(this);
+    }
+
+    hideLoginModal() {
+        this.setState({showLoginModal: false})
+    }
+
+    showLoginModal() {
+        this.setState({showLoginModal: true})
     }
 
     render() {
-        let buttonClassName = 'btn-light ' + this.props.className;
+        let buttonClassName = 'vote-button btn-light ' + this.props.className;
         if (this.state.hasVoted) {
             buttonClassName += ' has-voted';
+        }
+        if (this.state.showLoginModal) {
+            return <LoginOrRegister showModal={true} hideLoginModal={this.hideLoginModal} />
         }
         return (
             <Button onClick={this.handleVote} className={buttonClassName}>
@@ -68,7 +83,7 @@ class Vote extends React.Component {
                             component.setState({isSubmitting: false});
                             if (!response.ok) {
                                 if (response.status === 401) {
-                                    location.href = '/login';
+                                    component.showLoginModal();
                                 }
                                 return Promise.reject('Error: ' + response.status)
                             }
