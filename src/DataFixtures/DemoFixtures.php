@@ -17,6 +17,7 @@ use App\Entity\Vote\TenancyReviewVote;
 use App\Service\TenancyReviewService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
+use App\Util\ReviewHelper;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -26,6 +27,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
 {
     private AgencyHelper $agencyHelper;
     private BranchHelper $branchHelper;
+    private ReviewHelper $reviewHelper;
     private TenancyReviewService $tenancyReviewService;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -38,11 +40,13 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
     public function __construct(
         AgencyHelper $agencyHelper,
         BranchHelper $branchHelper,
+        ReviewHelper $reviewHelper,
         TenancyReviewService $tenancyReviewService,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->agencyHelper = $agencyHelper;
         $this->branchHelper = $branchHelper;
+        $this->reviewHelper = $reviewHelper;
         $this->tenancyReviewService = $tenancyReviewService;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
@@ -146,7 +150,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setAgencyStars(null)
             ->setLandlordStars(5)
             ->setPropertyStars(5)
-            ->setPublished(true);
+            ->setPublished(true)
+        ;
 
         $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_3])
@@ -165,7 +170,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setAgencyStars(4)
             ->setLandlordStars(5)
             ->setPropertyStars(5)
-            ->setPublished(true);
+            ->setPublished(true)
+        ;
 
         $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_3])
@@ -184,7 +190,8 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setAgencyStars(4)
             ->setLandlordStars(null)
             ->setPropertyStars(3)
-            ->setPublished(true);
+            ->setPublished(true)
+        ;
 
         $tenancyReviews[] = (new TenancyReview())
             ->setUser($users[self::USER_4])
@@ -203,9 +210,11 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
             ->setAgencyStars(5)
             ->setLandlordStars(1)
             ->setPropertyStars(4)
-            ->setPublished(true);
+            ->setPublished(true)
+        ;
 
         foreach ($tenancyReviews as $tenancyReview) {
+            $tenancyReview->setSlug($this->reviewHelper->generateTenancyReviewSlug($tenancyReview));
             $this->tenancyReviewService->generateLocales($tenancyReview);
             $manager->persist($tenancyReview);
         }
