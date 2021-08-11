@@ -98,7 +98,7 @@ class LocaleView extends React.Component {
                                                     showVote={true}
                                                 />
                                             )
-                                        ).reduce((prev, curr) => [prev, <hr />, curr])}
+                                        ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.slug} />, curr])}
 
                                         {this.state.localeReviews.length === 0 &&
                                             <Fragment>
@@ -132,7 +132,7 @@ class LocaleView extends React.Component {
                                                     positiveVotes={positiveVotes}
                                                 />
                                             )
-                                        ).reduce((prev, curr) => [prev, <hr />, curr])}
+                                        ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.id} />, curr])}
 
                                         {this.state.tenancyReviews.length === 0 &&
                                             <Fragment>

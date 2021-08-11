@@ -112,7 +112,7 @@ class PropertyView extends React.Component {
                                         showProperty={false}
                                     />
                                 )
-                            ).reduce((prev, curr) => [prev, <hr />, curr])}
+                            ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.id} />, curr])}
 
                             {this.state.tenancyReviews.length === 0 &&
                             <Fragment>
@@ -194,7 +194,7 @@ class PropertyView extends React.Component {
                                                 showVote={true}
                                             />
                                         )
-                                    ).reduce((prev, curr) => [prev, <hr />, curr])}
+                                    ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.slug} />, curr])}
                                 </div>
                             </div>
                             }
