@@ -240,6 +240,7 @@ class TestFixtures extends AbstractDataFixtures
             ->addComment($tenancyReviewComment)
             ->addVote($positiveReviewVote1)
             ->addVote($positiveReviewVote2)
+            ->setSlug('tr-test-slug-1')
         ;
         $manager->persist($tenancyReview);
 

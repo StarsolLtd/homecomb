@@ -2,12 +2,23 @@
 
 namespace App\Util;
 
+use App\Entity\Review\LocaleReview;
 use App\Entity\Review\Review;
-use function md5;
-use function substr;
+use App\Entity\TenancyReview;
 
 class ReviewHelper
 {
+    public function generateTenancyReviewSlug(TenancyReview $tenancyReview): string
+    {
+        $review = (new LocaleReview())
+            ->setAuthor($tenancyReview->getAuthor())
+            ->setTitle($tenancyReview->getTitle())
+            ->setContent($tenancyReview->getContent())
+            ->setUser($tenancyReview->getUser());
+
+        return $this->generateSlug($review);
+    }
+
     public function generateSlug(Review $review): string
     {
         $user = $review->getUser();

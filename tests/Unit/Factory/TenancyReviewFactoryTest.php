@@ -18,9 +18,11 @@ use App\Model\Property\Flat as FlatProperty;
 use App\Model\TenancyReview\SubmitInput;
 use App\Model\TenancyReview\View;
 use App\Tests\Unit\SetIdByReflectionTrait;
+use App\Util\ReviewHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -35,13 +37,16 @@ class TenancyReviewFactoryTest extends TestCase
     private TenancyReviewFactory $tenancyReviewFactory;
 
     private $flatModelFactory;
+    private $reviewHelper;
 
     public function setUp(): void
     {
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
+        $this->reviewHelper = $this->prophesize(ReviewHelper::class);
 
         $this->tenancyReviewFactory = new TenancyReviewFactory(
-            $this->flatModelFactory->reveal()
+            $this->flatModelFactory->reveal(),
+            $this->reviewHelper->reveal(),
         );
     }
 
@@ -187,6 +192,10 @@ class TenancyReviewFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn('2020-12-01');
 
+        $this->reviewHelper->generateTenancyReviewSlug(Argument::type(TenancyReview::class))
+            ->shouldBeCalledOnce()
+            ->willReturn('test-tr-slug');
+
         $entity = $this->tenancyReviewFactory->createEntity(
             $input->reveal(),
             $property->reveal(),
@@ -203,6 +212,7 @@ class TenancyReviewFactoryTest extends TestCase
         $this->assertEquals(3, $entity->getPropertyStars());
         $this->assertEquals('2019-06-01', $entity->getStart()->format('Y-m-d'));
         $this->assertEquals('2020-12-01', $entity->getEnd()->format('Y-m-d'));
+        $this->assertEquals('test-tr-slug', $entity->getSlug());
     }
 
     private function prophesizeEmptyReview(ObjectProphecy $property): ObjectProphecy

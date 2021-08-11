@@ -99,6 +99,11 @@ class TenancyReview
     private ?DateTime $end;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     */
+    private string $slug;
+
+    /**
      * @var Collection<int, Locale>
      * @ORM\ManyToMany(targetEntity="App\Entity\Locale\Locale", mappedBy="tenancyReviews")
      * @ORM\JoinTable(name="locale_tenancy_review")
@@ -303,6 +308,18 @@ class TenancyReview
     public function setEnd(?DateTime $end): self
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
