@@ -32,12 +32,13 @@ services:
         volumes:
             - ./:/var/www/
         ports:
-            - "591:80"
+            - "80:80"
+            - "443:443"
         networks:
             - symfony
 
     mailhog:
-        image: 'mailhog/mailhog:latest'
+        image: "mailhog/mailhog:latest"
         container_name: mailhog
         restart: always
         ports:
