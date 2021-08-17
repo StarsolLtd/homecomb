@@ -2,23 +2,23 @@ build:
 	make pull
 	docker-compose rm -vsf
 	docker-compose -v --remove-orphans
-	docker-compose --file=docker-compose.yml build
-	docker-compose --file=docker-compose.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 	docker exec -it homecomb_php_1 composer install --no-interaction
 	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/dev/vich_uploader"
 	docker exec -it homecomb_php_1 bash -c "npm install --force"
 	make yarn-build
-	docker-compose --file=docker-compose.yml logs -f
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml logs -f
 
 pull:
 	docker-compose pull
 
 up:
 	make pull
-	export APP_ENV=dev && docker-compose --file=docker-compose.yml up -d
+	export APP_ENV=dev && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 down:
-	docker-compose --file=docker-compose.yml down --remove-orphans
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down --remove-orphans
 
 jump-in:
 	docker exec -it homecomb_php_1 bash
