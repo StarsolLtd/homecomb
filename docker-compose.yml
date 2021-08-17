@@ -44,16 +44,6 @@ services:
             - db
             - php
 
-    mailhog:
-        image: "mailhog/mailhog:latest"
-        container_name: mailhog
-        restart: always
-        ports:
-            - "8025:8025"
-            - "1025:1025"
-        networks:
-            - symfony
-
 volumes:
     db_app:
 
