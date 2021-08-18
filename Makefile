@@ -2,7 +2,7 @@ prod-build:
 	make pull clear-docker
 	docker-compose -f docker-compose.yml build
 	docker-compose -f docker-compose.yml up -d
-	make composer-install create-directories npm-install-force yarn-build copy-prod-env-to-local
+	make composer-install create-directories npm-install-force prod-yarn-build copy-prod-env-to-local
 
 prod-up:
 	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
@@ -16,6 +16,9 @@ prod-create-directories:
 
 prod-follow-logs:
 	docker exec -it homecomb_php_1 bash -c "tail -f /var/www/var/log/prod.log"
+
+prod-yarn-build:
+	docker exec -it homecomb_php_1 yarn encore production
 
 build:
 	make pull clear-docker
