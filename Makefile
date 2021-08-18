@@ -1,14 +1,41 @@
+prod-build:
+	make pull clear-docker
+	docker-compose -f docker-compose.yml build
+	docker-compose -f docker-compose.yml up -d
+	make composer-install create-directories npm-install-force yarn-build copy-prod-env-to-local
+
+prod-up:
+	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
+
+prod-down:
+	export APP_ENV=prod && docker-compose -f docker-compose.yml down --remove-orphans
+
+prod-create-directories:
+	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/prod/vich_uploader"
+	docker exec -it homecomb_php_1 bash -c "chmod 777 /var/www/var/cache/prod -Rf"
+
+prod-follow-logs:
+	docker exec -it homecomb_php_1 bash -c "tail -f /var/www/var/log/prod.log"
+
 build:
-	make pull
-	docker-compose rm -vsf
-	docker-compose -v --remove-orphans
+	make pull clear-docker
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-	docker exec -it homecomb_php_1 composer install --no-interaction
-	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/dev/vich_uploader"
-	docker exec -it homecomb_php_1 bash -c "npm install --force"
-	make yarn-build
+	make composer-install create-directories npm-install-force yarn-build
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml logs -f
+
+create-directories:
+	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/dev/vich_uploader"
+
+clear-docker:
+	docker-compose rm -vsf
+	docker-compose -v --remove-orphans
+
+composer-install:
+	docker exec -it homecomb_php_1 composer install --no-interaction
+
+npm-install-force:
+	docker exec -it homecomb_php_1 bash -c "npm install --force"
 
 pull:
 	docker-compose pull
@@ -156,3 +183,6 @@ copy-test-env-to-local:
 
 copy-e2e-env-to-local:
 	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.e2e /var/www/.env.local"
+
+copy-prod-env-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.prod /var/www/.env.local"
