@@ -1,3 +1,5 @@
-<?php // prod.encrypt.public on Wed, 18 Aug 2021 13:53:41 +0100
+<?php
+
+// prod.encrypt.public on Wed, 18 Aug 2021 13:53:41 +0100
 
 return "\xFB\xBAM\xAFoID\x98\x9A\x20\xA4\xAB\xF9\xFE\xC3\x17Hp\x22\x9C\x9E4L\x5D\x89l\xD1\x0C05\x8EH";
