@@ -156,3 +156,6 @@ copy-test-env-to-local:
 
 copy-e2e-env-to-local:
 	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.e2e /var/www/.env.local"
+
+copy-prod-env-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.prod /var/www/.env.local"
