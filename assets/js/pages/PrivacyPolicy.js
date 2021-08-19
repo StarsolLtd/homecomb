@@ -2,7 +2,7 @@ import React from 'react';
 import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 
 import Constants from "../Constants";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class PrivacyPolicy extends React.Component {
 
@@ -15,7 +15,7 @@ class PrivacyPolicy extends React.Component {
             <Container>
                 <Row>
                     <Breadcrumb className="w-100">
-                        <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
                         <BreadcrumbItem className="active">Privacy Policy</BreadcrumbItem>
                     </Breadcrumb>
                 </Row>

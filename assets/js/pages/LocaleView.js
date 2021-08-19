@@ -4,7 +4,7 @@ import Review from "../components/Review";
 import RatedAgencies from "../components/RatedAgencies";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import LocaleReview from "../components/LocaleReview";
 import ReviewLocaleForm from "../components/ReviewLocaleForm";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
@@ -53,7 +53,7 @@ class LocaleView extends React.Component {
                     <div>
                         <Row>
                             <Breadcrumb className="w-100">
-                                <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                                <BreadcrumbItem><Link to="/#">Home</Link></BreadcrumbItem>
                                 <BreadcrumbItem className="active locale-name">{this.state.name}</BreadcrumbItem>
                             </Breadcrumb>
                         </Row>

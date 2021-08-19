@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import {Button, Collapse, Container, Nav} from "reactstrap";
 import LogInOrOutNavLinks from "./LogInOrOutNavLinks";
 
@@ -16,11 +16,11 @@ const Footer = (props) => {
                         {props.user && !props.user.agencyAdmin &&
                         <li className="list-inline-item"><a href="/verified/agency/create" className="nav-link create-agency-link">Add Your Agency</a></li>
                         }
-                        <li className="list-inline-item"><Link to="/" className="nav-link">Search</Link></li>
-                        <li className="list-inline-item"><Link to="/about" className="nav-link about-link">About</Link></li>
-                        <li className="list-inline-item"><Link to="/contact" className="nav-link">Contact Us</Link></li>
-                        <li className="list-inline-item"><Link to="/privacy-policy" className="nav-link">Privacy Policy</Link></li>
-                        <li className="list-inline-item"><Link to="/terms" className="nav-link">Terms and Conditions</Link></li>
+                        <li className="list-inline-item"><Link to="/#" className="nav-link">Search</Link></li>
+                        <li className="list-inline-item"><Link to="/about#" className="nav-link about-link">About</Link></li>
+                        <li className="list-inline-item"><Link to="/contact#" className="nav-link">Contact Us</Link></li>
+                        <li className="list-inline-item"><Link to="/privacy-policy#" className="nav-link">Privacy Policy</Link></li>
+                        <li className="list-inline-item"><Link to="/terms#" className="nav-link">Terms and Conditions</Link></li>
                     </ul>
                 </Collapse>
 

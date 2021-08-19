@@ -13,7 +13,7 @@ class TenancyReviewVoter extends Voter
 {
     private UserService $userService;
 
-    const COMMENT = 'comment';
+    public const COMMENT = 'comment';
 
     public function __construct(
         UserService $userService
