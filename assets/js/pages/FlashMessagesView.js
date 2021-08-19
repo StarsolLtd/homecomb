@@ -1,0 +1,38 @@
+import React from 'react';
+import { Col, Container, Row } from 'reactstrap';
+import Constants from "../Constants";
+
+class FlashMessagesView extends React.Component {
+
+    constructor() {
+        super();
+
+        this.addFlashMessage = this.addFlashMessage.bind(this);
+        this.fetchFlashMessages = this.fetchFlashMessages.bind(this);
+    }
+
+    addFlashMessage(context, content) {
+        this.setState({ flashMessages: [...this.state.flashMessages, {key: Date.now(), context, content}] })
+    }
+
+    fetchFlashMessages(scrollTo=true) {
+        fetch('/api/session/flash')
+            .then(
+                response => {
+                    this.setState({flashMessagesFetching: false})
+                    if (!response.ok) {
+                        return Promise.reject('Error: ' + response.status)
+                    }
+                    return response.json()
+                }
+            )
+            .then(data => {
+                data.messages.forEach(message => this.addFlashMessage(message.type, message.message));
+                if (scrollTo) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+    }
+}
+
+export default FlashMessagesView;
