@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 const AgencyBranch = (props) => {
     return (
         <div className="agency-branch">
-            <div><Link to={'/branch/' + props.slug}>{props.name}</Link></div>
+            <div><Link to={'/branch/' + props.slug + '#'}>{props.name}</Link></div>
             {props.telephone &&
                 <div className="telephone">Tel: {props.telephone}</div>
             }

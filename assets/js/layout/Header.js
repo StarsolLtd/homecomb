@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import {Collapse, Container, Nav} from "reactstrap";
 import TextLogo from "../components/TextLogo";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
@@ -12,7 +12,7 @@ const Header = (props) => {
         <Nav id="header-navbar" className={navClasses}>
             <Container>
                 <span className="navbar-brand logo-medium mr-5">
-                    <Link to="/">
+                    <Link to="/#">
                         <TextLogo className="logo-white"/>
                     </Link>
                 </span>

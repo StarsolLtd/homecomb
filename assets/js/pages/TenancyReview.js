@@ -3,7 +3,7 @@ import {Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
 import Constants from "../Constants";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class TenancyReview extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class TenancyReview extends React.Component {
             <Container>
                 <Row>
                     <Breadcrumb className="w-100">
-                        <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
                         <BreadcrumbItem className="active">Review your tenancy</BreadcrumbItem>
                     </Breadcrumb>
                 </Row>

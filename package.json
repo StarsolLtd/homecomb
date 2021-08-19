@@ -60,6 +60,7 @@
         "react-moment": "^1.1.1",
         "react-rating": "^2.0.5",
         "react-router-dom": "^5.2.0",
+        "react-router-hash-link": "^2.4.3",
         "react-scale-text": "^1.2.2",
         "react-table-v6": "^6.8.6",
         "react-transition-group": "^4.4.1",

@@ -3,7 +3,7 @@ import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 import Review from "../components/Review";
 import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class BranchView extends React.Component {
     constructor(props) {
@@ -30,7 +30,7 @@ class BranchView extends React.Component {
                     <Fragment>
                         <Row>
                             <Breadcrumb className="w-100">
-                                <BreadcrumbItem><Link to="/">{Constants.SITE_NAME}</Link></BreadcrumbItem>
+                                <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
                                 {this.state.agency &&
                                 <BreadcrumbItem className="agency-name"><Link to={'/agency/' + this.state.agency.slug}>{this.state.agency.name}</Link></BreadcrumbItem>
                                 }
