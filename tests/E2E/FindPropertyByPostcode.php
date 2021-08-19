@@ -51,8 +51,8 @@ class FindPropertyByPostcode extends PantherTestCase
         $h3 = $crawler->filter('.find-by-postcode-results h3');
         $this->assertEquals('0 results found in PE31 8RC', $h3->text());
 
-        // Search for valid postcode and get results and click one
-        $form['postcode'] = 'PE31 8RW';
+        // Search for postcode, check it gets capitalised, get results and click one
+        $form['postcode'] = 'pe31 8rw';
         $client->submitForm('Search');
 
         $client->waitFor('.find-by-postcode-results', self::TIMEOUT);

@@ -25,13 +25,13 @@ class FindByPostcode extends React.Component {
         };
 
         this.handleAddressClick = this.handleAddressClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangePostcode = this.handleChangePostcode.bind(this);
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChangePostcode(event) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.value;
         const name = target.name;
 
         this.setState({
@@ -62,7 +62,7 @@ class FindByPostcode extends React.Component {
                                     type="text"
                                     name="postcode"
                                     required
-                                    onChange={this.handleChange}
+                                    onChange={this.handleChangePostcode}
                                     placeholder="Enter a postcode"
                                     value={this.state.postcode}
                                     validate={{
@@ -87,7 +87,7 @@ class FindByPostcode extends React.Component {
                 }
                 {!this.state.isLoading && this.state.loaded &&
                 <div className="find-by-postcode-results bg-white rounded shadow-sm p-3 mb-4">
-                    <h3 className="mt-1">{this.state.properties.length} results found in {this.state.postcode}</h3>
+                    <h3 className="mt-1">{this.state.properties.length} results found in {this.state.postcode.toUpperCase()}</h3>
                     {this.state.properties.map(
                         ({addressLine1, addressLine2, addressLine3, city, postcode}) => (
                             <Address
