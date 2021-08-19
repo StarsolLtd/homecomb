@@ -189,3 +189,7 @@ copy-e2e-env-to-local:
 
 copy-prod-env-to-local:
 	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.prod /var/www/.env.local"
+
+clear-cache:
+	docker exec -it homecomb_php_1 php bin/console cache:pool:clear cache.global_clearer
+
