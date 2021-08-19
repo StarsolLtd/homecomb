@@ -56,7 +56,7 @@ class PropertyController extends AppController
         }
 
         try {
-            $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId($vendorPropertyId);
+            $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId((string) $vendorPropertyId);
         } catch (DeveloperException | FailureException $e) {
             return $this->jsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -84,7 +84,10 @@ class PropertyController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $propertySlug = $this->propertyService->determinePropertySlugFromAddress($addressLine1, $postcode);
+        $propertySlug = $this->propertyService->determinePropertySlugFromAddress(
+            (string) $addressLine1,
+            (string) $postcode
+        );
 
         return new JsonResponse(
             [
@@ -108,7 +111,7 @@ class PropertyController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $input = new SuggestPropertyInput($term);
+        $input = new SuggestPropertyInput((string) $term);
 
         $suggestions = $this->propertyService->autocompleteSearch($input->getSearch());
 
