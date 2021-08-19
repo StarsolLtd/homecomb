@@ -6,15 +6,18 @@ import '../../styles/home.scss';
 import Constants from "../Constants";
 import Header from "../layout/Header";
 import FlashMessages from "../layout/FlashMessages";
-import FlashMessagesView from "./FlashMessagesView";
+import {addFlashMessage, fetchFlashMessages} from '../utils/FlashMessagesUtil.js'
 
-class Home extends FlashMessagesView {
+class Home extends React.Component {
     constructor() {
         super();
         this.state = {
             flashMessages: [],
             flashMessagesFetching: false,
         };
+
+        this.addFlashMessage = addFlashMessage.bind(this)
+        this.fetchFlashMessages = fetchFlashMessages.bind(this)
     }
 
     componentDidMount() {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from 'reactstrap';
 import FlashMessages from "../layout/FlashMessages";
-import FlashMessagesView from "./FlashMessagesView";
+import {addFlashMessage, fetchFlashMessages} from '../utils/FlashMessagesUtil.js'
 
-class View extends FlashMessagesView {
+class View extends React.Component {
     constructor(props) {
         super(props);
 
@@ -11,6 +11,9 @@ class View extends FlashMessagesView {
             flashMessages: [],
             flashMessagesFetching: false,
         };
+
+        this.addFlashMessage = addFlashMessage.bind(this)
+        this.fetchFlashMessages = fetchFlashMessages.bind(this)
     }
 
     componentDidMount() {
