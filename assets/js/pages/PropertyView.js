@@ -7,7 +7,7 @@ import Constants from "../Constants";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import Map from "../components/Map";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import LocaleReview from "../components/LocaleReview";
 
 class PropertyView extends React.Component {
@@ -53,7 +53,7 @@ class PropertyView extends React.Component {
                 <div className="property-view">
                     <Row>
                         <Breadcrumb className="w-100">
-                            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/#">Home</Link></BreadcrumbItem>
                             {this.state.city &&
                                 <BreadcrumbItem className="city">
                                     <a href={'/c/' + this.state.city.slug}>

@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 const RatedAgency = (props) => {
     return (
         <div className="agency clearfix">
             <div className="float-left agency-logo-container">
                 {props.agencyLogoImageFilename &&
-                <Link to={'/agency/' + props.agencySlug}>
+                <Link to={'/agency/' + props.agencySlug + '#'}>
                     <img src={'/images/images/' + props.agencyLogoImageFilename}
                          className="agency-logo float-left"
                          alt={props.agencyName + ' Logo'}

@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import ReviewStars from "./ReviewStars";
 import Moment from 'react-moment';
 import ReviewOptions from "./ReviewOptions";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import Comment from "./Comment";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,7 +56,7 @@ class Review extends React.Component {
                         <Fragment>
                             Agency:&nbsp;
                             {this.props.agency.published &&
-                            <Link to={'/agency/' + this.props.agency.slug} className="agency-name">{this.props.agency.name}</Link>
+                            <Link to={'/agency/' + this.props.agency.slug + '#'} className="agency-name">{this.props.agency.name}</Link>
                             }
                             {!this.props.agency.published &&
                             <span className="agency-name">{this.props.agency.name}</span>
@@ -66,7 +66,7 @@ class Review extends React.Component {
                         }
                         Branch:&nbsp;
                         {this.props.branch.published &&
-                            <Link to={'/branch/' + this.props.branch.slug} className="branch-name">{this.props.branch.name}</Link>
+                            <Link to={'/branch/' + this.props.branch.slug + '#'} className="branch-name">{this.props.branch.name}</Link>
                         }
                         {!this.props.branch.published &&
                             <span className="branch-name">{this.props.branch.name}</span>
