@@ -2,6 +2,7 @@
 
 namespace App\Tests\E2E;
 
+use App\Controller\Api\RegistrationController;
 use Symfony\Component\Panther\PantherTestCase;
 
 class Register extends PantherTestCase
@@ -47,5 +48,12 @@ class Register extends PantherTestCase
         $client->submitForm('Create account');
 
         $client->waitFor('#home', self::TIMEOUT);
+
+        $client->waitFor('.alert-success', self::TIMEOUT);
+
+        $this->assertStringContainsString(
+            RegistrationController::MESSAGE_REGISTRATION_SUCCESSFUL,
+            $crawler->filter('.alert-success')->text()
+        );
     }
 }

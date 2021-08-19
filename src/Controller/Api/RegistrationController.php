@@ -21,6 +21,8 @@ class RegistrationController extends AppController
 {
     use VerifyCaptchaTrait;
 
+    public const MESSAGE_REGISTRATION_SUCCESSFUL = 'Your registration was successful and you will receive an email to confirm your email address.';
+
     private GoogleReCaptchaService $googleReCaptchaService;
     private UserService $userService;
     private EmailVerifier $emailVerifier;
@@ -78,10 +80,7 @@ class RegistrationController extends AppController
         $token = $this->authenticator->createAuthenticatedToken($user, 'main');
         $this->guardHandler->authenticateWithToken($token, $request, 'main');
 
-        $this->addFlash(
-            'success',
-            'Your registration was successful and you will receive an email to confirm your email address.'
-        );
+        $this->addFlash('success', self::MESSAGE_REGISTRATION_SUCCESSFUL);
 
         return $this->jsonResponse(null, Response::HTTP_CREATED);
     }
