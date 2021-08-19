@@ -45,7 +45,6 @@ class SendVerificationEmail extends Command
 
         $arg1Type = gettype($userId);
         if ('string' === $arg1Type) {
-            /** @phpstan-ignore-next-line */
             $userId = (int) $userId;
         } elseif ('int' !== $arg1Type) {
             throw new \RuntimeException('Invalid type of arg1: '.$arg1Type);

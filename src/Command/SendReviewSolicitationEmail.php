@@ -45,7 +45,6 @@ class SendReviewSolicitationEmail extends Command
 
         $arg1Type = gettype($tenancyReviewSolicitationId);
         if ('string' === $arg1Type) {
-            /** @phpstan-ignore-next-line */
             $tenancyReviewSolicitationId = (int) $tenancyReviewSolicitationId;
         } elseif ('int' !== $arg1Type) {
             throw new \RuntimeException('Invalid type of arg1: '.$arg1Type);
