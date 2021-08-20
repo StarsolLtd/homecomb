@@ -23,6 +23,17 @@
     .nav-item:not(:first-of-type) {
         border-top: 1px solid $secondary-light !important;
     }
+
+    .ui-autocomplete {
+        width: 100%;
+        left: 0 !important;
+    }
+    .ui-autocomplete li {
+        padding: .4em;
+    }
+    .ui-autocomplete li:not(:last-of-type) {
+        border-bottom: 1px solid $gray-200;
+    }
 }
 
 @media (min-width: 992px) {
