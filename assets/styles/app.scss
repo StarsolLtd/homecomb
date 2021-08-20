@@ -6,6 +6,23 @@
     .desktop-only {
         display: none;
     }
+
+    .container {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .nav-item {
+        padding-top: .5em;
+        padding-bottom: .5em;
+        letter-spacing: 2px;
+    }
+    .nav-item:first-of-type {
+        margin-top: 7px;
+    }
+    .nav-item:not(:first-of-type) {
+        border-top: 1px solid $secondary-light !important;
+    }
 }
 
 @media (min-width: 992px) {
@@ -22,6 +39,12 @@ body {
     height: 100%;
     max-width: 100%;
     background-color: #DFDFDF;
+}
+
+@media (max-width: 991px) {
+    body {
+        background-color: #FFFFFF;
+    }
 }
 
 .navbar-header {
@@ -98,6 +121,11 @@ footer ul, footer ul li {
     font-size: 2.5rem;
     font-family: $logo-font, sans-serif;
 }
+@media (max-width: 991px) {
+    .logo-medium {
+        font-size: 1.75rem;
+    }
+}
 
 .logo-sm {
     font-size: 1.5rem;
@@ -106,6 +134,11 @@ footer ul, footer ul li {
 
 .breadcrumb a, .red, a {
     color: $primary;
+}
+@media (max-width: 991px) {
+    .breadcrumb {
+        background-color: $white;
+    }
 }
 .bronze {
     color: $bronze;

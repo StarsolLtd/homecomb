@@ -5,6 +5,7 @@ import TextLogo from "../components/TextLogo";
 import PropertyAutocomplete from "../components/PropertyAutocomplete";
 
 import '../../styles/header.scss';
+import Constants from "../Constants";
 
 const Header = (props) => {
     const navClasses = `w-100 navbar navbar-expand-md navbar-dark navbar-header ${props.className}`;
@@ -29,7 +30,8 @@ const Header = (props) => {
                         prependSearchIcon={true}
                     />
                     <ul className="navbar-nav ml-auto text-center">
-                        <li className="nav-item dropdown"><Link to="/about">About</Link></li>
+                        <li className="nav-item dropdown"><Link to="/review#">Review your Tenancy</Link></li>
+                        <li className="nav-item dropdown"><Link to="/about#">About <span className="mobile-only">{Constants.SITE_NAME}</span></Link></li>
                         <li className="nav-item dropdown">
                             <a className="dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
