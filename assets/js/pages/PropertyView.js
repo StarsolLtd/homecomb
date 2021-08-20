@@ -62,7 +62,7 @@ class PropertyView extends React.Component {
                                 </BreadcrumbItem>
                             }
                             {this.showDistrictInBreadcrumb() &&
-                                <BreadcrumbItem className="district">
+                                <BreadcrumbItem className="district desktop-only">
                                     <a href={'/d/' + this.state.district.slug}>
                                         {this.state.district.name}
                                     </a>
@@ -71,12 +71,12 @@ class PropertyView extends React.Component {
                             {this.state.locality &&
                                 <BreadcrumbItem className="locality">{this.state.locality}</BreadcrumbItem>
                             }
-                            <BreadcrumbItem className="postcode">{this.state.postcode}</BreadcrumbItem>
+                            <BreadcrumbItem className="desktop-only postcode">{this.state.postcode}</BreadcrumbItem>
                             <BreadcrumbItem className="active address-line-1">{this.state.addressLine1}</BreadcrumbItem>
                         </Breadcrumb>
                     </Row>
                     {this.state.latitude && this.state.longitude &&
-                        <Row>
+                        <Row className="desktop-only">
                             <Col md={12} className="bg-white rounded shadow-sm p-4 mb-4">
                                 <Map
                                     className="property-map"

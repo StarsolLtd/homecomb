@@ -65,7 +65,7 @@ class FindPropertyByPostcode extends PantherTestCase
 
         $client->waitFor('.property-view', self::TIMEOUT);
 
-        $postcode = $crawler->filter('.postcode');
-        $this->assertEquals('PE31 8RW', $postcode->text());
+        $postcode = $crawler->filter('.city');
+        $this->assertEquals("King's Lynn", $postcode->text());
     }
 }

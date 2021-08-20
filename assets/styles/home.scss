@@ -9,6 +9,14 @@
 #home p {
   font-size: 130%;
 }
+@media (max-width: 991px) {
+  #home label {
+    font-size: 140%;
+  }
+  #home p {
+    font-size: 110%;
+  }
+}
 #home .container {
   max-width: 750px;
 }

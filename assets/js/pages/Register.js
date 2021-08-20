@@ -12,7 +12,7 @@ const Register = (props) => {
 
     return (
         <Container>
-            <Row>
+            <Row className="desktop-only">
                 <Breadcrumb className="w-100">
                     <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
                     <BreadcrumbItem className="active">Register with {Constants.SITE_NAME}</BreadcrumbItem>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import Constants from "../Constants";
-import {Link} from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class LoginOrRegister extends React.Component {
 
@@ -30,7 +30,7 @@ class LoginOrRegister extends React.Component {
                 </ModalBody>
                 <ModalFooter>
                     <a href="/login"><Button color="primary" className="log-in-button">Log in</Button></a>
-                    <Link to="/register"><Button color="primary" className="register-button">Register</Button></Link>
+                    <Link to="/register#"><Button color="primary" className="register-button">Register</Button></Link>
                     <Button color="secondary" className="close-modal-button" onClick={this.toggleModal}>Never mind</Button>
                 </ModalFooter>
             </Modal>

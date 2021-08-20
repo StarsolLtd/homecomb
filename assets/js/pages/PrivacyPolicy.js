@@ -13,7 +13,7 @@ class PrivacyPolicy extends React.Component {
     render() {
         return (
             <Container>
-                <Row>
+                <Row className="desktop-only">
                     <Breadcrumb className="w-100">
                         <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
                         <BreadcrumbItem className="active">Privacy Policy</BreadcrumbItem>
