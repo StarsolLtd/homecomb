@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\Comment;
 use App\Entity\District;
+use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Model\Agency\Flat as FlatAgency;
@@ -14,6 +15,7 @@ use App\Model\Branch\Flat as FlatBranch;
 use App\Model\City\Flat as FlatCity;
 use App\Model\Comment\Flat as FlatComment;
 use App\Model\District\Flat as FlatDistrict;
+use App\Model\Locale\Flat as FlatLocale;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\User\Flat as FlatUser;
 
@@ -76,6 +78,15 @@ class FlatModelFactory
             $entity->getCounty(),
             $entity->getCountryCode(),
             $entity->getType(),
+            $entity->isPublished(),
+        );
+    }
+
+    public function getLocaleFlatModel(Locale $entity): FlatLocale
+    {
+        return new FlatLocale(
+            $entity->getSlug(),
+            $entity->getName(),
             $entity->isPublished(),
         );
     }

@@ -12,21 +12,26 @@ use App\Exception\DeveloperException;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
+use App\Model\Locale\LocaleSearchResults;
 use App\Model\Locale\View;
 use App\Util\LocaleHelper;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class LocaleFactory
 {
     private LocaleHelper $localeHelper;
+    private FlatModelFactory $flatModelFactory;
     private LocaleReviewFactory $localeReviewFactory;
     private TenancyReviewFactory $tenancyReviewFactory;
 
     public function __construct(
         LocaleHelper $localeHelper,
+        FlatModelFactory $flatModelFactory,
         LocaleReviewFactory $localeReviewFactory,
         TenancyReviewFactory $tenancyReviewFactory
     ) {
         $this->localeHelper = $localeHelper;
+        $this->flatModelFactory = $flatModelFactory;
         $this->localeReviewFactory = $localeReviewFactory;
         $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
@@ -81,6 +86,19 @@ class LocaleFactory
         assert($districtLocale instanceof DistrictLocale);
 
         return $districtLocale;
+    }
+
+    public function createLocaleSearchResults(string $query, ArrayCollection $results): LocaleSearchResults
+    {
+        $locales = [];
+        foreach ($results as $result) {
+            $locales[] = $this->flatModelFactory->getLocaleFlatModel($result);
+        }
+
+        return new LocaleSearchResults(
+            $query,
+            $locales
+        );
     }
 
     public function getAgencyReviewsSummary(Locale $locale): AgencyReviewsSummary
