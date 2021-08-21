@@ -8,6 +8,8 @@ import { HashLink as Link } from "react-router-hash-link";
 import LocaleReview from "../components/LocaleReview";
 import ReviewLocaleForm from "../components/ReviewLocaleForm";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
+import PropertyAutocomplete from "../components/PropertyAutocomplete";
+import LocaleAutocomplete from "../components/LocaleAutocomplete";
 
 class LocaleView extends React.Component {
     constructor(props) {
@@ -167,6 +169,12 @@ class LocaleView extends React.Component {
                                     {...this.props}
                                 />
                                 }
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md="12" className="bg-white rounded shadow-sm p-4 mb-4">
+                                <h5 className="mb-4">Search for another city, town or district</h5>
+                                <LocaleAutocomplete prependSearchIcon={true}/>
                             </Col>
                         </Row>
                     </div>

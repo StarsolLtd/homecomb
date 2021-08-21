@@ -28,7 +28,7 @@ class LocaleControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/locale-search?q=king');
+        $client->request('GET', '/api/locale/suggest-locale?q=king');
 
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());

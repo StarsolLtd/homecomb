@@ -43,8 +43,8 @@ class LocaleController extends AppController
 
     /**
      * @Route (
-     *     "/api/locale-search",
-     *     name="api-locale-search",
+     *     "/api/locale/suggest-locale",
+     *     name="api-suggest-locale",
      *     methods={"GET"}
      * )
      */
