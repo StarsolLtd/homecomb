@@ -43,7 +43,7 @@ class LocaleView extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Container className="locale-view">
                 {this.state.localeReviewCompletedThankYou &&
                     <ReviewCompletedThankYou />
                 }
