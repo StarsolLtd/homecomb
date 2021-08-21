@@ -76,7 +76,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             $this->em->flush();
         }
 
-        return $userProvider->loadUserByUsername($user->getUsername());
+        return $userProvider->loadUserByIdentifier($user->getUsername());
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
