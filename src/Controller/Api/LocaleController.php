@@ -40,4 +40,18 @@ class LocaleController extends AppController
 
         return $this->jsonResponse($view, Response::HTTP_OK);
     }
+
+    /**
+     * @Route (
+     *     "/api/locale-search",
+     *     name="api-locale-search",
+     *     methods={"GET"}
+     * )
+     */
+    public function search(Request $request): JsonResponse
+    {
+        $output = $this->localeService->search((string) $request->query->get('q'));
+
+        return $this->jsonResponse($output, Response::HTTP_OK);
+    }
 }
