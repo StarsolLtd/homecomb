@@ -18,7 +18,9 @@ use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use League\OAuth2\Client\Provider\GoogleUser;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -235,6 +237,73 @@ class UserServiceTest extends TestCase
         $this->expectException(ConflictException::class);
 
         $this->userService->register($input->reveal());
+
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::registerFromGoogleUser
+     */
+    public function testRegisterFromGoogleUser1(): void
+    {
+        $googleUser = $this->prophesize(GoogleUser::class);
+
+        $googleUser->getEmail()->shouldBeCalled()->willReturn('turanga.leela@planet-express.com');
+        $googleUser->getId()->shouldBeCalled()->willReturn('test-google-id');
+        $googleUser->getFirstName()->shouldBeCalled()->willReturn('Turanga');
+        $googleUser->getLastName()->shouldBeCalled()->willReturn('Leela');
+
+        $this->userRepository->loadUserByUsername('turanga.leela@planet-express.com')
+            ->shouldBeCalledOnce()
+            ->willReturn(null);
+
+        $this->entityManager->persist(Argument::type(User::class))->shouldBeCalledOnce();
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $user = $this->userService->registerFromGoogleUser($googleUser->reveal());
+
+        $this->assertEquals('turanga.leela@planet-express.com', $user->getEmail());
+        $this->assertEquals('test-google-id', $user->getGoogleId());
+        $this->assertEquals('Turanga', $user->getFirstName());
+        $this->assertEquals('Leela', $user->getLastName());
+        $this->assertTrue($user->isVerified());
+    }
+
+    /**
+     * @covers \App\Service\UserService::registerFromGoogleUser
+     * Test throws ConflictException if already exists
+     */
+    public function testRegisterFromGoogleUser2(): void
+    {
+        $googleUser = $this->prophesize(GoogleUser::class);
+        $existingUser = $this->prophesize(User::class);
+
+        $googleUser->getEmail()->shouldBeCalled()->willReturn('test@starsol.co.uk');
+
+        $this->userRepository->loadUserByUsername('test@starsol.co.uk')
+            ->shouldBeCalledOnce()
+            ->willReturn($existingUser);
+
+        $this->expectException(ConflictException::class);
+
+        $this->userService->registerFromGoogleUser($googleUser->reveal());
+
+        $this->assertEntityManagerUnused();
+    }
+
+    /**
+     * @covers \App\Service\UserService::registerFromGoogleUser
+     * Test throws UserException if email is null
+     */
+    public function testRegisterFromGoogleUser3(): void
+    {
+        $googleUser = $this->prophesize(GoogleUser::class);
+
+        $googleUser->getEmail()->shouldBeCalled()->willReturn(null);
+
+        $this->expectException(UserException::class);
+
+        $this->userService->registerFromGoogleUser($googleUser->reveal());
 
         $this->assertEntityManagerUnused();
     }
