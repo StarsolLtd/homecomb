@@ -12,6 +12,7 @@ use App\Model\User\RegisterInput;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
@@ -104,10 +105,7 @@ class UserService
     public function register(RegisterInput $input): User
     {
         $username = $input->getEmail();
-        $existing = $this->userRepository->loadUserByUsername($username);
-        if (null !== $existing) {
-            throw new ConflictException(sprintf('User already exists with username %s', $username));
-        }
+        $this->registerCheckExisting($username);
 
         $user = $this->userFactory->createEntityFromRegisterInput($input);
 
@@ -115,6 +113,28 @@ class UserService
         $this->entityManager->flush();
 
         $this->sendVerificationEmail($user);
+
+        return $user;
+    }
+
+    public function registerFromGoogleUser(GoogleUser $googleUser): User
+    {
+        $username = $googleUser->getEmail();
+        if (null === $username) {
+            throw new UserException('GoogleUser email must not be null.');
+        }
+        $this->registerCheckExisting($username);
+
+        $user = (new User())
+            ->setEmail($username)
+            ->setGoogleId($googleUser->getId())
+            ->setFirstName($googleUser->getFirstName())
+            ->setLastName($googleUser->getLastName())
+            ->setIsVerified(true)
+        ;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         return $user;
     }
@@ -182,5 +202,13 @@ class UserService
     private function isSendingVerificationEmailAppropriate(User $user): bool
     {
         return !$user->isVerified();
+    }
+
+    private function registerCheckExisting(string $username): void
+    {
+        $existing = $this->userRepository->loadUserByUsername($username);
+        if (null !== $existing) {
+            throw new ConflictException(sprintf('User already exists with username %s', $username));
+        }
     }
 }
