@@ -11,12 +11,14 @@ use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
+use App\Model\Locale\LocaleSearchResults;
 use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
 use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
 use App\Service\LocaleService;
 use App\Tests\Unit\EntityManagerTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -149,6 +151,22 @@ class LocaleServiceTest extends TestCase
         $output = $this->localeService->findOrCreateByDistrict($district->reveal());
 
         $this->assertEquals($output, $districtLocale->reveal());
+    }
+
+    /**
+     * @covers \App\Service\LocaleService::search
+     */
+    public function testSearch1()
+    {
+        $results = $this->prophesize(ArrayCollection::class);
+        $localeSearchResults = $this->prophesize(LocaleSearchResults::class);
+
+        $this->localeRepository->findBySearchQuery('king')->shouldBeCalledOnce()->willReturn($results);
+        $this->localeFactory->createLocaleSearchResults('king', $results)->shouldBeCalledOnce()->willReturn($localeSearchResults);
+
+        $output = $this->localeService->search('king');
+
+        $this->assertEquals($output, $localeSearchResults->reveal());
     }
 
     /**

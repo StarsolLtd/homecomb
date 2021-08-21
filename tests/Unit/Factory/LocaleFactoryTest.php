@@ -12,9 +12,11 @@ use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Exception\DeveloperException;
+use App\Factory\FlatModelFactory;
 use App\Factory\LocaleFactory;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Factory\TenancyReviewFactory;
+use App\Model\Locale\Flat;
 use App\Model\Review\LocaleReviewView;
 use App\Model\TenancyReview\View as TenancyReviewView;
 use App\Util\LocaleHelper;
@@ -33,17 +35,20 @@ class LocaleFactoryTest extends TestCase
     private LocaleFactory $localeFactory;
 
     private $localeHelper;
+    private $flatModelFactory;
     private $localeReviewFactory;
     private $tenancyReviewFactory;
 
     public function setUp(): void
     {
         $this->localeHelper = $this->prophesize(LocaleHelper::class);
+        $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
         $this->localeReviewFactory = $this->prophesize(LocaleReviewFactory::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->localeFactory = new LocaleFactory(
             $this->localeHelper->reveal(),
+            $this->flatModelFactory->reveal(),
             $this->localeReviewFactory->reveal(),
             $this->tenancyReviewFactory->reveal()
         );
@@ -207,5 +212,30 @@ class LocaleFactoryTest extends TestCase
         $this->assertEquals('East Cambridgeshire', $entity->getName());
         $this->assertEquals('test-district-slug', $entity->getSlug());
         $this->assertTrue($entity->isPublished());
+    }
+
+    /**
+     * @covers \App\Factory\LocaleFactory::createLocaleSearchResults
+     */
+    public function testCreateLocaleSearchResults1(): void
+    {
+        $result1 = $this->prophesize(CityLocale::class);
+        $result2 = $this->prophesize(DistrictLocale::class);
+        $results = (new ArrayCollection([$result1->reveal(), $result2->reveal()]));
+        $flatModel1 = $this->prophesize(Flat::class);
+        $flatModel2 = $this->prophesize(Flat::class);
+
+        $this->flatModelFactory->getLocaleFlatModel($result1)
+            ->shouldBeCalledOnce()
+            ->willReturn($flatModel1);
+
+        $this->flatModelFactory->getLocaleFlatModel($result2)
+            ->shouldBeCalledOnce()
+            ->willReturn($flatModel2);
+
+        $model = $this->localeFactory->createLocaleSearchResults('king', $results);
+
+        $this->assertEquals('king', $model->getQuery());
+        $this->assertCount(2, $model->getLocales());
     }
 }

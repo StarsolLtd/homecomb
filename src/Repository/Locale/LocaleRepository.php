@@ -5,6 +5,7 @@ namespace App\Repository\Locale;
 use App\Entity\Locale\Locale;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,5 +35,24 @@ class LocaleRepository extends ServiceEntityRepository
         }
 
         return $locale;
+    }
+
+    /**
+     * @return ArrayCollection<int, Locale>
+     */
+    public function findBySearchQuery(string $searchQuery, int $maxResults = 10): ArrayCollection
+    {
+        $searchQuery = trim($searchQuery);
+
+        $results = $this->createQueryBuilder('l')
+            ->where('l.name LIKE :nameLike')
+            ->orWhere('l.name = :name')
+            ->setParameter('nameLike', $searchQuery.'%')
+            ->setParameter('name', $searchQuery)
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+
+        return new ArrayCollection($results);
     }
 }

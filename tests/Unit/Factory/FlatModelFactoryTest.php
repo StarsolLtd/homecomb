@@ -7,6 +7,7 @@ use App\Entity\Branch;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\District;
+use App\Entity\Locale\Locale;
 use App\Entity\Property;
 use App\Entity\User;
 use App\Factory\FlatModelFactory;
@@ -141,6 +142,24 @@ class FlatModelFactoryTest extends TestCase
         $this->assertNull($model->getCounty());
         $this->assertEquals('Borough', $model->getType());
         $this->assertEquals('UK', $model->getCountryCode());
+        $this->assertTrue($model->isPublished());
+    }
+
+    /**
+     * @covers \App\Factory\FlatModelFactory::getLocaleFlatModel
+     */
+    public function testGetLocaleFlatModel(): void
+    {
+        $locale = $this->prophesize(Locale::class);
+
+        $locale->getSlug()->shouldBeCalledOnce()->willReturn('test-locale-slug');
+        $locale->getName()->shouldBeCalledOnce()->willReturn('Islington');
+        $locale->isPublished()->shouldBeCalledOnce()->willReturn(true);
+
+        $model = $this->flatModelFactory->getLocaleFlatModel($locale->reveal());
+
+        $this->assertEquals('test-locale-slug', $model->getSlug());
+        $this->assertEquals('Islington', $model->getName());
         $this->assertTrue($model->isPublished());
     }
 

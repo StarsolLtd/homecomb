@@ -11,6 +11,7 @@ use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
+use App\Model\Locale\LocaleSearchResults;
 use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
 use App\Repository\Locale\DistrictLocaleRepository;
@@ -77,6 +78,13 @@ class LocaleService
         $this->entityManager->flush();
 
         return $districtLocale;
+    }
+
+    public function search(string $query): LocaleSearchResults
+    {
+        $results = $this->localeRepository->findBySearchQuery($query);
+
+        return $this->localeFactory->createLocaleSearchResults($query, $results);
     }
 
     // TODO replace with version in factory

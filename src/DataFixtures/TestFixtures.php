@@ -36,7 +36,9 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
     public const TEST_CITY_KINGS_LYNN_SLUG = '8475b53127850aba';
+    public const TEST_CITY_KINGSTON_UPON_THAMES_SLUG = 'e51ffa0e60d2772d';
     public const TEST_CITY_LOCALE_KINGS_LYNN_SLUG = 'test-kl-city-locale';
+    public const TEST_CITY_LOCALE_KINGSTON_UPON_THAMES_SLUG = 'test-kut-city-locale';
     public const TEST_DISTRICT_ISLINGTON_SLUG = 'f9a1d092051730ae';
     public const TEST_LOCALE_SLUG = 'fakenham';
     public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
@@ -328,13 +330,24 @@ class TestFixtures extends AbstractDataFixtures
         /** @var City $kingsLynnCity */
         $kingsLynnCity = $this->getReference('city-kings-lynn');
 
-        $cityLocale = (new CityLocale())
+        $cityLocale1 = (new CityLocale())
             ->setCity($kingsLynnCity)
             ->setName("King's Lynn")
             ->setSlug(self::TEST_CITY_LOCALE_KINGS_LYNN_SLUG)
             ->setPublished(true)
         ;
-        $manager->persist($cityLocale);
+        $manager->persist($cityLocale1);
+
+        /** @var City $kingstonUponThames */
+        $kingstonUponThames = $this->getReference('city-kingston-upon-thames');
+
+        $cityLocale2 = (new CityLocale())
+            ->setCity($kingstonUponThames)
+            ->setName('Kingston upon Thames')
+            ->setSlug(self::TEST_CITY_LOCALE_KINGSTON_UPON_THAMES_SLUG)
+            ->setPublished(true)
+        ;
+        $manager->persist($cityLocale2);
 
         /** @var District $islingtonDistrict */
         $islingtonDistrict = $this->getReference('district-islington');
@@ -364,11 +377,19 @@ class TestFixtures extends AbstractDataFixtures
             ->setCountryCode('UK')
         ;
 
+        $kingstonUponThames = (new City())
+            ->setName('Kingston upon Thames')
+            ->setSlug(self::TEST_CITY_KINGSTON_UPON_THAMES_SLUG)
+            ->setCountryCode('UK')
+        ;
+
         $manager->persist($cambridge);
         $manager->persist($kingsLynn);
+        $manager->persist($kingstonUponThames);
 
         $this->addReference('city-cambridge', $cambridge);
         $this->addReference('city-kings-lynn', $kingsLynn);
+        $this->addReference('city-kingston-upon-thames', $kingstonUponThames);
     }
 
     private function loadDistricts(ObjectManager $manager): void

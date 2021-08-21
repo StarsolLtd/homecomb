@@ -75,7 +75,7 @@ e2e-agency-admin:
 	make e2e-solicit-review e2e-update-agency
 
 e2e-public:
-	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey e2e-submit-contact-form e2e-submit-locale-review e2e-submit-vote
+	make e2e-review-solicitation-response e2e-flag-review e2e-register e2e-tenancy-review e2e-search-for-property-and-review e2e-find-property-by-postcode e2e-complete-survey e2e-submit-contact-form e2e-submit-locale-review e2e-submit-vote e2e-navigate-via-locale-autocomplete
 
 e2e-complete-survey:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/CompleteSurvey.php
@@ -85,6 +85,9 @@ e2e-find-property-by-postcode:
 
 e2e-flag-review:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/FlagReview.php
+
+e2e-navigate-via-locale-autocomplete:
+	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/NavigateViaLocaleAutocomplete.php
 
 e2e-register:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/Register.php
