@@ -9,15 +9,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/autocomplete.scss';
 
-class PropertyAutocomplete extends React.Component {
+export default class PropertyAutocomplete extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             inputId: this.props.inputId || 'propertySearch',
             redirectToUrl: null,
         };
-
-        this.redirectToPropertyView = this.redirectToPropertyView.bind(this);
     }
 
     componentDidMount(){
@@ -78,8 +76,7 @@ class PropertyAutocomplete extends React.Component {
         )
     }
 
-    redirectToPropertyView(event, ui)
-    {
+    redirectToPropertyView = (event, ui) => {
         if (ui.item.slug) {
             this.setState({redirectToUrl: '/property/' + ui.item.slug})
         }
@@ -99,5 +96,3 @@ class PropertyAutocomplete extends React.Component {
         }
     }
 }
-
-export default PropertyAutocomplete;

@@ -8,33 +8,26 @@ import { HashLink as Link } from "react-router-hash-link";
 import LocaleReview from "../components/LocaleReview";
 import ReviewLocaleForm from "../components/ReviewLocaleForm";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
-import PropertyAutocomplete from "../components/PropertyAutocomplete";
 import LocaleAutocomplete from "../components/LocaleAutocomplete";
 
-class LocaleView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            content: '',
-            localeReviews: [],
-            tenancyReviews: [],
-            agencyReviewsSummary: null,
-            loaded: false,
-            reviewLocaleFormOpen: false,
-            localeReviewCompletedThankYou: false,
-        };
+export default class LocaleView extends React.Component {
 
-        this.loadData = this.loadData.bind(this);
-        this.openReviewLocaleForm = this.openReviewLocaleForm.bind(this);
-        this.localeReviewCompletedThankYou = this.localeReviewCompletedThankYou.bind(this);
-    }
+    state = {
+        name: '',
+        content: '',
+        localeReviews: [],
+        tenancyReviews: [],
+        agencyReviewsSummary: null,
+        loaded: false,
+        reviewLocaleFormOpen: false,
+        localeReviewCompletedThankYou: false,
+    };
 
-    openReviewLocaleForm() {
+    openReviewLocaleForm = () => {
         this.setState({reviewLocaleFormOpen: true});
     }
 
-    localeReviewCompletedThankYou() {
+    localeReviewCompletedThankYou = () => {
         this.setState({
             localeReviewCompletedThankYou: true,
             reviewLocaleFormOpen: false
@@ -183,7 +176,7 @@ class LocaleView extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             name: data.name,
             content: data.content,
@@ -196,5 +189,3 @@ class LocaleView extends React.Component {
         document.title = 'Top Lettings Agents in ' + this.state.name + ' | ' + Constants.SITE_NAME;
     }
 }
-
-export default LocaleView;

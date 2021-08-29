@@ -3,22 +3,21 @@ import {Label, Button, FormText, Container} from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import Constants from "../../Constants";
 
-class CreateAgency extends React.Component {
+export default class CreateAgency extends React.Component {
+
+    state = {
+        agencyName: '',
+        externalUrl: '',
+        postcode: '',
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            agencyName: '',
-            externalUrl: '',
-            postcode: '',
-        };
         this.submit = this.props.submit;
         this.submit = this.submit.bind(this);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -75,7 +74,7 @@ class CreateAgency extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         let payload = {
             agencyName: this.state.agencyName,
             externalUrl: this.state.externalUrl,
@@ -92,9 +91,7 @@ class CreateAgency extends React.Component {
         this.clearForm()
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }
-
-export default CreateAgency;

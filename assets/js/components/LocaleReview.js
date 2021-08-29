@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../../styles/review.scss';
 import Vote from "./Vote";
 
-class LocaleReview extends React.Component {
+export default class LocaleReview extends React.Component {
 
     constructor(props) {
         super(props);
@@ -46,5 +46,3 @@ class LocaleReview extends React.Component {
         );
     }
 }
-
-export default LocaleReview;

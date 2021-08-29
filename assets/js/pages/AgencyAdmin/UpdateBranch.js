@@ -3,24 +3,21 @@ import {Label, FormText, Button, Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 
-class UpdateBranch extends React.Component {
+export default class UpdateBranch extends React.Component {
+
+    state = {
+        name: '',
+        telephone: '',
+        email: '',
+        loaded: false,
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            name: '',
-            telephone: '',
-            email: '',
-            loaded: false,
-        };
-
         this.submit = this.props.submit;
-
-        this.loadData = this.loadData.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -72,7 +69,7 @@ class UpdateBranch extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             name: data.name,
             telephone: data.telephone,
@@ -81,7 +78,7 @@ class UpdateBranch extends React.Component {
         });
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         let payload = {
             telephone: this.state.telephone,
             email: this.state.email,
@@ -93,5 +90,3 @@ class UpdateBranch extends React.Component {
         )
     }
 }
-
-export default UpdateBranch;

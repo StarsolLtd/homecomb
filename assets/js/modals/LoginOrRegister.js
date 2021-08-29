@@ -4,17 +4,13 @@ import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 
-class LoginOrRegister extends React.Component {
+export default class LoginOrRegister extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showModal: props.showModal
-        };
-        this.toggleModal = this.toggleModal.bind(this);
-    }
+    state = {
+        showModal: this.props.showModal
+    };
 
-    toggleModal() {
+    toggleModal = () => {
         this.setState({
             showModal: !this.state.showModal
         })
@@ -37,5 +33,3 @@ class LoginOrRegister extends React.Component {
         );
     }
 }
-
-export default LoginOrRegister;

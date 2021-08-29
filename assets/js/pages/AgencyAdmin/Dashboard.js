@@ -1,23 +1,19 @@
 import React, {Fragment} from 'react';
-import {Link} from "react-router-dom";
-import {Row, Col, Card, Button} from 'reactstrap';
+import {Row, Col} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import ReactTable from 'react-table-v6'
 import 'react-table-v6/react-table.css'
 import BranchCard from "./BranchCard";
 import AddBranchCard from "./AddBranchCard";
 
-class Dashboard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agency: null,
-            branches: [],
-            reviews: [],
-            loaded: false,
-        };
-        this.loadData = this.loadData.bind(this);
-    }
+export default class Dashboard extends React.Component {
+
+    state = {
+        agency: null,
+        branches: [],
+        reviews: [],
+        loaded: false,
+    };
 
     render() {
         return (
@@ -66,7 +62,7 @@ class Dashboard extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             agency: data.agency,
             branches: data.branches,
@@ -75,5 +71,3 @@ class Dashboard extends React.Component {
         });
     }
 }
-
-export default Dashboard;

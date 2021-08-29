@@ -5,20 +5,14 @@ import Constants from "../Constants";
 import Question from "../components/Question";
 import SurveyCompletedThankYou from "../content/SurveyCompletedThankYou";
 
-class Survey extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: '',
-            description: '',
-            currentQuestion: 1,
-            loaded: false,
-        };
+export default class Survey extends React.Component {
 
-        this.loadData = this.loadData.bind(this);
-        this.back = this.back.bind(this);
-        this.forward = this.forward.bind(this);
-    }
+    state = {
+        title: '',
+        description: '',
+        currentQuestion: 1,
+        loaded: false,
+    };
 
     render() {
         return (
@@ -86,7 +80,7 @@ class Survey extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             title: data.title,
             description: data.description,
@@ -97,17 +91,15 @@ class Survey extends React.Component {
         document.title = this.state.title + ' | ' + Constants.SITE_NAME;
     }
 
-    back(number) {
+    back = (number) => {
         this.setState({
             currentQuestion: number - 1,
         });
     }
 
-    forward(number) {
+    forward = (number) => {
         this.setState({
             currentQuestion: number + 1,
         });
     }
 }
-
-export default Survey;

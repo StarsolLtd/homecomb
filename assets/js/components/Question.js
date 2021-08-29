@@ -5,25 +5,15 @@ import {Button, FormText, Label, Progress} from "reactstrap";
 import '../../styles/question.scss';
 import Scale from "./Scale";
 
-class Question extends React.Component {
+export default class Question extends React.Component {
 
-    constructor(props) {
-        super(props);
+    state = {
+        content: '',
+        rating: null,
+        isFormSubmitting: false,
+    };
 
-        this.state = {
-            content: '',
-            rating: null,
-            isFormSubmitting: false,
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleRatingChange = this.handleRatingChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-        this.back = this.back.bind(this);
-        this.forward = this.forward.bind(this);
-    }
-
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -33,7 +23,7 @@ class Question extends React.Component {
         });
     }
 
-    handleRatingChange(value) {
+    handleRatingChange = (value) => {
         this.setState({rating: value});
     }
 
@@ -105,7 +95,7 @@ class Question extends React.Component {
         );
     }
 
-    handleValidSubmit(event, values) {
+    handleValidSubmit = (event, values) => {
 
         this.setState({isFormSubmitting: true});
         let payload = {
@@ -134,13 +124,11 @@ class Question extends React.Component {
             .catch(err => console.error("Error:", err));
     }
 
-    back() {
+    back = () => {
         this.props.back(this.props.sortOrder);
     }
 
-    forward() {
+    forward = () => {
         this.props.forward(this.props.sortOrder);
     }
 }
-
-export default Question;

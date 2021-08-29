@@ -5,19 +5,15 @@ import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 
-class BranchView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            branchSlug: this.props.match.params.slug,
-            agency: {},
-            branch: {},
-            tenancyReviews: [],
-            loaded: false,
-        };
+export default class BranchView extends React.Component {
 
-        this.loadData = this.loadData.bind(this);
-    }
+    state = {
+        branchSlug: this.props.match.params.slug,
+        agency: {},
+        branch: {},
+        tenancyReviews: [],
+        loaded: false,
+    };
 
     render() {
         return (
@@ -88,7 +84,7 @@ class BranchView extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             agency: data.agency,
             branch: data.branch,
@@ -99,5 +95,3 @@ class BranchView extends React.Component {
         document.title = this.state.branch.name + ' Branch Reviews | ' + Constants.SITE_NAME;
     }
 }
-
-export default BranchView;

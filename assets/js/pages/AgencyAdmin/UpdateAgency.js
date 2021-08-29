@@ -3,26 +3,23 @@ import {Label, FormText, Button, Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
 import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 
-class UpdateAgency extends React.Component {
+export default class UpdateAgency extends React.Component {
+
+    state = {
+        slug: '',
+        name: '',
+        externalUrl: '',
+        postcode: '',
+        loaded: false,
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            slug: '',
-            name: '',
-            externalUrl: '',
-            postcode: '',
-            loaded: false,
-        };
-
         this.submit = this.props.submit;
         this.submit = this.submit.bind(this);
-
-        this.loadData = this.loadData.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -74,7 +71,7 @@ class UpdateAgency extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             slug: data.slug,
             name: data.name,
@@ -84,7 +81,7 @@ class UpdateAgency extends React.Component {
         });
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         let payload = {
             externalUrl: this.state.externalUrl,
             postcode: this.state.postcode,
@@ -96,5 +93,3 @@ class UpdateAgency extends React.Component {
         )
     }
 }
-
-export default UpdateAgency;

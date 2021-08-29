@@ -2,22 +2,21 @@ import React from 'react';
 import {Label, Button, FormText, Container} from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 
-class CreateBranch extends React.Component {
+export default class CreateBranch extends React.Component {
+
+    state = {
+        branchName: '',
+        telephone: '',
+        email: '',
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            branchName: '',
-            telephone: '',
-            email: '',
-        };
         this.submit = this.props.submit;
         this.submit = this.submit.bind(this);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -65,7 +64,7 @@ class CreateBranch extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         let payload = {
             branchName: this.state.branchName,
             externalUrl: this.state.externalUrl,
@@ -79,9 +78,7 @@ class CreateBranch extends React.Component {
         this.clearForm();
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }
-
-export default CreateBranch;

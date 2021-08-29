@@ -1,10 +1,7 @@
 import React, {Fragment} from 'react';
 import {Redirect} from 'react-router-dom';
 
-class NonAgentRoute extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+export default class NonAgentRoute extends React.Component {
 
     render() {
         const Component = this.props.render;
@@ -21,6 +18,3 @@ class NonAgentRoute extends React.Component {
     }
 
 }
-
-
-export default NonAgentRoute;

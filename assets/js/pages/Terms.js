@@ -4,7 +4,7 @@ import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 
-class Terms extends React.Component {
+export default class Terms extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Terms and Conditions';
@@ -709,5 +709,3 @@ class Terms extends React.Component {
         );
     }
 }
-
-export default Terms;

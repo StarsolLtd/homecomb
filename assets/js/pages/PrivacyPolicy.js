@@ -4,7 +4,7 @@ import {Breadcrumb, BreadcrumbItem, Col, Container, Row} from 'reactstrap';
 import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 
-class PrivacyPolicy extends React.Component {
+export default class PrivacyPolicy extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Privacy Policy';
@@ -111,5 +111,3 @@ class PrivacyPolicy extends React.Component {
         );
     }
 }
-
-export default PrivacyPolicy;

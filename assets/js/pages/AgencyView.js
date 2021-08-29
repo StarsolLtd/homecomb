@@ -5,15 +5,12 @@ import DataLoader from "../components/DataLoader";
 import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 
-class AgencyView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agency: {},
-            loaded: false,
-        };
-        this.loadData = this.loadData.bind(this);
-    }
+export default class AgencyView extends React.Component {
+
+    state = {
+        agency: {},
+        loaded: false,
+    };
 
     render() {
         return (
@@ -51,14 +48,11 @@ class AgencyView extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             agency: data,
             loaded: true
         });
-        console.log(this.state);
         document.title = this.state.agency.name + ' Reviews | ' + Constants.SITE_NAME;
     }
 }
-
-export default AgencyView;

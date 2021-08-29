@@ -16,7 +16,7 @@ import InputProperty from "./InputProperty";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
-class ReviewTenancyForm extends React.Component {
+export default class ReviewTenancyForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -55,22 +55,13 @@ class ReviewTenancyForm extends React.Component {
             branch: this.props.branch,
             code: this.props.code,
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleStartChange = this.handleStartChange.bind(this);
-        this.handleEndChange = this.handleEndChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-        this.handleOverallStarsChange = this.handleOverallStarsChange.bind(this);
-        this.handleAgencyStarsChange = this.handleAgencyStarsChange.bind(this);
-        this.handleLandlordStarsChange = this.handleLandlordStarsChange.bind(this);
-        this.handlePropertyStarsChange = this.handlePropertyStarsChange.bind(this);
-        this.setPropertySlugState = this.setPropertySlugState.bind(this);
     }
 
     componentDidMount() {
         this.fetchUserData();
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -80,31 +71,31 @@ class ReviewTenancyForm extends React.Component {
         });
     }
 
-    handleStartChange(value) {
+    handleStartChange = (value) => {
         this.setState({start: value});
     }
 
-    handleEndChange(value) {
+    handleEndChange = (value) => {
         this.setState({end: value});
     }
 
-    handleOverallStarsChange(value) {
+    handleOverallStarsChange = (value) => {
         this.setState({overallStars: value});
     }
 
-    handleAgencyStarsChange(value) {
+    handleAgencyStarsChange = (value) => {
         this.setState({agencyStars: value});
     }
 
-    handleLandlordStarsChange(value) {
+    handleLandlordStarsChange = (value) => {
         this.setState({landlordStars: value});
     }
 
-    handlePropertyStarsChange(value) {
+    handlePropertyStarsChange = (value) => {
         this.setState({propertyStars: value});
     }
 
-    setPropertySlugState(value) {
+    setPropertySlugState = (value) => {
         if (typeof value !== "undefined") {
             this.setState({propertySlug: value});
         }
@@ -403,7 +394,7 @@ class ReviewTenancyForm extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isFormSubmitting: true});
 
         const start = this.state.start !== null
@@ -463,7 +454,7 @@ class ReviewTenancyForm extends React.Component {
         });
     }
 
-    fetchUserData() {
+    fetchUserData = () => {
         fetch(
             '/api/user',
             {
@@ -485,11 +476,11 @@ class ReviewTenancyForm extends React.Component {
             .catch(err => console.error("Error:", err));
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 
-    formatDate(date) {
+    formatDate = (date) => {
         let d = new Date(date),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -503,5 +494,3 @@ class ReviewTenancyForm extends React.Component {
         return [year, month, day].join('-');
     }
 }
-
-export default ReviewTenancyForm;

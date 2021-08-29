@@ -5,15 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../../styles/question.scss';
 
-class Scale extends React.Component {
+export default class Scale extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.handleRatingChange = this.props.handleRatingChange;
-    }
-
-    handleRatingChange(value) {
+    handleRatingChange = (value) => {
         this.setState({rating: value});
     }
 
@@ -36,5 +30,3 @@ class Scale extends React.Component {
         );
     }
 }
-
-export default Scale;

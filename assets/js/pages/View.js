@@ -3,14 +3,15 @@ import { Container } from 'reactstrap';
 import FlashMessages from "../layout/FlashMessages";
 import {addFlashMessage, fetchFlashMessages} from '../utils/FlashMessagesUtil.js'
 
-class View extends React.Component {
+export default class View extends React.Component {
+
+    state = {
+        flashMessages: [],
+        flashMessagesFetching: false,
+    };
+
     constructor(props) {
         super(props);
-
-        this.state = {
-            flashMessages: [],
-            flashMessagesFetching: false,
-        };
 
         this.addFlashMessage = addFlashMessage.bind(this)
         this.fetchFlashMessages = fetchFlashMessages.bind(this)
@@ -34,5 +35,3 @@ class View extends React.Component {
         );
     }
 }
-
-export default View;

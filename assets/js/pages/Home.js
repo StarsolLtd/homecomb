@@ -8,13 +8,15 @@ import Header from "../layout/Header";
 import FlashMessages from "../layout/FlashMessages";
 import {addFlashMessage, fetchFlashMessages} from '../utils/FlashMessagesUtil.js'
 
-class Home extends React.Component {
+export default class Home extends React.Component {
+
+    state = {
+        flashMessages: [],
+        flashMessagesFetching: false,
+    };
+
     constructor() {
         super();
-        this.state = {
-            flashMessages: [],
-            flashMessagesFetching: false,
-        };
 
         this.addFlashMessage = addFlashMessage.bind(this)
         this.fetchFlashMessages = fetchFlashMessages.bind(this)
@@ -95,5 +97,3 @@ class Home extends React.Component {
         );
     }
 }
-
-export default Home;

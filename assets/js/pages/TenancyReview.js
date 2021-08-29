@@ -5,21 +5,17 @@ import Constants from "../Constants";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 import { HashLink as Link } from "react-router-hash-link";
 
-class TenancyReview extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            completedThankYou: false,
-        };
+export default class TenancyReview extends React.Component {
 
-        this.completedThankYou = this.completedThankYou.bind(this);
-    }
+    state = {
+        completedThankYou: false,
+    };
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Review Tenancy';
     }
 
-    completedThankYou() {
+    completedThankYou = () => {
         this.setState({completedThankYou: true})
     }
 
@@ -57,5 +53,3 @@ class TenancyReview extends React.Component {
         );
     }
 }
-
-export default TenancyReview;

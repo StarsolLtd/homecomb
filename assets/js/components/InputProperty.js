@@ -4,11 +4,10 @@ import 'jquery-ui-bundle';
 import 'jquery-ui-bundle/jquery-ui.css';
 import {Input} from "reactstrap";
 
-class InputProperty extends React.Component {
+export default class InputProperty extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleSelect = this.handleSelect.bind(this);
         this.setPropertySlugState = this.props.setPropertySlugState;
     }
 
@@ -31,7 +30,7 @@ class InputProperty extends React.Component {
         )
     }
 
-    handleSelect(event, ui){
+    handleSelect = (event, ui) => {
         const vendorPropertyId = ui.item.id;
         fetch('/api/property/lookup-slug-from-vendor-id?vendorPropertyId=' + vendorPropertyId,)
             .then(response => response.json())
@@ -40,5 +39,3 @@ class InputProperty extends React.Component {
             });
     }
 }
-
-export default InputProperty;
