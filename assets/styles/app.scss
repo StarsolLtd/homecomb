@@ -52,6 +52,10 @@ body {
     background-color: #DFDFDF;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 991px) {
     body {
         background-color: #FFFFFF;
