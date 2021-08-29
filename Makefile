@@ -1,8 +1,7 @@
 prod-build:
 	make pull clear-docker
 	export APP_ENV=prod && docker-compose -f docker-compose.yml build
-	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
-	make composer-install clear-cache prod-create-directories npm-install-force prod-yarn-build copy-prod-env-to-local
+	make prod-up composer-install clear-cache prod-create-directories npm-install-force prod-yarn-build copy-prod-env-to-local
 
 prod-up:
 	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
