@@ -1,19 +1,37 @@
-import React, {Fragment} from "react";
+import React, {Component, Fragment} from "react";
+import Login from "../modals/Login";
 
-const LogInOurOutNavLinks = (props) => {
-    return (
-        <Fragment>
-            {props.user &&
-            <li><a href="/logout" className={props.className}>Log Out</a></li>
-            }
-            {!props.user &&
+export default class LogInOurOutNavLinks extends Component {
+
+    state = {
+        showLoginModal: false
+    }
+
+    hideLoginModal = () => {
+        this.setState({showLoginModal: false})
+    }
+
+    showLoginModal = () => {
+        this.setState({showLoginModal: true})
+    }
+
+    render() {
+        return (
+            <Fragment>
+                {this.state.showLoginModal &&
+                    <Login hideLoginModal={this.hideLoginModal} />
+                }
+
+                {this.props.user &&
+                <li><a href="/logout" className={this.props.className}>Log Out</a></li>
+                }
+                {!this.props.user &&
                 <Fragment>
-                    <li><a href="/login" className={props.className}>Log In</a></li>
-                    <li><a href="/register" className={props.className + ' register-link'}>Register</a></li>
+                    <li><a onClick={this.showLoginModal} className={this.props.className}>Log In</a></li>
+                    <li><a href="/register" className={this.props.className + ' register-link'}>Register</a></li>
                 </Fragment>
-            }
-        </Fragment>
-    );
+                }
+            </Fragment>
+        );
+    }
 }
-
-export default LogInOurOutNavLinks;
