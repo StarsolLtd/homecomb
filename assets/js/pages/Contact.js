@@ -4,7 +4,7 @@ import Constants from "../Constants";
 import { HashLink as Link } from "react-router-hash-link";
 import ContactForm from "../components/ContactForm";
 
-class Contact extends React.Component {
+export default class Contact extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | Contact Us';
@@ -28,5 +28,3 @@ class Contact extends React.Component {
         );
     }
 }
-
-export default Contact;

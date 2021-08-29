@@ -1,20 +1,20 @@
 import React from 'react';
 import LoadingInfo from "./LoadingInfo";
 
-class DataLoader extends React.Component {
+export default class DataLoader extends React.Component {
+
+    state = {
+        loadingInfo: {
+            loaded: false,
+            loading: false,
+            loadingError: false,
+            loadingErrorCode: null,
+        },
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            loadingInfo: {
-                loaded: false,
-                loading: false,
-                loadingError: false,
-                loadingErrorCode: null,
-            },
-        };
-
         this.customFileNotFound = this.props.customFileNotFound;
-
         this.loadComponentData = this.props.loadComponentData;
     }
 
@@ -69,5 +69,3 @@ class DataLoader extends React.Component {
         );
     }
 }
-
-export default DataLoader;

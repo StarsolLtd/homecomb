@@ -10,27 +10,20 @@ import '../../styles/vote.scss';
 import LoadingSpinner from "./LoadingSpinner";
 import LoginOrRegister from "../modals/LoginOrRegister";
 
-class Vote extends React.Component {
+export default class Vote extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            hasVoted: false,
-            isSubmitting: false,
-            positiveVotes: this.props.positiveVotes,
-            showLoginModal: false
-        };
+    state = {
+        hasVoted: false,
+        isSubmitting: false,
+        positiveVotes: this.props.positiveVotes,
+        showLoginModal: false
+    };
 
-        this.handleVote = this.handleVote.bind(this);
-        this.hideLoginModal = this.hideLoginModal.bind(this);
-        this.showLoginModal = this.showLoginModal.bind(this);
-    }
-
-    hideLoginModal() {
+    hideLoginModal = () => {
         this.setState({showLoginModal: false})
     }
 
-    showLoginModal() {
+    showLoginModal = () => {
         this.setState({showLoginModal: true})
     }
 
@@ -61,7 +54,7 @@ class Vote extends React.Component {
         );
     }
 
-    handleVote() {
+    handleVote = () => {
         if (this.state.hasVoted) {
             return;
         }
@@ -100,5 +93,3 @@ class Vote extends React.Component {
         });
     }
 }
-
-export default Vote;

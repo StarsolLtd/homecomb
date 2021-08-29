@@ -9,24 +9,18 @@ import Loader from "react-loaders";
 import {Redirect} from "react-router-dom";
 import Constants from "../Constants";
 
-class ContactForm extends React.Component {
+export default class ContactForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            emailAddress: '',
-            name: '',
-            message: '',
-            agreeTerms: false,
-            isFormSubmitting: false,
-            redirectToUrl: null,
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
+    state = {
+        emailAddress: '',
+        name: '',
+        message: '',
+        agreeTerms: false,
+        isFormSubmitting: false,
+        redirectToUrl: null,
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -97,7 +91,7 @@ class ContactForm extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isFormSubmitting: true});
         let payload = {
             emailAddress: this.state.emailAddress,
@@ -139,5 +133,3 @@ class ContactForm extends React.Component {
         this.form && this.form.reset();
     }
 }
-
-export default ContactForm;

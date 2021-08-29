@@ -15,31 +15,24 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 class ReviewLocaleForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            localeName: this.props.localeName,
-            localeSlug: this.props.localeSlug,
-            reviewerEmail: this.props.reviewerEmail,
-            reviewerName: this.props.reviewerName,
-            reviewTitle: '',
-            reviewContent: '',
-            overallStars: null,
-            agreeTerms: false,
-            isFormSubmitting: false,
-            user: null,
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-        this.handleOverallStarsChange = this.handleOverallStarsChange.bind(this);
-    }
+    state = {
+        localeName: this.props.localeName,
+        localeSlug: this.props.localeSlug,
+        reviewerEmail: this.props.reviewerEmail,
+        reviewerName: this.props.reviewerName,
+        reviewTitle: '',
+        reviewContent: '',
+        overallStars: null,
+        agreeTerms: false,
+        isFormSubmitting: false,
+        user: null,
+    };
 
     componentDidMount() {
         this.fetchUserData();
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -49,7 +42,7 @@ class ReviewLocaleForm extends React.Component {
         });
     }
 
-    handleOverallStarsChange(value) {
+    handleOverallStarsChange = (value) => {
         this.setState({overallStars: value});
     }
 
@@ -179,7 +172,7 @@ class ReviewLocaleForm extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isFormSubmitting: true});
 
         let payload = {
@@ -223,7 +216,7 @@ class ReviewLocaleForm extends React.Component {
         });
     }
 
-    fetchUserData() {
+    fetchUserData = () => {
         fetch(
             '/api/user',
             {
@@ -245,7 +238,7 @@ class ReviewLocaleForm extends React.Component {
             .catch(err => console.error("Error:", err));
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-import {Row, Col, Button, CardHeader, Card, CardFooter} from "reactstrap";
+import {Row, Col, Button, Card} from "reactstrap";
 
 const BranchCard = (props) => {
     return (

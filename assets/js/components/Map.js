@@ -3,11 +3,7 @@ import React from 'react';
 import '../../styles/map.scss';
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 
-class Review extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
+export default class Map extends React.Component {
 
     render() {
         return (
@@ -24,6 +20,5 @@ class Review extends React.Component {
             </MapContainer>
         );
     }
-}
 
-export default Review;
+}

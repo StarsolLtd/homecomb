@@ -6,29 +6,24 @@ import ReviewSolicitationNotFound from "../errors/ReviewSolicitationNotFound";
 import Constants from "../Constants";
 import ReviewCompletedThankYou from "../content/ReviewCompletedThankYou";
 
-class CreateReview extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agency: null,
-            branch: null,
-            property: null,
-            reviewerFirstName: '',
-            reviewerLastName: '',
-            reviewerEmail: '',
-            loaded: false,
-            completedThankYou: false,
-        };
+export default class CreateReview extends React.Component {
 
-        this.completedThankYou = this.completedThankYou.bind(this);
-        this.loadData = this.loadData.bind(this);
-    }
+    state = {
+        agency: null,
+        branch: null,
+        property: null,
+        reviewerFirstName: '',
+        reviewerLastName: '',
+        reviewerEmail: '',
+        loaded: false,
+        completedThankYou: false,
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         document.title = Constants.SITE_NAME + ' | Review Tenancy';
     }
 
-    completedThankYou() {
+    completedThankYou = () => {
         this.setState({completedThankYou: true})
     }
 
@@ -84,7 +79,7 @@ class CreateReview extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             agency: data.agency,
             branch: data.branch,
@@ -96,5 +91,3 @@ class CreateReview extends React.Component {
         });
     }
 }
-
-export default CreateReview;

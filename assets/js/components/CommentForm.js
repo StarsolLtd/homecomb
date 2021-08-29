@@ -8,19 +8,14 @@ import Loader from "react-loaders";
 
 import '../../styles/comment-form.scss';
 
-class CommentForm extends React.Component {
+export default class CommentForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            content: '',
-            isFormSubmitting: false,
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    }
+    state = {
+        content: '',
+        isFormSubmitting: false,
+    };
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -66,7 +61,7 @@ class CommentForm extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isFormSubmitting: true});
         let payload = {
             entityName: this.props.entityName,
@@ -106,9 +101,7 @@ class CommentForm extends React.Component {
         });
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }
-
-export default CommentForm;

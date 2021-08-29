@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, Component} from 'react';
 import {Button, Container, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import Review from "../components/Review";
 import ReviewTenancyForm from "../components/ReviewTenancyForm";
@@ -10,32 +10,27 @@ import Map from "../components/Map";
 import { HashLink as Link } from "react-router-hash-link";
 import LocaleReview from "../components/LocaleReview";
 
-class PropertyView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            addressLine1: '',
-            locality: null,
-            postcode: '',
-            city: null,
-            district: null,
-            tenancyReviews: [],
-            reviewTenancyFormOpen: false,
-            loaded: false,
-            reviewCompletedThankYou: false,
-            latitude: null,
-            longitude: null,
-        };
-        this.openReviewTenancyForm = this.openReviewTenancyForm.bind(this);
-        this.loadData = this.loadData.bind(this);
-        this.reviewCompletedThankYou = this.reviewCompletedThankYou.bind(this);
+export default class PropertyView extends Component {
+
+    state = {
+        addressLine1: '',
+        locality: null,
+        postcode: '',
+        city: null,
+        district: null,
+        tenancyReviews: [],
+        reviewTenancyFormOpen: false,
+        loaded: false,
+        reviewCompletedThankYou: false,
+        latitude: null,
+        longitude: null,
     }
 
-    openReviewTenancyForm() {
+    openReviewTenancyForm = () => {
         this.setState({reviewTenancyFormOpen: true});
     }
 
-    reviewCompletedThankYou() {
+    reviewCompletedThankYou = () => {
         this.setState({reviewCompletedThankYou: true})
     }
 
@@ -207,11 +202,11 @@ class PropertyView extends React.Component {
         );
     }
 
-    showDistrictInBreadcrumb() {
+    showDistrictInBreadcrumb = () => {
         return this.state.district && this.state.city.name === 'London';
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             addressLine1: data.addressLine1,
             locality: data.locality,
@@ -227,5 +222,3 @@ class PropertyView extends React.Component {
         document.title = data.addressLine1 + ' | ' + Constants.SITE_NAME;
     }
 }
-
-export default PropertyView;

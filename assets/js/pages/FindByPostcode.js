@@ -11,25 +11,18 @@ import {Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
-class FindByPostcode extends React.Component {
+export default class FindByPostcode extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            postcode: '',
-            properties: [],
-            isPendingRedirect: false,
-            isLoading: false,
-            loaded: false,
-            redirectToUrl: null
-        };
+    state = {
+        postcode: '',
+        properties: [],
+        isPendingRedirect: false,
+        isLoading: false,
+        loaded: false,
+        redirectToUrl: null
+    };
 
-        this.handleAddressClick = this.handleAddressClick.bind(this);
-        this.handleChangePostcode = this.handleChangePostcode.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    }
-
-    handleChangePostcode(event) {
+    handleChangePostcode = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -107,7 +100,7 @@ class FindByPostcode extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isLoading: true});
         let payload = {
             postcode: this.state.postcode,
@@ -147,7 +140,7 @@ class FindByPostcode extends React.Component {
         });
     }
 
-    handleAddressClick(addressLine1) {
+    handleAddressClick = (addressLine1) => {
         this.setState({isPendingRedirect: true})
 
         fetch('/api/property/lookup-slug-from-address?addressLine1=' + addressLine1 + '&postcode=' + this.state.postcode)
@@ -157,5 +150,3 @@ class FindByPostcode extends React.Component {
             });
     }
 }
-
-export default FindByPostcode;

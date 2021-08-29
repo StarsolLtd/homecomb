@@ -1,33 +1,25 @@
 import React from 'react';
 
-import {
-    Button, FormText, Label,
-} from "reactstrap";
+import {Button, FormText, Label} from "reactstrap";
 import { AvCheckbox, AvCheckboxGroup, AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import LoadingOverlay from "react-loading-overlay";
 import Loader from "react-loaders";
 import {Redirect} from "react-router-dom";
 import Constants from "../Constants";
 
-class RegisterForm extends React.Component {
+export default class RegisterForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            firstName: '',
-            lastName: '',
-            plainPassword: '',
-            agreeTerms: false,
-            isFormSubmitting: false,
-            redirectToUrl: null,
-        };
+    state = {
+        email: '',
+        firstName: '',
+        lastName: '',
+        plainPassword: '',
+        agreeTerms: false,
+        isFormSubmitting: false,
+        redirectToUrl: null,
+    };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    }
-
-    handleChange(event) {
+    handleChange= (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -118,7 +110,7 @@ class RegisterForm extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         this.setState({isFormSubmitting: true});
         let payload = {
             email: this.state.email,
@@ -158,9 +150,8 @@ class RegisterForm extends React.Component {
             });
         });
     }
-    clearForm() {
+
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }
-
-export default RegisterForm;

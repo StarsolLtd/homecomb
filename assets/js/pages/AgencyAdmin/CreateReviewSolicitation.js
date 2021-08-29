@@ -4,30 +4,27 @@ import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-valida
 import InputProperty from "../../components/InputProperty";
 import DataLoader from "../../components/DataLoader";
 
-class CreateReviewSolicitation extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agency: null,
-            branches: [],
-            branchSlug: '',
-            propertySlug: '',
-            recipientTitle: '',
-            recipientFirstName: '',
-            recipientLastName: '',
-            recipientEmail: '',
-            loaded: false,
-        };
-        this.submit = this.props.submit;
-        this.submit = this.submit.bind(this);
+export default class CreateReviewSolicitation extends React.Component {
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleValidSubmit = this.handleValidSubmit.bind(this);
-        this.setPropertySlugState = this.setPropertySlugState.bind(this);
-        this.loadData = this.loadData.bind(this);
+    state = {
+        agency: null,
+        branches: [],
+        branchSlug: '',
+        propertySlug: '',
+        recipientTitle: '',
+        recipientFirstName: '',
+        recipientLastName: '',
+        recipientEmail: '',
+        loaded: false,
     }
 
-    handleChange(event) {
+    constructor(props) {
+        super(props);
+        this.submit = this.props.submit;
+        this.submit = this.submit.bind(this);
+    }
+
+    handleChange = (event) => {
 
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -38,7 +35,7 @@ class CreateReviewSolicitation extends React.Component {
         });
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             agency: data.agency,
             branches: data.branches,
@@ -46,7 +43,7 @@ class CreateReviewSolicitation extends React.Component {
         });
     }
 
-    setPropertySlugState(value) {
+    setPropertySlugState = (value) => {
         if (typeof value !== "undefined") {
             this.setState({propertySlug: value});
         }
@@ -131,7 +128,7 @@ class CreateReviewSolicitation extends React.Component {
         );
     }
 
-    handleValidSubmit() {
+    handleValidSubmit = () => {
         let payload = {
             branchSlug: this.state.branchSlug,
             propertySlug: this.state.propertySlug,
@@ -150,9 +147,7 @@ class CreateReviewSolicitation extends React.Component {
         this.clearForm();
     }
 
-    clearForm() {
+    clearForm = () => {
         this.form && this.form.reset();
     }
 }
-
-export default CreateReviewSolicitation;

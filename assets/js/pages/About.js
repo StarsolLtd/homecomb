@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import Constants from "../Constants";
 
-class About extends React.Component {
+export default class About extends React.Component {
 
     componentDidMount() {
         document.title = Constants.SITE_NAME + ' | About';
@@ -23,5 +23,3 @@ class About extends React.Component {
         );
     }
 }
-
-export default About;

@@ -1,24 +1,17 @@
-import React, {Fragment} from 'react';
-import {Label, FormText, Button, Container} from 'reactstrap';
+import React from 'react';
+import {Container} from 'reactstrap';
 import DataLoader from "../../components/DataLoader";
-import {AvForm, AvGroup, AvInput} from "availity-reactstrap-validation";
 import CommentForm from "../../components/CommentForm";
 import Review from "../../components/Review";
 
-class ReviewView extends React.Component {
-    constructor(props) {
-        super(props);
+export default class ReviewView extends React.Component {
 
-        this.state = {
-            loaded: false,
-            commentPosted: false
-        };
+    state = {
+        loaded: false,
+        commentPosted: false
+    };
 
-        this.loadData = this.loadData.bind(this);
-        this.setCommentPosted = this.setCommentPosted.bind(this);
-    }
-
-    setCommentPosted() {
+    setCommentPosted = () => {
         this.setState({commentPosted: true})
     }
 
@@ -61,7 +54,7 @@ class ReviewView extends React.Component {
         );
     }
 
-    loadData(data) {
+    loadData = (data) => {
         this.setState({
             id: data.id,
             author: data.author,
@@ -78,5 +71,3 @@ class ReviewView extends React.Component {
         console.log(this.state);
     }
 }
-
-export default ReviewView;

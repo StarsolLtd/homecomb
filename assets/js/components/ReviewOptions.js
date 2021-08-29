@@ -15,23 +15,16 @@ import LoadingOverlay from "react-loading-overlay";
 
 import Constants from "../Constants";
 
-class ReviewOptions extends React.Component {
+export default class ReviewOptions extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            reviewId: this.props.reviewId,
-            flagReviewContent: '',
-            flagReviewSubmitted: false,
-            flagModal: false
-        };
+    state = {
+        reviewId: this.props.reviewId,
+        flagReviewContent: '',
+        flagReviewSubmitted: false,
+        flagModal: false
+    };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.toggleFlagModal = this.toggleFlagModal.bind(this);
-        this.handleFlagReviewSubmit = this.handleFlagReviewSubmit.bind(this);
-    }
-
-    toggleFlagModal() {
+    toggleFlagModal = () => {
         this.setState({
             flagModal: !this.state.flagModal
         })
@@ -90,7 +83,7 @@ class ReviewOptions extends React.Component {
         );
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -100,7 +93,7 @@ class ReviewOptions extends React.Component {
         });
     }
 
-    handleFlagReviewSubmit() {
+    handleFlagReviewSubmit = () => {
         this.setState({isFormSubmitting: true});
         let payload = {
             entityId: this.state.reviewId,
@@ -135,5 +128,3 @@ class ReviewOptions extends React.Component {
         });
     }
 }
-
-export default ReviewOptions;

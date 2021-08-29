@@ -11,7 +11,7 @@ import '../../styles/review.scss';
 import MonthRange from "./MonthRange";
 import Vote from "./Vote";
 
-class Review extends React.Component {
+export default class Review extends React.Component {
 
     constructor(props) {
         super(props);
@@ -102,5 +102,3 @@ class Review extends React.Component {
         );
     }
 }
-
-export default Review;

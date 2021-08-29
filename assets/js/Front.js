@@ -23,7 +23,7 @@ import View from "./pages/View";
 import LatestReviews from "./content/LatestReviews";
 import FindByPostcode from "./pages/FindByPostcode";
 
-class Front extends React.Component {
+export default class Front extends React.Component {
 
     constructor() {
         super();
@@ -128,5 +128,3 @@ class Front extends React.Component {
             .catch(err => console.error("Error:", err));
     }
 }
-
-export default Front;
