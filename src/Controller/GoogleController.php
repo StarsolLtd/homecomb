@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GoogleController extends AbstractController
 {
     /**
-     * @Route("/connect/google", name="connect_google_start")
+     * @Route("/connect/google", schemes={"https"}, name="connect_google_start")
      */
     public function connectAction(ClientRegistry $clientRegistry): RedirectResponse
     {
@@ -24,7 +24,7 @@ class GoogleController extends AbstractController
     }
 
     /**
-     * @Route("/connect/google/check", name="connect_google_check")
+     * @Route("/connect/google/check", schemes={"https"}, name="connect_google_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry): RedirectResponse
     {

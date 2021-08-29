@@ -1,2 +1,3 @@
 parameters:
     validation.not_robot_check: true
+    router.request_context.scheme: 'https'
