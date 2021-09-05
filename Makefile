@@ -1,23 +1,4 @@
-prod-build:
-	make pull clear-docker
-	export APP_ENV=prod && docker-compose -f docker-compose.yml build
-	make prod-up composer-install clear-cache prod-create-directories npm-install-force prod-yarn-build copy-prod-env-to-local
-
-prod-up:
-	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
-
-prod-down:
-	export APP_ENV=prod && docker-compose -f docker-compose.yml down --remove-orphans
-
-prod-create-directories:
-	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/prod/vich_uploader"
-	docker exec -it homecomb_php_1 bash -c "chmod 777 /var/www/var/cache -Rf"
-
-prod-follow-logs:
-	docker exec -it homecomb_php_1 bash -c "tail -f /var/www/var/log/prod.log"
-
-prod-yarn-build:
-	docker exec -it homecomb_php_1 yarn encore production
+-include Makefile.local
 
 build:
 	make pull clear-docker
@@ -189,10 +170,12 @@ copy-test-env-to-local:
 copy-e2e-env-to-local:
 	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.e2e /var/www/.env.local"
 
-copy-prod-env-to-local:
-	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.prod /var/www/.env.local"
+copy-prod-makefile-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/Makefile.prod /var/www/Makefile.local"
+
+clear-makefile-local:
+	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/Makefile.local"
 
 clear-cache:
 	docker exec -it homecomb_php_1 php bin/console cache:pool:clear cache.global_clearer
 	docker exec -it homecomb_php_1 bash -c "rm -rf /var/www/var/cache"
-

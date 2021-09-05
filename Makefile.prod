@@ -1,0 +1,23 @@
+prod-build:
+	make pull clear-docker
+	export APP_ENV=prod && docker-compose -f docker-compose.yml build
+	make prod-up composer-install clear-cache prod-create-directories npm-install-force prod-yarn-build copy-prod-env-to-local
+
+prod-up:
+	export APP_ENV=prod && docker-compose -f docker-compose.yml up -d
+
+prod-down:
+	export APP_ENV=prod && docker-compose -f docker-compose.yml down --remove-orphans
+
+prod-create-directories:
+	docker exec -it homecomb_php_1 bash -c "mkdir -p /var/www/var/cache/prod/vich_uploader"
+	docker exec -it homecomb_php_1 bash -c "chmod 777 /var/www/var/cache -Rf"
+
+prod-follow-logs:
+	docker exec -it homecomb_php_1 bash -c "tail -f /var/www/var/log/prod.log"
+
+prod-yarn-build:
+	docker exec -it homecomb_php_1 yarn encore production
+
+copy-prod-env-to-local:
+	docker exec -it homecomb_php_1 bash -c "cp /var/www/.env.prod /var/www/.env.local"

@@ -1,4 +1,5 @@
 .idea
+Makefile.local
 
 ###> symfony/framework-bundle ###
 /.env.local
