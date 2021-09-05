@@ -52,4 +52,9 @@ RUN rm /tmp/chrome.deb
 
 ###< Panther & Chrome ###
 
+###> Xdebug ###
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+###< Xdebug ###
+
 WORKDIR /var/www

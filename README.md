@@ -12,3 +12,10 @@
 `make php-test`
 `make npm-test`
 `make e2e`
+
+## Xebug
+On Linux environments, add the following to `/etc/hosts`
+```
+172.17.0.1 host.docker.internal
+```
+This should not be needed on Mac or Windows.
