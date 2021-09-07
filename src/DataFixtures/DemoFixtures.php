@@ -25,12 +25,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
-    private AgencyHelper $agencyHelper;
-    private BranchHelper $branchHelper;
-    private ReviewHelper $reviewHelper;
-    private TenancyReviewService $tenancyReviewService;
-    private UserPasswordEncoderInterface $userPasswordEncoder;
-
     public const USER_1 = 'jack@mimas.io';
     public const USER_2 = 'andrea@starsol.co.uk';
     public const USER_3 = 'lauren@starsol.co.uk';
@@ -38,17 +32,12 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
     public const USER_5 = 'jo@cambridgeresidential.com';
 
     public function __construct(
-        AgencyHelper $agencyHelper,
-        BranchHelper $branchHelper,
-        ReviewHelper $reviewHelper,
-        TenancyReviewService $tenancyReviewService,
-        UserPasswordEncoderInterface $userPasswordEncoder
+        private AgencyHelper $agencyHelper,
+        private BranchHelper $branchHelper,
+        private ReviewHelper $reviewHelper,
+        private TenancyReviewService $tenancyReviewService,
+        private UserPasswordEncoderInterface $userPasswordEncoder,
     ) {
-        $this->agencyHelper = $agencyHelper;
-        $this->branchHelper = $branchHelper;
-        $this->reviewHelper = $reviewHelper;
-        $this->tenancyReviewService = $tenancyReviewService;
-        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     protected function getEnvironments(): array

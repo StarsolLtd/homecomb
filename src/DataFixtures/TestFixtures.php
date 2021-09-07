@@ -50,11 +50,9 @@ class TestFixtures extends AbstractDataFixtures
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
     public const TEST_SURVEY_SLUG = 'test-survey';
 
-    private UserPasswordEncoderInterface $userPasswordEncoder;
-
-    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
-    {
-        $this->userPasswordEncoder = $userPasswordEncoder;
+    public function __construct(
+        private UserPasswordEncoderInterface $userPasswordEncoder
+    ) {
     }
 
     protected function getEnvironments(): array
