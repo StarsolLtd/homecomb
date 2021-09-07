@@ -10,54 +10,23 @@ use DateTime;
 
 class View
 {
-    private ?FlatBranch $branch;
-    private ?FlatAgency $agency;
-    private ?FlatProperty $property;
-    private int $id;
-    private string $author;
-    private ?DateTime $start;
-    private ?DateTime $end;
-    private string $title;
-    private string $content;
-    private Stars $stars;
-    private DateTime $createdAt;
-    private array $comments;
-    private int $positiveVotes;
-    private int $negativeVotes;
-    private int $votesScore;
-
     public function __construct(
-        ?FlatBranch $branch,
-        ?FlatAgency $agency,
-        ?FlatProperty $property,
-        int $id,
-        string $author,
-        ?DateTime $start,
-        ?DateTime $end,
-        string $title,
-        string $content,
-        Stars $stars,
-        DateTime $createdAt,
-        array $comments,
-        int $positiveVotes,
-        int $negativeVotes,
-        int $votesScore
+        private ?FlatBranch $branch,
+        private ?FlatAgency $agency,
+        private ?FlatProperty $property,
+        private int $id,
+        private string $author,
+        private ?DateTime $start,
+        private ?DateTime $end,
+        private string $title,
+        private string $content,
+        private Stars $stars,
+        private DateTime $createdAt,
+        private array $comments,
+        private int $positiveVotes,
+        private int $negativeVotes,
+        private int $votesScore,
     ) {
-        $this->branch = $branch;
-        $this->agency = $agency;
-        $this->property = $property;
-        $this->id = $id;
-        $this->author = $author;
-        $this->start = $start;
-        $this->end = $end;
-        $this->title = $title;
-        $this->content = $content;
-        $this->stars = $stars;
-        $this->createdAt = $createdAt;
-        $this->comments = $comments;
-        $this->positiveVotes = $positiveVotes;
-        $this->negativeVotes = $negativeVotes;
-        $this->votesScore = $votesScore;
     }
 
     public function getBranch(): ?FlatBranch

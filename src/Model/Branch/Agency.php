@@ -4,18 +4,11 @@ namespace App\Model\Branch;
 
 class Agency
 {
-    private string $slug;
-    private string $name;
-    private ?string $logoImageFilename;
-
     public function __construct(
-        string $slug,
-        string $name,
-        ?string $logoImageFilename
+        private string $slug,
+        private string $name,
+        private ?string $logoImageFilename,
     ) {
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->logoImageFilename = $logoImageFilename;
     }
 
     public function getSlug(): string

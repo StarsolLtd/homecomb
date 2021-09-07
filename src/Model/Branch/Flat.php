@@ -4,24 +4,13 @@ namespace App\Model\Branch;
 
 class Flat
 {
-    private string $slug;
-    private string $name;
-    private bool $isPublished;
-    private ?string $telephone;
-    private ?string $email;
-
     public function __construct(
-        string $slug,
-        string $name,
-        bool $isPublished = false,
-        ?string $telephone = null,
-        ?string $email = null
+        private string $slug,
+        private string $name,
+        private bool $isPublished = false,
+        private ?string $telephone = null,
+        private ?string $email = null,
     ) {
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->isPublished = $isPublished;
-        $this->telephone = $telephone;
-        $this->email = $email;
     }
 
     public function getSlug(): string

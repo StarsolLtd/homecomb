@@ -4,18 +4,11 @@ namespace App\Model\Interaction;
 
 class RequestDetails
 {
-    private ?string $sessionId;
-    private ?string $ipAddress;
-    private ?string $userAgent;
-
     public function __construct(
-        ?string $sessionId = null,
-        ?string $ipAddress = null,
-        ?string $userAgent = null
+        private ?string $sessionId = null,
+        private ?string $ipAddress = null,
+        private ?string $userAgent = null,
     ) {
-        $this->sessionId = $sessionId;
-        $this->ipAddress = $ipAddress;
-        $this->userAgent = $userAgent;
     }
 
     public function getSessionId(): ?string

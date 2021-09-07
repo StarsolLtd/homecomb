@@ -4,12 +4,9 @@ namespace App\Model;
 
 class SuggestPropertyInput
 {
-    private string $search;
-
     public function __construct(
-        string $search
+        private string $search,
     ) {
-        $this->search = $search;
     }
 
     public function getSearch(): string

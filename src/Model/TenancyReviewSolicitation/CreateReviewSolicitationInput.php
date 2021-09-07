@@ -4,30 +4,15 @@ namespace App\Model\TenancyReviewSolicitation;
 
 class CreateReviewSolicitationInput
 {
-    private string $branchSlug;
-    private string $propertySlug;
-    private ?string $recipientTitle;
-    private string $recipientFirstName;
-    private string $recipientLastName;
-    private string $recipientEmail;
-    private string $captchaToken;
-
     public function __construct(
-        string $branchSlug,
-        string $propertySlug,
-        ?string $recipientTitle,
-        string $recipientFirstName,
-        string $recipientLastName,
-        string $recipientEmail,
-        string $captchaToken
+        private string $branchSlug,
+        private string $propertySlug,
+        private ?string $recipientTitle,
+        private string $recipientFirstName,
+        private string $recipientLastName,
+        private string $recipientEmail,
+        private string $captchaToken,
     ) {
-        $this->branchSlug = $branchSlug;
-        $this->propertySlug = $propertySlug;
-        $this->recipientTitle = $recipientTitle;
-        $this->recipientFirstName = $recipientFirstName;
-        $this->recipientLastName = $recipientLastName;
-        $this->recipientEmail = $recipientEmail;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getBranchSlug(): string

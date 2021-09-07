@@ -6,39 +6,18 @@ use DateTime;
 
 class LocaleReviewView
 {
-    private int $id;
-    private string $slug;
-    private ?string $author;
-    private ?string $title;
-    private ?string $content;
-    private ?int $overallStars;
-    private DateTime $createdAt;
-    private int $positiveVotes;
-    private int $negativeVotes;
-    private int $votesScore;
-
     public function __construct(
-        int $id,
-        string $slug,
-        ?string $author,
-        ?string $title,
-        ?string $content,
-        ?int $overallStars,
-        DateTime $createdAt,
-        int $positiveVotes,
-        int $negativeVotes,
-        int $votesScore
+        private int $id,
+        private string $slug,
+        private ?string $author,
+        private ?string $title,
+        private ?string $content,
+        private ?int $overallStars,
+        private DateTime $createdAt,
+        private int $positiveVotes,
+        private int $negativeVotes,
+        private int $votesScore,
     ) {
-        $this->id = $id;
-        $this->slug = $slug;
-        $this->author = $author;
-        $this->title = $title;
-        $this->content = $content;
-        $this->overallStars = $overallStars;
-        $this->createdAt = $createdAt;
-        $this->positiveVotes = $positiveVotes;
-        $this->negativeVotes = $negativeVotes;
-        $this->votesScore = $votesScore;
     }
 
     public function getId(): int

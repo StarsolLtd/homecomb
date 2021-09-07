@@ -6,18 +6,11 @@ use App\Model\Agency\ReviewsSummary;
 
 class AgencyReviewsSummary
 {
-    private array $agencyReviewSummaries;
-    private int $tenancyReviewsCount;
-    private int $agenciesCount;
-
     public function __construct(
-        array $agencyReviewSummaries = [],
-        int $tenancyReviewsCount = 0,
-        int $agenciesCount = 0
+        private array $agencyReviewSummaries = [],
+        private int $tenancyReviewsCount = 0,
+        private int $agenciesCount = 0,
     ) {
-        $this->agencyReviewSummaries = $agencyReviewSummaries;
-        $this->tenancyReviewsCount = $tenancyReviewsCount;
-        $this->agenciesCount = $agenciesCount;
     }
 
     /**

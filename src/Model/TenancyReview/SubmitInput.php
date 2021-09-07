@@ -4,54 +4,23 @@ namespace App\Model\TenancyReview;
 
 class SubmitInput
 {
-    private string $propertySlug;
-    private ?string $code;
-    private ?string $reviewerName;
-    private ?string $reviewerEmail;
-    private ?string $start; // Month in YYYY-MM-01 format
-    private ?string $end; // Month in YYYY-MM-01 format
-    private ?string $agencyName;
-    private ?string $agencyBranch;
-    private ?string $reviewTitle;
-    private ?string $reviewContent;
-    private ?int $overallStars;
-    private ?int $agencyStars;
-    private ?int $landlordStars;
-    private ?int $propertyStars;
-    private ?string $captchaToken;
-
     public function __construct(
-        string $propertySlug,
-        ?string $code = null,
-        ?string $reviewerName = null,
-        ?string $reviewerEmail = null,
-        ?string $start = null,
-        ?string $end = null,
-        ?string $agencyName = null,
-        ?string $agencyBranch = null,
-        ?string $reviewTitle = null,
-        ?string $reviewContent = null,
-        ?int $overallStars = null,
-        ?int $agencyStars = null,
-        ?int $landlordStars = null,
-        ?int $propertyStars = null,
-        ?string $captchaToken = null
+        private string $propertySlug,
+        private ?string $code = null,
+        private ?string $reviewerName = null,
+        private ?string $reviewerEmail = null,
+        private ?string $start = null,  // Month in YYYY-MM-01 format
+        private ?string $end = null, // Month in YYYY-MM-01 format
+        private ?string $agencyName = null,
+        private ?string $agencyBranch = null,
+        private ?string $reviewTitle = null,
+        private ?string $reviewContent = null,
+        private ?int $overallStars = null,
+        private ?int $agencyStars = null,
+        private ?int $landlordStars = null,
+        private ?int $propertyStars = null,
+        private ?string $captchaToken = null,
     ) {
-        $this->propertySlug = $propertySlug;
-        $this->code = $code;
-        $this->reviewerName = $reviewerName;
-        $this->reviewerEmail = $reviewerEmail;
-        $this->start = $start;
-        $this->end = $end;
-        $this->agencyName = $agencyName;
-        $this->agencyBranch = $agencyBranch;
-        $this->reviewTitle = $reviewTitle;
-        $this->reviewContent = $reviewContent;
-        $this->overallStars = $overallStars;
-        $this->agencyStars = $agencyStars;
-        $this->landlordStars = $landlordStars;
-        $this->propertyStars = $propertyStars;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getPropertySlug(): string

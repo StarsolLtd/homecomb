@@ -4,12 +4,9 @@ namespace App\Model\Agency;
 
 class UpdateAgencyOutput
 {
-    private bool $success;
-
     public function __construct(
-        bool $success
+        private bool $success,
     ) {
-        $this->success = $success;
     }
 
     public function isSuccess(): bool

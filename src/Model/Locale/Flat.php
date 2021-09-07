@@ -4,18 +4,11 @@ namespace App\Model\Locale;
 
 class Flat
 {
-    private string $slug;
-    private string $name;
-    private bool $isPublished;
-
     public function __construct(
-        string $slug,
-        string $name,
-        bool $isPublished = false,
+        private string $slug,
+        private string $name,
+        private bool $isPublished = false,
     ) {
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->isPublished = $isPublished;
     }
 
     public function getSlug(): string

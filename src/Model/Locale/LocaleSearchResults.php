@@ -4,18 +4,13 @@ namespace App\Model\Locale;
 
 class LocaleSearchResults
 {
-    private string $query;
-    private array $locales;
-
     /**
      * @param Flat[] $locales
      */
     public function __construct(
-        string $query,
-        array $locales
+        private string $query,
+        private array $locales
     ) {
-        $this->query = $query;
-        $this->locales = $locales;
     }
 
     public function getQuery(): string

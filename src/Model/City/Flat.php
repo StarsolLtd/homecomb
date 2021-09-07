@@ -4,24 +4,13 @@ namespace App\Model\City;
 
 class Flat
 {
-    private string $slug;
-    private string $name;
-    private ?string $county;
-    private string $countryCode;
-    private bool $isPublished;
-
     public function __construct(
-        string $slug,
-        string $name,
-        ?string $county,
-        string $countryCode,
-        bool $isPublished = false,
+        private string $slug,
+        private string $name,
+        private ?string $county,
+        private string $countryCode,
+        private bool $isPublished = false,
     ) {
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->county = $county;
-        $this->countryCode = $countryCode;
-        $this->isPublished = $isPublished;
     }
 
     public function getSlug(): string

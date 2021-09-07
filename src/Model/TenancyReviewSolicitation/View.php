@@ -8,33 +8,16 @@ use App\Model\Property\Flat as FlatProperty;
 
 class View
 {
-    private string $code;
-    private FlatAgency $agency;
-    private FlatBranch $branch;
-    private FlatProperty $property;
-    private ?string $reviewerTitle;
-    private string $reviewerFirstName;
-    private string $reviewerLastName;
-    private string $reviewerEmail;
-
     public function __construct(
-        string $code,
-        FlatAgency $agency,
-        FlatBranch $branch,
-        FlatProperty $property,
-        ?string $reviewerTitle,
-        string $reviewerFirstName,
-        string $reviewerLastName,
-        string $reviewerEmail
+        private string $code,
+        private FlatAgency $agency,
+        private FlatBranch $branch,
+        private FlatProperty $property,
+        private ?string $reviewerTitle,
+        private string $reviewerFirstName,
+        private string $reviewerLastName,
+        private string $reviewerEmail,
     ) {
-        $this->code = $code;
-        $this->agency = $agency;
-        $this->branch = $branch;
-        $this->property = $property;
-        $this->reviewerTitle = $reviewerTitle;
-        $this->reviewerFirstName = $reviewerFirstName;
-        $this->reviewerLastName = $reviewerLastName;
-        $this->reviewerEmail = $reviewerEmail;
     }
 
     public function getCode(): string

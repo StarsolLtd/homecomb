@@ -7,16 +7,13 @@ use App\Model\Branch\Flat as FlatBranch;
 
 class FormData
 {
-    private FlatAgency $agency;
-    /** @var FlatBranch[] */
-    private array $branches;
-
+    /**
+     * @param FlatBranch[] $branches
+     */
     public function __construct(
-        FlatAgency $agency,
-        array $branches
+        private FlatAgency $agency,
+        private array $branches,
     ) {
-        $this->agency = $agency;
-        $this->branches = $branches;
     }
 
     public function getAgency(): FlatAgency

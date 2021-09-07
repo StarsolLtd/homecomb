@@ -4,12 +4,9 @@ namespace App\Model\TenancyReviewSolicitation;
 
 class CreateReviewSolicitationOutput
 {
-    private bool $success;
-
     public function __construct(
-        bool $success
+        private bool $success,
     ) {
-        $this->success = $success;
     }
 
     public function isSuccess(): bool
