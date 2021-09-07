@@ -17,16 +17,10 @@ class ReviewGenerateLocalesCommand extends Command
 {
     protected static $defaultName = 'review:generate-locales';
 
-    private TenancyReviewRepository $tenancyReviewRepository;
-    private TenancyReviewService $tenancyReviewService;
-
     public function __construct(
-        TenancyReviewRepository $tenancyReviewRepository,
-        TenancyReviewService $tenancyReviewService
+        private TenancyReviewRepository $tenancyReviewRepository,
+        private TenancyReviewService $tenancyReviewService,
     ) {
-        $this->tenancyReviewRepository = $tenancyReviewRepository;
-        $this->tenancyReviewService = $tenancyReviewService;
-
         parent::__construct();
     }
 
