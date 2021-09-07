@@ -17,16 +17,11 @@ class ContactController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private ContactService $contactService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        ContactService $contactService,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private ContactService $contactService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->contactService = $contactService;
-        $this->serializer = $serializer;
     }
 
     /**

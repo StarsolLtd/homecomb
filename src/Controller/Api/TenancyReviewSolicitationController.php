@@ -12,14 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TenancyReviewSolicitationController extends AppController
 {
-    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
-
     public function __construct(
-        TenancyReviewSolicitationService $tenancyReviewSolicitationService,
-        SerializerInterface $serializer
+        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        protected SerializerInterface $serializer
     ) {
-        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
-        $this->serializer = $serializer;
     }
 
     /**

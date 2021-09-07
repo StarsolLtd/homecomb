@@ -11,14 +11,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AppController
 {
-    private UserService $userService;
-
     public function __construct(
-        UserService $userService,
-        SerializerInterface $serializer
+        private UserService $userService,
+        protected SerializerInterface $serializer
     ) {
-        $this->userService = $userService;
-        $this->serializer = $serializer;
     }
 
     /**

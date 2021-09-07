@@ -12,14 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AgencyController extends AppController
 {
-    private AgencyService $agencyService;
-
     public function __construct(
-        AgencyService $agencyService,
-        SerializerInterface $serializer
+        private AgencyService $agencyService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->agencyService = $agencyService;
-        $this->serializer = $serializer;
     }
 
     /**

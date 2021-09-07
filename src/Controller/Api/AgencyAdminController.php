@@ -31,31 +31,16 @@ class AgencyAdminController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private AgencyAdminService $agencyAdminService;
-    private AgencyService $agencyService;
-    private BranchService $branchService;
-    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
-    private UserService $userService;
-    private AgencyRepository $agencyRepository;
-
     public function __construct(
-        AgencyAdminService $agencyAdminService,
-        AgencyService $agencyService,
-        BranchService $branchService,
-        GoogleReCaptchaService $googleReCaptchaService,
-        TenancyReviewSolicitationService $tenancyReviewSolicitationService,
-        UserService $userService,
-        AgencyRepository $agencyRepository,
-        SerializerInterface $serializer
+        private AgencyAdminService $agencyAdminService,
+        private AgencyService $agencyService,
+        private BranchService $branchService,
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        private UserService $userService,
+        private AgencyRepository $agencyRepository,
+        protected SerializerInterface $serializer,
     ) {
-        $this->agencyAdminService = $agencyAdminService;
-        $this->agencyService = $agencyService;
-        $this->branchService = $branchService;
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
-        $this->userService = $userService;
-        $this->agencyRepository = $agencyRepository;
-        $this->serializer = $serializer;
     }
 
     /**
