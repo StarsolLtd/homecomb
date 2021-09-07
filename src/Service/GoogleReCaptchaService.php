@@ -8,15 +8,10 @@ class GoogleReCaptchaService
 {
     public const THRESHOLD = .5;
 
-    private bool $checkNotRobot;
-    private ReCaptcha $reCaptcha;
-
     public function __construct(
-        bool $checkNotRobot,
-        ReCaptcha $reCaptcha
+        private bool $checkNotRobot,
+        private ReCaptcha $reCaptcha
     ) {
-        $this->checkNotRobot = $checkNotRobot;
-        $this->reCaptcha = $reCaptcha;
     }
 
     public function verify(?string $token, ?string $clientIp, string $expectedHostname): bool

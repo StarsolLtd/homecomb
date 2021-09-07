@@ -18,24 +18,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class VoteService
 {
-    private EntityManagerInterface $entityManager;
-    private InteractionService $interactionService;
-    private UserService $userService;
-    private VoteRepository $voteRepository;
-    private VoteFactory $voteFactory;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        InteractionService $interactionService,
-        UserService $userService,
-        VoteRepository $voteRepository,
-        VoteFactory $voteFactory
+        private EntityManagerInterface $entityManager,
+        private InteractionService $interactionService,
+        private UserService $userService,
+        private VoteRepository $voteRepository,
+        private VoteFactory $voteFactory
     ) {
-        $this->entityManager = $entityManager;
-        $this->interactionService = $interactionService;
-        $this->userService = $userService;
-        $this->voteRepository = $voteRepository;
-        $this->voteFactory = $voteFactory;
     }
 
     public function vote(

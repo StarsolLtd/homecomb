@@ -21,21 +21,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TenancyReviewSolicitationService
 {
     private string $baseUrl;
-    private EmailService $emailService;
-    private UserService $userService;
-    private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory;
-    private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository;
-    private EntityManagerInterface $entityManager;
-    private LoggerInterface $logger;
 
     public function __construct(
         RequestStack $requestStack,
-        EmailService $emailService,
-        UserService $userService,
-        TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
-        TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger
+        private EmailService $emailService,
+        private UserService $userService,
+        private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
+        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $logger
     ) {
         $currentRequest = $requestStack->getCurrentRequest();
         if (null === $currentRequest) {
@@ -43,12 +37,6 @@ class TenancyReviewSolicitationService
         } else {
             $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
         }
-        $this->emailService = $emailService;
-        $this->userService = $userService;
-        $this->tenancyReviewSolicitationFactory = $tenancyReviewSolicitationFactory;
-        $this->tenancyReviewSolicitationRepository = $tenancyReviewSolicitationRepository;
-        $this->entityManager = $entityManager;
-        $this->logger = $logger;
     }
 
     public function getFormData(?UserInterface $user): FormData

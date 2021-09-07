@@ -7,18 +7,11 @@ use App\Model\Contact\SubmitOutput;
 
 class ContactService
 {
-    private EmailService $emailService;
-    private string $siteName;
-    private string $siteAdminEmail;
-
     public function __construct(
-        EmailService $emailService,
-        string $siteName,
-        string $siteAdminEmail
+        private EmailService $emailService,
+        private string $siteName,
+        private string $siteAdminEmail
     ) {
-        $this->emailService = $emailService;
-        $this->siteName = $siteName;
-        $this->siteAdminEmail = $siteAdminEmail;
     }
 
     public function submitContact(SubmitInput $submitInput): SubmitOutput

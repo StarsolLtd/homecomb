@@ -12,21 +12,12 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PropertyService
 {
-    private EntityManagerInterface $entityManager;
-    private PropertyFactory $propertyFactory;
-    private PropertyRepository $propertyRepository;
-    private GetAddressService $getAddressService;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        PropertyFactory $propertyFactory,
-        PropertyRepository $propertyRepository,
-        GetAddressService $getAddressService
+        private EntityManagerInterface $entityManager,
+        private PropertyFactory $propertyFactory,
+        private PropertyRepository $propertyRepository,
+        private GetAddressService $getAddressService
     ) {
-        $this->entityManager = $entityManager;
-        $this->propertyFactory = $propertyFactory;
-        $this->propertyRepository = $propertyRepository;
-        $this->getAddressService = $getAddressService;
     }
 
     /**

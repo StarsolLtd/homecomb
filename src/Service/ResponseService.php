@@ -10,21 +10,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ResponseService
 {
-    private EntityManagerInterface $entityManager;
-    private SessionService $sessionService;
-    private UserService $userService;
-    private ResponseFactory $responseFactory;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        SessionService $sessionService,
-        UserService $userService,
-        ResponseFactory $responseFactory
+        private EntityManagerInterface $entityManager,
+        private UserService $userService,
+        private ResponseFactory $responseFactory
     ) {
-        $this->entityManager = $entityManager;
-        $this->sessionService = $sessionService;
-        $this->userService = $userService;
-        $this->responseFactory = $responseFactory;
     }
 
     public function create(Survey $survey, ?UserInterface $user): Response

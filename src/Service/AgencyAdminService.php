@@ -13,21 +13,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AgencyAdminService
 {
-    private UserService $userService;
-    private AgencyAdminFactory $agencyAdminFactory;
-    private FlatModelFactory $flatModelFactory;
-    private BranchRepository $branchRepository;
-
     public function __construct(
-        UserService $userService,
-        AgencyAdminFactory $agencyAdminFactory,
-        FlatModelFactory $flatModelFactory,
-        BranchRepository $branchRepository
+        private UserService $userService,
+        private AgencyAdminFactory $agencyAdminFactory,
+        private FlatModelFactory $flatModelFactory,
+        private BranchRepository $branchRepository,
     ) {
-        $this->userService = $userService;
-        $this->agencyAdminFactory = $agencyAdminFactory;
-        $this->flatModelFactory = $flatModelFactory;
-        $this->branchRepository = $branchRepository;
     }
 
     public function getHomeForUser(?UserInterface $user): Home

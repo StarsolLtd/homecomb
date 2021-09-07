@@ -20,42 +20,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class SurveyService
 {
-    private EntityManagerInterface $entityManager;
-    private InteractionService $interactionService;
-    private ResponseService $responseService;
-    private SessionService $sessionService;
-    private UserService $userService;
-    private AnswerFactory $answerFactory;
-    private SurveyFactory $surveyFactory;
-    private AnswerRepository $answerRepository;
-    private QuestionRepository $questionRepository;
-    private ResponseRepository $responseRepository;
-    private SurveyRepository $surveyRepository;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        InteractionService $interactionService,
-        ResponseService $responseService,
-        SessionService $sessionService,
-        UserService $userService,
-        AnswerFactory $answerFactory,
-        SurveyFactory $surveyFactory,
-        AnswerRepository $answerRepository,
-        QuestionRepository $questionRepository,
-        ResponseRepository $responseRepository,
-        SurveyRepository $surveyRepository
+        private EntityManagerInterface $entityManager,
+        private InteractionService $interactionService,
+        private ResponseService $responseService,
+        private SessionService $sessionService,
+        private AnswerFactory $answerFactory,
+        private SurveyFactory $surveyFactory,
+        private AnswerRepository $answerRepository,
+        private QuestionRepository $questionRepository,
+        private ResponseRepository $responseRepository,
+        private SurveyRepository $surveyRepository
     ) {
-        $this->entityManager = $entityManager;
-        $this->interactionService = $interactionService;
-        $this->responseService = $responseService;
-        $this->sessionService = $sessionService;
-        $this->userService = $userService;
-        $this->answerFactory = $answerFactory;
-        $this->surveyFactory = $surveyFactory;
-        $this->answerRepository = $answerRepository;
-        $this->questionRepository = $questionRepository;
-        $this->responseRepository = $responseRepository;
-        $this->surveyRepository = $surveyRepository;
     }
 
     public function getViewBySlug(string $slug): View

@@ -20,7 +20,6 @@ use App\Service\InteractionService;
 use App\Service\ResponseService;
 use App\Service\SessionService;
 use App\Service\SurveyService;
-use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,7 +53,6 @@ class SurveyServiceTest extends TestCase
         $this->interactionService = $this->prophesize(InteractionService::class);
         $this->responseService = $this->prophesize(ResponseService::class);
         $this->sessionService = $this->prophesize(SessionService::class);
-        $this->userService = $this->prophesize(UserService::class);
         $this->answerFactory = $this->prophesize(AnswerFactory::class);
         $this->surveyFactory = $this->prophesize(SurveyFactory::class);
         $this->answerRepository = $this->prophesize(AnswerRepository::class);
@@ -67,7 +65,6 @@ class SurveyServiceTest extends TestCase
             $this->interactionService->reveal(),
             $this->responseService->reveal(),
             $this->sessionService->reveal(),
-            $this->userService->reveal(),
             $this->answerFactory->reveal(),
             $this->surveyFactory->reveal(),
             $this->answerRepository->reveal(),

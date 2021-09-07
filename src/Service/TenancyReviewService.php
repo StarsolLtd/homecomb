@@ -22,42 +22,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class TenancyReviewService
 {
-    private AgencyService $agencyService;
-    private BranchService $branchService;
-    private InteractionService $interactionService;
-    private NotificationService $notificationService;
-    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
-    private UserService $userService;
-    private EntityManagerInterface $entityManager;
-    private PostcodeRepository $postcodeRepository;
-    private PropertyRepository $propertyRepository;
-    private TenancyReviewRepository $tenancyReviewRepository;
-    private TenancyReviewFactory $tenancyReviewFactory;
-
     public function __construct(
-        AgencyService $agencyService,
-        BranchService $branchService,
-        InteractionService $interactionService,
-        NotificationService $notificationService,
-        TenancyReviewSolicitationService $tenancyReviewSolicitationService,
-        UserService $userService,
-        EntityManagerInterface $entityManager,
-        PostcodeRepository $postcodeRepository,
-        PropertyRepository $propertyRepository,
-        TenancyReviewRepository $tenancyReviewRepository,
-        TenancyReviewFactory $tenancyReviewFactory
+        private AgencyService $agencyService,
+        private BranchService $branchService,
+        private InteractionService $interactionService,
+        private NotificationService $notificationService,
+        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        private UserService $userService,
+        private EntityManagerInterface $entityManager,
+        private PostcodeRepository $postcodeRepository,
+        private PropertyRepository $propertyRepository,
+        private TenancyReviewRepository $tenancyReviewRepository,
+        private TenancyReviewFactory $tenancyReviewFactory
     ) {
-        $this->agencyService = $agencyService;
-        $this->branchService = $branchService;
-        $this->interactionService = $interactionService;
-        $this->notificationService = $notificationService;
-        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
-        $this->userService = $userService;
-        $this->entityManager = $entityManager;
-        $this->postcodeRepository = $postcodeRepository;
-        $this->propertyRepository = $propertyRepository;
-        $this->tenancyReviewRepository = $tenancyReviewRepository;
-        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function submitReview(

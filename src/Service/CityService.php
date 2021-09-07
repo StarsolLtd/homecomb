@@ -9,21 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CityService
 {
-    private EntityManagerInterface $entityManager;
-    private CityFactory $cityFactory;
-    private CityRepository $cityRepository;
-    private LocaleService $localeService;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        CityFactory $cityFactory,
-        CityRepository $cityRepository,
-        LocaleService $localeService
+        private EntityManagerInterface $entityManager,
+        private CityFactory $cityFactory,
+        private CityRepository $cityRepository,
+        private LocaleService $localeService,
     ) {
-        $this->entityManager = $entityManager;
-        $this->cityFactory = $cityFactory;
-        $this->cityRepository = $cityRepository;
-        $this->localeService = $localeService;
     }
 
     public function findOrCreate(string $cityName, ?string $county, string $countryCode = 'UK'): City
