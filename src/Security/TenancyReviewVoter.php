@@ -11,14 +11,11 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TenancyReviewVoter extends Voter
 {
-    private UserService $userService;
-
     public const COMMENT = 'comment';
 
     public function __construct(
-        UserService $userService
+        private UserService $userService,
     ) {
-        $this->userService = $userService;
     }
 
     protected function supports(string $attribute, $subject): bool
