@@ -7,15 +7,10 @@ use App\Model\AgencyAdmin\Home;
 
 class AgencyAdminFactory
 {
-    private FlatModelFactory $flatModelFactory;
-    private TenancyReviewFactory $tenancyReviewFactory;
-
     public function __construct(
-        FlatModelFactory $flatModelFactory,
-        TenancyReviewFactory $tenancyReviewFactory
+        private FlatModelFactory $flatModelFactory,
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
-        $this->flatModelFactory = $flatModelFactory;
-        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function getHome(Agency $agencyEntity): Home

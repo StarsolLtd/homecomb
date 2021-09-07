@@ -21,18 +21,11 @@ use function sprintf;
 
 class VoteFactory
 {
-    private CommentRepository $commentRepository;
-    private ReviewRepository $reviewRepository;
-    private TenancyReviewRepository $tenancyReviewRepository;
-
     public function __construct(
-        CommentRepository $commentRepository,
-        ReviewRepository $reviewRepository,
-        TenancyReviewRepository $tenancyReviewRepository
+        private CommentRepository $commentRepository,
+        private ReviewRepository $reviewRepository,
+        private TenancyReviewRepository $tenancyReviewRepository
     ) {
-        $this->commentRepository = $commentRepository;
-        $this->reviewRepository = $reviewRepository;
-        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, User $user): Vote

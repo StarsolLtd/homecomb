@@ -16,27 +16,14 @@ class PropertyFactory
 {
     private const COUNTRY_CODE = 'UK';
 
-    private CityService $cityService;
-    private DistrictService $districtService;
-    private PropertyHelper $propertyHelper;
-    private CityFactory $cityFactory;
-    private FlatModelFactory $flatModelFactory;
-    private TenancyReviewFactory $tenancyReviewFactory;
-
     public function __construct(
-        CityService $cityService,
-        DistrictService $districtService,
-        PropertyHelper $propertyHelper,
-        CityFactory $cityFactory,
-        FlatModelFactory $flatModelFactory,
-        TenancyReviewFactory $tenancyReviewFactory
+        private CityService $cityService,
+        private DistrictService $districtService,
+        private PropertyHelper $propertyHelper,
+        private CityFactory $cityFactory,
+        private FlatModelFactory $flatModelFactory,
+        private TenancyReviewFactory $tenancyReviewFactory
     ) {
-        $this->cityService = $cityService;
-        $this->districtService = $districtService;
-        $this->propertyHelper = $propertyHelper;
-        $this->cityFactory = $cityFactory;
-        $this->flatModelFactory = $flatModelFactory;
-        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createEntityFromVendorPropertyModel(VendorProperty $vendorProperty): Property

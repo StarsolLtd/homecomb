@@ -12,15 +12,10 @@ use App\Util\BranchHelper;
 
 class BranchFactory
 {
-    private BranchHelper $branchHelper;
-    private TenancyReviewFactory $tenancyReviewFactory;
-
     public function __construct(
-        BranchHelper $branchHelper,
-        TenancyReviewFactory $tenancyReviewFactory
+        private BranchHelper $branchHelper,
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
-        $this->branchHelper = $branchHelper;
-        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createEntityFromCreateBranchInput(CreateBranchInput $input, Agency $agency): Branch

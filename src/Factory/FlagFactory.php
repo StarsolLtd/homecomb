@@ -18,21 +18,12 @@ use function sprintf;
 
 class FlagFactory
 {
-    private AgencyRepository $agencyRepository;
-    private BranchRepository $branchRepository;
-    private PropertyRepository $propertyRepository;
-    private TenancyReviewRepository $tenancyReviewRepository;
-
     public function __construct(
-        AgencyRepository $agencyRepository,
-        BranchRepository $branchRepository,
-        PropertyRepository $propertyRepository,
-        TenancyReviewRepository $tenancyReviewRepository
+        private AgencyRepository $agencyRepository,
+        private BranchRepository $branchRepository,
+        private PropertyRepository $propertyRepository,
+        private TenancyReviewRepository $tenancyReviewRepository
     ) {
-        $this->agencyRepository = $agencyRepository;
-        $this->branchRepository = $branchRepository;
-        $this->propertyRepository = $propertyRepository;
-        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, ?User $user): Flag

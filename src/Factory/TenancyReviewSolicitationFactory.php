@@ -15,18 +15,11 @@ use function sha1;
 
 class TenancyReviewSolicitationFactory
 {
-    private BranchRepository $branchRepository;
-    private PropertyRepository $propertyRepository;
-    private FlatModelFactory $flatModelFactory;
-
     public function __construct(
-        BranchRepository $branchRepository,
-        PropertyRepository $propertyRepository,
-        FlatModelFactory $flatModelFactory
+        private BranchRepository $branchRepository,
+        private PropertyRepository $propertyRepository,
+        private FlatModelFactory $flatModelFactory
     ) {
-        $this->branchRepository = $branchRepository;
-        $this->propertyRepository = $propertyRepository;
-        $this->flatModelFactory = $flatModelFactory;
     }
 
     public function createEntityFromInput(

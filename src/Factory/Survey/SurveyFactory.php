@@ -7,12 +7,9 @@ use App\Model\Survey\View as View;
 
 class SurveyFactory
 {
-    private QuestionFactory $questionFactory;
-
     public function __construct(
-        QuestionFactory $questionFactory
+        private QuestionFactory $questionFactory
     ) {
-        $this->questionFactory = $questionFactory;
     }
 
     public function createViewFromEntity(SurveyEntity $entity): View

@@ -9,15 +9,10 @@ use App\Util\AgencyHelper;
 
 class AgencyFactory
 {
-    private AgencyHelper $agencyHelper;
-    private FlatModelFactory $flatModelFactory;
-
     public function __construct(
-        AgencyHelper $agencyHelper,
-        FlatModelFactory $flatModelFactory
+        private AgencyHelper $agencyHelper,
+        private FlatModelFactory $flatModelFactory,
     ) {
-        $this->agencyHelper = $agencyHelper;
-        $this->flatModelFactory = $flatModelFactory;
     }
 
     public function createAgencyEntityFromCreateAgencyInputModel(CreateAgencyInput $createAgencyInput): Agency

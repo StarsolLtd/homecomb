@@ -19,21 +19,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class LocaleFactory
 {
-    private LocaleHelper $localeHelper;
-    private FlatModelFactory $flatModelFactory;
-    private LocaleReviewFactory $localeReviewFactory;
-    private TenancyReviewFactory $tenancyReviewFactory;
-
     public function __construct(
-        LocaleHelper $localeHelper,
-        FlatModelFactory $flatModelFactory,
-        LocaleReviewFactory $localeReviewFactory,
-        TenancyReviewFactory $tenancyReviewFactory
+        private LocaleHelper $localeHelper,
+        private FlatModelFactory $flatModelFactory,
+        private LocaleReviewFactory $localeReviewFactory,
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
-        $this->localeHelper = $localeHelper;
-        $this->flatModelFactory = $flatModelFactory;
-        $this->localeReviewFactory = $localeReviewFactory;
-        $this->tenancyReviewFactory = $tenancyReviewFactory;
     }
 
     public function createViewFromEntity(Locale $entity): View

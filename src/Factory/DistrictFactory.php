@@ -7,12 +7,9 @@ use App\Util\DistrictHelper;
 
 class DistrictFactory
 {
-    private DistrictHelper $districtHelper;
-
     public function __construct(
-        DistrictHelper $districtHelper,
+        private DistrictHelper $districtHelper,
     ) {
-        $this->districtHelper = $districtHelper;
     }
 
     public function createEntity(string $name, ?string $county, string $countryCode): District

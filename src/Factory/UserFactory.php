@@ -8,12 +8,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFactory
 {
-    private UserPasswordEncoderInterface $userPasswordEncoder;
-
     public function __construct(
-        UserPasswordEncoderInterface $userPasswordEncoder
+        private UserPasswordEncoderInterface $userPasswordEncoder
     ) {
-        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     public function createEntityFromRegisterInput(RegisterInput $input): User
