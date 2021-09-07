@@ -23,15 +23,10 @@ class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
 
-    private ResetPasswordHelperInterface $resetPasswordHelper;
-    private UserService $userService;
-
     public function __construct(
-        ResetPasswordHelperInterface $resetPasswordHelper,
-        UserService $userService
+        private ResetPasswordHelperInterface $resetPasswordHelper,
+        private UserService $userService,
     ) {
-        $this->resetPasswordHelper = $resetPasswordHelper;
-        $this->userService = $userService;
     }
 
     /**

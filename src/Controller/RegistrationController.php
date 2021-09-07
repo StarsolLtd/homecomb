@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Security\EmailVerifier;
-use App\Service\GoogleReCaptchaService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,18 +13,10 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    private GoogleReCaptchaService $googleReCaptchaService;
-    private UserService $userService;
-    private EmailVerifier $emailVerifier;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        UserService $userService,
-        EmailVerifier $emailVerifier
+        private UserService $userService,
+        private EmailVerifier $emailVerifier,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->userService = $userService;
-        $this->emailVerifier = $emailVerifier;
     }
 
     /**
