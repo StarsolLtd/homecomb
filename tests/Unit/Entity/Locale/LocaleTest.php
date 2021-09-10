@@ -8,7 +8,7 @@ use App\Entity\TenancyReview;
 use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
 /**
- * @covers \App\Entity\Locale
+ * @covers \App\Entity\Locale\Locale
  */
 class LocaleTest extends AbstractEntityTestCase
 {
@@ -37,7 +37,7 @@ class LocaleTest extends AbstractEntityTestCase
     }
 
     /**
-     * @covers \App\Entity\Property::getPublishedTenancyReviews
+     * @covers \App\Entity\Locale\Locale::getPublishedTenancyReviews
      */
     public function testGetPublishedTenancyReviews1(): void
     {

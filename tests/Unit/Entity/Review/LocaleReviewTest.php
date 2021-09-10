@@ -7,7 +7,7 @@ use App\Entity\Vote\LocaleReviewVote;
 use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
 /**
- * @covers \App\Entity\SubmitLocaleReview
+ * @covers \App\Entity\Review\LocaleReview
  */
 class LocaleReviewTest extends AbstractEntityTestCase
 {

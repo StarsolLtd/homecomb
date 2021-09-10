@@ -23,9 +23,9 @@ class PropertyTest extends AbstractEntityTestCase
     }
 
     /**
-     * @covers \App\Entity\Property::getPublishedReviews
+     * @covers \App\Entity\Property::getPublishedTenancyReviews
      */
-    public function testGetPublishedReviews1(): void
+    public function testGetPublishedTenancyReviews1(): void
     {
         $entity = $this->getEntity();
         $this->assertEmpty($entity->getPublishedTenancyReviews());
