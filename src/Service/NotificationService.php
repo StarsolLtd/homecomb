@@ -23,21 +23,15 @@ use Symfony\Component\Mime\Email;
 
 class NotificationService
 {
-    private CrudUrlGenerator $crudUrlGenerator;
     private LoggerInterface $logger;
-    private MailerInterface $mailer;
-    private UserRepository $userRepository;
 
     public function __construct(
-        CrudUrlGenerator $crudUrlGenerator,
+        private CrudUrlGenerator $crudUrlGenerator,
         LoggerInterface $appLogger,
-        MailerInterface $mailer,
-        UserRepository $userRepository
+        private MailerInterface $mailer,
+        private UserRepository $userRepository
     ) {
-        $this->crudUrlGenerator = $crudUrlGenerator;
-        $this->mailer = $mailer;
         $this->logger = $appLogger;
-        $this->userRepository = $userRepository;
     }
 
     public function sendLocaleReviewModerationNotification(LocaleReview $localeReview): void

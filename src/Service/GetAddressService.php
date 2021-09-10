@@ -13,21 +13,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetAddressService
 {
-    private LoggerInterface $logger;
-    private HttpClientInterface $client;
-    private PropertyFactory $propertyFactory;
-    private string $getAddressApiKey;
-
     public function __construct(
-        LoggerInterface $logger,
-        HttpClientInterface $client,
-        PropertyFactory $propertyFactory,
-        string $getAddressApiKey = 'q_FWAe-wfUGroLwns-12gQ29280' // TODO how to inject this from secret
+        private LoggerInterface $logger,
+        private HttpClientInterface $client,
+        private PropertyFactory $propertyFactory,
+        private string $getAddressApiKey = 'q_FWAe-wfUGroLwns-12gQ29280' // TODO how to inject this from secret
     ) {
-        $this->client = $client;
-        $this->logger = $logger;
-        $this->propertyFactory = $propertyFactory;
-        $this->getAddressApiKey = $getAddressApiKey;
     }
 
     /**

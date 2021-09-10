@@ -12,21 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CommentService
 {
-    private EntityManagerInterface $entityManager;
-    private LoggerInterface $logger;
-    private CommentFactory $commentFactory;
-    private UserService $userService;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger,
-        CommentFactory $commentFactory,
-        UserService $userService
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $logger,
+        private CommentFactory $commentFactory,
+        private UserService $userService
     ) {
-        $this->entityManager = $entityManager;
-        $this->logger = $logger;
-        $this->commentFactory = $commentFactory;
-        $this->userService = $userService;
     }
 
     public function submitComment(SubmitInput $submitInput, ?UserInterface $user): SubmitOutput

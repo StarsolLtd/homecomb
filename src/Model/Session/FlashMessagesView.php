@@ -4,13 +4,12 @@ namespace App\Model\Session;
 
 class FlashMessagesView
 {
-    /** @var FlashMessage[] */
-    private array $messages;
-
+    /**
+     * @param FlashMessage[] $messages
+     */
     public function __construct(
-        array $messages
+        private array $messages,
     ) {
-        $this->messages = $messages;
     }
 
     /**

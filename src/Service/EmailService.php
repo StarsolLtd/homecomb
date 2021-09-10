@@ -14,21 +14,12 @@ use Symfony\Component\Mime\Address;
 
 class EmailService
 {
-    private EntityManagerInterface $entityManager;
-    private LoggerInterface $logger;
-    private MailerInterface $mailer;
-    private EmailFactory $emailFactory;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger,
-        MailerInterface $mailer,
-        EmailFactory $emailFactory
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $logger,
+        private MailerInterface $mailer,
+        private EmailFactory $emailFactory
     ) {
-        $this->entityManager = $entityManager;
-        $this->logger = $logger;
-        $this->mailer = $mailer;
-        $this->emailFactory = $emailFactory;
     }
 
     public function process(

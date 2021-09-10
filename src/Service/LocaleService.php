@@ -21,24 +21,13 @@ use LogicException;
 
 class LocaleService
 {
-    private EntityManagerInterface $entityManager;
-    private LocaleFactory $localeFactory;
-    private LocaleRepository $localeRepository;
-    private CityLocaleRepository $cityLocaleRepository;
-    private DistrictLocaleRepository $districtLocaleRepository;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LocaleFactory $localeFactory,
-        LocaleRepository $localeRepository,
-        CityLocaleRepository $cityLocaleRepository,
-        DistrictLocaleRepository $districtLocaleRepository
+        private EntityManagerInterface $entityManager,
+        private LocaleFactory $localeFactory,
+        private LocaleRepository $localeRepository,
+        private CityLocaleRepository $cityLocaleRepository,
+        private DistrictLocaleRepository $districtLocaleRepository
     ) {
-        $this->entityManager = $entityManager;
-        $this->localeFactory = $localeFactory;
-        $this->localeRepository = $localeRepository;
-        $this->cityLocaleRepository = $cityLocaleRepository;
-        $this->districtLocaleRepository = $districtLocaleRepository;
     }
 
     public function getViewBySlug(string $slug): View

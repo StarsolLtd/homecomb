@@ -8,15 +8,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class CityFixtures extends AbstractDataFixtures
 {
-    private CityHelper $cityHelper;
-
     public const CAMBRIDGE_SLUG = '4ab26f4387989e70';
     public const KINGS_LYNN_SLUG = '8475b53127850aba';
 
     public function __construct(
-        CityHelper $cityHelper
+        private CityHelper $cityHelper,
     ) {
-        $this->cityHelper = $cityHelper;
     }
 
     protected function getEnvironments(): array

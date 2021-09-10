@@ -17,16 +17,10 @@ class SendReviewSolicitationEmail extends Command
 {
     protected static $defaultName = 'email:review-solicitation';
 
-    private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository;
-    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
-
     public function __construct(
-        TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
-        TenancyReviewSolicitationService $tenancyReviewSolicitationService
+        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
+        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
     ) {
-        $this->tenancyReviewSolicitationRepository = $tenancyReviewSolicitationRepository;
-        $this->tenancyReviewSolicitationService = $tenancyReviewSolicitationService;
-
         parent::__construct();
     }
 

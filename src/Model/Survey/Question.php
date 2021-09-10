@@ -4,33 +4,19 @@ namespace App\Model\Survey;
 
 class Question
 {
-    private int $id;
-    private string $type;
-    private string $content;
-    private ?string $help;
-    private ?string $highMeaning;
-    private ?string $lowMeaning;
-    private int $sortOrder;
-    private array $choices;
-
+    /**
+     * @param Choice[] $choices
+     */
     public function __construct(
-        int $id,
-        string $type,
-        string $content,
-        ?string $help,
-        ?string $highMeaning,
-        ?string $lowMeaning,
-        int $sortOrder,
-        array $choices = []
+        private int $id,
+        private string $type,
+        private string $content,
+        private ?string $help,
+        private ?string $highMeaning,
+        private ?string $lowMeaning,
+        private int $sortOrder,
+        private array $choices = [],
     ) {
-        $this->id = $id;
-        $this->type = $type;
-        $this->content = $content;
-        $this->help = $help;
-        $this->highMeaning = $highMeaning;
-        $this->lowMeaning = $lowMeaning;
-        $this->sortOrder = $sortOrder;
-        $this->choices = $choices;
     }
 
     public function getId(): int

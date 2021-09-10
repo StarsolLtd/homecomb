@@ -4,21 +4,12 @@ namespace App\Model\Agency;
 
 class CreateAgencyInput
 {
-    private string $agencyName;
-    private ?string $externalUrl;
-    private ?string $postcode;
-    private ?string $captchaToken;
-
     public function __construct(
-        string $agencyName,
-        ?string $externalUrl = null,
-        ?string $postcode = null,
-        ?string $captchaToken = null
+        private string $agencyName,
+        private ?string $externalUrl = null,
+        private ?string $postcode = null,
+        private ?string $captchaToken = null
     ) {
-        $this->agencyName = $agencyName;
-        $this->externalUrl = $externalUrl;
-        $this->postcode = $postcode;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getAgencyName(): string

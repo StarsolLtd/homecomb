@@ -8,20 +8,13 @@ use App\Model\TenancyReview\View as TenancyReviewView;
 
 class Home
 {
-    private FlatAgency $agency;
-    /** @var FlatBranch[] */
-    private array $branches;
-    /** @var TenancyReviewView[] */
-    private array $tenancyReviews;
-
     public function __construct(
-        FlatAgency $agency,
-        array $branches = [],
-        array $tenancyReviews = []
+        private FlatAgency $agency,
+        /* @var FlatBranch[] */
+        private array $branches = [],
+        /* @var TenancyReviewView[] */
+        private array $tenancyReviews = []
     ) {
-        $this->agency = $agency;
-        $this->branches = $branches;
-        $this->tenancyReviews = $tenancyReviews;
     }
 
     public function getAgency(): FlatAgency

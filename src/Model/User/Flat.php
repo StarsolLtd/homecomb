@@ -4,24 +4,13 @@ namespace App\Model\User;
 
 class Flat
 {
-    private string $username;
-    private ?string $title;
-    private ?string $firstName;
-    private ?string $lastName;
-    private bool $agencyAdmin;
-
     public function __construct(
-        string $username,
-        ?string $title = null,
-        ?string $firstName = null,
-        ?string $lastName = null,
-        bool $agencyAdmin = false
+        private string $username,
+        private ?string $title = null,
+        private ?string $firstName = null,
+        private ?string $lastName = null,
+        private bool $agencyAdmin = false,
     ) {
-        $this->username = $username;
-        $this->title = $title;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->agencyAdmin = $agencyAdmin;
     }
 
     public function getUsername(): string

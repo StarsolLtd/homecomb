@@ -20,18 +20,12 @@ class FlagController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private FlagService $flagService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        FlagService $flagService,
-        InteractionFactory $interactionFactory,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private FlagService $flagService,
+        protected InteractionFactory $interactionFactory,
+        protected SerializerInterface $serializer,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->flagService = $flagService;
-        $this->interactionFactory = $interactionFactory;
-        $this->serializer = $serializer;
     }
 
     /**

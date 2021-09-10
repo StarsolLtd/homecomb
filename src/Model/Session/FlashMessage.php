@@ -4,15 +4,10 @@ namespace App\Model\Session;
 
 class FlashMessage
 {
-    private string $type;
-    private string $message;
-
     public function __construct(
-        string $type,
-        string $message
+        private string $type,
+        private string $message,
     ) {
-        $this->type = $type;
-        $this->message = $message;
     }
 
     public function getType(): string

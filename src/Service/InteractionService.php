@@ -15,24 +15,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class InteractionService
 {
-    private EntityManagerInterface $entityManager;
-    private UserService $userService;
-    private AnswerRepository $answerRepository;
-    private FlagRepository $flagRepository;
-    private TenancyReviewRepository $reviewRepository;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserService $userService,
-        AnswerRepository $answerRepository,
-        FlagRepository $flagRepository,
-        TenancyReviewRepository $tenancyReviewRepository
+        private EntityManagerInterface $entityManager,
+        private UserService $userService,
+        private AnswerRepository $answerRepository,
+        private FlagRepository $flagRepository,
+        private TenancyReviewRepository $tenancyReviewRepository
     ) {
-        $this->entityManager = $entityManager;
-        $this->userService = $userService;
-        $this->answerRepository = $answerRepository;
-        $this->flagRepository = $flagRepository;
-        $this->reviewRepository = $tenancyReviewRepository;
     }
 
     public function record(
@@ -51,7 +40,7 @@ class InteractionService
                 $interaction = (new FlagInteraction())->setFlag($flag);
                 break;
             case 'TenancyReview':
-                $tenancyReview = $this->reviewRepository->findOneById($entityId);
+                $tenancyReview = $this->tenancyReviewRepository->findOneById($entityId);
                 $interaction = (new TenancyReviewInteraction())->setTenancyReview($tenancyReview);
                 break;
             default:

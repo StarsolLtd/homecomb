@@ -15,15 +15,10 @@ use DateTime;
 
 class TenancyReviewFactory
 {
-    private FlatModelFactory $flatModelFactory;
-    private ReviewHelper $reviewHelper;
-
     public function __construct(
-        FlatModelFactory $flatModelFactory,
-        ReviewHelper $reviewHelper
+        private FlatModelFactory $flatModelFactory,
+        private ReviewHelper $reviewHelper
     ) {
-        $this->flatModelFactory = $flatModelFactory;
-        $this->reviewHelper = $reviewHelper;
     }
 
     public function createEntity(

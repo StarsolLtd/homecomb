@@ -8,11 +8,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends AbstractDataFixtures
 {
-    private UserPasswordEncoderInterface $userPasswordEncoder;
-
-    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
-    {
-        $this->userPasswordEncoder = $userPasswordEncoder;
+    public function __construct(
+        private UserPasswordEncoderInterface $userPasswordEncoder
+    ) {
     }
 
     protected function getEnvironments(): array

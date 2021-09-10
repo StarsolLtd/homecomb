@@ -22,18 +22,12 @@ class VoteController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private VoteService $voteService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        VoteService $voteService,
-        InteractionFactory $interactionFactory,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private VoteService $voteService,
+        protected InteractionFactory $interactionFactory,
+        protected SerializerInterface $serializer
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->voteService = $voteService;
-        $this->interactionFactory = $interactionFactory;
-        $this->serializer = $serializer;
     }
 
     /**

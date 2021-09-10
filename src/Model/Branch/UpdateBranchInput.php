@@ -4,18 +4,11 @@ namespace App\Model\Branch;
 
 class UpdateBranchInput
 {
-    private ?string $telephone;
-    private ?string $email;
-    private ?string $captchaToken;
-
     public function __construct(
-        ?string $telephone = null,
-        ?string $email = null,
-        ?string $captchaToken = null
+        private ?string $telephone = null,
+        private ?string $email = null,
+        private ?string $captchaToken = null,
     ) {
-        $this->telephone = $telephone;
-        $this->email = $email;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getTelephone(): ?string

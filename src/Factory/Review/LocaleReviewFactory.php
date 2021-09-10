@@ -11,12 +11,9 @@ use App\Util\ReviewHelper;
 
 class LocaleReviewFactory
 {
-    private ReviewHelper $reviewHelper;
-
     public function __construct(
-        ReviewHelper $reviewHelper
+        private ReviewHelper $reviewHelper
     ) {
-        $this->reviewHelper = $reviewHelper;
     }
 
     public function createEntity(

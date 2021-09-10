@@ -16,16 +16,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class SurveyController extends AppController
 {
-    private SurveyService $surveyService;
-
     public function __construct(
-        SurveyService $surveyService,
-        SerializerInterface $serializer,
-        InteractionFactory $interactionFactory
+        private SurveyService $surveyService,
+        protected SerializerInterface $serializer,
+        protected InteractionFactory $interactionFactory,
     ) {
-        $this->surveyService = $surveyService;
-        $this->serializer = $serializer;
-        $this->interactionFactory = $interactionFactory;
     }
 
     /**

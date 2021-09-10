@@ -12,24 +12,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class FlagService
 {
-    private EntityManagerInterface $entityManager;
-    private InteractionService $interactionService;
-    private NotificationService $notificationService;
-    private UserService $userService;
-    private FlagFactory $flagFactory;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        InteractionService $interactionService,
-        NotificationService $notificationService,
-        UserService $userService,
-        FlagFactory $flagFactory
+        private EntityManagerInterface $entityManager,
+        private InteractionService $interactionService,
+        private NotificationService $notificationService,
+        private UserService $userService,
+        private FlagFactory $flagFactory
     ) {
-        $this->entityManager = $entityManager;
-        $this->interactionService = $interactionService;
-        $this->notificationService = $notificationService;
-        $this->userService = $userService;
-        $this->flagFactory = $flagFactory;
     }
 
     public function submitFlag(

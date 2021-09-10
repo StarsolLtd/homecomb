@@ -13,14 +13,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class LocaleController extends AppController
 {
-    private LocaleService $localeService;
-
     public function __construct(
-        LocaleService $localeService,
-        SerializerInterface $serializer
+        private LocaleService $localeService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->localeService = $localeService;
-        $this->serializer = $serializer;
     }
 
     /**

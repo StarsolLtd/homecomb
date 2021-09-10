@@ -6,12 +6,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SessionService
 {
-    private SessionInterface $session;
-
     public function __construct(
-        SessionInterface $session
+        private SessionInterface $session
     ) {
-        $this->session = $session;
     }
 
     /**

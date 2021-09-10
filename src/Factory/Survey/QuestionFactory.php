@@ -7,12 +7,9 @@ use App\Model\Survey\Question as QuestionModel;
 
 class QuestionFactory
 {
-    private ChoiceFactory $choiceFactory;
-
     public function __construct(
-        ChoiceFactory $choiceFactory
+        private ChoiceFactory $choiceFactory
     ) {
-        $this->choiceFactory = $choiceFactory;
     }
 
     public function createModelFromEntity(QuestionEntity $entity): QuestionModel

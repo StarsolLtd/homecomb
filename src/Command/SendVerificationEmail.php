@@ -17,16 +17,10 @@ class SendVerificationEmail extends Command
 {
     protected static $defaultName = 'email:verification';
 
-    private UserRepository $userRepository;
-    private UserService $userService;
-
     public function __construct(
-        UserRepository $userRepository,
-        UserService $userService
+        private UserRepository $userRepository,
+        private UserService $userService,
     ) {
-        $this->userRepository = $userRepository;
-        $this->userService = $userService;
-
         parent::__construct();
     }
 

@@ -10,15 +10,10 @@ use App\Repository\Survey\QuestionRepository;
 
 class AnswerFactory
 {
-    private ChoiceRepository $choiceRepository;
-    private QuestionRepository $questionRepository;
-
     public function __construct(
-        ChoiceRepository $choiceRepository,
-        QuestionRepository $questionRepository
+        private ChoiceRepository $choiceRepository,
+        private QuestionRepository $questionRepository
     ) {
-        $this->choiceRepository = $choiceRepository;
-        $this->questionRepository = $questionRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitAnswerInput $input, Response $response): Answer

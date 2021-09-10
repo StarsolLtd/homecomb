@@ -20,16 +20,11 @@ class CommentController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private CommentService $commentService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        CommentService $commentService,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private CommentService $commentService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->commentService = $commentService;
-        $this->serializer = $serializer;
     }
 
     /**

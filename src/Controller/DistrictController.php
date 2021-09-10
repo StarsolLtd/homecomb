@@ -9,12 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DistrictController extends AbstractController
 {
-    private DistrictService $districtService;
-
     public function __construct(
-        DistrictService $districtService
+        private DistrictService $districtService,
     ) {
-        $this->districtService = $districtService;
     }
 
     /**

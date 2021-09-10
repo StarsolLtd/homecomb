@@ -18,16 +18,11 @@ class ReviewController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private ReviewService $reviewService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        ReviewService $reviewService,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private ReviewService $reviewService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->reviewService = $reviewService;
-        $this->serializer = $serializer;
     }
 
     /**

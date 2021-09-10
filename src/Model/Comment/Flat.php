@@ -6,21 +6,12 @@ use DateTime;
 
 class Flat
 {
-    private int $id;
-    private string $author;
-    private string $content;
-    private DateTime $createdAt;
-
     public function __construct(
-        int $id,
-        string $author,
-        string $content,
-        DateTime $createdAt
+        private int $id,
+        private string $author,
+        private string $content,
+        private DateTime $createdAt,
     ) {
-        $this->id = $id;
-        $this->author = $author;
-        $this->content = $content;
-        $this->createdAt = $createdAt;
     }
 
     public function getId(): int

@@ -12,14 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class BranchController extends AppController
 {
-    private BranchService $branchService;
-
     public function __construct(
-        BranchService $branchService,
-        SerializerInterface $serializer
+        private BranchService $branchService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->branchService = $branchService;
-        $this->serializer = $serializer;
     }
 
     /**

@@ -4,18 +4,11 @@ namespace App\Model\Property;
 
 class PropertySuggestion
 {
-    private string $address;
-    private ?string $vendorId;
-    private ?string $propertySlug;
-
     public function __construct(
-        string $address,
-        ?string $vendorId = null,
-        ?string $propertySlug = null
+        private string $address,
+        private ?string $vendorId = null,
+        private ?string $propertySlug = null,
     ) {
-        $this->address = $address;
-        $this->vendorId = $vendorId;
-        $this->propertySlug = $propertySlug;
     }
 
     public function getAddress(): string

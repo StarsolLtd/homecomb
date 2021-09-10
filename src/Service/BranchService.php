@@ -12,7 +12,6 @@ use App\Model\Branch\CreateBranchOutput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\UpdateBranchOutput;
 use App\Model\Branch\View;
-use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,30 +20,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class BranchService
 {
-    private NotificationService $notificationService;
-    private UserService $userService;
-    private EntityManagerInterface $entityManager;
-    private AgencyRepository $agencyRepository;
-    private BranchFactory $branchFactory;
-    private BranchHelper $branchHelper;
-    private BranchRepository $branchRepository;
-
     public function __construct(
-        NotificationService $notificationService,
-        UserService $userService,
-        EntityManagerInterface $entityManager,
-        AgencyRepository $agencyRepository,
-        BranchFactory $branchFactory,
-        BranchHelper $branchHelper,
-        BranchRepository $branchRepository
+        private NotificationService $notificationService,
+        private UserService $userService,
+        private EntityManagerInterface $entityManager,
+        private BranchFactory $branchFactory,
+        private BranchHelper $branchHelper,
+        private BranchRepository $branchRepository
     ) {
-        $this->notificationService = $notificationService;
-        $this->userService = $userService;
-        $this->entityManager = $entityManager;
-        $this->agencyRepository = $agencyRepository;
-        $this->branchFactory = $branchFactory;
-        $this->branchHelper = $branchHelper;
-        $this->branchRepository = $branchRepository;
     }
 
     public function createBranch(CreateBranchInput $createBranchInput, ?UserInterface $user): CreateBranchOutput

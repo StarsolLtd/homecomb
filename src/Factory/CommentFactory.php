@@ -12,12 +12,9 @@ use function sprintf;
 
 class CommentFactory
 {
-    private TenancyReviewRepository $tenancyReviewRepository;
-
     public function __construct(
-        TenancyReviewRepository $tenancyReviewRepository
+        private TenancyReviewRepository $tenancyReviewRepository
     ) {
-        $this->tenancyReviewRepository = $tenancyReviewRepository;
     }
 
     public function createEntityFromSubmitInput(SubmitInput $input, User $user): Comment

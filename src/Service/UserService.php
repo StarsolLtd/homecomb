@@ -20,33 +20,16 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class UserService
 {
-    private UserFactory $userFactory;
-    private BranchRepository $branchRepository;
-    private UserRepository $userRepository;
-    private FlatModelFactory $flatModelFactory;
-    private EntityManagerInterface $entityManager;
-    private ResetPasswordHelperInterface $resetPasswordHelper;
-    private VerifyEmailHelperInterface $verifyEmailHelper;
-    private EmailService $emailService;
-
     public function __construct(
-        UserFactory $userFactory,
-        BranchRepository $branchRepository,
-        UserRepository $userRepository,
-        FlatModelFactory $flatModelFactory,
-        EntityManagerInterface $entityManager,
-        ResetPasswordHelperInterface $resetPasswordHelper,
-        VerifyEmailHelperInterface $verifyEmailHelper,
-        EmailService $emailService
+        private UserFactory $userFactory,
+        private BranchRepository $branchRepository,
+        private UserRepository $userRepository,
+        private FlatModelFactory $flatModelFactory,
+        private EntityManagerInterface $entityManager,
+        private ResetPasswordHelperInterface $resetPasswordHelper,
+        private VerifyEmailHelperInterface $verifyEmailHelper,
+        private EmailService $emailService
     ) {
-        $this->userFactory = $userFactory;
-        $this->branchRepository = $branchRepository;
-        $this->userRepository = $userRepository;
-        $this->flatModelFactory = $flatModelFactory;
-        $this->entityManager = $entityManager;
-        $this->resetPasswordHelper = $resetPasswordHelper;
-        $this->verifyEmailHelper = $verifyEmailHelper;
-        $this->emailService = $emailService;
     }
 
     public function getUserEntityOrNullFromUserInterface(?UserInterface $user): ?User

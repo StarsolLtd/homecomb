@@ -4,27 +4,14 @@ namespace App\Model\Vote;
 
 class SubmitOutput
 {
-    private bool $success;
-    private ?string $entityName;
-    private ?int $entityId;
-    private ?int $positiveVotes;
-    private ?int $negativeVotes;
-    private ?int $votesScore;
-
     public function __construct(
-        bool $success,
-        ?string $entityName = null,
-        ?int $entityId = null,
-        ?int $positiveVotes = null,
-        ?int $negativeVotes = null,
-        ?int $votesScore = null
+        private bool $success,
+        private ?string $entityName = null,
+        private ?int $entityId = null,
+        private ?int $positiveVotes = null,
+        private ?int $negativeVotes = null,
+        private ?int $votesScore = null,
     ) {
-        $this->success = $success;
-        $this->entityName = $entityName;
-        $this->entityId = $entityId;
-        $this->positiveVotes = $positiveVotes;
-        $this->negativeVotes = $negativeVotes;
-        $this->votesScore = $votesScore;
     }
 
     public function isSuccess(): bool

@@ -8,39 +8,18 @@ use App\Model\TenancyReview\View as ReviewView;
 
 class View
 {
-    private string $slug;
-    private ?string $addressLine1;
-    private ?string $locality;
-    private ?string $addressCity;
-    private ?string $postcode;
-    private array $tenancyReviews;
-    private ?float $latitude;
-    private ?float $longitude;
-    private ?City $city;
-    private ?FlatDistrict $district;
-
     public function __construct(
-        string $slug,
-        ?string $addressLine1,
-        ?string $locality,
-        ?string $addressCity,
-        ?string $postcode,
-        array $tenancyReviews,
-        ?float $latitude = null,
-        ?float $longitude = null,
-        ?City $city = null,
-        ?FlatDistrict $district = null
+        private string $slug,
+        private ?string $addressLine1,
+        private ?string $locality,
+        private ?string $addressCity,
+        private ?string $postcode,
+        private array $tenancyReviews,
+        private ?float $latitude = null,
+        private ?float $longitude = null,
+        private ?City $city = null,
+        private ?FlatDistrict $district = null,
     ) {
-        $this->slug = $slug;
-        $this->addressLine1 = $addressLine1;
-        $this->locality = $locality;
-        $this->addressCity = $addressCity;
-        $this->postcode = $postcode;
-        $this->tenancyReviews = $tenancyReviews;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
-        $this->city = $city;
-        $this->district = $district;
     }
 
     public function getSlug(): string

@@ -4,21 +4,12 @@ namespace App\Model\TenancyReview;
 
 class Stars
 {
-    private ?int $overall;
-    private ?int $property;
-    private ?int $agency;
-    private ?int $landlord;
-
     public function __construct(
-        ?int $overall,
-        ?int $property,
-        ?int $agency,
-        ?int $landlord
+        private ?int $overall,
+        private ?int $property,
+        private ?int $agency,
+        private ?int $landlord
     ) {
-        $this->overall = $overall;
-        $this->property = $property;
-        $this->agency = $agency;
-        $this->landlord = $landlord;
     }
 
     public function getOverall(): ?int

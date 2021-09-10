@@ -12,7 +12,6 @@ use App\Model\Branch\Branch as BranchModel;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\View;
-use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Service\BranchService;
 use App\Service\NotificationService;
@@ -45,7 +44,6 @@ class BranchServiceTest extends TestCase
         $this->notificationService = $this->prophesize(NotificationService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
         $this->branchFactory = $this->prophesize(BranchFactory::class);
         $this->branchHelper = $this->prophesize(BranchHelper::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
@@ -54,7 +52,6 @@ class BranchServiceTest extends TestCase
             $this->notificationService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
-            $this->agencyRepository->reveal(),
             $this->branchFactory->reveal(),
             $this->branchHelper->reveal(),
             $this->branchRepository->reveal()

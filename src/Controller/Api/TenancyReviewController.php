@@ -6,7 +6,6 @@ use App\Controller\AppController;
 use App\Exception\NotFoundException;
 use App\Factory\InteractionFactory;
 use App\Model\TenancyReview\SubmitInput;
-use App\Repository\TenancyReviewRepository;
 use App\Service\GoogleReCaptchaService;
 use App\Service\TenancyReviewService;
 use Exception;
@@ -20,19 +19,12 @@ class TenancyReviewController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private TenancyReviewRepository $tenancyReviewRepository;
-    private TenancyReviewService $tenancyReviewService;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        TenancyReviewService $tenancyReviewService,
-        InteractionFactory $interactionFactory,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private TenancyReviewService $tenancyReviewService,
+        protected InteractionFactory $interactionFactory,
+        protected SerializerInterface $serializer
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->tenancyReviewService = $tenancyReviewService;
-        $this->interactionFactory = $interactionFactory;
-        $this->serializer = $serializer;
     }
 
     /**

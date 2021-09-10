@@ -23,26 +23,14 @@ class RegistrationController extends AppController
 
     public const MESSAGE_REGISTRATION_SUCCESSFUL = 'Your registration was successful and you will receive an email to confirm your email address.';
 
-    private GoogleReCaptchaService $googleReCaptchaService;
-    private UserService $userService;
-    private EmailVerifier $emailVerifier;
-    private GuardAuthenticatorHandler $guardHandler;
-    private LoginFormAuthenticator $authenticator;
-
     public function __construct(
-        GoogleReCaptchaService $googleReCaptchaService,
-        UserService $userService,
-        EmailVerifier $emailVerifier,
-        GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $authenticator,
-        SerializerInterface $serializer
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private UserService $userService,
+        private EmailVerifier $emailVerifier,
+        private GuardAuthenticatorHandler $guardHandler,
+        private LoginFormAuthenticator $authenticator,
+        protected SerializerInterface $serializer,
     ) {
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->userService = $userService;
-        $this->emailVerifier = $emailVerifier;
-        $this->guardHandler = $guardHandler;
-        $this->authenticator = $authenticator;
-        $this->serializer = $serializer;
     }
 
     /**

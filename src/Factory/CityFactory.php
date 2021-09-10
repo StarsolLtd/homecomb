@@ -9,15 +9,10 @@ use App\Util\CityHelper;
 
 class CityFactory
 {
-    private CityHelper $cityHelper;
-    private LocaleReviewFactory $localeReviewFactory;
-
     public function __construct(
-        CityHelper $cityHelper,
-        LocaleReviewFactory $localeReviewFactory,
+        private CityHelper $cityHelper,
+        private LocaleReviewFactory $localeReviewFactory,
     ) {
-        $this->cityHelper = $cityHelper;
-        $this->localeReviewFactory = $localeReviewFactory;
     }
 
     public function createEntity(string $name, ?string $county, string $countryCode): City

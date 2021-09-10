@@ -6,24 +6,13 @@ use App\Model\Review\LocaleReviewView;
 
 class City
 {
-    private string $slug;
-    private string $name;
-    private ?string $county;
-    private string $countryCode;
-    private array $localeReviews;
-
     public function __construct(
-        string $slug,
-        string $name,
-        ?string $county,
-        string $countryCode,
-        array $localeReviews = [],
+        private string $slug,
+        private string $name,
+        private ?string $county,
+        private string $countryCode,
+        private array $localeReviews = [],
     ) {
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->county = $county;
-        $this->countryCode = $countryCode;
-        $this->localeReviews = $localeReviews;
     }
 
     public function getSlug(): string

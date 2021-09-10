@@ -23,22 +23,13 @@ class PropertyController extends AppController
 {
     use VerifyCaptchaTrait;
 
-    private GetAddressService $getAddressService;
-    private PropertyService $propertyService;
-    private UserService $userService;
-
     public function __construct(
-        GetAddressService $getAddressService,
-        GoogleReCaptchaService $googleReCaptchaService,
-        PropertyService $propertyService,
-        UserService $userService,
-        SerializerInterface $serializer
+        private GetAddressService $getAddressService,
+        private GoogleReCaptchaService $googleReCaptchaService,
+        private PropertyService $propertyService,
+        private UserService $userService,
+        protected SerializerInterface $serializer,
     ) {
-        $this->getAddressService = $getAddressService;
-        $this->googleReCaptchaService = $googleReCaptchaService;
-        $this->propertyService = $propertyService;
-        $this->userService = $userService;
-        $this->serializer = $serializer;
     }
 
     /**

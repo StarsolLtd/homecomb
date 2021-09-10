@@ -4,18 +4,11 @@ namespace App\Model\Agency;
 
 class UpdateAgencyInput
 {
-    private ?string $externalUrl;
-    private ?string $postcode;
-    private ?string $captchaToken;
-
     public function __construct(
-        ?string $externalUrl = null,
-        ?string $postcode = null,
-        ?string $captchaToken = null
+        private ?string $externalUrl = null,
+        private ?string $postcode = null,
+        private ?string $captchaToken = null,
     ) {
-        $this->externalUrl = $externalUrl;
-        $this->postcode = $postcode;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getExternalUrl(): ?string

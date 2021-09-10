@@ -4,33 +4,16 @@ namespace App\Model\Review;
 
 class SubmitLocaleReviewInput
 {
-    private string $localeSlug;
-    private ?string $code;
-    private ?string $reviewerName;
-    private ?string $reviewerEmail;
-    private ?string $reviewTitle;
-    private ?string $reviewContent;
-    private ?int $overallStars;
-    private ?string $captchaToken;
-
     public function __construct(
-        string $localeSlug,
-        ?string $code = null,
-        ?string $reviewerName = null,
-        ?string $reviewerEmail = null,
-        ?string $reviewTitle = null,
-        ?string $reviewContent = null,
-        ?int $overallStars = null,
-        ?string $captchaToken = null
+        private string $localeSlug,
+        private ?string $code = null,
+        private ?string $reviewerName = null,
+        private ?string $reviewerEmail = null,
+        private ?string $reviewTitle = null,
+        private ?string $reviewContent = null,
+        private ?int $overallStars = null,
+        private ?string $captchaToken = null,
     ) {
-        $this->localeSlug = $localeSlug;
-        $this->code = $code;
-        $this->reviewerName = $reviewerName;
-        $this->reviewerEmail = $reviewerEmail;
-        $this->reviewTitle = $reviewTitle;
-        $this->reviewContent = $reviewContent;
-        $this->overallStars = $overallStars;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getLocaleSlug(): string

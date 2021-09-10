@@ -9,8 +9,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class PropertyFixtures extends AbstractDataFixtures
 {
-    private PropertyHelper $propertyHelper;
-
     public const PROPERTY_1_VENDOR_PROPERTY_ID = 'ZGQ1NTAxMmE1YjA0YWRkIDE2OTEyOTQwIDMzZjhlNDFkNGU1MzY0Mw==';
     public const PROPERTY_17_VENDOR_PROPERTY_ID = 'NTg4ZWNkYjE0Y2FmNTJjIDE2OTQxNTcyIDMzZjhlNDFkNGU1MzY0Mw==';
     public const PROPERTY_22_VENDOR_PROPERTY_ID = 'NGViYmZiZjY5YjBiYTAyIDE2NjYxMjMzIDMzZjhlNDFkNGU1MzY0Mw==';
@@ -19,9 +17,8 @@ class PropertyFixtures extends AbstractDataFixtures
     public const PROPERTY_249_VENDOR_PROPERTY_ID = 'ZmM5Yzc5MzMyODAyZTc4IDE3MDQ0OTcyIDMzZjhlNDFkNGU1MzY0Mw==';
 
     public function __construct(
-        PropertyHelper $propertyHelper
+        private PropertyHelper $propertyHelper,
     ) {
-        $this->propertyHelper = $propertyHelper;
     }
 
     protected function getEnvironments(): array

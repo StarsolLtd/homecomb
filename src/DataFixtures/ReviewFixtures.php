@@ -12,12 +12,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class ReviewFixtures extends AbstractDataFixtures implements DependentFixtureInterface
 {
-    private ReviewHelper $reviewHelper;
-
     public function __construct(
-        ReviewHelper $reviewHelper
+        private ReviewHelper $reviewHelper,
     ) {
-        $this->reviewHelper = $reviewHelper;
     }
 
     protected function getEnvironments(): array

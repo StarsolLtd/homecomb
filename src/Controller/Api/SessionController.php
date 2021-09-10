@@ -12,14 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class SessionController extends AppController
 {
-    private FlashMessageFactory $flashMessageFactory;
-
     public function __construct(
-        FlashMessageFactory $flashMessageFactory,
-        SerializerInterface $serializer
+        private FlashMessageFactory $flashMessageFactory,
+        protected SerializerInterface $serializer,
     ) {
-        $this->flashMessageFactory = $flashMessageFactory;
-        $this->serializer = $serializer;
     }
 
     /**

@@ -4,42 +4,19 @@ namespace App\Model\Agency;
 
 class ReviewsSummary
 {
-    private string $agencySlug;
-    private string $agencyName;
-    private ?string $agencyLogoImageFilename;
-    private int $fiveStarCount;
-    private int $fourStarCount;
-    private int $threeStarCount;
-    private int $twoStarCount;
-    private int $oneStarCount;
-    private int $ratedCount;
-    private int $unratedCount;
-    private float $meanRating;
-
     public function __construct(
-        string $agencySlug,
-        string $agencyName,
-        ?string $agencyLogoImageFilename,
-        int $fiveStarCount,
-        int $fourStarCount,
-        int $threeStarCount,
-        int $twoStarCount,
-        int $oneStarCount,
-        int $ratedCount,
-        int $unratedCount,
-        float $meanRating
+        private string $agencySlug,
+        private string $agencyName,
+        private ?string $agencyLogoImageFilename,
+        private int $fiveStarCount,
+        private int $fourStarCount,
+        private int $threeStarCount,
+        private int $twoStarCount,
+        private int $oneStarCount,
+        private int $ratedCount,
+        private int $unratedCount,
+        private float $meanRating,
     ) {
-        $this->agencySlug = $agencySlug;
-        $this->agencyName = $agencyName;
-        $this->agencyLogoImageFilename = $agencyLogoImageFilename;
-        $this->ratedCount = $ratedCount;
-        $this->fiveStarCount = $fiveStarCount;
-        $this->fourStarCount = $fourStarCount;
-        $this->threeStarCount = $threeStarCount;
-        $this->twoStarCount = $twoStarCount;
-        $this->oneStarCount = $oneStarCount;
-        $this->unratedCount = $unratedCount;
-        $this->meanRating = $meanRating;
     }
 
     public function getAgencySlug(): string

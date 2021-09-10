@@ -22,30 +22,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AgencyService
 {
-    private NotificationService $notificationService;
-    private UserService $userService;
-    private EntityManagerInterface $entityManager;
-    private AgencyFactory $agencyFactory;
-    private FlatModelFactory $flatModelFactory;
-    private AgencyHelper $agencyHelper;
-    private AgencyRepository $agencyRepository;
-
     public function __construct(
-        NotificationService $notificationService,
-        UserService $userService,
-        EntityManagerInterface $entityManager,
-        AgencyFactory $agencyFactory,
-        FlatModelFactory $flatModelFactory,
-        AgencyHelper $agencyHelper,
-        AgencyRepository $agencyRepository
+        private NotificationService $notificationService,
+        private UserService $userService,
+        private EntityManagerInterface $entityManager,
+        private AgencyFactory $agencyFactory,
+        private FlatModelFactory $flatModelFactory,
+        private AgencyHelper $agencyHelper,
+        private AgencyRepository $agencyRepository
     ) {
-        $this->notificationService = $notificationService;
-        $this->userService = $userService;
-        $this->entityManager = $entityManager;
-        $this->agencyFactory = $agencyFactory;
-        $this->flatModelFactory = $flatModelFactory;
-        $this->agencyHelper = $agencyHelper;
-        $this->agencyRepository = $agencyRepository;
     }
 
     public function createAgency(CreateAgencyInput $createAgencyInput, ?UserInterface $user): CreateAgencyOutput

@@ -4,15 +4,10 @@ namespace App\Model\Property;
 
 class PostcodeInput
 {
-    private string $postcode;
-    private ?string $captchaToken;
-
     public function __construct(
-        string $postcode,
-        ?string $captchaToken = null
+        private string $postcode,
+        private ?string $captchaToken = null,
     ) {
-        $this->postcode = $postcode;
-        $this->captchaToken = $captchaToken;
     }
 
     public function getPostcode(): string

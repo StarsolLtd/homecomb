@@ -4,15 +4,13 @@ namespace App\Model\TenancyReview;
 
 class Group
 {
-    private string $title;
-    private array $tenancyReviews;
-
+    /**
+     * @param View[] $tenancyReviews
+     */
     public function __construct(
-        string $title,
-        array $tenancyReviews
+        private string $title,
+        private array $tenancyReviews
     ) {
-        $this->title = $title;
-        $this->tenancyReviews = $tenancyReviews;
     }
 
     public function getTitle(): string

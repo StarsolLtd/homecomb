@@ -9,12 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CityController extends AbstractController
 {
-    private CityService $cityService;
-
     public function __construct(
-        CityService $cityService
+        private CityService $cityService,
     ) {
-        $this->cityService = $cityService;
     }
 
     /**
