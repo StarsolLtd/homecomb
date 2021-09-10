@@ -3,9 +3,11 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\Comment\Comment;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
@@ -58,7 +60,7 @@ class VoteServiceTest extends TestCase
 
     /**
      * @covers \App\Service\VoteService::vote
-     * Test successful review vote.
+     * Test successful TenancyReview vote.
      */
     public function testVote1(): void
     {
@@ -103,7 +105,7 @@ class VoteServiceTest extends TestCase
 
     /**
      * @covers \App\Service\VoteService::vote
-     * Test successful comment vote.
+     * Test successful Comment vote.
      */
     public function testVote2(): void
     {
@@ -193,9 +195,87 @@ class VoteServiceTest extends TestCase
 
     /**
      * @covers \App\Service\VoteService::vote
-     * Test catches exception when thrown by InteractionService::record.
+     * Test successful LocaleReview vote.
      */
     public function testVote4(): void
+    {
+        $input = $this->prophesize(SubmitInput::class);
+        $output = $this->prophesize(SubmitOutput::class);
+        $user = $this->prophesize(User::class);
+        $vote = $this->prophesize(LocaleReviewVote::class);
+        $localeReview = $this->prophesize(LocaleReview::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $input->getEntityName()
+            ->shouldBeCalledTimes(2)
+            ->willReturn('LocaleReview');
+
+        $input->getEntityId()
+            ->shouldBeCalledOnce()
+            ->willReturn(789);
+
+        $this->voteRepository->findOneLocaleReviewVoteByUserAndEntity($user, 789)
+            ->shouldBeCalledOnce()
+            ->willReturn(null);
+
+        $this->voteFactory->createEntityFromSubmitInput($input, $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($vote);
+
+        $this->assertEntitiesArePersistedAndFlush([$vote]);
+
+        $vote->getId()->shouldBeCalledOnce()->willReturn(234);
+
+        $this->interactionService->record('Vote', 234, $requestDetails, $user)
+            ->shouldBeCalledOnce();
+
+        $vote->getLocaleReview()->shouldBeCalledOnce()->willReturn($localeReview);
+
+        $this->voteFactory->createSubmitOutputFromReview($localeReview)->willReturn($output);
+
+        $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
+    }
+
+    /**
+     * @covers \App\Service\VoteService::vote
+     * Test returns submit output when there is no matching entity name.
+     */
+    public function testVote5(): void
+    {
+        $input = $this->prophesize(SubmitInput::class);
+        $user = $this->prophesize(User::class);
+        $vote = $this->prophesize(LocaleReviewVote::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+
+        $this->assertGetUserEntityFromInterface($user);
+
+        $input->getEntityName()
+            ->shouldBeCalledTimes(2)
+            ->willReturn('SomethingElse');
+
+        $this->voteFactory->createEntityFromSubmitInput($input, $user)
+            ->shouldBeCalledOnce()
+            ->willReturn($vote);
+
+        $this->assertEntitiesArePersistedAndFlush([$vote]);
+
+        $vote->getId()->shouldBeCalledOnce()->willReturn(234);
+
+        $this->interactionService->record('Vote', 234, $requestDetails, $user)
+            ->shouldBeCalledOnce();
+
+        $output = $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
+
+        $this->assertTrue($output->isSuccess());
+    }
+
+    /**
+     * @covers \App\Service\VoteService::vote
+     * Test catches exception when thrown by InteractionService::record.
+     */
+    public function testVote6(): void
     {
         $input = $this->prophesize(SubmitInput::class);
         $output = $this->prophesize(SubmitOutput::class);
