@@ -50,7 +50,7 @@ class ReviewServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\ReviewService::submitReview
+     * @covers \App\Service\ReviewService::submitLocaleReview
      */
     public function testSubmitReview1(): void
     {

@@ -33,7 +33,7 @@ class LocaleReviewFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Factory\Review\LocaleReviewFactory::createEntityFromSubmitInput
+     * @covers \App\Factory\Review\LocaleReviewFactory::createEntity
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
