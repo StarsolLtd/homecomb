@@ -3,9 +3,11 @@
 namespace App\Tests\Unit\Factory;
 
 use App\Entity\Comment\Comment;
+use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\CommentVote;
+use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
@@ -15,6 +17,7 @@ use App\Repository\ReviewRepository;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\voteFactory
@@ -23,11 +26,11 @@ class VoteFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    private voteFactory $voteFactory;
+    private VoteFactory $voteFactory;
 
-    private $commentRepository;
-    private $reviewRepository;
-    private $tenancyReviewRepository;
+    private ObjectProphecy $commentRepository;
+    private ObjectProphecy $reviewRepository;
+    private ObjectProphecy $tenancyReviewRepository;
 
     public function setUp(): void
     {
@@ -92,9 +95,33 @@ class VoteFactoryTest extends TestCase
 
     /**
      * @covers \App\Factory\VoteFactory::createEntityFromSubmitInput
-     * Test throws UnexpectedValueException when entity name not supported
+     * Test create LocaleReviewVote
      */
     public function testCreateEntityFromSubmitInput3(): void
+    {
+        $input = new SubmitInput('LocaleReview', 789, true);
+
+        $user = $this->prophesize(User::class);
+        $review = $this->prophesize(LocaleReview::class);
+
+        $this->reviewRepository->findOnePublishedById($input->getEntityId())
+            ->shouldBeCalledOnce()
+            ->willReturn($review);
+
+        /** @var LocaleReviewVote $vote */
+        $vote = $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
+
+        $this->assertInstanceOf(LocaleReviewVote::class, $vote);
+        $this->assertEquals($review->reveal(), $vote->getLocaleReview());
+        $this->assertTrue($vote->isPositive());
+        $this->assertEquals($user->reveal(), $vote->getUser());
+    }
+
+    /**
+     * @covers \App\Factory\VoteFactory::createEntityFromSubmitInput
+     * Test throws UnexpectedValueException when entity name not supported
+     */
+    public function testCreateEntityFromSubmitInput4(): void
     {
         $input = new SubmitInput('Chopsticks', 789, true);
 
@@ -121,6 +148,28 @@ class VoteFactoryTest extends TestCase
 
         $this->assertTrue($output->isSuccess());
         $this->assertEquals('TenancyReview', $output->getEntityName());
+        $this->assertEquals(5678, $output->getEntityId());
+        $this->assertEquals(5, $output->getPositiveVotes());
+        $this->assertEquals(2, $output->getNegativeVotes());
+        $this->assertEquals(3, $output->getVotesScore());
+    }
+
+    /**
+     * @covers \App\Factory\VoteFactory::createSubmitOutputFromReview
+     */
+    public function testCreateSubmitOutputFromReview1(): void
+    {
+        $review = $this->prophesize(LocaleReview::class);
+
+        $review->getId()->shouldBeCalledOnce()->willReturn(5678);
+        $review->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(5);
+        $review->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(2);
+        $review->getVotesScore()->shouldBeCalledOnce()->willReturn(3);
+
+        $output = $this->voteFactory->createSubmitOutputFromReview($review->reveal());
+
+        $this->assertTrue($output->isSuccess());
+        $this->assertEquals('Review', $output->getEntityName());
         $this->assertEquals(5678, $output->getEntityId());
         $this->assertEquals(5, $output->getPositiveVotes());
         $this->assertEquals(2, $output->getNegativeVotes());
