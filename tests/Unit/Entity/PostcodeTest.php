@@ -10,6 +10,10 @@ use App\Entity\Postcode;
  */
 class PostcodeTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'postcode' => 'CB4 3LF',
+    ];
+
     /**
      * @covers \App\Entity\Postcode::__toString
      */
@@ -52,6 +56,10 @@ class PostcodeTest extends AbstractEntityTestCase
 
     protected function getEntity(): Postcode
     {
-        return new Postcode();
+        $entity = new Postcode();
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof Postcode);
+
+        return $entity;
     }
 }
