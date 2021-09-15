@@ -9,8 +9,21 @@ use App\Entity\District;
  */
 class DistrictTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'name' => 'North Norfolk',
+        'county' => 'Norfolk',
+        'countryCode' => 'UK',
+        'type' => 'Borough',
+        'published' => true,
+        'slug' => 'test-district-slug',
+    ];
+
     protected function getEntity(): District
     {
-        return new District();
+        $entity = (new District());
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof District);
+
+        return $entity;
     }
 }
