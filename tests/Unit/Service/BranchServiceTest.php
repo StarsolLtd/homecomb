@@ -23,6 +23,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class BranchServiceTest extends TestCase
 {
@@ -32,12 +33,11 @@ class BranchServiceTest extends TestCase
 
     private BranchService $branchService;
 
-    private $notificationService;
-    private $userService;
-    private $entityManager;
-    private $branchFactory;
-    private $branchHelper;
-    private $branchRepository;
+    private ObjectProphecy $notificationService;
+    private ObjectProphecy $entityManager;
+    private ObjectProphecy $branchFactory;
+    private ObjectProphecy $branchHelper;
+    private ObjectProphecy $branchRepository;
 
     public function setUp(): void
     {

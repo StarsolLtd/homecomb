@@ -17,6 +17,7 @@ use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\FlagService
@@ -29,11 +30,9 @@ class FlagServiceTest extends TestCase
 
     private FlagService $flagService;
 
-    private $entityManager;
-    private $interactionService;
-    private $notificationService;
-    private $userService;
-    private $flagFactory;
+    private ObjectProphecy $interactionService;
+    private ObjectProphecy $notificationService;
+    private ObjectProphecy $flagFactory;
 
     public function setUp(): void
     {

@@ -10,6 +10,7 @@ use App\Model\Survey\Choice as ChoiceModel;
 use App\Tests\Unit\SetIdByReflectionTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\Survey\QuestionFactory
@@ -21,7 +22,7 @@ class QuestionFactoryTest extends TestCase
 
     private QuestionFactory $questionFactory;
 
-    private $choiceFactory;
+    private ObjectProphecy $choiceFactory;
 
     public function setUp(): void
     {

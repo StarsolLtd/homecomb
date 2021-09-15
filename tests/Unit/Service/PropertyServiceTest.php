@@ -26,7 +26,6 @@ class PropertyServiceTest extends TestCase
 
     private PropertyService $propertyService;
 
-    private $entityManager;
     private ObjectProphecy $propertyFactory;
     private ObjectProphecy $propertyRepository;
     private ObjectProphecy $getAddressService;

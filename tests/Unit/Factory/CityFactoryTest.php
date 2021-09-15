@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\CityFactory
@@ -23,8 +24,8 @@ class CityFactoryTest extends TestCase
 
     private CityFactory $cityFactory;
 
-    private $cityHelper;
-    private $localeReviewFactory;
+    private ObjectProphecy $cityHelper;
+    private ObjectProphecy $localeReviewFactory;
 
     public function setUp(): void
     {

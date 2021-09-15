@@ -11,6 +11,7 @@ use App\Model\Comment\SubmitInput;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\CommentFactory
@@ -21,7 +22,7 @@ class CommentFactoryTest extends TestCase
 
     private CommentFactory $commentFactory;
 
-    private $tenancyReviewRepository;
+    private ObjectProphecy $tenancyReviewRepository;
 
     public function setUp(): void
     {

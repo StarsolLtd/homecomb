@@ -5,6 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Service\SessionService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -16,7 +17,7 @@ class SessionServiceTest extends TestCase
 
     private SessionService $sessionService;
 
-    private $session;
+    private ObjectProphecy $session;
 
     public function setUp(): void
     {

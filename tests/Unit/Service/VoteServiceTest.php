@@ -23,6 +23,7 @@ use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\VoteService
@@ -35,11 +36,9 @@ class VoteServiceTest extends TestCase
 
     private VoteService $voteService;
 
-    private $entityManager;
-    private $interactionService;
-    private $userService;
-    private $voteRepository;
-    private $voteFactory;
+    private ObjectProphecy $interactionService;
+    private ObjectProphecy $voteRepository;
+    private ObjectProphecy $voteFactory;
 
     public function setUp(): void
     {

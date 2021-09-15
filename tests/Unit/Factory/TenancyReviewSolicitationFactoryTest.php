@@ -19,6 +19,7 @@ use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\TenancyReviewSolicitationFactory
@@ -29,9 +30,9 @@ class TenancyReviewSolicitationFactoryTest extends TestCase
 
     private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory;
 
-    private $branchRepository;
-    private $propertyRepository;
-    private $flatModelFactory;
+    private ObjectProphecy $branchRepository;
+    private ObjectProphecy $propertyRepository;
+    private ObjectProphecy $flatModelFactory;
 
     public function setUp(): void
     {

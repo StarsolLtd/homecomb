@@ -24,6 +24,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,13 +41,12 @@ class TenancyReviewSolicitationServiceTest extends TestCase
 
     private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
 
-    private $emailService;
-    private $userService;
-    private $tenancyReviewSolicitationFactory;
-    private $tenancyReviewSolicitationRepository;
-    private $entityManager;
-    private $logger;
-    private $mailer;
+    private ObjectProphecy $emailService;
+    private ObjectProphecy $userService;
+    private ObjectProphecy $tenancyReviewSolicitationFactory;
+    private ObjectProphecy $tenancyReviewSolicitationRepository;
+    private ObjectProphecy $logger;
+    private ObjectProphecy $mailer;
 
     public function setUp(): void
     {

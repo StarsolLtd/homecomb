@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\LocaleFactory
@@ -34,10 +35,10 @@ class LocaleFactoryTest extends TestCase
 
     private LocaleFactory $localeFactory;
 
-    private $localeHelper;
-    private $flatModelFactory;
-    private $localeReviewFactory;
-    private $tenancyReviewFactory;
+    private ObjectProphecy $localeHelper;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $localeReviewFactory;
+    private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
     {

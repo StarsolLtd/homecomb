@@ -23,6 +23,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\AgencyService
@@ -34,12 +35,12 @@ class AgencyServiceTest extends TestCase
 
     private AgencyService $agencyService;
 
-    private $notificationService;
-    private $userService;
-    private $agencyFactory;
-    private $flatModelFactory;
-    private $agencyHelper;
-    private $agencyRepository;
+    private ObjectProphecy $notificationService;
+    private ObjectProphecy $userService;
+    private ObjectProphecy $agencyFactory;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $agencyHelper;
+    private ObjectProphecy $agencyRepository;
 
     public function setUp(): void
     {

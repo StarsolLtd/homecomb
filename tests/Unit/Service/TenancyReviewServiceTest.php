@@ -31,6 +31,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\TenancyReviewService
@@ -42,17 +43,17 @@ class TenancyReviewServiceTest extends TestCase
 
     private TenancyReviewService $tenancyReviewService;
 
-    private $agencyService;
-    private $branchService;
-    private $interactionService;
-    private $notificationService;
-    private $tenancyReviewSolicitationService;
-    private $userService;
-    private $entityManager;
-    private $postcodeRepository;
-    private $propertyRepository;
-    private $reviewRepository;
-    private $tenancyReviewFactory;
+    private ObjectProphecy $agencyService;
+    private ObjectProphecy $branchService;
+    private ObjectProphecy $interactionService;
+    private ObjectProphecy $notificationService;
+    private ObjectProphecy $tenancyReviewSolicitationService;
+    private ObjectProphecy $userService;
+    private ObjectProphecy $entityManager;
+    private ObjectProphecy $postcodeRepository;
+    private ObjectProphecy $propertyRepository;
+    private ObjectProphecy $reviewRepository;
+    private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
     {

@@ -13,6 +13,7 @@ use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\BranchFactory
@@ -23,8 +24,8 @@ class BranchFactoryTest extends TestCase
 
     private BranchFactory $branchFactory;
 
-    private $branchHelper;
-    private $tenancyReviewFactory;
+    private ObjectProphecy $branchHelper;
+    private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
     {

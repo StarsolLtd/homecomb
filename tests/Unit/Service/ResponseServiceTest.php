@@ -13,6 +13,7 @@ use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\ResponseService
@@ -25,8 +26,8 @@ class ResponseServiceTest extends TestCase
 
     private ResponseService $responseService;
 
-    private $sessionService;
-    private $responseFactory;
+    private ObjectProphecy $sessionService;
+    private ObjectProphecy $responseFactory;
 
     public function setUp(): void
     {
