@@ -10,6 +10,18 @@ use App\Entity\Vote\TenancyReviewVote;
  */
 class TenancyReviewTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'author' => 'Jack Parnell',
+        'title' => 'Test Title',
+        'content' => 'Test Content',
+        'overallStars' => 4,
+        'propertyStars' => 5,
+        'agencyStars' => 3,
+        'landlordStars' => 4,
+        'published' => true,
+        'slug' => 'test-slug',
+    ];
+
     /**
      * @covers \App\Entity\TenancyReview::getVotesScore
      */
@@ -72,6 +84,10 @@ class TenancyReviewTest extends AbstractEntityTestCase
 
     protected function getEntity(): TenancyReview
     {
-        return new TenancyReview();
+        $entity = new TenancyReview();
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof TenancyReview);
+
+        return $entity;
     }
 }

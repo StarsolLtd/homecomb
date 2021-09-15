@@ -11,6 +11,15 @@ use App\Tests\Unit\Entity\AbstractEntityTestCase;
  */
 class LocaleReviewTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'author' => 'Jack Parnell',
+        'title' => 'Test Title',
+        'content' => 'Test Content',
+        'overallStars' => 4,
+        'slug' => 'test-review-slug',
+        'published' => true,
+    ];
+
     /**
      * @covers \App\Entity\Review\LocaleReview::getVotesScore
      */
@@ -73,6 +82,10 @@ class LocaleReviewTest extends AbstractEntityTestCase
 
     protected function getEntity(): LocaleReview
     {
-        return new LocaleReview();
+        $entity = new LocaleReview();
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof LocaleReview);
+
+        return $entity;
     }
 }

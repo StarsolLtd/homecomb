@@ -9,8 +9,18 @@ use App\Entity\Image;
  */
 class ImageTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'description' => 'Test Description',
+        'type' => 'Photo',
+        'image' => 'test-image',
+    ];
+
     protected function getEntity(): Image
     {
-        return new Image();
+        $entity = new Image();
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof Image);
+
+        return $entity;
     }
 }

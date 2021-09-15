@@ -10,6 +10,24 @@ use App\Entity\TenancyReview;
  */
 class PropertyTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'addressLine1' => 'Test Address Line 1',
+        'addressLine2' => 'Test Address Line 2',
+        'addressLine3' => 'Test Address Line 3',
+        'addressLine4' => 'Test Address Line 4',
+        'locality' => 'Test Locality',
+        'addressCity' => 'Test Address City',
+        'county' => 'Test County',
+        'postcode' => 'Test Postcode',
+        'addressDistrict' => 'Test Address District',
+        'thoroughfare' => 'Test Thoroughfare',
+        'countryCode' => 'UK',
+        'latitude' => 2.34,
+        'longitude' => 5.67,
+        'slug' => 'test-property-slug',
+        'published' => true,
+    ];
+
     /**
      * @covers \App\Entity\Property::__toString
      */
@@ -48,6 +66,11 @@ class PropertyTest extends AbstractEntityTestCase
 
     protected function getEntity(): Property
     {
-        return new Property();
+        $entity = new Property();
+
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof Property);
+
+        return $entity;
     }
 }

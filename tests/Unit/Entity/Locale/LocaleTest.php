@@ -12,6 +12,13 @@ use App\Tests\Unit\Entity\AbstractEntityTestCase;
  */
 class LocaleTest extends AbstractEntityTestCase
 {
+    protected array $values = [
+        'name' => 'Girton',
+        'content' => 'Test Content',
+        'slug' => 'test-locale-slug',
+        'published' => true,
+    ];
+
     /**
      * @covers \App\Entity\Locale\Locale::getPublishedReviews
      */
@@ -62,6 +69,10 @@ class LocaleTest extends AbstractEntityTestCase
 
     protected function getEntity(): Locale
     {
-        return new Locale();
+        $entity = new Locale();
+        $entity = $this->setPropertiesFromValuesArray($entity);
+        assert($entity instanceof Locale);
+
+        return $entity;
     }
 }
