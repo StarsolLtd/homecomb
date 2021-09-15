@@ -25,6 +25,7 @@ use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\SurveyService
@@ -37,15 +38,15 @@ class SurveyServiceTest extends TestCase
 
     private SurveyService $surveyService;
 
-    private $interactionService;
-    private $responseService;
-    private $sessionService;
-    private $answerFactory;
-    private $surveyFactory;
-    private $answerRepository;
-    private $questionRepository;
-    private $responseRepository;
-    private $surveyRepository;
+    private ObjectProphecy $interactionService;
+    private ObjectProphecy $responseService;
+    private ObjectProphecy $sessionService;
+    private ObjectProphecy $answerFactory;
+    private ObjectProphecy $surveyFactory;
+    private ObjectProphecy $answerRepository;
+    private ObjectProphecy $questionRepository;
+    private ObjectProphecy $responseRepository;
+    private ObjectProphecy $surveyRepository;
 
     public function setUp(): void
     {

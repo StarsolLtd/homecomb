@@ -10,6 +10,7 @@ use App\Security\TenancyReviewVoter;
 use App\Service\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -22,7 +23,7 @@ class TenancyReviewVoterTest extends TestCase
 
     private TenancyReviewVoter $tenancyReviewVoter;
 
-    private $userService;
+    private ObjectProphecy $userService;
 
     public function setUp(): void
     {

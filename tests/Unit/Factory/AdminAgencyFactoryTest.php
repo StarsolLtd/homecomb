@@ -13,6 +13,7 @@ use App\Model\Branch\Flat as FlatBranch;
 use App\Model\TenancyReview\View;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class AdminAgencyFactoryTest extends TestCase
 {
@@ -20,8 +21,8 @@ class AdminAgencyFactoryTest extends TestCase
 
     private AgencyAdminFactory $adminAgencyFactory;
 
-    private $flatModelFactory;
-    private $reviewFactory;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $reviewFactory;
 
     public function setUp(): void
     {

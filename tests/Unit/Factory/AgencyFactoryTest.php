@@ -12,6 +12,7 @@ use App\Util\AgencyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class AgencyFactoryTest extends TestCase
 {
@@ -19,8 +20,8 @@ class AgencyFactoryTest extends TestCase
 
     private AgencyFactory $agencyFactory;
 
-    private $agencyHelper;
-    private $flatModelFactory;
+    private ObjectProphecy $agencyHelper;
+    private ObjectProphecy $flatModelFactory;
 
     public function setUp(): void
     {

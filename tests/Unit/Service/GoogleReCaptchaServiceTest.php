@@ -23,7 +23,7 @@ class GoogleReCaptchaServiceTest extends TestCase
 
     private GoogleReCaptchaService $googleReCaptchaService;
 
-    private $reCaptcha;
+    private ObjectProphecy $reCaptcha;
 
     public function setUp(): void
     {

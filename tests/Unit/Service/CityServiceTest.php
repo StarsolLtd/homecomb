@@ -12,6 +12,7 @@ use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\CityService
@@ -23,10 +24,10 @@ class CityServiceTest extends TestCase
 
     private CityService $cityService;
 
-    private $entityManager;
-    private $cityFactory;
-    private $cityRepository;
-    private $localeService;
+    private ObjectProphecy $entityManager;
+    private ObjectProphecy $cityFactory;
+    private ObjectProphecy $cityRepository;
+    private ObjectProphecy $localeService;
 
     public function setUp(): void
     {

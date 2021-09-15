@@ -8,6 +8,7 @@ use App\Util\DistrictHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\DistrictFactory
@@ -18,7 +19,7 @@ class DistrictFactoryTest extends TestCase
 
     private DistrictFactory $districtFactory;
 
-    private $districtHelper;
+    private ObjectProphecy $districtHelper;
 
     public function setUp(): void
     {

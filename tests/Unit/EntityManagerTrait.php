@@ -3,10 +3,11 @@
 namespace App\Tests\Unit;
 
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 
 trait EntityManagerTrait
 {
-    private $entityManager;
+    private ObjectProphecy $entityManager;
 
     private function assertEntityManagerUnused(): void
     {

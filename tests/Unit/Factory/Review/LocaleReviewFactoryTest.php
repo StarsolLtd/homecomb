@@ -12,6 +12,7 @@ use App\Util\ReviewHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\Review\LocaleReviewFactory
@@ -23,7 +24,7 @@ class LocaleReviewFactoryTest extends TestCase
 
     private LocaleReviewFactory $localeReviewFactory;
 
-    private $reviewHelper;
+    private ObjectProphecy $reviewHelper;
 
     public function setUp(): void
     {

@@ -9,6 +9,7 @@ use App\Factory\Survey\SurveyFactory;
 use App\Model\Survey\Question as QuestionModel;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\Survey\SurveyFactory
@@ -19,7 +20,7 @@ class SurveyFactoryTest extends TestCase
 
     private SurveyFactory $surveyFactory;
 
-    private $questionFactory;
+    private ObjectProphecy $questionFactory;
 
     public function setUp(): void
     {

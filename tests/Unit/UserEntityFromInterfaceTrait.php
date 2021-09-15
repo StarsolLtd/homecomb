@@ -2,9 +2,11 @@
 
 namespace App\Tests\Unit;
 
+use Prophecy\Prophecy\ObjectProphecy;
+
 trait UserEntityFromInterfaceTrait
 {
-    private $userService;
+    private ObjectProphecy $userService;
 
     private function assertGetUserEntityFromInterface($user): void
     {

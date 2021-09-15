@@ -33,9 +33,9 @@ class InteractionServiceTest extends TestCase
 
     private InteractionService $interactionService;
 
-    private $answerRepository;
-    private $flagRepository;
-    private $tenancyReviewRepository;
+    private ObjectProphecy $answerRepository;
+    private ObjectProphecy $flagRepository;
+    private ObjectProphecy $tenancyReviewRepository;
 
     public function setUp(): void
     {

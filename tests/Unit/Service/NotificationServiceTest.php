@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -31,10 +32,10 @@ class NotificationServiceTest extends TestCase
 
     private NotificationService $notificationService;
 
-    private $crudUrlGeneratorMock;
-    private $loggerMock;
-    private $mailerMock;
-    private $userRepositoryMock;
+    private ObjectProphecy $crudUrlGeneratorMock;
+    private ObjectProphecy $loggerMock;
+    private ObjectProphecy $mailerMock;
+    private ObjectProphecy $userRepositoryMock;
 
     public function setUp(): void
     {

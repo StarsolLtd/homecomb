@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -28,8 +29,8 @@ class CommentServiceTest extends TestCase
 
     private CommentService $commentService;
 
-    private $logger;
-    private $commentFactory;
+    private ObjectProphecy $logger;
+    private ObjectProphecy $commentFactory;
 
     public function setUp(): void
     {

@@ -15,6 +15,7 @@ use App\Service\AgencyAdminService;
 use App\Service\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\AgencyAdminService
@@ -25,10 +26,10 @@ class AgencyAdminServiceTest extends TestCase
 
     private AgencyAdminService $agencyAdminService;
 
-    private $userService;
-    private $agencyAdminFactory;
-    private $flatModelFactory;
-    private $branchRepository;
+    private ObjectProphecy $userService;
+    private ObjectProphecy $agencyAdminFactory;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $branchRepository;
 
     public function setUp(): void
     {

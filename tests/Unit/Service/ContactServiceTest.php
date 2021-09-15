@@ -7,6 +7,7 @@ use App\Service\ContactService;
 use App\Service\EmailService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\ContactService
@@ -17,7 +18,7 @@ class ContactServiceTest extends TestCase
 
     private ContactService $contactService;
 
-    private $emailService;
+    private ObjectProphecy $emailService;
 
     public function setUp(): void
     {

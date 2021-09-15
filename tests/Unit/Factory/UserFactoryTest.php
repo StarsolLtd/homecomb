@@ -8,6 +8,7 @@ use App\Model\User\RegisterInput;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFactoryTest extends TestCase
@@ -16,7 +17,7 @@ class UserFactoryTest extends TestCase
 
     private UserFactory $userFactory;
 
-    private $userPasswordEncoder;
+    private ObjectProphecy $userPasswordEncoder;
 
     public function setUp(): void
     {

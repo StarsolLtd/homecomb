@@ -16,6 +16,7 @@ use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\ReviewService
@@ -28,9 +29,9 @@ class ReviewServiceTest extends TestCase
 
     private ReviewService $reviewService;
 
-    private $notificationService;
-    private $localeReviewFactory;
-    private $localeRepository;
+    private ObjectProphecy $notificationService;
+    private ObjectProphecy $localeReviewFactory;
+    private ObjectProphecy $localeRepository;
 
     public function setUp(): void
     {

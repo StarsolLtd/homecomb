@@ -13,6 +13,7 @@ use App\Repository\Survey\QuestionRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\Survey\AnswerFactory
@@ -23,8 +24,8 @@ class AnswerFactoryTest extends TestCase
 
     private AnswerFactory $answerFactory;
 
-    private $choiceRepository;
-    private $questionRepository;
+    private ObjectProphecy $choiceRepository;
+    private ObjectProphecy $questionRepository;
 
     public function setUp(): void
     {

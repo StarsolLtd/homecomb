@@ -22,6 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Service\LocaleService
@@ -33,11 +34,10 @@ class LocaleServiceTest extends TestCase
 
     private LocaleService $localeService;
 
-    private $entityManager;
-    private $localeFactory;
-    private $localeRepository;
-    private $cityLocaleRepository;
-    private $districtLocaleRepository;
+    private ObjectProphecy $localeFactory;
+    private ObjectProphecy $localeRepository;
+    private ObjectProphecy $cityLocaleRepository;
+    private ObjectProphecy $districtLocaleRepository;
 
     public function setUp(): void
     {

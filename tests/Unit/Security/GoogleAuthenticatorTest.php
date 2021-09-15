@@ -15,6 +15,7 @@ use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -28,10 +29,10 @@ class GoogleAuthenticatorTest extends TestCase
 
     private GoogleAuthenticator $googleAuthenticator;
 
-    private $clientRegistry;
-    private $entityManager;
-    private $userRepository;
-    private $userService;
+    private ObjectProphecy $clientRegistry;
+    private ObjectProphecy $entityManager;
+    private ObjectProphecy $userRepository;
+    private ObjectProphecy $userService;
 
     public function setUp(): void
     {

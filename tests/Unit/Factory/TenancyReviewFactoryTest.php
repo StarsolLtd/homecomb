@@ -36,8 +36,8 @@ class TenancyReviewFactoryTest extends TestCase
 
     private TenancyReviewFactory $tenancyReviewFactory;
 
-    private $flatModelFactory;
-    private $reviewHelper;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $reviewHelper;
 
     public function setUp(): void
     {

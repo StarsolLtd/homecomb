@@ -21,6 +21,7 @@ use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\PropertyFactory
@@ -31,12 +32,12 @@ class PropertyFactoryTest extends TestCase
 
     private PropertyFactory $propertyFactory;
 
-    private $cityService;
-    private $districtService;
-    private $propertyHelper;
-    private $cityFactory;
-    private $flatModelFactory;
-    private $tenancyReviewFactory;
+    private ObjectProphecy $cityService;
+    private ObjectProphecy $districtService;
+    private ObjectProphecy $propertyHelper;
+    private ObjectProphecy $cityFactory;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
     {

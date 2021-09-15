@@ -10,6 +10,7 @@ use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\Exception\TimeoutException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -24,9 +25,9 @@ class GetAddressServiceTest extends TestCase
 
     private GetAddressService $getAddressService;
 
-    private $logger;
-    private $client;
-    private $propertyFactory;
+    private ObjectProphecy $logger;
+    private ObjectProphecy $client;
+    private ObjectProphecy $propertyFactory;
 
     public function setUp(): void
     {

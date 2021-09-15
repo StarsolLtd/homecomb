@@ -20,6 +20,7 @@ use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers \App\Factory\FlagFactory
@@ -30,10 +31,10 @@ class FlagFactoryTest extends TestCase
 
     private FlagFactory $flagFactory;
 
-    private $agencyRepository;
-    private $branchRepository;
-    private $propertyRepository;
-    private $reviewRepository;
+    private ObjectProphecy $agencyRepository;
+    private ObjectProphecy $branchRepository;
+    private ObjectProphecy $propertyRepository;
+    private ObjectProphecy $reviewRepository;
 
     public function setUp(): void
     {

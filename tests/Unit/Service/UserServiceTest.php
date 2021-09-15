@@ -39,14 +39,14 @@ class UserServiceTest extends TestCase
 
     private UserService $userService;
 
-    private $userFactory;
-    private $branchRepository;
-    private $userRepository;
-    private $flatModelFactory;
-    private $entityManager;
-    private $resetPasswordHelper;
-    private $verifyEmailHelper;
-    private $emailService;
+    private ObjectProphecy $userFactory;
+    private ObjectProphecy $branchRepository;
+    private ObjectProphecy $userRepository;
+    private ObjectProphecy $flatModelFactory;
+    private ObjectProphecy $entityManager;
+    private ObjectProphecy $resetPasswordHelper;
+    private ObjectProphecy $verifyEmailHelper;
+    private ObjectProphecy $emailService;
 
     public function setUp(): void
     {
