@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
-use App\Model\Property\PropertySuggestion;
 use App\Model\Property\View;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,59 +69,5 @@ class PropertyService
         $property = $this->propertyRepository->findOnePublishedBySlug($slug);
 
         return $this->propertyFactory->createViewFromEntity($property);
-    }
-
-    /**
-     * @return PropertySuggestion[]
-     */
-    public function autocompleteSearch(string $searchQuery): array
-    {
-        $suggestions = $this->getAddressService->autocomplete($searchQuery);
-        $appDatabaseProperties = $this->propertyRepository->findBySearchQuery($searchQuery, 3);
-
-        $suggestionsFoundInAppDatabase = [];
-
-        foreach ($appDatabaseProperties as $property) {
-            $vendorPropertyId = $property->getVendorPropertyId();
-            if (null !== $vendorPropertyId && $this->isVendorPropertyIdAlreadySuggested($vendorPropertyId, $suggestions)) {
-                $suggestionsFoundInAppDatabase[] = $vendorPropertyId;
-                continue;
-            }
-
-            $suggestions[] = new PropertySuggestion(
-                implode(', ', [$property->getAddressLine1(), $property->getPostcode()]),
-                $vendorPropertyId,
-                $property->getSlug()
-            );
-        }
-
-        // Sort so that suggestions that already exist in the app database appear first
-        usort(
-            $suggestions,
-            function (PropertySuggestion $item1, PropertySuggestion $item2) use ($suggestionsFoundInAppDatabase) {
-                return
-                    in_array($item2->getVendorId(), $suggestionsFoundInAppDatabase)
-                    <=>
-                    in_array($item1->getVendorId(), $suggestionsFoundInAppDatabase)
-                    ;
-            }
-        );
-
-        return $suggestions;
-    }
-
-    /**
-     * @param PropertySuggestion[] $suggestions
-     */
-    private function isVendorPropertyIdAlreadySuggested(string $vendorPropertyId, array $suggestions): bool
-    {
-        $existing = array_filter(
-            $suggestions,
-            function ($suggestion) use ($vendorPropertyId) {
-                return $suggestion->getVendorId() === $vendorPropertyId;
-            }
-        );
-
-        return [] !== $existing;
     }
 }

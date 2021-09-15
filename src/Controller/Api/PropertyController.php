@@ -10,6 +10,7 @@ use App\Model\Property\PostcodeInput;
 use App\Model\SuggestPropertyInput;
 use App\Service\GetAddressService;
 use App\Service\GoogleReCaptchaService;
+use App\Service\PropertyAutocompleteService;
 use App\Service\PropertyService;
 use App\Service\UserService;
 use Exception;
@@ -27,6 +28,7 @@ class PropertyController extends AppController
         private GetAddressService $getAddressService,
         private GoogleReCaptchaService $googleReCaptchaService,
         private PropertyService $propertyService,
+        private PropertyAutocompleteService $propertyAutocompleteService,
         private UserService $userService,
         protected SerializerInterface $serializer,
     ) {
@@ -104,7 +106,7 @@ class PropertyController extends AppController
 
         $input = new SuggestPropertyInput((string) $term);
 
-        $suggestions = $this->propertyService->autocompleteSearch($input->getSearch());
+        $suggestions = $this->propertyAutocompleteService->search($input->getSearch());
 
         $output = [];
         foreach ($suggestions as $suggestion) {
