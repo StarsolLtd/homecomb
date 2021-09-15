@@ -20,7 +20,7 @@ class DistrictTest extends AbstractEntityTestCase
 
     protected function getEntity(): District
     {
-        $entity = (new District());
+        $entity = new District();
         $entity = $this->setPropertiesFromValuesArray($entity);
         assert($entity instanceof District);
 
