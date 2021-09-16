@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
-use App\Service\UserService;
+use App\Service\UserRegistrationService;
 use function gettype;
 use function sprintf;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +19,7 @@ class SendVerificationEmail extends Command
 
     public function __construct(
         private UserRepository $userRepository,
-        private UserService $userService,
+        private UserRegistrationService $userRegistrationService,
     ) {
         parent::__construct();
     }
@@ -52,7 +52,7 @@ class SendVerificationEmail extends Command
             throw new NotFoundException(sprintf('User %d not found.', $userId));
         }
 
-        $sent = $this->userService->sendVerificationEmail($user);
+        $sent = $this->userRegistrationService->sendVerificationEmail($user);
 
         if ($sent) {
             $io->success(sprintf('Email sent.'));
