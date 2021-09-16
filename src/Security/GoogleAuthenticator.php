@@ -4,7 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\UserService;
+use App\Service\UserRegistrationService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
@@ -23,7 +23,7 @@ class GoogleAuthenticator extends SocialAuthenticator
         private ClientRegistry $clientRegistry,
         private EntityManagerInterface $em,
         private UserRepository $userRepository,
-        private UserService $userService,
+        private UserRegistrationService $userRegistrationService,
     ) {
     }
 
@@ -61,7 +61,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             if ($user) {
                 $user->setGoogleId($googleId);
             } else {
-                $user = $this->userService->registerFromGoogleUser($googleUser);
+                $user = $this->userRegistrationService->registerFromGoogleUser($googleUser);
                 $this->em->persist($user);
             }
             $this->em->flush();

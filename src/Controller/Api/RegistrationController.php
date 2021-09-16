@@ -8,7 +8,7 @@ use App\Model\User\RegisterInput;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use App\Service\GoogleReCaptchaService;
-use App\Service\UserService;
+use App\Service\UserRegistrationService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class RegistrationController extends AppController
 
     public function __construct(
         private GoogleReCaptchaService $googleReCaptchaService,
-        private UserService $userService,
+        private UserRegistrationService $userRegistrationService,
         private EmailVerifier $emailVerifier,
         private GuardAuthenticatorHandler $guardHandler,
         private LoginFormAuthenticator $authenticator,
@@ -58,7 +58,7 @@ class RegistrationController extends AppController
         }
 
         try {
-            $user = $this->userService->register($input);
+            $user = $this->userRegistrationService->register($input);
         } catch (ConflictException $e) {
             $this->addFlash('warning', 'There is already a user account for this email address.');
 
