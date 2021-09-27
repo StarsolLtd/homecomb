@@ -33,7 +33,7 @@ use Symfony\Component\Mailer\MailerInterface;
 /**
  * @covers \App\Service\TenancyReviewSolicitationService
  */
-class TenancyReviewSolicitationServiceTest extends TestCase
+final class TenancyReviewSolicitationServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

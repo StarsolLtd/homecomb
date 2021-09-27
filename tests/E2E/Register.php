@@ -5,7 +5,7 @@ namespace App\Tests\E2E;
 use App\Controller\Api\RegistrationController;
 use Symfony\Component\Panther\PantherTestCase;
 
-class Register extends PantherTestCase
+final class Register extends PantherTestCase
 {
     private const TIMEOUT = 5;
     private string $baseUrl;

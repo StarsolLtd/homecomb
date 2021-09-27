@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Util\BranchHelper
  */
-class BranchHelperTest extends TestCase
+final class BranchHelperTest extends TestCase
 {
     private BranchHelper $branchHelper;
 

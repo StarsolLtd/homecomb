@@ -8,7 +8,7 @@ use App\Entity\TenancyReview;
 /**
  * @covers \App\Entity\Property
  */
-class PropertyTest extends AbstractEntityTestCase
+final class PropertyTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'addressLine1' => 'Test Address Line 1',

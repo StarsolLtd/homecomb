@@ -26,7 +26,7 @@ use Symfony\Component\Mime\Email;
 /**
  * @covers \App\Service\NotificationService
  */
-class NotificationServiceTest extends TestCase
+final class NotificationServiceTest extends TestCase
 {
     use ProphecyTrait;
 

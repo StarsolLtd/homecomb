@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Util\AgencyHelper
  */
-class AgencyHelperTest extends TestCase
+final class AgencyHelperTest extends TestCase
 {
     private AgencyHelper $agencyHelper;
 

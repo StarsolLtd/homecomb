@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class ReviewSolicitationResponse extends PantherTestCase
+final class ReviewSolicitationResponse extends PantherTestCase
 {
     private const TIMEOUT = 3;
     private string $baseUrl;

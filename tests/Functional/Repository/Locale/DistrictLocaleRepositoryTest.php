@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @covers \App\Repository\Locale\DistrictLocaleRepository
  */
-class DistrictLocaleRepositoryTest extends KernelTestCase
+final class DistrictLocaleRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

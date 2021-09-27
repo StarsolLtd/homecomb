@@ -17,7 +17,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\CityService
  */
-class CityServiceTest extends TestCase
+final class CityServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

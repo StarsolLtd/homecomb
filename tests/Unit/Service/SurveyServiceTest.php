@@ -30,7 +30,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\SurveyService
  */
-class SurveyServiceTest extends TestCase
+final class SurveyServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

@@ -9,7 +9,7 @@ use App\Repository\AgencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AgencyRepositoryTest extends KernelTestCase
+final class AgencyRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

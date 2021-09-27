@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @covers \App\Security\GoogleAuthenticator
  */
-class GoogleAuthenticatorTest extends TestCase
+final class GoogleAuthenticatorTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

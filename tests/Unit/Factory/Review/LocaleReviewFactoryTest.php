@@ -17,7 +17,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\Review\LocaleReviewFactory
  */
-class LocaleReviewFactoryTest extends TestCase
+final class LocaleReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
     use SetIdByReflectionTrait;

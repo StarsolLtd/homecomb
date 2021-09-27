@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Panther\PantherTestCase;
 
-class SubmitVote extends PantherTestCase
+final class SubmitVote extends PantherTestCase
 {
     use LoginTrait;
 

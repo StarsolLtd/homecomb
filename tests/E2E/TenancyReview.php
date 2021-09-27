@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class TenancyReview extends PantherTestCase
+final class TenancyReview extends PantherTestCase
 {
     use PropertyAutocompleteTrait;
 

@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class SubmitLocaleReview extends PantherTestCase
+final class SubmitLocaleReview extends PantherTestCase
 {
     use PropertyAutocompleteTrait;
 

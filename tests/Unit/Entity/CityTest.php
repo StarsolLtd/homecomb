@@ -8,7 +8,7 @@ use App\Entity\Locale\CityLocale;
 /**
  * @covers \App\Entity\City
  */
-class CityTest extends AbstractEntityTestCase
+final class CityTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'name' => 'Norwich',

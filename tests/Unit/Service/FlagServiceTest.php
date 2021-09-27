@@ -22,7 +22,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\FlagService
  */
-class FlagServiceTest extends TestCase
+final class FlagServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

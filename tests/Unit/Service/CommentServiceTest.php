@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \App\Service\CommentService
  */
-class CommentServiceTest extends TestCase
+final class CommentServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

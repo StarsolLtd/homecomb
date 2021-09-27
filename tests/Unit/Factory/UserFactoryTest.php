@@ -11,7 +11,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFactoryTest extends TestCase
+final class UserFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AgencyAdminControllerTest extends WebTestCase
+final class AgencyAdminControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

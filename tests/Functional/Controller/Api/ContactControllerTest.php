@@ -5,7 +5,7 @@ namespace App\Tests\Functional\Controller\Api;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class ContactControllerTest extends WebTestCase
+final class ContactControllerTest extends WebTestCase
 {
     public function testSubmitContact(): void
     {

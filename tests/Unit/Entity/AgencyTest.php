@@ -7,7 +7,7 @@ use App\Entity\Agency;
 /**
  * @covers \App\Entity\Agency
  */
-class AgencyTest extends AbstractEntityTestCase
+final class AgencyTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'name' => 'Agency Name',

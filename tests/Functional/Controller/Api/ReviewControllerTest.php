@@ -6,7 +6,7 @@ use App\DataFixtures\TestFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class ReviewControllerTest extends WebTestCase
+final class ReviewControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

@@ -15,7 +15,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Util\LocaleHelper
  */
-class LocaleHelperTest extends TestCase
+final class LocaleHelperTest extends TestCase
 {
     use ProphecyTrait;
 

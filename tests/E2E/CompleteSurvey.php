@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Panther\PantherTestCase;
 
-class CompleteSurvey extends PantherTestCase
+final class CompleteSurvey extends PantherTestCase
 {
     private const TIMEOUT = 39;
     private string $baseUrl;

@@ -36,7 +36,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\TenancyReviewService
  */
-class TenancyReviewServiceTest extends TestCase
+final class TenancyReviewServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

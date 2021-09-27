@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @covers \App\Repository\PropertyRepository
  */
-class PropertyRepositoryTest extends KernelTestCase
+final class PropertyRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

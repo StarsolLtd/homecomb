@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class UserControllerTest extends WebTestCase
+final class UserControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

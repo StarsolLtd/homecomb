@@ -7,7 +7,7 @@ use App\Entity\TenancyReviewSolicitation;
 /**
  * @covers \App\Entity\TenancyReviewSolicitation
  */
-class TenancyReviewSolicitationTest extends AbstractEntityTestCase
+final class TenancyReviewSolicitationTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'recipientTitle' => 'Ms',

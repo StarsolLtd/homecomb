@@ -8,7 +8,7 @@ use App\Entity\Postcode;
 /**
  * @covers \App\Entity\Postcode
  */
-class PostcodeTest extends AbstractEntityTestCase
+final class PostcodeTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'postcode' => 'CB4 3LF',

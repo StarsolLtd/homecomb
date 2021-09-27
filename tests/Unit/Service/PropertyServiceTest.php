@@ -19,7 +19,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\PropertyService
  */
-class PropertyServiceTest extends TestCase
+final class PropertyServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

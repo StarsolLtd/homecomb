@@ -5,7 +5,7 @@ namespace App\Tests\E2E;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\PantherTestCase;
 
-class UpdateAgency extends PantherTestCase
+final class UpdateAgency extends PantherTestCase
 {
     use AgencyAdminTrait;
 

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentControllerTest extends WebTestCase
+final class CommentControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

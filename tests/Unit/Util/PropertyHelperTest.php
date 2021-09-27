@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Util\PropertyHelper
  */
-class PropertyHelperTest extends TestCase
+final class PropertyHelperTest extends TestCase
 {
     private PropertyHelper $propertyHelper;
 

@@ -7,7 +7,7 @@ use App\Entity\Branch;
 /**
  * @covers \App\Entity\Branch
  */
-class BranchTest extends AbstractEntityTestCase
+final class BranchTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'name' => 'Branch Name',

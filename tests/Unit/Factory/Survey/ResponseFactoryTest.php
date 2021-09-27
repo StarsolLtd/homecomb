@@ -11,7 +11,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Factory\Survey\ResponseFactory
  */
-class ResponseFactoryTest extends TestCase
+final class ResponseFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

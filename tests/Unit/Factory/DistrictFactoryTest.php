@@ -13,7 +13,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\DistrictFactory
  */
-class DistrictFactoryTest extends TestCase
+final class DistrictFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

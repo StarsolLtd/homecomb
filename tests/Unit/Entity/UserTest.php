@@ -7,7 +7,7 @@ use App\Entity\User;
 /**
  * @covers \App\Entity\User
  */
-class UserTest extends AbstractEntityTestCase
+final class UserTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'email' => 'jack@starsol.co.uk',

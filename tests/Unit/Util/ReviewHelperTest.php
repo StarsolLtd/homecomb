@@ -12,7 +12,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Util\ReviewHelper
  */
-class ReviewHelperTest extends TestCase
+final class ReviewHelperTest extends TestCase
 {
     use ProphecyTrait;
 

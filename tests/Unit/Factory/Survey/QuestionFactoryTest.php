@@ -15,7 +15,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\Survey\QuestionFactory
  */
-class QuestionFactoryTest extends TestCase
+final class QuestionFactoryTest extends TestCase
 {
     use ProphecyTrait;
     use SetIdByReflectionTrait;

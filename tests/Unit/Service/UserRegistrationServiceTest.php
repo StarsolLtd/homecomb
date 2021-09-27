@@ -25,7 +25,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 /**
  * @covers \App\Service\UserRegistrationService
  */
-class UserRegistrationServiceTest extends TestCase
+final class UserRegistrationServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

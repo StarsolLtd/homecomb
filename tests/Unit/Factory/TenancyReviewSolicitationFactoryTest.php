@@ -24,7 +24,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\TenancyReviewSolicitationFactory
  */
-class TenancyReviewSolicitationFactoryTest extends TestCase
+final class TenancyReviewSolicitationFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

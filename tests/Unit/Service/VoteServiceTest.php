@@ -28,7 +28,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\VoteService
  */
-class VoteServiceTest extends TestCase
+final class VoteServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

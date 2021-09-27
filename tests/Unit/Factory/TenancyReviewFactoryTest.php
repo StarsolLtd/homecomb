@@ -29,7 +29,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\TenancyReviewFactory
  */
-class TenancyReviewFactoryTest extends TestCase
+final class TenancyReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
     use SetIdByReflectionTrait;

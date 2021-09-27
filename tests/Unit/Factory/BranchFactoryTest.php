@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\BranchFactory
  */
-class BranchFactoryTest extends TestCase
+final class BranchFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

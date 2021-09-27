@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class NavigateViaLocaleAutocomplete extends PantherTestCase
+final class NavigateViaLocaleAutocomplete extends PantherTestCase
 {
     use PropertyAutocompleteTrait;
 
