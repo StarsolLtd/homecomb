@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * @covers \App\Security\TenancyReviewVoter
  */
-class TenancyReviewVoterTest extends TestCase
+final class TenancyReviewVoterTest extends TestCase
 {
     use ProphecyTrait;
 

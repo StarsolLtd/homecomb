@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\Survey\AnswerFactory
  */
-class AnswerFactoryTest extends TestCase
+final class AnswerFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

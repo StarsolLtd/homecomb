@@ -10,7 +10,7 @@ use App\Tests\Unit\Entity\AbstractEntityTestCase;
 /**
  * @covers \App\Entity\Locale\Locale
  */
-class LocaleTest extends AbstractEntityTestCase
+final class LocaleTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'name' => 'Girton',

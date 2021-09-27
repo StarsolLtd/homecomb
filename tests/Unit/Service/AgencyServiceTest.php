@@ -28,7 +28,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\AgencyService
  */
-class AgencyServiceTest extends TestCase
+final class AgencyServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

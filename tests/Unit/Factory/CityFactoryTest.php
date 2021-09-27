@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\CityFactory
  */
-class CityFactoryTest extends TestCase
+final class CityFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

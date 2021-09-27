@@ -29,7 +29,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\LocaleFactory
  */
-class LocaleFactoryTest extends TestCase
+final class LocaleFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

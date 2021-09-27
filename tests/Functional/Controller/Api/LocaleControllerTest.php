@@ -7,7 +7,7 @@ use function json_decode;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class LocaleControllerTest extends WebTestCase
+final class LocaleControllerTest extends WebTestCase
 {
     public function testView(): void
     {

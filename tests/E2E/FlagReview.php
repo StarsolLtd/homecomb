@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Panther\PantherTestCase;
 
-class FlagReview extends PantherTestCase
+final class FlagReview extends PantherTestCase
 {
     private const TIMEOUT = 39;
     private string $baseUrl;

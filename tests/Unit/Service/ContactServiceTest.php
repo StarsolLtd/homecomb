@@ -12,7 +12,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\ContactService
  */
-class ContactServiceTest extends TestCase
+final class ContactServiceTest extends TestCase
 {
     use ProphecyTrait;
 

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @covers \App\Service\SessionService
  */
-class SessionServiceTest extends TestCase
+final class SessionServiceTest extends TestCase
 {
     use ProphecyTrait;
 

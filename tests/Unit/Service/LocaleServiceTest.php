@@ -27,7 +27,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\LocaleService
  */
-class LocaleServiceTest extends TestCase
+final class LocaleServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

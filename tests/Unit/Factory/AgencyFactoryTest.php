@@ -14,7 +14,7 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-class AgencyFactoryTest extends TestCase
+final class AgencyFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

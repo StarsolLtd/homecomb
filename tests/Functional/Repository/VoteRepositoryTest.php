@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @covers \App\Repository\VoteRepository
  */
-class VoteRepositoryTest extends KernelTestCase
+final class VoteRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

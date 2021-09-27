@@ -11,7 +11,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Factory\Survey\ChoiceFactory
  */
-class ChoiceFactoryTest extends TestCase
+final class ChoiceFactoryTest extends TestCase
 {
     use ProphecyTrait;
     use SetIdByReflectionTrait;

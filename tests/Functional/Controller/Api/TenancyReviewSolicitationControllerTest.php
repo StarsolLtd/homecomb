@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class TenancyReviewSolicitationControllerTest extends WebTestCase
+final class TenancyReviewSolicitationControllerTest extends WebTestCase
 {
     private SerializerInterface $serializer;
 

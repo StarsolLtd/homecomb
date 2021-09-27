@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Panther\PantherTestCase;
 
-class SubmitContactForm extends PantherTestCase
+final class SubmitContactForm extends PantherTestCase
 {
     private const TIMEOUT = 30;
     private string $baseUrl;

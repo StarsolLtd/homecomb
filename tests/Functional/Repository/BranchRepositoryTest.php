@@ -9,7 +9,7 @@ use App\Repository\BranchRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class BranchRepositoryTest extends KernelTestCase
+final class BranchRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

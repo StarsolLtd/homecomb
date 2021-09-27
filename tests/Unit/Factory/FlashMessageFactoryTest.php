@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
-class FlashMessageFactoryTest extends TestCase
+final class FlashMessageFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

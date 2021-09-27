@@ -10,7 +10,7 @@ use App\Repository\TenancyReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class FlagControllerTest extends WebTestCase
+final class FlagControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

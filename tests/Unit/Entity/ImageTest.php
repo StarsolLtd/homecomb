@@ -7,7 +7,7 @@ use App\Entity\Image;
 /**
  * @covers \App\Entity\Image
  */
-class ImageTest extends AbstractEntityTestCase
+final class ImageTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'description' => 'Test Description',

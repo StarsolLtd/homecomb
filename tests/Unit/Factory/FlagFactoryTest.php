@@ -25,7 +25,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\FlagFactory
  */
-class FlagFactoryTest extends TestCase
+final class FlagFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

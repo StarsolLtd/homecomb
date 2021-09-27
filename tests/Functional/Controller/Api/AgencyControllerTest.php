@@ -10,7 +10,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class AgencyControllerTest extends WebTestCase
+final class AgencyControllerTest extends WebTestCase
 {
     use ProphecyTrait;
 

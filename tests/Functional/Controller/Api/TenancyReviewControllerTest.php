@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class TenancyReviewControllerTest extends WebTestCase
+final class TenancyReviewControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

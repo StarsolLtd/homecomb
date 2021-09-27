@@ -18,7 +18,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Factory\FlashMessageFactory
  */
-class FlatModelFactoryTest extends TestCase
+final class FlatModelFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

@@ -16,7 +16,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\CommentFactory
  */
-class CommentFactoryTest extends TestCase
+final class CommentFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

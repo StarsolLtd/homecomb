@@ -25,7 +25,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\InteractionService
  */
-class InteractionServiceTest extends TestCase
+final class InteractionServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

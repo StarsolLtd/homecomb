@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SessionControllerTest extends WebTestCase
+final class SessionControllerTest extends WebTestCase
 {
     private SerializerInterface $serializer;
 

@@ -24,7 +24,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 /**
  * @covers \App\Service\UserService
  */
-class UserServiceTest extends TestCase
+final class UserServiceTest extends TestCase
 {
     use ProphecyTrait;
 

@@ -20,7 +20,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\AgencyAdminService
  */
-class AgencyAdminServiceTest extends TestCase
+final class AgencyAdminServiceTest extends TestCase
 {
     use ProphecyTrait;
 

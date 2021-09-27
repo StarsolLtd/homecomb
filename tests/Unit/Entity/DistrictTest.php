@@ -7,7 +7,7 @@ use App\Entity\District;
 /**
  * @covers \App\Entity\District
  */
-class DistrictTest extends AbstractEntityTestCase
+final class DistrictTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'name' => 'North Norfolk',

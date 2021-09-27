@@ -11,7 +11,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * @covers \App\Factory\EmailFactory
  */
-class EmailFactoryTest extends TestCase
+final class EmailFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

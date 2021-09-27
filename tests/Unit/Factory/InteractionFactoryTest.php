@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * @covers \App\Factory\InteractionFactory
  */
-class InteractionFactoryTest extends TestCase
+final class InteractionFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

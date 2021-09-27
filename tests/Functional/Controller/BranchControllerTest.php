@@ -6,7 +6,7 @@ use App\DataFixtures\TestFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class BranchControllerTest extends WebTestCase
+final class BranchControllerTest extends WebTestCase
 {
     public function testViewBySlug(): void
     {

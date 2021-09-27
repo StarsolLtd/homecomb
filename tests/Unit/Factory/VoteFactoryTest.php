@@ -22,7 +22,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\voteFactory
  */
-class VoteFactoryTest extends TestCase
+final class VoteFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

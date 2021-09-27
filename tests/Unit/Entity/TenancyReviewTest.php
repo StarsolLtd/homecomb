@@ -8,7 +8,7 @@ use App\Entity\Vote\TenancyReviewVote;
 /**
  * @covers \App\Entity\TenancyReview
  */
-class TenancyReviewTest extends AbstractEntityTestCase
+final class TenancyReviewTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'author' => 'Jack Parnell',

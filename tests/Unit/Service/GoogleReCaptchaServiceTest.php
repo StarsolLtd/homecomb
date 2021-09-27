@@ -13,7 +13,7 @@ use ReCaptcha\Response;
 /**
  * @covers \App\Service\GoogleReCaptchaService
  */
-class GoogleReCaptchaServiceTest extends TestCase
+final class GoogleReCaptchaServiceTest extends TestCase
 {
     use ProphecyTrait;
 

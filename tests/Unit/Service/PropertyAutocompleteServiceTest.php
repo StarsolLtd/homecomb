@@ -16,7 +16,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\PropertyAutocompleteService
  */
-class PropertyAutocompleteServiceTest extends TestCase
+final class PropertyAutocompleteServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

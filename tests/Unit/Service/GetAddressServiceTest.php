@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @covers \App\Service\GetAddressService
  */
-class GetAddressServiceTest extends TestCase
+final class GetAddressServiceTest extends TestCase
 {
     use ProphecyTrait;
 

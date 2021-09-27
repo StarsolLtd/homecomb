@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class VoteControllerTest extends WebTestCase
+final class VoteControllerTest extends WebTestCase
 {
     use LoginUserTrait;
 

@@ -25,7 +25,7 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-class BranchServiceTest extends TestCase
+final class BranchServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;

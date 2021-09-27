@@ -21,7 +21,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Service\ReviewService
  */
-class ReviewServiceTest extends TestCase
+final class ReviewServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;

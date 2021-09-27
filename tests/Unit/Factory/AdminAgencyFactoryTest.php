@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-class AdminAgencyFactoryTest extends TestCase
+final class AdminAgencyFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

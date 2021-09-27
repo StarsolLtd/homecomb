@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Util\CityHelper
  */
-class CityHelperTest extends TestCase
+final class CityHelperTest extends TestCase
 {
     private CityHelper $cityHelper;
 

@@ -26,7 +26,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @covers \App\Factory\PropertyFactory
  */
-class PropertyFactoryTest extends TestCase
+final class PropertyFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

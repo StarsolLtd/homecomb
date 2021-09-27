@@ -9,7 +9,7 @@ use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ReviewRepositoryTest extends KernelTestCase
+final class ReviewRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 

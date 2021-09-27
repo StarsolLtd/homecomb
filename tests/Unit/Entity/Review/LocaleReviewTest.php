@@ -9,7 +9,7 @@ use App\Tests\Unit\Entity\AbstractEntityTestCase;
 /**
  * @covers \App\Entity\Review\LocaleReview
  */
-class LocaleReviewTest extends AbstractEntityTestCase
+final class LocaleReviewTest extends AbstractEntityTestCase
 {
     protected array $values = [
         'author' => 'Jack Parnell',

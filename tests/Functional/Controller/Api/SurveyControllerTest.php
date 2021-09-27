@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class SurveyControllerTest extends WebTestCase
+final class SurveyControllerTest extends WebTestCase
 {
     public function testView(): void
     {
