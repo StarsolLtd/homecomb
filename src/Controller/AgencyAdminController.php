@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AgencyAdminController extends AppController
+final class AgencyAdminController extends AppController
 {
     /**
      * @Route ("/verified/agency/create", name="verified-agency-created", methods={"GET", "HEAD"})

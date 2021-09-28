@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class UserController extends AppController
+final class UserController extends AppController
 {
     public function __construct(
         private UserService $userService,

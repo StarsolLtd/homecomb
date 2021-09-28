@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SessionController extends AppController
+final class SessionController extends AppController
 {
     public function __construct(
         private FlashMessageFactory $flashMessageFactory,

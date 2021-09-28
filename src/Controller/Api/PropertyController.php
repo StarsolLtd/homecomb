@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class PropertyController extends AppController
+final class PropertyController extends AppController
 {
     use VerifyCaptchaTrait;
 

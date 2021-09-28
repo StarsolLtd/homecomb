@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SurveyController extends AppController
+final class SurveyController extends AppController
 {
     public function __construct(
         private SurveyService $surveyService,

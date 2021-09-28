@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AgencyController extends AppController
+final class AgencyController extends AppController
 {
     /**
      * @Route (

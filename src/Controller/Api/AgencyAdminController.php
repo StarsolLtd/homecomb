@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AgencyAdminController extends AppController
+final class AgencyAdminController extends AppController
 {
     use VerifyCaptchaTrait;
 

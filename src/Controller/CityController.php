@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CityController extends AbstractController
+final class CityController extends AbstractController
 {
     public function __construct(
         private CityService $cityService,

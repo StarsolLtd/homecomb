@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class LocaleController extends AppController
+final class LocaleController extends AppController
 {
     public function __construct(
         private LocaleService $localeService,
