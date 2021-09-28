@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class BranchController extends AppController
+final class BranchController extends AppController
 {
     public function __construct(
         private BranchService $branchService,

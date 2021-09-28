@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AgencyController extends AppController
+final class AgencyController extends AppController
 {
     public function __construct(
         private AgencyService $agencyService,

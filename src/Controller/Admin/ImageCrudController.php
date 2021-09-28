@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ImageCrudController extends AbstractCrudController
+final class ImageCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

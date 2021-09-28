@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class CommentController extends AppController
+final class CommentController extends AppController
 {
     use VerifyCaptchaTrait;
 

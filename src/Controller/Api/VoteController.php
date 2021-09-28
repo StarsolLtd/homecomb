@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class VoteController extends AppController
+final class VoteController extends AppController
 {
     use VerifyCaptchaTrait;
 

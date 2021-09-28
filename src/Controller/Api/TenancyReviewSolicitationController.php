@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class TenancyReviewSolicitationController extends AppController
+final class TenancyReviewSolicitationController extends AppController
 {
     public function __construct(
         private TenancyReviewSolicitationService $tenancyReviewSolicitationService,

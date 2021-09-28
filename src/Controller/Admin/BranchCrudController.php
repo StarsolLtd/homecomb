@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class BranchCrudController extends AbstractCrudController
+final class BranchCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

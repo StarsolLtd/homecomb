@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GoogleController extends AbstractController
+final class GoogleController extends AbstractController
 {
     /**
      * @Route("/connect/google", schemes={"https"}, name="connect_google_start")

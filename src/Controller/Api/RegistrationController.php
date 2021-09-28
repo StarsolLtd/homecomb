@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class RegistrationController extends AppController
+final class RegistrationController extends AppController
 {
     use VerifyCaptchaTrait;
 

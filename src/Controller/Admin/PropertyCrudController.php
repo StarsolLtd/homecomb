@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class PropertyCrudController extends AbstractCrudController
+final class PropertyCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
