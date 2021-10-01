@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Locale\Locale;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -110,7 +111,7 @@ class Image
     public function setImageFile(File $image): self
     {
         $this->imageFile = $image;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
 
         return $this;
     }
