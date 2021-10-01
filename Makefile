@@ -179,3 +179,22 @@ clear-makefile-local:
 clear-cache:
 	docker exec -it homecomb_php_1 php bin/console cache:pool:clear cache.global_clearer
 	docker exec -it homecomb_php_1 bash -c "rm -rf /var/www/var/cache"
+
+phpmd-clean-code:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/cleancode.xml
+
+phpmd-code-size:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/codesize.xml
+
+phpmd-controversial:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/controversial.xml
+
+phpmd-design:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/design.xml
+
+phpmd-naming:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/naming.xml
+
+phpmd-unused-code:
+	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/unusedcode.xml
+
