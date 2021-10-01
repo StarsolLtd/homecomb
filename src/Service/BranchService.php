@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Agency;
-use App\Entity\Branch;
 use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
@@ -12,7 +10,6 @@ use App\Model\Branch\CreateBranchOutput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\UpdateBranchOutput;
 use App\Repository\BranchRepository;
-use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,7 +21,6 @@ class BranchService
         private UserService $userService,
         private EntityManagerInterface $entityManager,
         private BranchFactory $branchFactory,
-        private BranchHelper $branchHelper,
         private BranchRepository $branchRepository
     ) {
     }
@@ -67,34 +63,5 @@ class BranchService
         $this->entityManager->flush();
 
         return new UpdateBranchOutput(true);
-    }
-
-    public function findOrCreate(string $branchName, ?Agency $agency): Branch
-    {
-        $branch = null === $agency
-            ? $this->branchRepository->findOneByNameWithoutAgencyOrNull($branchName)
-            : $this->branchRepository->findOneByNameAndAgencyOrNull($branchName, $agency);
-
-        if (null !== $branch) {
-            return $branch;
-        }
-
-        $branch = $this->create($branchName, $agency);
-
-        $this->entityManager->persist($branch);
-        $this->entityManager->flush();
-
-        return $branch;
-    }
-
-    private function create(string $branchName, ?Agency $agency): Branch
-    {
-        $branch = (new Branch())
-            ->setAgency($agency)
-            ->setName($branchName);
-
-        $this->branchHelper->generateSlug($branch);
-
-        return $branch;
     }
 }
