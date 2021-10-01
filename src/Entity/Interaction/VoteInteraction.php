@@ -21,9 +21,9 @@ class VoteInteraction extends Interaction
         return $this->Vote;
     }
 
-    public function setVote(Vote $Vote): self
+    public function setVote(Vote $vote): self
     {
-        $this->Vote = $Vote;
+        $this->Vote = $vote;
 
         return $this;
     }
