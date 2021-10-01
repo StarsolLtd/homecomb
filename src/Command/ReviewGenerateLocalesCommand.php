@@ -5,8 +5,7 @@ namespace App\Command;
 use App\Exception\NotFoundException;
 use App\Repository\TenancyReviewRepository;
 use App\Service\TenancyReviewService;
-use function gettype;
-use function sprintf;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +40,7 @@ class ReviewGenerateLocalesCommand extends Command
         if ('string' === $arg1Type) {
             $tenancyReviewId = (int) $tenancyReviewId;
         } elseif ('int' !== $arg1Type) {
-            throw new \RuntimeException('Invalid type of arg1: '.$arg1Type);
+            throw new RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 
         $io->note(sprintf('Generating locals for review %s', $tenancyReviewId));

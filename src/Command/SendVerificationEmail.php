@@ -5,8 +5,7 @@ namespace App\Command;
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
 use App\Service\UserRegistrationService;
-use function gettype;
-use function sprintf;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +40,7 @@ class SendVerificationEmail extends Command
         if ('string' === $arg1Type) {
             $userId = (int) $userId;
         } elseif ('int' !== $arg1Type) {
-            throw new \RuntimeException('Invalid type of arg1: '.$arg1Type);
+            throw new RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 
         $io->note(sprintf('Sending verification email for user %d', $userId));
