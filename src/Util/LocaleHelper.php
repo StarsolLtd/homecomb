@@ -12,6 +12,7 @@ class LocaleHelper
     {
         $components = [$locale->getName()];
 
+        $type = 'Locale';
         if ($locale instanceof CityLocale) {
             $type = 'City';
             $city = $locale->getCity();
@@ -24,8 +25,6 @@ class LocaleHelper
 
             $components[] = $district->getCounty();
             $components[] = $district->getCountryCode();
-        } else {
-            $type = 'Locale';
         }
 
         $components[] = $type;
