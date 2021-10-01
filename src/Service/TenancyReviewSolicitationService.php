@@ -32,11 +32,9 @@ class TenancyReviewSolicitationService
         private LoggerInterface $logger
     ) {
         $currentRequest = $requestStack->getCurrentRequest();
-        if (null === $currentRequest) {
-            $this->baseUrl = 'https://homecomb.co.uk/';
-        } else {
-            $this->baseUrl = $currentRequest->getSchemeAndHttpHost();
-        }
+        $this->baseUrl = null === $currentRequest
+            ? 'https://homecomb.co.uk/'
+            : $currentRequest->getSchemeAndHttpHost();
     }
 
     public function getFormData(?UserInterface $user): FormData
