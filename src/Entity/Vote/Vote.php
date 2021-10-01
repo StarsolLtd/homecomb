@@ -57,9 +57,9 @@ abstract class Vote
         return $this->user;
     }
 
-    public function setUser(User $User): self
+    public function setUser(User $user): self
     {
-        $this->user = $User;
+        $this->user = $user;
 
         return $this;
     }

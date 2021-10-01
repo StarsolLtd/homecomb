@@ -209,8 +209,8 @@ class Locale
      */
     public function getPublishedReviews(): Collection
     {
-        return $this->getReviews()->filter(function (LocaleReview $Review) {
-            return $Review->isPublished();
+        return $this->getReviews()->filter(function (LocaleReview $review) {
+            return $review->isPublished();
         });
     }
 
