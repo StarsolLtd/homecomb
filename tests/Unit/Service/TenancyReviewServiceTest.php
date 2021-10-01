@@ -19,7 +19,7 @@ use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use App\Service\AgencyService;
-use App\Service\BranchService;
+use App\Service\BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReviewService;
@@ -44,7 +44,7 @@ final class TenancyReviewServiceTest extends TestCase
     private TenancyReviewService $tenancyReviewService;
 
     private ObjectProphecy $agencyService;
-    private ObjectProphecy $branchService;
+    private ObjectProphecy $branchFindOrCreateService;
     private ObjectProphecy $interactionService;
     private ObjectProphecy $notificationService;
     private ObjectProphecy $tenancyReviewSolicitationService;
@@ -58,7 +58,7 @@ final class TenancyReviewServiceTest extends TestCase
     public function setUp(): void
     {
         $this->agencyService = $this->prophesize(AgencyService::class);
-        $this->branchService = $this->prophesize(BranchService::class);
+        $this->branchFindOrCreateService = $this->prophesize(BranchFindOrCreateService::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
         $this->tenancyReviewSolicitationService = $this->prophesize(TenancyReviewSolicitationService::class);
@@ -71,7 +71,7 @@ final class TenancyReviewServiceTest extends TestCase
 
         $this->tenancyReviewService = new TenancyReviewService(
             $this->agencyService->reveal(),
-            $this->branchService->reveal(),
+            $this->branchFindOrCreateService->reveal(),
             $this->interactionService->reveal(),
             $this->notificationService->reveal(),
             $this->tenancyReviewSolicitationService->reveal(),
@@ -246,7 +246,7 @@ final class TenancyReviewServiceTest extends TestCase
 
         $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
 
-        $this->branchService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
+        $this->branchFindOrCreateService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
 
         $this->userService->getUserEntityOrNullFromUserInterface($user)->shouldBeCalledOnce()->willReturn($user);
 

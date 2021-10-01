@@ -24,7 +24,7 @@ class TenancyReviewService
 {
     public function __construct(
         private AgencyService $agencyService,
-        private BranchService $branchService,
+        private BranchFindOrCreateService $branchFindOrCreateService,
         private InteractionService $interactionService,
         private NotificationService $notificationService,
         private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
@@ -47,7 +47,7 @@ class TenancyReviewService
         $agencyName = $reviewInput->getAgencyName();
         $agency = $agencyName ? $this->agencyService->findOrCreateByName($agencyName) : null;
         $branchName = $reviewInput->getAgencyBranch();
-        $branch = $branchName ? $this->branchService->findOrCreate($branchName, $agency) : null;
+        $branch = $branchName ? $this->branchFindOrCreateService->findOrCreate($branchName, $agency) : null;
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
         $tenancyReview = $this->tenancyReviewFactory->createEntity($reviewInput, $property, $branch, $userEntity);
