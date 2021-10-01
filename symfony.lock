@@ -213,6 +213,9 @@
     "ocramius/package-versions": {
         "version": "1.5.1"
     },
+    "pdepend/pdepend": {
+        "version": "2.10.0"
+    },
     "phar-io/manifest": {
         "version": "2.0.1"
     },
@@ -236,6 +239,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
+    },
+    "phpmd/phpmd": {
+        "version": "2.10.2"
     },
     "phpspec/prophecy": {
         "version": "1.12.1"
