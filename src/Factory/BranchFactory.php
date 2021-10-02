@@ -28,7 +28,7 @@ class BranchFactory
             ->setPublished(true)
         ;
 
-        $this->branchHelper->generateSlug($branch);
+        $branch->setSlug($this->branchHelper->generateSlug($branch));
 
         return $branch;
     }
