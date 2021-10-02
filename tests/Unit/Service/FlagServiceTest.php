@@ -11,7 +11,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Service\FlagService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

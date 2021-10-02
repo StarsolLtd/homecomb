@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Model\Branch\UpdateBranchInput;
 use App\Repository\BranchRepository;
 use App\Service\Branch\BranchUpdateService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

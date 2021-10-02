@@ -5,7 +5,7 @@ namespace App\Service\Branch;
 use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\UpdateBranchOutput;
 use App\Repository\BranchRepository;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -7,7 +7,7 @@ use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Factory\Survey\ResponseFactory;
 use App\Service\ResponseService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

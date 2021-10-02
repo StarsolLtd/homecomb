@@ -17,7 +17,7 @@ use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\TenancyReviewSolicitationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

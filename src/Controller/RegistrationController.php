@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Security\EmailVerifier;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

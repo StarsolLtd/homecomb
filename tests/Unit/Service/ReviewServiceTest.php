@@ -10,7 +10,7 @@ use App\Model\Review\SubmitLocaleReviewInput;
 use App\Repository\Locale\LocaleRepository;
 use App\Service\NotificationService;
 use App\Service\ReviewService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

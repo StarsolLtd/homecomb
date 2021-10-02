@@ -10,6 +10,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

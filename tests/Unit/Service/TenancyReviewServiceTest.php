@@ -24,7 +24,7 @@ use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReviewService;
 use App\Service\TenancyReviewSolicitationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;

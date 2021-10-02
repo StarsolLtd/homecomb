@@ -9,7 +9,7 @@ use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
 use App\Repository\BranchRepository;
 use App\Service\NotificationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

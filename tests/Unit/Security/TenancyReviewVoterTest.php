@@ -7,7 +7,7 @@ use App\Entity\Flag\Flag;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Security\TenancyReviewVoter;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;

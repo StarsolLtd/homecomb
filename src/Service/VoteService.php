@@ -13,6 +13,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Model\Vote\SubmitInput;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

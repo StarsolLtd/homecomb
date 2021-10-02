@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\User;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
@@ -10,15 +10,11 @@ use App\Factory\FlatModelFactory;
 use App\Model\User\Flat;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
-use App\Service\EmailService;
-use App\Service\UserService;
-use DateTime;
+use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 
 /**
  * @covers \App\Service\UserService
@@ -32,23 +28,17 @@ final class UserServiceTest extends TestCase
     private ObjectProphecy $branchRepository;
     private ObjectProphecy $userRepository;
     private ObjectProphecy $flatModelFactory;
-    private ObjectProphecy $resetPasswordHelper;
-    private ObjectProphecy $emailService;
 
     public function setUp(): void
     {
         $this->branchRepository = $this->prophesize(BranchRepository::class);
         $this->userRepository = $this->prophesize(UserRepository::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
-        $this->resetPasswordHelper = $this->prophesize(ResetPasswordHelperInterface::class);
-        $this->emailService = $this->prophesize(EmailService::class);
 
         $this->userService = new UserService(
             $this->branchRepository->reveal(),
             $this->userRepository->reveal(),
             $this->flatModelFactory->reveal(),
-            $this->resetPasswordHelper->reveal(),
-            $this->emailService->reveal(),
         );
     }
 
@@ -195,48 +185,5 @@ final class UserServiceTest extends TestCase
         $output = $this->userService->getEntityFromInterface(null);
 
         $this->assertNull($output);
-    }
-
-    private function prophesizeSendVerificationEmail(): ObjectProphecy
-    {
-        $user = $this->prophesize(User::class);
-
-        $user->isVerified()->shouldBeCalledOnce()->willReturn(false);
-        $user->getId()->shouldBeCalledOnce()->willReturn(5678);
-        $user->getEmail()->shouldBeCalledOnce()->willReturn('turanga.leela@planet-express.com');
-        $user->getFirstName()->shouldBeCalledOnce()->willReturn('Turanga');
-        $user->getLastName()->shouldBeCalledOnce()->willReturn('Leela');
-
-        $signatureComponents = $this->prophesize(VerifyEmailSignatureComponents::class);
-
-        $expiresAt = $this->prophesize(DateTime::class);
-
-        $this->verifyEmailHelper->generateSignature('app_verify_email', '5678', 'turanga.leela@planet-express.com')
-            ->shouldBeCalledOnce()
-            ->willReturn($signatureComponents);
-
-        $signatureComponents->getSignedUrl()
-            ->shouldBeCalledOnce()
-            ->willReturn('http://test.homecomb.net/test');
-
-        $signatureComponents->getExpiresAt()
-            ->shouldBeCalledOnce()
-            ->willReturn($expiresAt);
-
-        $this->emailService->process(
-            'turanga.leela@planet-express.com',
-            'Turanga Leela',
-            'Welcome to HomeComb! Please verify your email address',
-            'email-verification',
-            [
-                'signedUrl' => 'http://test.homecomb.net/test',
-                'expiresAt' => $expiresAt,
-            ],
-            null,
-            $user,
-            $user
-        )->shouldBeCalledOnce();
-
-        return $user;
     }
 }

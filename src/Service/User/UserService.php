@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\User;
 
 use App\Entity\User;
 use App\Exception\UserException;
@@ -9,7 +9,6 @@ use App\Model\User\Flat;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class UserService
 {
@@ -17,8 +16,6 @@ class UserService
         private BranchRepository $branchRepository,
         private UserRepository $userRepository,
         private FlatModelFactory $flatModelFactory,
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EmailService $emailService
     ) {
     }
 

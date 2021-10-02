@@ -12,7 +12,7 @@ use App\Model\Branch\CreateBranchInput;
 use App\Repository\BranchRepository;
 use App\Service\Branch\BranchCreateService;
 use App\Service\NotificationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

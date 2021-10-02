@@ -16,7 +16,7 @@ use App\Model\Vote\SubmitInput;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
 use App\Service\InteractionService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Service\VoteService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;

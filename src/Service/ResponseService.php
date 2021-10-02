@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
 use App\Factory\Survey\ResponseFactory;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
