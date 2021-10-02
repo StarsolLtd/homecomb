@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\TenancyReviewSolicitation;
 
 use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
+use App\Service\TenancyReviewSolicitation\CreateService;
 use App\Service\TenancyReviewSolicitation\SendService;
-use App\Service\TenancyReviewSolicitationService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
@@ -16,16 +16,13 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\TenancyReviewSolicitationService
- */
-final class TenancyReviewSolicitationServiceTest extends TestCase
+final class CreateServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;
     use UserEntityFromInterfaceTrait;
 
-    private TenancyReviewSolicitationService $tenancyReviewSolicitationService;
+    private CreateService $createService;
 
     private ObjectProphecy $emailService;
     private ObjectProphecy $sendService;
@@ -39,7 +36,7 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
         $this->tenancyReviewSolicitationFactory = $this->prophesize(TenancyReviewSolicitationFactory::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
 
-        $this->tenancyReviewSolicitationService = new TenancyReviewSolicitationService(
+        $this->createService = new CreateService(
             $this->sendService->reveal(),
             $this->userService->reveal(),
             $this->tenancyReviewSolicitationFactory->reveal(),
@@ -47,9 +44,6 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\TenancyReviewSolicitationService::createAndSend
-     */
     public function testCreateAndSend1(): void
     {
         $input = $this->getValidCreateReviewSolicitationInput();
@@ -67,7 +61,7 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
 
         $this->sendService->send($tenancyReviewSolicitation, $user)->shouldBeCalledOnce();
 
-        $output = $this->tenancyReviewSolicitationService->createAndSend($input, $user->reveal());
+        $output = $this->createService->createAndSend($input, $user->reveal());
 
         $this->assertTrue($output->isSuccess());
     }

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\TenancyReviewSolicitation;
 
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
-use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class TenancyReviewSolicitationService
+class CreateService
 {
     public function __construct(
         private SendService $sendService,
