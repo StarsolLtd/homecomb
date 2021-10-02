@@ -23,7 +23,7 @@ use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReviewService;
-use App\Service\TenancyReviewSolicitationService;
+use App\Service\TenancyReviewSolicitation\CompleteService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -47,7 +47,7 @@ final class TenancyReviewServiceTest extends TestCase
     private ObjectProphecy $branchFindOrCreateService;
     private ObjectProphecy $interactionService;
     private ObjectProphecy $notificationService;
-    private ObjectProphecy $tenancyReviewSolicitationService;
+    private ObjectProphecy $completeService;
     private ObjectProphecy $userService;
     private ObjectProphecy $entityManager;
     private ObjectProphecy $postcodeRepository;
@@ -61,7 +61,7 @@ final class TenancyReviewServiceTest extends TestCase
         $this->branchFindOrCreateService = $this->prophesize(BranchFindOrCreateService::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
-        $this->tenancyReviewSolicitationService = $this->prophesize(TenancyReviewSolicitationService::class);
+        $this->completeService = $this->prophesize(CompleteService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
@@ -74,7 +74,7 @@ final class TenancyReviewServiceTest extends TestCase
             $this->branchFindOrCreateService->reveal(),
             $this->interactionService->reveal(),
             $this->notificationService->reveal(),
-            $this->tenancyReviewSolicitationService->reveal(),
+            $this->completeService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
             $this->postcodeRepository->reveal(),
@@ -255,7 +255,7 @@ final class TenancyReviewServiceTest extends TestCase
             ->willReturn($tenancyReview)
         ;
 
-        $this->tenancyReviewSolicitationService->complete('testcode', Argument::type(TenancyReview::class))->shouldBeCalledOnce();
+        $this->completeService->complete('testcode', Argument::type(TenancyReview::class))->shouldBeCalledOnce();
 
         $this->assertEntitiesArePersistedAndFlush([$tenancyReview]);
 

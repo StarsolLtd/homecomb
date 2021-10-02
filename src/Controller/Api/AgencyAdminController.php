@@ -17,7 +17,8 @@ use App\Service\Branch\BranchAdminService;
 use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
-use App\Service\TenancyReviewSolicitationService;
+use App\Service\TenancyReviewSolicitation\CreateService as TenancyReviewSolicitationCreateService;
+use App\Service\TenancyReviewSolicitation\GetFormDataService as TenancyReviewSolicitationGetFormService;
 use App\Service\User\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,7 +41,8 @@ final class AgencyAdminController extends AppController
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
-        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        private TenancyReviewSolicitationGetFormService $tenancyReviewSolicitationGetFormDataService,
+        private TenancyReviewSolicitationCreateService $tenancyReviewSolicitationCreateService,
         private UserService $userService,
         private AgencyRepository $agencyRepository,
         protected SerializerInterface $serializer,
@@ -269,7 +271,7 @@ final class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        $output = $this->tenancyReviewSolicitationService->getFormData($this->getUserInterface());
+        $output = $this->tenancyReviewSolicitationGetFormDataService->getFormData($this->getUserInterface());
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }
@@ -312,7 +314,7 @@ final class AgencyAdminController extends AppController
         }
 
         try {
-            $output = $this->tenancyReviewSolicitationService->createAndSend($input, $user);
+            $output = $this->tenancyReviewSolicitationCreateService->createAndSend($input, $user);
         } catch (NotFoundException $e) {
             return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
         }

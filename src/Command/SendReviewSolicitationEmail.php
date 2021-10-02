@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Exception\NotFoundException;
 use App\Repository\TenancyReviewSolicitationRepository;
-use App\Service\TenancyReviewSolicitationService;
+use App\Service\TenancyReviewSolicitation\SendService;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class SendReviewSolicitationEmail extends Command
 
     public function __construct(
         private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
-        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        private SendService $sendService,
     ) {
         parent::__construct();
     }
@@ -51,7 +51,7 @@ class SendReviewSolicitationEmail extends Command
             throw new NotFoundException(sprintf('TenancyReviewSolicitation %d not found.', $tenancyReviewSolicitationId));
         }
 
-        $this->tenancyReviewSolicitationService->send($tenancyReviewSolicitation);
+        $this->sendService->send($tenancyReviewSolicitation);
 
         return Command::SUCCESS;
     }

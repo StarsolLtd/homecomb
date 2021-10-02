@@ -16,6 +16,7 @@ use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use App\Service\Branch\BranchFindOrCreateService;
+use App\Service\TenancyReviewSolicitation\CompleteService;
 use App\Service\User\UserService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +30,7 @@ class TenancyReviewService
         private BranchFindOrCreateService $branchFindOrCreateService,
         private InteractionService $interactionService,
         private NotificationService $notificationService,
-        private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
+        private CompleteService $completeService,
         private UserService $userService,
         private EntityManagerInterface $entityManager,
         private PostcodeRepository $postcodeRepository,
@@ -58,7 +59,7 @@ class TenancyReviewService
 
         $code = $reviewInput->getCode();
         if (null !== $code) {
-            $this->tenancyReviewSolicitationService->complete($code, $tenancyReview);
+            $this->completeService->complete($code, $tenancyReview);
         }
 
         $this->entityManager->flush();
