@@ -6,14 +6,8 @@ use App\Controller\AppController;
 use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Exception\NotFoundException;
-use App\Model\Property\PostcodeInput;
-use App\Model\SuggestPropertyInput;
-use App\Service\GetAddressService;
-use App\Service\GoogleReCaptchaService;
-use App\Service\PropertyAutocompleteService;
 use App\Service\PropertyService;
 use App\Service\User\UserService;
-use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +19,7 @@ final class PropertyController extends AppController
     use VerifyCaptchaTrait;
 
     public function __construct(
-        private GetAddressService $getAddressService,
-        private GoogleReCaptchaService $googleReCaptchaService,
         private PropertyService $propertyService,
-        private PropertyAutocompleteService $propertyAutocompleteService,
         private UserService $userService,
         protected SerializerInterface $serializer,
     ) {
@@ -92,39 +83,6 @@ final class PropertyController extends AppController
 
     /**
      * @Route (
-     *     "/api/property/suggest-property",
-     *     name="suggest-property",
-     *     methods={"GET"}
-     * )
-     */
-    public function suggestProperty(Request $request): JsonResponse
-    {
-        $term = $request->query->get('term');
-        if (null === $term) {
-            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
-        }
-
-        $input = new SuggestPropertyInput((string) $term);
-
-        $suggestions = $this->propertyAutocompleteService->search($input->getSearch());
-
-        $output = [];
-        foreach ($suggestions as $suggestion) {
-            $output[] = [
-                'value' => $suggestion->getAddress(),
-                'id' => $suggestion->getVendorId(),
-                'slug' => $suggestion->getPropertySlug(),
-            ];
-        }
-
-        return new JsonResponse(
-            $output,
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * @Route (
      *     "/api/property/{slug}",
      *     name="api-property-view",
      *     methods={"GET"}
@@ -139,34 +97,5 @@ final class PropertyController extends AppController
         }
 
         return $this->jsonResponse($view, Response::HTTP_OK);
-    }
-
-    /**
-     * @Route (
-     *     "/api/postcode",
-     *     name="api-postcode",
-     *     methods={"POST"}
-     * )
-     */
-    public function findAddressesInPostcode(Request $request): JsonResponse
-    {
-        try {
-            /** @var PostcodeInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), PostcodeInput::class, 'json');
-        } catch (Exception $e) {
-            $this->addDeserializationFailedFlashMessage();
-
-            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
-            $this->addFlash('error', 'Sorry, we were unable to process your request.');
-
-            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
-        }
-
-        $postcodeProperties = $this->getAddressService->find($input->getPostcode());
-
-        return $this->jsonResponse($postcodeProperties, Response::HTTP_OK);
     }
 }
