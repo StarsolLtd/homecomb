@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\TenancyReview;
-use App\Exception\NotFoundException;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
@@ -13,7 +11,6 @@ use App\Repository\TenancyReviewSolicitationRepository;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class TenancyReviewSolicitationService
@@ -24,7 +21,6 @@ class TenancyReviewSolicitationService
         private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
         private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger
     ) {
     }
 
@@ -53,15 +49,5 @@ class TenancyReviewSolicitationService
         $rs = $this->tenancyReviewSolicitationRepository->findOneUnfinishedByCode($code);
 
         return $this->tenancyReviewSolicitationFactory->createViewByEntity($rs);
-    }
-
-    public function complete(string $code, TenancyReview $tenancyReview): void
-    {
-        try {
-            $rs = $this->tenancyReviewSolicitationRepository->findOneUnfinishedByCode($code);
-            $rs->setTenancyReview($tenancyReview);
-        } catch (NotFoundException $e) {
-            $this->logger->error('Exception thrown completing TenancyReviewSolicitation: '.$e->getMessage());
-        }
     }
 }
