@@ -6,8 +6,6 @@ use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
 use App\Model\TenancyReviewSolicitation\FormData;
-use App\Model\TenancyReviewSolicitation\View;
-use App\Repository\TenancyReviewSolicitationRepository;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +17,6 @@ class TenancyReviewSolicitationService
         private SendService $sendService,
         private UserService $userService,
         private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
-        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
         private EntityManagerInterface $entityManager,
     ) {
     }
@@ -42,12 +39,5 @@ class TenancyReviewSolicitationService
         $this->sendService->send($tenancyReviewSolicitation, $user);
 
         return new CreateReviewSolicitationOutput(true);
-    }
-
-    public function getViewByCode(string $code): View
-    {
-        $rs = $this->tenancyReviewSolicitationRepository->findOneUnfinishedByCode($code);
-
-        return $this->tenancyReviewSolicitationFactory->createViewByEntity($rs);
     }
 }

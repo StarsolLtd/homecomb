@@ -7,8 +7,6 @@ use App\Entity\User;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\TenancyReviewSolicitation\FormData;
-use App\Model\TenancyReviewSolicitation\View;
-use App\Repository\TenancyReviewSolicitationRepository;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\TenancyReviewSolicitationService;
 use App\Service\User\UserService;
@@ -34,7 +32,6 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
     private ObjectProphecy $sendService;
     private ObjectProphecy $userService;
     private ObjectProphecy $tenancyReviewSolicitationFactory;
-    private ObjectProphecy $tenancyReviewSolicitationRepository;
     private ObjectProphecy $mailer;
 
     public function setUp(): void
@@ -42,14 +39,12 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
         $this->sendService = $this->prophesize(SendService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->tenancyReviewSolicitationFactory = $this->prophesize(TenancyReviewSolicitationFactory::class);
-        $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepository::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
 
         $this->tenancyReviewSolicitationService = new TenancyReviewSolicitationService(
             $this->sendService->reveal(),
             $this->userService->reveal(),
             $this->tenancyReviewSolicitationFactory->reveal(),
-            $this->tenancyReviewSolicitationRepository->reveal(),
             $this->entityManager->reveal(),
         );
     }
@@ -91,25 +86,6 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
         $this->tenancyReviewSolicitationFactory->createFormDataModelFromUser($user)->shouldBeCalledOnce()->willReturn($formData);
 
         $this->tenancyReviewSolicitationService->getFormData($user);
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewSolicitationService::getViewByCode
-     */
-    public function testGetViewByCode1(): void
-    {
-        $rs = (new TenancyReviewSolicitation());
-        $view = $this->prophesize(View::class);
-
-        $this->tenancyReviewSolicitationRepository->findOneUnfinishedByCode('testcode')
-            ->shouldBeCalledOnce()
-            ->willReturn($rs);
-
-        $this->tenancyReviewSolicitationFactory->createViewByEntity($rs)
-            ->shouldBeCalledOnce()
-            ->willReturn($view);
-
-        $this->tenancyReviewSolicitationService->getViewByCode('testcode');
     }
 
     private function getValidCreateReviewSolicitationInput(): CreateReviewSolicitationInput
