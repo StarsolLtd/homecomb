@@ -53,7 +53,7 @@ class PropertyFactory
             ->setLongitude($vendorProperty->getLongitude())
             ->setVendorPropertyId($vendorProperty->getVendorPropertyId());
 
-        $this->propertyHelper->generateSlug($property);
+        $property->setSlug($this->propertyHelper->generateSlug($property));
 
         $city = $this->cityService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
         $property->setCity($city);

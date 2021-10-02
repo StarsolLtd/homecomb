@@ -11,12 +11,12 @@ class PropertyHelper
 {
     public function generateSlug(Property $property): string
     {
-        if (null === $property->getVendorPropertyId()) {
+        $vendorPropertyId = $property->getVendorPropertyId();
+
+        if (null === $vendorPropertyId) {
             throw new DeveloperException('Unable to generate a slug for a Property without a vendorPropertyId.');
         }
-        $slug = substr(md5($property->getVendorPropertyId()), 0, 12);
-        $property->setSlug($slug);
 
-        return $slug;
+        return substr(md5($vendorPropertyId), 0, 12);
     }
 }
