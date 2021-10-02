@@ -6,7 +6,7 @@ use App\Entity\Agency;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\GoogleAuthenticator;
-use App\Service\UserRegistrationService;
+use App\Service\User\RegistrationService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManager;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -31,20 +31,20 @@ final class GoogleAuthenticatorTest extends TestCase
 
     private ObjectProphecy $clientRegistry;
     private ObjectProphecy $userRepository;
-    private ObjectProphecy $userRegistrationService;
+    private ObjectProphecy $registrationService;
 
     public function setUp(): void
     {
         $this->clientRegistry = $this->prophesize(ClientRegistry::class);
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->userRepository = $this->prophesize(UserRepository::class);
-        $this->userRegistrationService = $this->prophesize(UserRegistrationService::class);
+        $this->registrationService = $this->prophesize(RegistrationService::class);
 
         $this->googleAuthenticator = new GoogleAuthenticator(
             $this->clientRegistry->reveal(),
             $this->entityManager->reveal(),
             $this->userRepository->reveal(),
-            $this->userRegistrationService->reveal()
+            $this->registrationService->reveal()
         );
     }
 
@@ -80,7 +80,7 @@ final class GoogleAuthenticatorTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
-        $this->userRegistrationService->registerFromGoogleUser($googleUser)
+        $this->registrationService->registerFromGoogleUser($googleUser)
             ->shouldBeCalledOnce()
             ->willReturn($user);
 

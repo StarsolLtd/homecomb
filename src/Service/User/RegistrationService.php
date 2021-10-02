@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\User;
 
 use App\Entity\User;
 use App\Exception\ConflictException;
@@ -8,11 +8,12 @@ use App\Exception\UserException;
 use App\Factory\UserFactory;
 use App\Model\User\RegisterInput;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-class UserRegistrationService
+class RegistrationService
 {
     public function __construct(
         private UserFactory $userFactory,

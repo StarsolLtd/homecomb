@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
-use App\Service\UserRegistrationService;
+use App\Service\User\RegistrationService;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class SendVerificationEmail extends Command
 
     public function __construct(
         private UserRepository $userRepository,
-        private UserRegistrationService $userRegistrationService,
+        private RegistrationService $userRegistrationService,
     ) {
         parent::__construct();
     }

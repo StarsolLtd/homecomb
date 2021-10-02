@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\User;
 
 use App\Entity\User;
 use App\Exception\ConflictException;
@@ -9,7 +9,7 @@ use App\Factory\UserFactory;
 use App\Model\User\RegisterInput;
 use App\Repository\UserRepository;
 use App\Service\EmailService;
-use App\Service\UserRegistrationService;
+use App\Service\User\RegistrationService;
 use App\Tests\Unit\EntityManagerTrait;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,12 +24,12 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 /**
  * @covers \App\Service\UserRegistrationService
  */
-final class UserRegistrationServiceTest extends TestCase
+final class RegistrationServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
 
-    private UserRegistrationService $userRegistrationService;
+    private RegistrationService $registrationService;
 
     private ObjectProphecy $userFactory;
     private ObjectProphecy $userRepository;
@@ -45,7 +45,7 @@ final class UserRegistrationServiceTest extends TestCase
         $this->verifyEmailHelper = $this->prophesize(VerifyEmailHelperInterface::class);
         $this->emailService = $this->prophesize(EmailService::class);
 
-        $this->userRegistrationService = new UserRegistrationService(
+        $this->registrationService = new RegistrationService(
             $this->userFactory->reveal(),
             $this->userRepository->reveal(),
             $this->entityManager->reveal(),
@@ -80,7 +80,7 @@ final class UserRegistrationServiceTest extends TestCase
         $this->entityManager->flush()
             ->shouldBeCalledOnce();
 
-        $this->userRegistrationService->register($input->reveal());
+        $this->registrationService->register($input->reveal());
     }
 
     /**
@@ -102,7 +102,7 @@ final class UserRegistrationServiceTest extends TestCase
 
         $this->expectException(ConflictException::class);
 
-        $this->userRegistrationService->register($input->reveal());
+        $this->registrationService->register($input->reveal());
 
         $this->assertEntityManagerUnused();
     }
@@ -126,7 +126,7 @@ final class UserRegistrationServiceTest extends TestCase
         $this->entityManager->persist(Argument::type(User::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $user = $this->userRegistrationService->registerFromGoogleUser($googleUser->reveal());
+        $user = $this->registrationService->registerFromGoogleUser($googleUser->reveal());
 
         $this->assertEquals('turanga.leela@planet-express.com', $user->getEmail());
         $this->assertEquals('test-google-id', $user->getGoogleId());
@@ -152,7 +152,7 @@ final class UserRegistrationServiceTest extends TestCase
 
         $this->expectException(ConflictException::class);
 
-        $this->userRegistrationService->registerFromGoogleUser($googleUser->reveal());
+        $this->registrationService->registerFromGoogleUser($googleUser->reveal());
 
         $this->assertEntityManagerUnused();
     }
@@ -169,7 +169,7 @@ final class UserRegistrationServiceTest extends TestCase
 
         $this->expectException(UserException::class);
 
-        $this->userRegistrationService->registerFromGoogleUser($googleUser->reveal());
+        $this->registrationService->registerFromGoogleUser($googleUser->reveal());
 
         $this->assertEntityManagerUnused();
     }
@@ -181,7 +181,7 @@ final class UserRegistrationServiceTest extends TestCase
     {
         $user = $this->prophesizeSendVerificationEmail();
 
-        $output = $this->userRegistrationService->sendVerificationEmail($user->reveal());
+        $output = $this->registrationService->sendVerificationEmail($user->reveal());
 
         $this->assertTrue($output);
     }
