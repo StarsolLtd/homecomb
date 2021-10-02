@@ -13,8 +13,8 @@ use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
+use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
-use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\TenancyReviewSolicitationService;
 use App\Service\UserService;
@@ -35,7 +35,7 @@ final class AgencyAdminController extends AppController
     public function __construct(
         private AgencyAdminService $agencyAdminService,
         private AgencyService $agencyService,
-        private BranchService $branchService,
+        private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
         private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
@@ -203,7 +203,7 @@ final class AgencyAdminController extends AppController
         }
 
         try {
-            $output = $this->branchService->createBranch($input, $this->getUserInterface());
+            $output = $this->branchCreateService->createBranch($input, $this->getUserInterface());
         } catch (ConflictException $e) {
             $this->addFlash('warning', $e->getMessage());
 

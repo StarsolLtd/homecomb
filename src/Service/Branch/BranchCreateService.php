@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Branch;
 
 use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
@@ -8,10 +8,12 @@ use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
 use App\Repository\BranchRepository;
+use App\Service\NotificationService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class BranchService
+class BranchCreateService
 {
     public function __construct(
         private NotificationService $notificationService,
