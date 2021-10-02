@@ -7,12 +7,15 @@ use App\Entity\Branch;
 use App\Exception\DeveloperException;
 use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @covers \App\Util\BranchHelper
  */
 final class BranchHelperTest extends TestCase
 {
+    use ProphecyTrait;
+
     private BranchHelper $branchHelper;
 
     public function setUp(): void
@@ -25,15 +28,18 @@ final class BranchHelperTest extends TestCase
      */
     public function testGenerateSlug1(): void
     {
-        $agency = (new Agency())->setName('Norwich Lettings');
-        $branch = (new Branch())->setName('Drayton')->setAgency($agency);
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
 
-        $result = $this->branchHelper->generateSlug($branch);
+        $branch->getName()->shouldBeCalledOnce()->willReturn('Drayton');
+        $branch->getAgency()->shouldBeCalledOnce()->willReturn($agency);
+        $agency->getName()->shouldBeCalledOnce()->willReturn('Norwich Lettings');
+
+        $result = $this->branchHelper->generateSlug($branch->reveal());
 
         $expectedSlug = 'da97e7f6c0e80';
 
         $this->assertEquals($expectedSlug, $result);
-        $this->assertEquals($expectedSlug, $branch->getSlug());
     }
 
     /**
@@ -42,10 +48,11 @@ final class BranchHelperTest extends TestCase
      */
     public function testGenerateSlug2(): void
     {
-        $branch = new Branch();
+        $branch = $this->prophesize(Branch::class);
+        $branch->getName()->shouldBeCalledOnce()->willReturn('');
 
         $this->expectException(DeveloperException::class);
 
-        $this->branchHelper->generateSlug($branch);
+        $this->branchHelper->generateSlug($branch->reveal());
     }
 }

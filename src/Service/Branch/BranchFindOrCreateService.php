@@ -41,7 +41,7 @@ class BranchFindOrCreateService
             ->setAgency($agency)
             ->setName($branchName);
 
-        $this->branchHelper->generateSlug($branch);
+        $branch->setSlug($this->branchHelper->generateSlug($branch));
 
         return $branch;
     }

@@ -306,7 +306,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         }
 
         foreach ($branches as $branch) {
-            $this->branchHelper->generateSlug($branch);
+            $branch->setSlug($this->branchHelper->generateSlug($branch));
             $manager->persist($branch);
 
             $agency = $branch->getAgency();
