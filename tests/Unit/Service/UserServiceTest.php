@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
-use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 
@@ -196,46 +195,6 @@ final class UserServiceTest extends TestCase
         $output = $this->userService->getEntityFromInterface(null);
 
         $this->assertNull($output);
-    }
-
-    /**
-     * @covers \App\Service\UserService::sendResetPasswordEmail
-     */
-    public function testSendResetPasswordEmail1(): void
-    {
-        $user = $this->prophesize(User::class);
-
-        $user->getEmail()->shouldBeCalledOnce()->willReturn('turanga.leela@planet-express.com');
-        $user->getFirstName()->shouldBeCalledOnce()->willReturn('Turanga');
-        $user->getLastName()->shouldBeCalledOnce()->willReturn('Leela');
-
-        $resetPasswordToken = $this->prophesize(ResetPasswordToken::class);
-
-        $this->resetPasswordHelper->generateResetToken($user)
-            ->shouldBeCalledOnce()
-            ->willReturn($resetPasswordToken);
-
-        $this->resetPasswordHelper->getTokenLifetime()
-            ->shouldBeCalledOnce()
-            ->willReturn(120);
-
-        $this->emailService->process(
-            'turanga.leela@planet-express.com',
-            'Turanga Leela',
-            'HomeComb - Reset your password',
-            'reset-password',
-            [
-                'resetToken' => $resetPasswordToken,
-                'tokenLifetime' => 120,
-            ],
-            null,
-            null,
-            $user
-        )->shouldBeCalledOnce();
-
-        $output = $this->userService->sendResetPasswordEmail($user->reveal());
-
-        $this->assertTrue($output);
     }
 
     private function prophesizeSendVerificationEmail(): ObjectProphecy

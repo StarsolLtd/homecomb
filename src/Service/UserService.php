@@ -9,7 +9,6 @@ use App\Model\User\Flat;
 use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
-use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class UserService
@@ -74,33 +73,5 @@ class UserService
         }
 
         return $this->flatModelFactory->getUserFlatModel($user);
-    }
-
-    public function sendResetPasswordEmail(User $user): bool
-    {
-        $userEmail = $user->getEmail();
-        $userFullName = $user->getFirstName().' '.$user->getLastName();
-
-        try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-        } catch (ResetPasswordExceptionInterface $e) {
-            throw new UserException($e->getMessage());
-        }
-
-        $this->emailService->process(
-            $userEmail,
-            $userFullName,
-            'HomeComb - Reset your password',
-            'reset-password',
-            [
-                'resetToken' => $resetToken,
-                'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
-            ],
-            null,
-            null,
-            $user
-        );
-
-        return true;
     }
 }

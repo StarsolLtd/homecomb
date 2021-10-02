@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
@@ -35,7 +34,6 @@ final class UserRegistrationServiceTest extends TestCase
     private ObjectProphecy $userFactory;
     private ObjectProphecy $userRepository;
     private ObjectProphecy $entityManager;
-    private ObjectProphecy $resetPasswordHelper;
     private ObjectProphecy $verifyEmailHelper;
     private ObjectProphecy $emailService;
 
@@ -44,7 +42,6 @@ final class UserRegistrationServiceTest extends TestCase
         $this->userFactory = $this->prophesize(UserFactory::class);
         $this->userRepository = $this->prophesize(UserRepository::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->resetPasswordHelper = $this->prophesize(ResetPasswordHelperInterface::class);
         $this->verifyEmailHelper = $this->prophesize(VerifyEmailHelperInterface::class);
         $this->emailService = $this->prophesize(EmailService::class);
 
@@ -52,7 +49,6 @@ final class UserRegistrationServiceTest extends TestCase
             $this->userFactory->reveal(),
             $this->userRepository->reveal(),
             $this->entityManager->reveal(),
-            $this->resetPasswordHelper->reveal(),
             $this->verifyEmailHelper->reveal(),
             $this->emailService->reveal(),
         );
