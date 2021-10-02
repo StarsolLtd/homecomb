@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Branch;
 
 use App\Entity\Agency;
 use App\Entity\Branch;

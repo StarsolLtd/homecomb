@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Branch;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
@@ -9,9 +9,8 @@ use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
-use App\Model\Branch\UpdateBranchInput;
 use App\Repository\BranchRepository;
-use App\Service\BranchService;
+use App\Service\Branch\BranchCreateService;
 use App\Service\NotificationService;
 use App\Service\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -21,13 +20,16 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class BranchServiceTest extends TestCase
+/**
+ * @covers \App\Service\Branch\BranchCreateService
+ */
+final class BranchCreateServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
     use UserEntityFromInterfaceTrait;
 
-    private BranchService $branchService;
+    private BranchCreateService $branchCreateService;
 
     private ObjectProphecy $notificationService;
     private ObjectProphecy $entityManager;
@@ -42,7 +44,7 @@ final class BranchServiceTest extends TestCase
         $this->branchFactory = $this->prophesize(BranchFactory::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
-        $this->branchService = new BranchService(
+        $this->branchCreateService = new BranchCreateService(
             $this->notificationService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
@@ -51,6 +53,9 @@ final class BranchServiceTest extends TestCase
         );
     }
 
+    /**
+     * @covers \App\Service\Branch\BranchCreateService::createBranch
+     */
     public function testCreateBranch(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -73,11 +78,14 @@ final class BranchServiceTest extends TestCase
 
         $this->notificationService->sendBranchModerationNotification($branch)->shouldBeCalledOnce();
 
-        $output = $this->branchService->createBranch($createBranchInput, $user);
+        $output = $this->branchCreateService->createBranch($createBranchInput, $user);
 
         $this->assertTrue($output->isSuccess());
     }
 
+    /**
+     * @covers \App\Service\Branch\BranchCreateService::createBranch
+     */
     public function testCreateBranchThrowsConflictExceptionIfAlreadyExists(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -95,9 +103,12 @@ final class BranchServiceTest extends TestCase
 
         $this->assertEntityManagerUnused();
 
-        $this->branchService->createBranch($createBranchInput, $user);
+        $this->branchCreateService->createBranch($createBranchInput, $user);
     }
 
+    /**
+     * @covers \App\Service\Branch\BranchCreateService::createBranch
+     */
     public function testCreateBranchThrowsForbiddenExceptionIfUserNotAgencyAdmin(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -109,34 +120,7 @@ final class BranchServiceTest extends TestCase
 
         $this->assertEntityManagerUnused();
 
-        $this->branchService->createBranch($createBranchInput, $user);
-    }
-
-    public function testUpdateBranch(): void
-    {
-        $slug = 'testbranchslug';
-        $updateBranchInput = new UpdateBranchInput(
-            '0555 555 555',
-            'updated.branch@starsol.co.uk',
-            'SAMPLE'
-        );
-
-        $user = new User();
-        $branch = new Branch();
-
-        $this->assertGetUserEntityFromInterface($user);
-
-        $this->branchRepository->findOneBySlugUserCanManage('testbranchslug', $user)
-            ->shouldBeCalledOnce()
-            ->willReturn($branch);
-
-        $this->entityManager->flush()->shouldBeCalledOnce();
-
-        $output = $this->branchService->updateBranch($slug, $updateBranchInput, $user);
-
-        $this->assertEquals('0555 555 555', $branch->getTelephone());
-        $this->assertEquals('updated.branch@starsol.co.uk', $branch->getEmail());
-        $this->assertTrue($output->isSuccess());
+        $this->branchCreateService->createBranch($createBranchInput, $user);
     }
 
     private function getValidCreateBranchInput(): CreateBranchInput

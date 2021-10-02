@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Branch;
 
 use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\CreateBranchOutput;
-use App\Model\Branch\UpdateBranchInput;
-use App\Model\Branch\UpdateBranchOutput;
 use App\Repository\BranchRepository;
+use App\Service\NotificationService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class BranchService
+class BranchCreateService
 {
     public function __construct(
         private NotificationService $notificationService,
@@ -49,19 +48,5 @@ class BranchService
         $this->notificationService->sendBranchModerationNotification($branch);
 
         return new CreateBranchOutput(true);
-    }
-
-    public function updateBranch(string $slug, UpdateBranchInput $updateBranchInput, ?UserInterface $user): UpdateBranchOutput
-    {
-        $user = $this->userService->getEntityFromInterface($user);
-
-        $branch = $this->branchRepository->findOneBySlugUserCanManage($slug, $user);
-
-        $branch->setTelephone($updateBranchInput->getTelephone())
-            ->setEmail($updateBranchInput->getEmail());
-
-        $this->entityManager->flush();
-
-        return new UpdateBranchOutput(true);
     }
 }

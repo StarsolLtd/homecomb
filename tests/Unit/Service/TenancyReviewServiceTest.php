@@ -19,7 +19,7 @@ use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use App\Service\AgencyService;
-use App\Service\BranchFindOrCreateService;
+use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReviewService;

@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
-use App\Service\BranchGetViewService;
+use App\Service\Branch\BranchGetViewService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

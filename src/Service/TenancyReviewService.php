@@ -15,6 +15,7 @@ use App\Model\TenancyReview\View;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
+use App\Service\Branch\BranchFindOrCreateService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
