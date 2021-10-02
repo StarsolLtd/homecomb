@@ -22,7 +22,7 @@ class AgencyFactory
             ->setPostcode($createAgencyInput->getPostcode())
             ->setExternalUrl($createAgencyInput->getExternalUrl());
 
-        $this->agencyHelper->generateSlug($agency);
+        $agency->setSlug($this->agencyHelper->generateSlug($agency));
 
         return $agency;
     }

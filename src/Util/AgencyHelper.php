@@ -11,12 +11,11 @@ class AgencyHelper
 {
     public function generateSlug(Agency $agency): string
     {
-        if ('' === $agency->getName()) {
+        $agencyName = $agency->getName();
+        if ('' === $agencyName) {
             throw new DeveloperException('Unable to generate a slug for a Agency without a name');
         }
-        $slug = substr(md5($agency->getName()), 0, 14);
-        $agency->setSlug($slug);
 
-        return $slug;
+        return substr(md5($agencyName), 0, 14);
     }
 }
