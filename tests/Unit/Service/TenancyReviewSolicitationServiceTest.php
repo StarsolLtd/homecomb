@@ -6,7 +6,6 @@ use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
-use App\Model\TenancyReviewSolicitation\FormData;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\TenancyReviewSolicitationService;
 use App\Service\User\UserService;
@@ -30,7 +29,6 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
 
     private ObjectProphecy $emailService;
     private ObjectProphecy $sendService;
-    private ObjectProphecy $userService;
     private ObjectProphecy $tenancyReviewSolicitationFactory;
     private ObjectProphecy $mailer;
 
@@ -72,20 +70,6 @@ final class TenancyReviewSolicitationServiceTest extends TestCase
         $output = $this->tenancyReviewSolicitationService->createAndSend($input, $user->reveal());
 
         $this->assertTrue($output->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewSolicitationService::getFormData
-     */
-    public function testGetFormData1(): void
-    {
-        $user = new User();
-        $formData = $this->prophesize(FormData::class);
-
-        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
-        $this->tenancyReviewSolicitationFactory->createFormDataModelFromUser($user)->shouldBeCalledOnce()->willReturn($formData);
-
-        $this->tenancyReviewSolicitationService->getFormData($user);
     }
 
     private function getValidCreateReviewSolicitationInput(): CreateReviewSolicitationInput

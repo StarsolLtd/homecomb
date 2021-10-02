@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
-use App\Model\TenancyReviewSolicitation\FormData;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,13 +18,6 @@ class TenancyReviewSolicitationService
         private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
         private EntityManagerInterface $entityManager,
     ) {
-    }
-
-    public function getFormData(?UserInterface $user): FormData
-    {
-        $user = $this->userService->getEntityFromInterface($user);
-
-        return $this->tenancyReviewSolicitationFactory->createFormDataModelFromUser($user);
     }
 
     public function createAndSend(CreateReviewSolicitationInput $input, ?UserInterface $user): CreateReviewSolicitationOutput

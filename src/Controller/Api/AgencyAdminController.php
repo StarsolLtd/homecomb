@@ -17,6 +17,7 @@ use App\Service\Branch\BranchAdminService;
 use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
+use App\Service\TenancyReviewSolicitation\GetFormDataService;
 use App\Service\TenancyReviewSolicitationService;
 use App\Service\User\UserService;
 use Exception;
@@ -40,6 +41,7 @@ final class AgencyAdminController extends AppController
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
+        private GetFormDataService $getFormDataService,
         private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
         private UserService $userService,
         private AgencyRepository $agencyRepository,
@@ -269,7 +271,7 @@ final class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        $output = $this->tenancyReviewSolicitationService->getFormData($this->getUserInterface());
+        $output = $this->getFormDataService->getFormData($this->getUserInterface());
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }
