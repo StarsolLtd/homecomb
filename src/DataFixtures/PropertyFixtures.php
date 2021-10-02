@@ -111,7 +111,7 @@ class PropertyFixtures extends AbstractDataFixtures
         foreach ($properties as $property) {
             $property->setPublished(true);
             $property->setCountryCode('UK');
-            $this->propertyHelper->generateSlug($property);
+            $property->setSlug($this->propertyHelper->generateSlug($property));
             $manager->persist($property);
 
             $this->addReference('property-'.$property->getVendorPropertyId(), $property);

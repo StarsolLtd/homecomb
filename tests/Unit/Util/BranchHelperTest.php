@@ -24,7 +24,7 @@ final class BranchHelperTest extends TestCase
     }
 
     /**
-     * @covers \App\Util\PropertyHelper::generateSlug
+     * @covers \App\Util\BranchHelper::generateSlug
      */
     public function testGenerateSlug1(): void
     {
@@ -43,7 +43,7 @@ final class BranchHelperTest extends TestCase
     }
 
     /**
-     * @covers \App\Util\PropertyHelper::generateSlug
+     * @covers \App\Util\BranchHelper::generateSlug
      * Test throws DeveloperException when Branch has no name.
      */
     public function testGenerateSlug2(): void
