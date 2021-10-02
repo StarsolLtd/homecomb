@@ -13,6 +13,7 @@ use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
+use App\Service\Branch\BranchAdminService;
 use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
@@ -35,6 +36,7 @@ final class AgencyAdminController extends AppController
     public function __construct(
         private AgencyAdminService $agencyAdminService,
         private AgencyService $agencyService,
+        private BranchAdminService $branchAdminService,
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
@@ -303,7 +305,7 @@ final class AgencyAdminController extends AppController
         }
 
         $user = $this->getUserInterface();
-        if (!$this->userService->isUserBranchAdmin($input->getBranchSlug(), $user)) {
+        if (!$this->branchAdminService->isUserBranchAdmin($input->getBranchSlug(), $user)) {
             $this->addFlash('error', 'Sorry, you are not logged in as an admin for this agency.');
 
             return new JsonResponse([], Response::HTTP_FORBIDDEN);

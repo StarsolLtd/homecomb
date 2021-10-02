@@ -2,13 +2,10 @@
 
 namespace App\Tests\Unit\Service\User;
 
-use App\Entity\Agency;
-use App\Entity\Branch;
 use App\Entity\User;
 use App\Exception\UserException;
 use App\Factory\FlatModelFactory;
 use App\Model\User\Flat;
-use App\Repository\BranchRepository;
 use App\Repository\UserRepository;
 use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
@@ -25,112 +22,22 @@ final class UserServiceTest extends TestCase
 
     private UserService $userService;
 
-    private ObjectProphecy $branchRepository;
     private ObjectProphecy $userRepository;
     private ObjectProphecy $flatModelFactory;
 
     public function setUp(): void
     {
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
         $this->userRepository = $this->prophesize(UserRepository::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
 
         $this->userService = new UserService(
-            $this->branchRepository->reveal(),
             $this->userRepository->reveal(),
             $this->flatModelFactory->reveal(),
         );
     }
 
     /**
-     * @covers \App\Service\UserService::isUserBranchAdmin
-     * Test returns true when the user's admin agency ID matches the branch's agency ID
-     */
-    public function testIsUserBranchAdmin1(): void
-    {
-        $user = $this->prophesize(User::class);
-        $branch = $this->prophesize(Branch::class);
-        $agency = $this->prophesize(Agency::class);
-        $branchAgency = $this->prophesize(Agency::class);
-
-        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
-        $branch->getAgency()->shouldBeCalled()->willReturn($branchAgency);
-        $branchAgency->getId()->shouldBeCalled()->willReturn(42);
-        $agency->getId()->shouldBeCalled()->willReturn(42);
-
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
-            ->shouldBeCalled()
-            ->willReturn($branch);
-
-        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
-
-        $this->assertTrue($output);
-    }
-
-    /**
-     * @covers \App\Service\UserService::isUserBranchAdmin
-     * Test returns false when the user's admin agency ID does not match the branch's agency ID
-     */
-    public function testIsUserBranchAdmin2(): void
-    {
-        $user = $this->prophesize(User::class);
-        $branch = $this->prophesize(Branch::class);
-        $agency = $this->prophesize(Agency::class);
-        $branchAgency = $this->prophesize(Agency::class);
-
-        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
-        $branch->getAgency()->shouldBeCalled()->willReturn($branchAgency);
-        $branchAgency->getId()->shouldBeCalled()->willReturn(42);
-        $agency->getId()->shouldBeCalled()->willReturn(88);
-
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
-            ->shouldBeCalled()
-            ->willReturn($branch);
-
-        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
-
-        $this->assertFalse($output);
-    }
-
-    /**
-     * @covers \App\Service\UserService::isUserBranchAdmin
-     * Test returns false when the user is not an agency admin
-     */
-    public function testIsUserBranchAdmin3(): void
-    {
-        $user = $this->prophesize(User::class);
-
-        $user->getAdminAgency()->shouldBeCalled()->willReturn(null);
-
-        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
-
-        $this->assertFalse($output);
-    }
-
-    /**
-     * @covers \App\Service\UserService::isUserBranchAdmin
-     * Test returns false when the branch is not associated with an agency
-     */
-    public function testIsUserBranchAdmin4(): void
-    {
-        $user = $this->prophesize(User::class);
-        $branch = $this->prophesize(Branch::class);
-        $agency = $this->prophesize(Agency::class);
-
-        $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
-        $branch->getAgency()->shouldBeCalled()->willReturn(null);
-
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
-            ->shouldBeCalled()
-            ->willReturn($branch);
-
-        $output = $this->userService->isUserBranchAdmin('branchslug', $user->reveal());
-
-        $this->assertFalse($output);
-    }
-
-    /**
-     * @covers \App\Service\UserService::getFlatModelFromUserInterface
+     * @covers \App\Service\User\UserService::getFlatModelFromUserInterface
      */
     public function testGetFlatModelFromUserInterface1(): void
     {
@@ -145,7 +52,7 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserService::getFlatModelFromUserInterface
+     * @covers \App\Service\User\UserService::getFlatModelFromUserInterface
      * Test returns null when user is null
      */
     public function testGetFlatModelFromUserInterface2(): void
@@ -156,7 +63,7 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserService::getUserEntityOrNullFromUserInterface
+     * @covers \App\Service\User\UserService::getUserEntityOrNullFromUserInterface
      * Test gets user entity from repository when $user is not already an entity but does implement UserInterface
      */
     public function testGetUserEntityOrNullFromUserInterface1(): void
@@ -176,7 +83,7 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserService::getEntityFromInterface
+     * @covers \App\Service\User\UserService::getEntityFromInterface
      * Test returns null when $user is null
      */
     public function testGetEntityFromInterface1(): void
