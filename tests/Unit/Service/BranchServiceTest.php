@@ -9,7 +9,6 @@ use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
-use App\Model\Branch\UpdateBranchInput;
 use App\Repository\BranchRepository;
 use App\Service\BranchService;
 use App\Service\NotificationService;
@@ -110,33 +109,6 @@ final class BranchServiceTest extends TestCase
         $this->assertEntityManagerUnused();
 
         $this->branchService->createBranch($createBranchInput, $user);
-    }
-
-    public function testUpdateBranch(): void
-    {
-        $slug = 'testbranchslug';
-        $updateBranchInput = new UpdateBranchInput(
-            '0555 555 555',
-            'updated.branch@starsol.co.uk',
-            'SAMPLE'
-        );
-
-        $user = new User();
-        $branch = new Branch();
-
-        $this->assertGetUserEntityFromInterface($user);
-
-        $this->branchRepository->findOneBySlugUserCanManage('testbranchslug', $user)
-            ->shouldBeCalledOnce()
-            ->willReturn($branch);
-
-        $this->entityManager->flush()->shouldBeCalledOnce();
-
-        $output = $this->branchService->updateBranch($slug, $updateBranchInput, $user);
-
-        $this->assertEquals('0555 555 555', $branch->getTelephone());
-        $this->assertEquals('updated.branch@starsol.co.uk', $branch->getEmail());
-        $this->assertTrue($output->isSuccess());
     }
 
     private function getValidCreateBranchInput(): CreateBranchInput

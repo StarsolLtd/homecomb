@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Branch;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Repository\BranchRepository;
-use App\Service\BranchFindOrCreateService;
+use App\Service\Branch\BranchFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use App\Util\BranchHelper;

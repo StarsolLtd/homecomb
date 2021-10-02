@@ -13,6 +13,7 @@ use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
+use App\Service\Branch\BranchUpdateService;
 use App\Service\BranchService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\TenancyReviewSolicitationService;
@@ -35,6 +36,7 @@ final class AgencyAdminController extends AppController
         private AgencyAdminService $agencyAdminService,
         private AgencyService $agencyService,
         private BranchService $branchService,
+        private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
         private TenancyReviewSolicitationService $tenancyReviewSolicitationService,
         private UserService $userService,
@@ -243,7 +245,7 @@ final class AgencyAdminController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->branchService->updateBranch($slug, $input, $this->getUserInterface());
+        $output = $this->branchUpdateService->updateBranch($slug, $input, $this->getUserInterface());
 
         $this->addFlash('success', 'Your branch was updated successfully.');
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Branch;
 
 use App\Entity\Branch;
 use App\Factory\BranchFactory;
 use App\Model\Branch\View;
 use App\Repository\BranchRepository;
-use App\Service\BranchGetViewService;
+use App\Service\Branch\BranchGetViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
