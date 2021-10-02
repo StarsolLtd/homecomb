@@ -9,16 +9,12 @@ use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
-use App\Repository\AgencyRepository;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
 use App\Service\Branch\BranchAdminService;
 use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
-use App\Service\TenancyReviewSolicitation\CreateService as TenancyReviewSolicitationCreateService;
-use App\Service\TenancyReviewSolicitation\GetFormDataService as TenancyReviewSolicitationGetFormService;
 use App\Service\User\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,10 +37,7 @@ final class AgencyAdminController extends AppController
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
         private GoogleReCaptchaService $googleReCaptchaService,
-        private TenancyReviewSolicitationGetFormService $tenancyReviewSolicitationGetFormDataService,
-        private TenancyReviewSolicitationCreateService $tenancyReviewSolicitationCreateService,
         private UserService $userService,
-        private AgencyRepository $agencyRepository,
         protected SerializerInterface $serializer,
     ) {
     }
@@ -254,77 +247,6 @@ final class AgencyAdminController extends AppController
         $this->addFlash('success', 'Your branch was updated successfully.');
 
         return $this->jsonResponse($output, Response::HTTP_OK);
-    }
-
-    /**
-     * @Route (
-     *     "/api/verified/solicit-review",
-     *     name="solicit-review-form-data",
-     *     methods={"GET"}
-     * )
-     */
-    public function solicitReviewFormData(): JsonResponse
-    {
-        try {
-            $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (AccessDeniedException $e) {
-            throw new AccessDeniedHttpException($e->getMessage());
-        }
-
-        $output = $this->tenancyReviewSolicitationGetFormDataService->getFormData($this->getUserInterface());
-
-        return $this->jsonResponse($output, Response::HTTP_OK);
-    }
-
-    /**
-     * @Route (
-     *     "/api/verified/solicit-review",
-     *     name="solicit-review",
-     *     methods={"POST"}
-     * )
-     */
-    public function solicitReview(Request $request): JsonResponse
-    {
-        try {
-            $this->denyAccessUnlessGranted('ROLE_USER');
-        } catch (AccessDeniedException $e) {
-            throw new AccessDeniedHttpException($e->getMessage());
-        }
-
-        try {
-            /** @var CreateReviewSolicitationInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), CreateReviewSolicitationInput::class, 'json');
-        } catch (Exception $e) {
-            $this->addDeserializationFailedFlashMessage();
-
-            return $this->jsonResponse(null, Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$this->verifyCaptcha($input->getCaptchaToken(), $request)) {
-            $this->addFlash('error', 'Sorry, we were unable to process your review solicitation.');
-
-            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
-        }
-
-        $user = $this->getUserInterface();
-        if (!$this->branchAdminService->isUserBranchAdmin($input->getBranchSlug(), $user)) {
-            $this->addFlash('error', 'Sorry, you are not logged in as an admin for this agency.');
-
-            return new JsonResponse([], Response::HTTP_FORBIDDEN);
-        }
-
-        try {
-            $output = $this->tenancyReviewSolicitationCreateService->createAndSend($input, $user);
-        } catch (NotFoundException $e) {
-            return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
-        }
-
-        $this->addFlash(
-            'success',
-            'An email will be sent to '.$input->getRecipientEmail().' shortly asking them to review their tenancy.'
-        );
-
-        return $this->jsonResponse($output, Response::HTTP_CREATED);
     }
 
     /**
