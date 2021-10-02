@@ -118,7 +118,7 @@ class AgencyService
         $agency = (new Agency())
             ->setName($agencyName);
 
-        $this->agencyHelper->generateSlug($agency);
+        $agency->setSlug($this->agencyHelper->generateSlug($agency));
 
         return $agency;
     }

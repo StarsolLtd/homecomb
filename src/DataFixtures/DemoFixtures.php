@@ -257,7 +257,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
                 ->setCreatedAt(new DateTime('2020-11-27 12:00:00'))
                 ->setUpdatedAt(new DateTime('2020-11-27 12:00:00'));
 
-            $this->agencyHelper->generateSlug($agency);
+            $agency->setSlug($this->agencyHelper->generateSlug($agency));
             $manager->persist($agency);
         }
 

@@ -6,12 +6,15 @@ use App\Entity\Agency;
 use App\Exception\DeveloperException;
 use App\Util\AgencyHelper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @covers \App\Util\AgencyHelper
  */
 final class AgencyHelperTest extends TestCase
 {
+    use ProphecyTrait;
+
     private AgencyHelper $agencyHelper;
 
     public function setUp(): void
@@ -24,14 +27,14 @@ final class AgencyHelperTest extends TestCase
      */
     public function testGenerateSlug1(): void
     {
-        $agency = (new Agency())->setName('Norwich Lettings');
+        $agency = $this->prophesize(Agency::class);
+        $agency->getName()->shouldBeCalledOnce()->willReturn('Norwich Lettings');
 
-        $result = $this->agencyHelper->generateSlug($agency);
+        $result = $this->agencyHelper->generateSlug($agency->reveal());
 
         $expectedSlug = '58e5b6411117af';
 
         $this->assertEquals($expectedSlug, $result);
-        $this->assertEquals($expectedSlug, $agency->getSlug());
     }
 
     /**
