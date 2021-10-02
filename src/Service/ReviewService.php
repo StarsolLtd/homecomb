@@ -6,6 +6,7 @@ use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInput;
 use App\Model\Review\SubmitLocaleReviewOutput;
 use App\Repository\Locale\LocaleRepository;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -17,7 +17,7 @@ use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\TenancyReviewSolicitationRepository;
 use App\Service\EmailService;
 use App\Service\TenancyReviewSolicitationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

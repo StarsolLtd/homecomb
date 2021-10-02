@@ -5,7 +5,7 @@ namespace App\Security;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\DeveloperException;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

@@ -8,6 +8,7 @@ use App\Factory\FlatModelFactory;
 use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Repository\BranchRepository;
+use App\Service\User\UserService;
 use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 

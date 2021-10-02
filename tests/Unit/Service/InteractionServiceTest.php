@@ -13,7 +13,7 @@ use App\Repository\FlagRepository;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
 use App\Service\InteractionService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

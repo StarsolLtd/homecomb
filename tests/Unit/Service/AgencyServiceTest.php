@@ -16,7 +16,7 @@ use App\Model\Agency\UpdateAgencyInput;
 use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
 use App\Service\NotificationService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;

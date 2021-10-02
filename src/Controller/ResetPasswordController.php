@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
-use App\Service\UserService;
+use App\Service\User\ResetPasswordService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ final class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private UserService $userService,
+        private ResetPasswordService $resetPasswordService,
     ) {
     }
 
@@ -142,7 +142,7 @@ final class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $this->userService->sendResetPasswordEmail($user);
+        $this->resetPasswordService->sendResetPasswordEmail($user);
 
         return $this->redirectToRoute('app_check_email');
     }

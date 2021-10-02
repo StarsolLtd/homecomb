@@ -12,7 +12,7 @@ use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat;
 use App\Repository\BranchRepository;
 use App\Service\AgencyAdminService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;

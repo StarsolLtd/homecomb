@@ -15,6 +15,7 @@ use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Agency\UpdateAgencyOutput;
 use App\Repository\AgencyRepository;
+use App\Service\User\UserService;
 use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;

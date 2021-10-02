@@ -13,6 +13,7 @@ use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
 use App\Model\TenancyReviewSolicitation\FormData;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\TenancyReviewSolicitationRepository;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

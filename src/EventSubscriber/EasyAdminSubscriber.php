@@ -3,7 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Flag\Flag;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Security;

@@ -8,7 +8,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
 use App\Model\Comment\SubmitInput;
 use App\Service\CommentService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;

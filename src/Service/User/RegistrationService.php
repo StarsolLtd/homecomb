@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\User;
 
 use App\Entity\User;
 use App\Exception\ConflictException;
@@ -8,19 +8,17 @@ use App\Exception\UserException;
 use App\Factory\UserFactory;
 use App\Model\User\RegisterInput;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\GoogleUser;
-use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-class UserRegistrationService
+class RegistrationService
 {
     public function __construct(
         private UserFactory $userFactory,
         private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
-        private ResetPasswordHelperInterface $resetPasswordHelper,
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private EmailService $emailService
     ) {
@@ -89,34 +87,6 @@ class UserRegistrationService
             ],
             null,
             $user,
-            $user
-        );
-
-        return true;
-    }
-
-    public function sendResetPasswordEmail(User $user): bool
-    {
-        $userEmail = $user->getEmail();
-        $userFullName = $user->getFirstName().' '.$user->getLastName();
-
-        try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-        } catch (ResetPasswordExceptionInterface $e) {
-            throw new UserException($e->getMessage());
-        }
-
-        $this->emailService->process(
-            $userEmail,
-            $userFullName,
-            'HomeComb - Reset your password',
-            'reset-password',
-            [
-                'resetToken' => $resetToken,
-                'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
-            ],
-            null,
-            null,
             $user
         );
 

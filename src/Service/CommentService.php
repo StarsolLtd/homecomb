@@ -6,6 +6,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
 use App\Model\Comment\SubmitInput;
 use App\Model\Comment\SubmitOutput;
+use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

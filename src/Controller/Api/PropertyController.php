@@ -12,7 +12,7 @@ use App\Service\GetAddressService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\PropertyAutocompleteService;
 use App\Service\PropertyService;
-use App\Service\UserService;
+use App\Service\User\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
