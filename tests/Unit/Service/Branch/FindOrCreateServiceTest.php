@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\Branch;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Repository\BranchRepository;
-use App\Service\Branch\BranchFindOrCreateService;
+use App\Service\Branch\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use App\Util\BranchHelper;
@@ -15,16 +15,13 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\BranchFindOrCreateService
- */
-final class BranchFindOrCreateServiceTest extends TestCase
+final class FindOrCreateServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;
     use UserEntityFromInterfaceTrait;
 
-    private BranchFindOrCreateService $branchFindOrCreateService;
+    private FindOrCreateService $branchFindOrCreateService;
 
     private ObjectProphecy $branchHelper;
     private ObjectProphecy $branchRepository;
@@ -35,7 +32,7 @@ final class BranchFindOrCreateServiceTest extends TestCase
         $this->branchHelper = $this->prophesize(BranchHelper::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
-        $this->branchFindOrCreateService = new BranchFindOrCreateService(
+        $this->branchFindOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),
             $this->branchHelper->reveal(),
             $this->branchRepository->reveal(),

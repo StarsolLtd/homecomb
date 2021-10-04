@@ -9,7 +9,7 @@ use App\Model\TenancyReview\SubmitInput;
 use App\Model\TenancyReview\SubmitOutput;
 use App\Repository\PropertyRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
-use App\Service\Branch\BranchFindOrCreateService;
+use App\Service\Branch\FindOrCreateService as BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReviewSolicitation\CompleteService;

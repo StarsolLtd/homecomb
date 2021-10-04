@@ -6,16 +6,16 @@ use App\Entity\Agency;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
 use App\Repository\AgencyRepository;
-use App\Service\Agency\GetViewService;
+use App\Service\Agency\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class GetViewServiceTest extends TestCase
+final class ViewServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private GetViewService $getViewService;
+    private ViewService $getViewService;
 
     private ObjectProphecy $agencyFactory;
     private ObjectProphecy $agencyRepository;
@@ -25,7 +25,7 @@ final class GetViewServiceTest extends TestCase
         $this->agencyFactory = $this->prophesize(AgencyFactory::class);
         $this->agencyRepository = $this->prophesize(AgencyRepository::class);
 
-        $this->getViewService = new GetViewService(
+        $this->getViewService = new ViewService(
             $this->agencyFactory->reveal(),
             $this->agencyRepository->reveal(),
         );

@@ -6,7 +6,7 @@ use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
 use App\Repository\AgencyRepository;
 
-class GetViewService
+class ViewService
 {
     public function __construct(
         private AgencyFactory $agencyFactory,

@@ -13,7 +13,7 @@ use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class BranchCreateService
+class CreateService
 {
     public function __construct(
         private NotificationService $notificationService,

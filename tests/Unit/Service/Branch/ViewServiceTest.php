@@ -6,16 +6,16 @@ use App\Entity\Branch;
 use App\Factory\BranchFactory;
 use App\Model\Branch\View;
 use App\Repository\BranchRepository;
-use App\Service\Branch\BranchGetViewService;
+use App\Service\Branch\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class BranchGetViewServiceTest extends TestCase
+final class ViewServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BranchGetViewService $branchGetViewService;
+    private ViewService $branchGetViewService;
 
     private ObjectProphecy $branchFactory;
     private ObjectProphecy $branchRepository;
@@ -25,7 +25,7 @@ final class BranchGetViewServiceTest extends TestCase
         $this->branchFactory = $this->prophesize(BranchFactory::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
-        $this->branchGetViewService = new BranchGetViewService(
+        $this->branchGetViewService = new ViewService(
             $this->branchFactory->reveal(),
             $this->branchRepository->reveal(),
         );
