@@ -6,7 +6,7 @@ use App\Factory\BranchFactory;
 use App\Model\Branch\View;
 use App\Repository\BranchRepository;
 
-class BranchGetViewService
+class ViewService
 {
     public function __construct(
         private BranchFactory $branchFactory,
