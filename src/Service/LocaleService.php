@@ -12,7 +12,6 @@ use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\LocaleSearchResults;
-use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
 use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
@@ -28,13 +27,6 @@ class LocaleService
         private CityLocaleRepository $cityLocaleRepository,
         private DistrictLocaleRepository $districtLocaleRepository
     ) {
-    }
-
-    public function getViewBySlug(string $slug): View
-    {
-        $locale = $this->localeRepository->findOnePublishedBySlug($slug);
-
-        return $this->localeFactory->createViewFromEntity($locale);
     }
 
     public function findOrCreateByCity(City $city): CityLocale

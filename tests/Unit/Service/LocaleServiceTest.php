@@ -12,7 +12,6 @@ use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\LocaleSearchResults;
-use App\Model\Locale\View;
 use App\Repository\Locale\CityLocaleRepository;
 use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
@@ -54,27 +53,6 @@ final class LocaleServiceTest extends TestCase
             $this->cityLocaleRepository->reveal(),
             $this->districtLocaleRepository->reveal(),
         );
-    }
-
-    /**
-     * @covers \App\Service\LocaleService::getViewBySlug
-     */
-    public function testGetViewBySlug(): void
-    {
-        $locale = (new Locale());
-        $view = new View('localeslug', 'Alton');
-
-        $this->localeRepository->findOnePublishedBySlug('localeslug')
-            ->shouldBeCalledOnce()
-            ->willReturn($locale);
-
-        $this->localeFactory->createViewFromEntity($locale)
-            ->shouldBeCalledOnce()
-            ->willReturn($view);
-
-        $output = $this->localeService->getViewBySlug('localeslug');
-
-        $this->assertEquals($view, $output);
     }
 
     /**
