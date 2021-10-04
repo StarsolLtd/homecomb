@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Entity\Vote\CommentVote;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
-use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Vote\SubmitInput;
@@ -262,57 +261,11 @@ final class VoteServiceTest extends TestCase
 
         $vote->getId()->shouldBeCalledOnce()->willReturn(234);
 
-        $this->interactionService->record('Vote', 234, $requestDetails, $user)
+        $this->interactionService->record(InteractionService::TYPE_VOTE, 234, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
         $output = $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
 
         $this->assertTrue($output->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\VoteService::vote
-     * Test catches exception when thrown by InteractionService::record.
-     */
-    public function testVote6(): void
-    {
-        $input = $this->prophesize(SubmitInput::class);
-        $output = $this->prophesize(SubmitOutput::class);
-        $user = $this->prophesize(User::class);
-        $vote = $this->prophesize(TenancyReviewVote::class);
-        $tenancyReview = $this->prophesize(TenancyReview::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
-
-        $this->assertGetUserEntityFromInterface($user);
-
-        $input->getEntityName()
-            ->shouldBeCalledTimes(2)
-            ->willReturn('TenancyReview');
-
-        $input->getEntityId()
-            ->shouldBeCalledOnce()
-            ->willReturn(789);
-
-        $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($user, 789)
-            ->shouldBeCalledOnce()
-            ->willReturn(null);
-
-        $this->voteFactory->createEntityFromSubmitInput($input, $user)
-            ->shouldBeCalledOnce()
-            ->willReturn($vote);
-
-        $this->assertEntitiesArePersistedAndFlush([$vote]);
-
-        $vote->getId()->shouldBeCalledOnce()->willReturn(234);
-
-        $this->interactionService->record('Vote', 234, $requestDetails, $user)
-            ->shouldBeCalledOnce()
-            ->willThrow(UnexpectedValueException::class);
-
-        $vote->getTenancyReview()->shouldBeCalledOnce()->willReturn($tenancyReview);
-
-        $this->voteFactory->createSubmitOutputFromTenancyReview($tenancyReview)->willReturn($output);
-
-        $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());
     }
 }

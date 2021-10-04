@@ -2,7 +2,6 @@
 
 namespace App\Service\TenancyReview;
 
-use App\Exception\UnexpectedValueException;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\TenancyReview\SubmitInput;
@@ -58,18 +57,7 @@ class CreateService
 
         $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview);
 
-        if (null !== $requestDetails) {
-            try {
-                $this->interactionService->record(
-                    'Review',
-                    $tenancyReview->getId(),
-                    $requestDetails,
-                    $user
-                );
-            } catch (UnexpectedValueException $e) {
-                // Shrug shoulders
-            }
-        }
+        $this->interactionService->record(InteractionService::TYPE_TENANCY_REVIEW, $tenancyReview->getId(), $requestDetails, $user);
 
         return new SubmitOutput(true);
     }

@@ -4,7 +4,6 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
-use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInput;
 use App\Model\Interaction\RequestDetails;
@@ -74,40 +73,8 @@ final class FlagServiceTest extends TestCase
 
         $flag->getId()->shouldBeCalledOnce()->willReturn(234);
 
-        $this->interactionService->record('Flag', 234, $requestDetails, $user)
+        $this->interactionService->record(InteractionService::TYPE_FLAG, 234, $requestDetails, $user)
             ->shouldBeCalledOnce();
-
-        $output = $this->flagService->submitFlag($input->reveal(), $user->reveal(), $requestDetails->reveal());
-
-        $this->assertTrue($output->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\FlagService::submitFlag
-     * Test catches exception when thrown by InteractionService::record.
-     */
-    public function testSubmitFlag2(): void
-    {
-        $input = $this->prophesize(SubmitInput::class);
-        $user = $this->prophesize(User::class);
-        $flag = $this->prophesize(TenancyReviewFlag::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
-
-        $this->assertGetUserEntityOrNullFromInterface($user);
-
-        $this->flagFactory->createEntityFromSubmitInput($input, $user)
-            ->shouldBeCalledOnce()
-            ->willReturn($flag);
-
-        $this->assertEntitiesArePersistedAndFlush([$flag]);
-
-        $this->notificationService->sendFlagModerationNotification($flag)->shouldBeCalledOnce();
-
-        $flag->getId()->shouldBeCalledOnce()->willReturn(234);
-
-        $this->interactionService->record('Flag', 234, $requestDetails, $user)
-            ->shouldBeCalledOnce()
-            ->willThrow(UnexpectedValueException::class);
 
         $output = $this->flagService->submitFlag($input->reveal(), $user->reveal(), $requestDetails->reveal());
 

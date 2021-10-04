@@ -7,7 +7,6 @@ use App\Entity\Vote\CommentVote;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
-use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Vote\SubmitInput;
@@ -46,18 +45,7 @@ class VoteService
 
         $this->entityManager->flush();
 
-        if (null !== $requestDetails) {
-            try {
-                $this->interactionService->record(
-                    'Vote',
-                    $vote->getId(),
-                    $requestDetails,
-                    $user
-                );
-            } catch (UnexpectedValueException $e) {
-                // Shrug shoulders
-            }
-        }
+        $this->interactionService->record(InteractionService::TYPE_VOTE, $vote->getId(), $requestDetails, $user);
 
         switch ($input->getEntityName()) {
             case 'Comment':
