@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInput;
 use App\Model\Flag\SubmitOutput;
@@ -36,18 +35,7 @@ class FlagService
 
         $this->notificationService->sendFlagModerationNotification($flag);
 
-        if (null !== $requestDetails) {
-            try {
-                $this->interactionService->record(
-                    'Flag',
-                    $flag->getId(),
-                    $requestDetails,
-                    $user
-                );
-            } catch (UnexpectedValueException $e) {
-                // Shrug shoulders
-            }
-        }
+        $this->interactionService->record('Flag', $flag->getId(), $requestDetails, $user);
 
         return new SubmitOutput(true);
     }

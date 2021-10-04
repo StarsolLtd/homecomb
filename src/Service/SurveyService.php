@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
-use App\Exception\UnexpectedValueException;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
 use App\Model\Interaction\RequestDetails;
@@ -67,18 +66,7 @@ class SurveyService
         $this->entityManager->persist($answer);
         $this->entityManager->flush();
 
-        if (null !== $requestDetails) {
-            try {
-                $this->interactionService->record(
-                    'Answer',
-                    $answer->getId(),
-                    $requestDetails,
-                    $user
-                );
-            } catch (UnexpectedValueException $e) {
-                // Shrug shoulders
-            }
-        }
+        $this->interactionService->record('Answer', $answer->getId(), $requestDetails, $user);
 
         return new SubmitAnswerOutput(true);
     }

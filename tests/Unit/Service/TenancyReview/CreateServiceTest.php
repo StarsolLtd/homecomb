@@ -7,7 +7,6 @@ use App\Entity\Branch;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Entity\User;
-use App\Exception\UnexpectedValueException;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetails;
 use App\Model\TenancyReview\SubmitInput;
@@ -78,28 +77,6 @@ final class CreateServiceTest extends TestCase
 
         $this->interactionService->record('Review', 45, $requestDetails, $user)
             ->shouldBeCalledOnce();
-
-        $submitOutput = $this->createService->submitReview(
-            $input->reveal(),
-            $user->reveal(),
-            $requestDetails->reveal()
-        );
-
-        $this->assertEquals(true, $submitOutput->isSuccess());
-    }
-
-    /**
-     * Test catching of exception when thrown by InteractionService::record.
-     */
-    public function testSubmitReview2(): void
-    {
-        $requestDetails = $this->prophesize(RequestDetails::class);
-
-        list($input, $user) = $this->prophesizeSubmitReview();
-
-        $this->interactionService->record('Review', 45, $requestDetails, $user)
-            ->shouldBeCalledOnce()
-            ->willThrow(UnexpectedValueException::class);
 
         $submitOutput = $this->createService->submitReview(
             $input->reveal(),
