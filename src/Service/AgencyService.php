@@ -8,7 +8,6 @@ use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
 use App\Factory\FlatModelFactory;
-use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\CreateAgencyOutput;
 use App\Model\Agency\Flat;
@@ -85,13 +84,6 @@ class AgencyService
         $this->entityManager->flush();
 
         return new UpdateAgencyOutput(true);
-    }
-
-    public function getViewBySlug(string $agencySlug): AgencyView
-    {
-        $agency = $this->agencyRepository->findOnePublishedBySlug($agencySlug);
-
-        return $this->agencyFactory->createViewFromEntity($agency);
     }
 
     public function findOrCreateByName(string $agencyName): Agency

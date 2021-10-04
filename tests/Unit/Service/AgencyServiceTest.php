@@ -9,7 +9,6 @@ use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\AgencyFactory;
 use App\Factory\FlatModelFactory;
-use App\Model\Agency\AgencyView;
 use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
@@ -270,28 +269,5 @@ final class AgencyServiceTest extends TestCase
         $this->assertEntityManagerUnused();
 
         $this->agencyService->updateAgency($slug, $updateAgencyInput, $user);
-    }
-
-    /**
-     * @covers \App\Service\AgencyService::getViewBySlug
-     */
-    public function testGetViewBySlug1(): void
-    {
-        $agency = new Agency();
-        $agencyView = $this->prophesize(AgencyView::class);
-
-        $this->agencyRepository->findOnePublishedBySlug('agencyslug')
-            ->shouldBeCalledOnce()
-            ->willReturn($agency);
-
-        $this->agencyFactory->createViewFromEntity($agency)
-            ->shouldBeCalled()
-            ->willReturn($agencyView);
-
-        $output = $this->agencyService->getViewBySlug('agencyslug');
-
-        $this->assertEquals($agencyView->reveal(), $output);
-
-        $this->assertEntityManagerUnused();
     }
 }
