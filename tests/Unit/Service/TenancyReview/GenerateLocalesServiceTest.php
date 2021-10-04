@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\TenancyReview;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Repository\PostcodeRepository;
-use App\Service\TenancyReviewService;
+use App\Service\TenancyReview\GenerateLocalesService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,15 +15,12 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\TenancyReviewService
- */
-final class TenancyReviewServiceTest extends TestCase
+final class GenerateLocalesServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
 
-    private TenancyReviewService $tenancyReviewService;
+    private GenerateLocalesService $tenancyReviewService;
 
     private ObjectProphecy $postcodeRepository;
 
@@ -32,15 +29,12 @@ final class TenancyReviewServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
 
-        $this->tenancyReviewService = new TenancyReviewService(
+        $this->tenancyReviewService = new GenerateLocalesService(
             $this->entityManager->reveal(),
             $this->postcodeRepository->reveal(),
         );
     }
 
-    /**
-     * @covers \App\Service\TenancyReviewService::generateLocales
-     */
     public function testGenerateLocales1(): void
     {
         $property = (new Property())->setPostcode('NR2 4SF');
@@ -64,9 +58,6 @@ final class TenancyReviewServiceTest extends TestCase
         $this->assertEquals($locale, $locales->first());
     }
 
-    /**
-     * @covers \App\Service\TenancyReviewService::generateLocales
-     */
     public function testGenerateLocales2(): void
     {
         $property = (new Property())->setPostcode('');

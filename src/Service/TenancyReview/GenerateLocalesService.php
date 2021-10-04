@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\TenancyReview;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Postcode;
@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TenancyReviewService
+class GenerateLocalesService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
