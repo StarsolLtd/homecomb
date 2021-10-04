@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
-use App\Service\TenancyReviewSolicitation\GetViewService;
+use App\Service\TenancyReviewSolicitation\ViewService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class TenancyReviewSolicitationController extends AppController
 {
     public function __construct(
-        private GetViewService $getViewService,
+        private ViewService $getViewService,
         protected SerializerInterface $serializer
     ) {
     }

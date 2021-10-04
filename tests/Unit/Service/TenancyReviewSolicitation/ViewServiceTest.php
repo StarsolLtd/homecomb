@@ -6,16 +6,16 @@ use App\Entity\TenancyReviewSolicitation;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\TenancyReviewSolicitationRepository;
-use App\Service\TenancyReviewSolicitation\GetViewService;
+use App\Service\TenancyReviewSolicitation\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class GetViewServiceTest extends TestCase
+final class ViewServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private GetViewService $tenancyReviewSolicitationService;
+    private ViewService $tenancyReviewSolicitationService;
 
     private ObjectProphecy $tenancyReviewSolicitationFactory;
     private ObjectProphecy $tenancyReviewSolicitationRepository;
@@ -25,7 +25,7 @@ final class GetViewServiceTest extends TestCase
         $this->tenancyReviewSolicitationFactory = $this->prophesize(TenancyReviewSolicitationFactory::class);
         $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepository::class);
 
-        $this->tenancyReviewSolicitationService = new GetViewService(
+        $this->tenancyReviewSolicitationService = new ViewService(
             $this->tenancyReviewSolicitationFactory->reveal(),
             $this->tenancyReviewSolicitationRepository->reveal(),
         );

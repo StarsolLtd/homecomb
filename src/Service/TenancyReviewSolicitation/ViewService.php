@@ -6,7 +6,7 @@ use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\TenancyReviewSolicitationRepository;
 
-class GetViewService
+class ViewService
 {
     public function __construct(
         private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
