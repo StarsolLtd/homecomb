@@ -4,8 +4,8 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
+use App\Service\Locale\SearchService;
 use App\Service\Locale\ViewService;
-use App\Service\LocaleService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class LocaleController extends AppController
 {
     public function __construct(
-        private LocaleService $localeService,
+        private SearchService $searchService,
         private ViewService $viewService,
         protected SerializerInterface $serializer,
     ) {
@@ -48,7 +48,7 @@ final class LocaleController extends AppController
      */
     public function search(Request $request): JsonResponse
     {
-        $output = $this->localeService->search((string) $request->query->get('q'));
+        $output = $this->searchService->search((string) $request->query->get('q'));
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }

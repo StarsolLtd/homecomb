@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Locale;
 
 use App\Factory\LocaleFactory;
 use App\Model\Locale\LocaleSearchResults;
 use App\Repository\Locale\LocaleRepository;
-use App\Service\LocaleService;
+use App\Service\Locale\SearchService;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\LocaleService
- */
-final class LocaleServiceTest extends TestCase
+final class SearchServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private LocaleService $localeService;
+    private SearchService $searchService;
 
     private ObjectProphecy $localeFactory;
     private ObjectProphecy $localeRepository;
@@ -28,15 +25,12 @@ final class LocaleServiceTest extends TestCase
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
         $this->localeRepository = $this->prophesize(LocaleRepository::class);
 
-        $this->localeService = new LocaleService(
+        $this->searchService = new SearchService(
             $this->localeFactory->reveal(),
             $this->localeRepository->reveal(),
         );
     }
 
-    /**
-     * @covers \App\Service\LocaleService::search
-     */
     public function testSearch1()
     {
         $results = $this->prophesize(ArrayCollection::class);
@@ -45,7 +39,7 @@ final class LocaleServiceTest extends TestCase
         $this->localeRepository->findBySearchQuery('king')->shouldBeCalledOnce()->willReturn($results);
         $this->localeFactory->createLocaleSearchResults('king', $results)->shouldBeCalledOnce()->willReturn($localeSearchResults);
 
-        $output = $this->localeService->search('king');
+        $output = $this->searchService->search('king');
 
         $this->assertEquals($output, $localeSearchResults->reveal());
     }

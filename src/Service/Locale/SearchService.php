@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Locale;
 
 use App\Factory\LocaleFactory;
 use App\Model\Locale\LocaleSearchResults;
 use App\Repository\Locale\LocaleRepository;
 
-class LocaleService
+class SearchService
 {
     public function __construct(
         private LocaleFactory $localeFactory,
