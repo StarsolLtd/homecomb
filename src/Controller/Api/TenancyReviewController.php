@@ -7,7 +7,8 @@ use App\Exception\NotFoundException;
 use App\Factory\InteractionFactory;
 use App\Model\TenancyReview\SubmitInput;
 use App\Service\GoogleReCaptchaService;
-use App\Service\TenancyReviewService;
+use App\Service\TenancyReview\CreateService;
+use App\Service\TenancyReview\ViewService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ final class TenancyReviewController extends AppController
 
     public function __construct(
         private GoogleReCaptchaService $googleReCaptchaService,
-        private TenancyReviewService $tenancyReviewService,
+        private CreateService $createService,
+        private ViewService $viewService,
         protected InteractionFactory $interactionFactory,
         protected SerializerInterface $serializer
     ) {
@@ -51,7 +53,7 @@ final class TenancyReviewController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->tenancyReviewService->submitReview(
+        $output = $this->createService->submitReview(
             $input,
             $this->getUserInterface(),
             $this->getRequestDetails($request)
@@ -71,7 +73,7 @@ final class TenancyReviewController extends AppController
     public function view(int $id): JsonResponse
     {
         try {
-            $view = $this->tenancyReviewService->getViewById($id);
+            $view = $this->viewService->getViewById($id);
         } catch (NotFoundException $e) {
             return $this->jsonResponse(null, Response::HTTP_NOT_FOUND);
         }
@@ -88,7 +90,7 @@ final class TenancyReviewController extends AppController
      */
     public function latest(): JsonResponse
     {
-        $latest = $this->tenancyReviewService->getLatestGroup();
+        $latest = $this->viewService->getLatestGroup();
 
         return $this->jsonResponse($latest, Response::HTTP_OK);
     }

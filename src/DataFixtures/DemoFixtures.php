@@ -14,7 +14,7 @@ use App\Entity\TenancyReview;
 use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Entity\Vote\TenancyReviewVote;
-use App\Service\TenancyReviewService;
+use App\Service\TenancyReview\GenerateLocalesService;
 use App\Util\AgencyHelper;
 use App\Util\BranchHelper;
 use App\Util\ReviewHelper;
@@ -35,7 +35,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
         private AgencyHelper $agencyHelper,
         private BranchHelper $branchHelper,
         private ReviewHelper $reviewHelper,
-        private TenancyReviewService $tenancyReviewService,
+        private GenerateLocalesService $generateLocalesService,
         private UserPasswordEncoderInterface $userPasswordEncoder,
     ) {
     }
@@ -204,7 +204,7 @@ class DemoFixtures extends AbstractDataFixtures implements DependentFixtureInter
 
         foreach ($tenancyReviews as $tenancyReview) {
             $tenancyReview->setSlug($this->reviewHelper->generateTenancyReviewSlug($tenancyReview));
-            $this->tenancyReviewService->generateLocales($tenancyReview);
+            $this->generateLocalesService->generateLocales($tenancyReview);
             $manager->persist($tenancyReview);
         }
 

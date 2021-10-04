@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Exception\NotFoundException;
 use App\Repository\TenancyReviewRepository;
-use App\Service\TenancyReviewService;
+use App\Service\TenancyReview\GenerateLocalesService;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class ReviewGenerateLocalesCommand extends Command
 
     public function __construct(
         private TenancyReviewRepository $tenancyReviewRepository,
-        private TenancyReviewService $tenancyReviewService,
+        private GenerateLocalesService $generateLocalesService,
     ) {
         parent::__construct();
     }
@@ -51,7 +51,7 @@ class ReviewGenerateLocalesCommand extends Command
             throw new NotFoundException(sprintf('TenancyReview %s not found.', $tenancyReviewId));
         }
 
-        $locales = $this->tenancyReviewService->generateLocales($tenancyReview);
+        $locales = $this->generateLocalesService->generateLocales($tenancyReview);
 
         foreach ($locales as $locale) {
             $io->note(sprintf('Locale %s associated with review.', $locale->getName()));

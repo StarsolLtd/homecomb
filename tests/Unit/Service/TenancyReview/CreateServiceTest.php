@@ -1,47 +1,37 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\TenancyReview;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Locale\Locale;
-use App\Entity\Postcode;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetails;
-use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\SubmitInput;
-use App\Model\TenancyReview\View;
-use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\TenancyReviewRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
-use App\Service\TenancyReviewService;
+use App\Service\TenancyReview\CreateService;
 use App\Service\TenancyReviewSolicitation\CompleteService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\TenancyReviewService
- */
-final class TenancyReviewServiceTest extends TestCase
+final class CreateServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
 
-    private TenancyReviewService $tenancyReviewService;
+    private CreateService $createService;
 
     private ObjectProphecy $agencyFindOrCreateService;
     private ObjectProphecy $branchFindOrCreateService;
@@ -50,9 +40,7 @@ final class TenancyReviewServiceTest extends TestCase
     private ObjectProphecy $completeService;
     private ObjectProphecy $userService;
     private ObjectProphecy $entityManager;
-    private ObjectProphecy $postcodeRepository;
     private ObjectProphecy $propertyRepository;
-    private ObjectProphecy $reviewRepository;
     private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
@@ -64,12 +52,10 @@ final class TenancyReviewServiceTest extends TestCase
         $this->completeService = $this->prophesize(CompleteService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
         $this->propertyRepository = $this->prophesize(PropertyRepository::class);
-        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
-        $this->tenancyReviewService = new TenancyReviewService(
+        $this->createService = new CreateService(
             $this->agencyFindOrCreateService->reveal(),
             $this->branchFindOrCreateService->reveal(),
             $this->interactionService->reveal(),
@@ -77,66 +63,12 @@ final class TenancyReviewServiceTest extends TestCase
             $this->completeService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
-            $this->postcodeRepository->reveal(),
             $this->propertyRepository->reveal(),
-            $this->reviewRepository->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
     }
 
     /**
-     * @covers \App\Service\TenancyReviewService::publishReview
-     */
-    public function testPublishReview1(): void
-    {
-        $tenancyReview = (new TenancyReview())->setPublished(false);
-
-        $this->tenancyReviewService->publishReview($tenancyReview);
-
-        $this->assertTrue($tenancyReview->isPublished());
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::generateLocales
-     */
-    public function testGenerateLocales1(): void
-    {
-        $property = (new Property())->setPostcode('NR2 4SF');
-        $tenancyReview = (new TenancyReview())->setProperty($property);
-        $postcode = (new Postcode())->setPostcode('NR2');
-        $postcodeCollection = (new ArrayCollection());
-        $postcodeCollection->add($postcode);
-        $locale = (new Locale())->setName('Norwich')->addPostcode($postcode);
-
-        $this->postcodeRepository
-            ->findBeginningWith('NR2')
-            ->shouldBeCalledOnce()
-            ->willReturn($postcodeCollection);
-
-        $this->entityManager
-            ->flush()
-            ->shouldBeCalledOnce();
-
-        $locales = $this->tenancyReviewService->generateLocales($tenancyReview);
-
-        $this->assertEquals($locale, $locales->first());
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::generateLocales
-     */
-    public function testGenerateLocales2(): void
-    {
-        $property = (new Property())->setPostcode('');
-        $tenancyReview = (new TenancyReview())->setProperty($property);
-
-        $locales = $this->tenancyReviewService->generateLocales($tenancyReview);
-
-        $this->assertEmpty($locales);
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::submitReview
      * Test successful review submission.
      */
     public function testSubmitReview1(): void
@@ -148,7 +80,7 @@ final class TenancyReviewServiceTest extends TestCase
         $this->interactionService->record('Review', 45, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
-        $submitOutput = $this->tenancyReviewService->submitReview(
+        $submitOutput = $this->createService->submitReview(
             $input->reveal(),
             $user->reveal(),
             $requestDetails->reveal()
@@ -158,7 +90,6 @@ final class TenancyReviewServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\TenancyReviewService::submitReview
      * Test catching of exception when thrown by InteractionService::record.
      */
     public function testSubmitReview2(): void
@@ -171,61 +102,13 @@ final class TenancyReviewServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willThrow(UnexpectedValueException::class);
 
-        $submitOutput = $this->tenancyReviewService->submitReview(
+        $submitOutput = $this->createService->submitReview(
             $input->reveal(),
             $user->reveal(),
             $requestDetails->reveal()
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::getViewById
-     */
-    public function testGetViewById1(): void
-    {
-        $entity = $this->prophesize(TenancyReview::class);
-        $view = $this->prophesize(View::class);
-
-        $this->reviewRepository->findOnePublishedById(56)
-            ->shouldBeCalledOnce()
-            ->willReturn($entity);
-
-        $this->tenancyReviewFactory->createViewFromEntity($entity)
-            ->shouldBeCalledOnce()
-            ->willReturn($view->reveal());
-
-        $output = $this->tenancyReviewService->getViewById(56);
-
-        $this->assertEquals($view->reveal(), $output);
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::getLatestGroup
-     */
-    public function testGetLatestGroup1(): void
-    {
-        $reviews = [
-            $this->prophesize(TenancyReview::class),
-            $this->prophesize(TenancyReview::class),
-            $this->prophesize(TenancyReview::class),
-        ];
-        $group = $this->prophesize(Group::class);
-
-        $this->reviewRepository->findLatest(3)
-            ->shouldBeCalledOnce()
-            ->willReturn($reviews);
-
-        $this->tenancyReviewFactory->createGroup('Latest Reviews', $reviews)
-            ->shouldBeCalledOnce()
-            ->willReturn($group);
-
-        $this->assertEntityManagerUnused();
-
-        $output = $this->tenancyReviewService->getLatestGroup();
-
-        $this->assertEquals($group->reveal(), $output);
     }
 
     private function prophesizeSubmitReview(): array
