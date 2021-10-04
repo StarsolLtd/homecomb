@@ -3,12 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Agency;
-use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Model\Agency\Flat;
-use App\Model\Agency\UpdateAgencyInput;
-use App\Model\Agency\UpdateAgencyOutput;
 use App\Repository\AgencyRepository;
 use App\Service\User\UserService;
 use App\Util\AgencyHelper;
@@ -38,27 +35,6 @@ class AgencyService
         }
 
         return $this->flatModelFactory->getAgencyFlatModel($agency);
-    }
-
-    public function updateAgency(string $slug, UpdateAgencyInput $updateAgencyInput, ?UserInterface $user): UpdateAgencyOutput
-    {
-        $user = $this->userService->getEntityFromInterface($user);
-
-        $agency = $user->getAdminAgency();
-
-        if (null === $agency) {
-            throw new NotFoundException('No agency found for user.');
-        }
-        if ($agency->getSlug() !== $slug) {
-            throw new ForbiddenException('User does not have permission to manage agency.');
-        }
-
-        $agency->setExternalUrl($updateAgencyInput->getExternalUrl())
-            ->setPostcode($updateAgencyInput->getPostcode());
-
-        $this->entityManager->flush();
-
-        return new UpdateAgencyOutput(true);
     }
 
     public function findOrCreateByName(string $agencyName): Agency

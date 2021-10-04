@@ -10,6 +10,7 @@ use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
 use App\Service\Agency\CreateService as AgencyCreateService;
+use App\Service\Agency\UpdateService as AgencyUpdateService;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
 use App\Service\Branch\BranchAdminService;
@@ -35,6 +36,7 @@ final class AgencyAdminController extends AppController
         private AgencyAdminService $agencyAdminService,
         private AgencyService $agencyService,
         private AgencyCreateService $agencyCreateService,
+        private AgencyUpdateService $agencyUpdateService,
         private BranchAdminService $branchAdminService,
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
@@ -140,7 +142,7 @@ final class AgencyAdminController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->agencyService->updateAgency($slug, $input, $this->getUserInterface());
+        $output = $this->agencyUpdateService->updateAgency($slug, $input, $this->getUserInterface());
 
         $this->addFlash('success', 'Your agency was updated successfully.');
 
