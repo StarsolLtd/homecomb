@@ -9,6 +9,7 @@ use App\Model\Agency\CreateAgencyInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
+use App\Service\Agency\CreateService as AgencyCreateService;
 use App\Service\AgencyAdminService;
 use App\Service\AgencyService;
 use App\Service\Branch\BranchAdminService;
@@ -33,6 +34,7 @@ final class AgencyAdminController extends AppController
     public function __construct(
         private AgencyAdminService $agencyAdminService,
         private AgencyService $agencyService,
+        private AgencyCreateService $agencyCreateService,
         private BranchAdminService $branchAdminService,
         private BranchCreateService $branchCreateService,
         private BranchUpdateService $branchUpdateService,
@@ -73,7 +75,7 @@ final class AgencyAdminController extends AppController
         }
 
         try {
-            $output = $this->agencyService->createAgency($input, $this->getUserInterface());
+            $output = $this->agencyCreateService->createAgency($input, $this->getUserInterface());
         } catch (ConflictException $e) {
             $this->addFlash('error', 'Sorry, we were unable to process your agency as you are already an agency admin.');
             throw new ConflictHttpException($e->getMessage());

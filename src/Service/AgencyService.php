@@ -3,13 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Agency;
-use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
-use App\Factory\AgencyFactory;
 use App\Factory\FlatModelFactory;
-use App\Model\Agency\CreateAgencyInput;
-use App\Model\Agency\CreateAgencyOutput;
 use App\Model\Agency\Flat;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Agency\UpdateAgencyOutput;
@@ -23,33 +19,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AgencyService
 {
     public function __construct(
-        private NotificationService $notificationService,
         private UserService $userService,
         private EntityManagerInterface $entityManager,
-        private AgencyFactory $agencyFactory,
         private FlatModelFactory $flatModelFactory,
         private AgencyHelper $agencyHelper,
         private AgencyRepository $agencyRepository
     ) {
-    }
-
-    public function createAgency(CreateAgencyInput $createAgencyInput, ?UserInterface $user): CreateAgencyOutput
-    {
-        $user = $this->userService->getEntityFromInterface($user);
-
-        if (null !== $user->getAdminAgency()) {
-            throw new ConflictException(sprintf('User is already an agency admin.'));
-        }
-
-        $agency = $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput);
-        $agency->addAdminUser($user);
-
-        $this->entityManager->persist($agency);
-        $this->entityManager->flush();
-
-        $this->notificationService->sendAgencyModerationNotification($agency);
-
-        return new CreateAgencyOutput(true);
     }
 
     public function getAgencyForUser(?UserInterface $user): Flat
