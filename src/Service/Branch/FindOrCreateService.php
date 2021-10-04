@@ -8,7 +8,7 @@ use App\Repository\BranchRepository;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
-class BranchFindOrCreateService
+class FindOrCreateService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

@@ -13,7 +13,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Model\TenancyReview\SubmitInput;
 use App\Repository\PropertyRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
-use App\Service\Branch\BranchFindOrCreateService;
+use App\Service\Branch\FindOrCreateService as BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
 use App\Service\TenancyReview\CreateService;
@@ -39,7 +39,6 @@ final class CreateServiceTest extends TestCase
     private ObjectProphecy $notificationService;
     private ObjectProphecy $completeService;
     private ObjectProphecy $userService;
-    private ObjectProphecy $entityManager;
     private ObjectProphecy $propertyRepository;
     private ObjectProphecy $tenancyReviewFactory;
 
