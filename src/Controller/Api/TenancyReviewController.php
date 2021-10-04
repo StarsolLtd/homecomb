@@ -7,8 +7,8 @@ use App\Exception\NotFoundException;
 use App\Factory\InteractionFactory;
 use App\Model\TenancyReview\SubmitInput;
 use App\Service\GoogleReCaptchaService;
+use App\Service\TenancyReview\CreateService;
 use App\Service\TenancyReview\ViewService;
-use App\Service\TenancyReviewService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ final class TenancyReviewController extends AppController
 
     public function __construct(
         private GoogleReCaptchaService $googleReCaptchaService,
-        private TenancyReviewService $tenancyReviewService,
+        private CreateService $createService,
         private ViewService $viewService,
         protected InteractionFactory $interactionFactory,
         protected SerializerInterface $serializer
@@ -53,7 +53,7 @@ final class TenancyReviewController extends AppController
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
 
-        $output = $this->tenancyReviewService->submitReview(
+        $output = $this->createService->submitReview(
             $input,
             $this->getUserInterface(),
             $this->getRequestDetails($request)
