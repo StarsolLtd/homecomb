@@ -10,7 +10,7 @@ use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchInput;
 use App\Repository\BranchRepository;
-use App\Service\Branch\BranchCreateService;
+use App\Service\Branch\CreateService;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -20,16 +20,13 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\Branch\BranchCreateService
- */
-final class BranchCreateServiceTest extends TestCase
+final class CreateServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
     use UserEntityFromInterfaceTrait;
 
-    private BranchCreateService $branchCreateService;
+    private CreateService $createService;
 
     private ObjectProphecy $notificationService;
     private ObjectProphecy $entityManager;
@@ -44,7 +41,7 @@ final class BranchCreateServiceTest extends TestCase
         $this->branchFactory = $this->prophesize(BranchFactory::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
-        $this->branchCreateService = new BranchCreateService(
+        $this->createService = new CreateService(
             $this->notificationService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
@@ -53,9 +50,6 @@ final class BranchCreateServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\Branch\BranchCreateService::createBranch
-     */
     public function testCreateBranch(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -78,14 +72,11 @@ final class BranchCreateServiceTest extends TestCase
 
         $this->notificationService->sendBranchModerationNotification($branch)->shouldBeCalledOnce();
 
-        $output = $this->branchCreateService->createBranch($createBranchInput, $user);
+        $output = $this->createService->createBranch($createBranchInput, $user);
 
         $this->assertTrue($output->isSuccess());
     }
 
-    /**
-     * @covers \App\Service\Branch\BranchCreateService::createBranch
-     */
     public function testCreateBranchThrowsConflictExceptionIfAlreadyExists(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -103,12 +94,9 @@ final class BranchCreateServiceTest extends TestCase
 
         $this->assertEntityManagerUnused();
 
-        $this->branchCreateService->createBranch($createBranchInput, $user);
+        $this->createService->createBranch($createBranchInput, $user);
     }
 
-    /**
-     * @covers \App\Service\Branch\BranchCreateService::createBranch
-     */
     public function testCreateBranchThrowsForbiddenExceptionIfUserNotAgencyAdmin(): void
     {
         $createBranchInput = $this->getValidCreateBranchInput();
@@ -120,7 +108,7 @@ final class BranchCreateServiceTest extends TestCase
 
         $this->assertEntityManagerUnused();
 
-        $this->branchCreateService->createBranch($createBranchInput, $user);
+        $this->createService->createBranch($createBranchInput, $user);
     }
 
     private function getValidCreateBranchInput(): CreateBranchInput
