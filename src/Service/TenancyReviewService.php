@@ -15,6 +15,7 @@ use App\Model\TenancyReview\View;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
+use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\TenancyReviewSolicitation\CompleteService;
 use App\Service\User\UserService;
@@ -26,7 +27,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TenancyReviewService
 {
     public function __construct(
-        private AgencyService $agencyService,
+        private AgencyFindOrCreateService $agencyFindOrCreateService,
         private BranchFindOrCreateService $branchFindOrCreateService,
         private InteractionService $interactionService,
         private NotificationService $notificationService,
@@ -48,7 +49,7 @@ class TenancyReviewService
         $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
 
         $agencyName = $reviewInput->getAgencyName();
-        $agency = $agencyName ? $this->agencyService->findOrCreateByName($agencyName) : null;
+        $agency = $agencyName ? $this->agencyFindOrCreateService->findOrCreateByName($agencyName) : null;
         $branchName = $reviewInput->getAgencyBranch();
         $branch = $branchName ? $this->branchFindOrCreateService->findOrCreate($branchName, $agency) : null;
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);

@@ -7,14 +7,9 @@ use App\Entity\User;
 use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Model\Agency\Flat;
-use App\Repository\AgencyRepository;
 use App\Service\AgencyService;
 use App\Service\User\UserService;
-use App\Tests\Unit\EntityManagerTrait;
-use App\Util\AgencyHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -24,67 +19,21 @@ use Prophecy\Prophecy\ObjectProphecy;
 final class AgencyServiceTest extends TestCase
 {
     use ProphecyTrait;
-    use EntityManagerTrait;
 
     private AgencyService $agencyService;
 
     private ObjectProphecy $userService;
     private ObjectProphecy $flatModelFactory;
-    private ObjectProphecy $agencyHelper;
-    private ObjectProphecy $agencyRepository;
 
     public function setUp(): void
     {
         $this->userService = $this->prophesize(UserService::class);
-        $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
-        $this->agencyHelper = $this->prophesize(AgencyHelper::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
 
         $this->agencyService = new AgencyService(
             $this->userService->reveal(),
-            $this->entityManager->reveal(),
             $this->flatModelFactory->reveal(),
-            $this->agencyHelper->reveal(),
-            $this->agencyRepository->reveal()
         );
-    }
-
-    /**
-     * @covers \App\Service\AgencyService::findOrCreateByName
-     */
-    public function testFindOrCreateByNameWhenNotExists(): void
-    {
-        $agencyName = 'Devon Homes';
-
-        $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn(null);
-
-        $this->agencyHelper->generateSlug(Argument::type(Agency::class))->shouldBeCalledOnce();
-
-        $this->entityManager->persist(Argument::type(Agency::class))->shouldBeCalledOnce();
-        $this->entityManager->flush()->shouldBeCalledTimes(1);
-
-        $result = $this->agencyService->findOrCreateByName($agencyName);
-
-        $this->assertEquals($agencyName, $result->getName());
-    }
-
-    /**
-     * @covers \App\Service\AgencyService::findOrCreateByName
-     */
-    public function testFindOrCreateByNameWhenAlreadyExists(): void
-    {
-        $agencyName = 'Cornwall Homes';
-
-        $agency = (new Agency())->setName($agencyName);
-
-        $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn($agency);
-
-        $this->assertEntityManagerUnused();
-
-        $result = $this->agencyService->findOrCreateByName($agencyName);
-
-        $this->assertEquals($agencyName, $result->getName());
     }
 
     /**
@@ -105,8 +54,6 @@ final class AgencyServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($agencyModel);
 
-        $this->assertEntityManagerUnused();
-
         $this->agencyService->getAgencyForUser($user);
     }
 
@@ -125,7 +72,5 @@ final class AgencyServiceTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         $this->agencyService->getAgencyForUser($user);
-
-        $this->assertEntityManagerUnused();
     }
 }

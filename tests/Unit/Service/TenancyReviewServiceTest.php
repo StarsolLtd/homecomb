@@ -18,7 +18,7 @@ use App\Model\TenancyReview\View;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
-use App\Service\AgencyService;
+use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
@@ -43,7 +43,7 @@ final class TenancyReviewServiceTest extends TestCase
 
     private TenancyReviewService $tenancyReviewService;
 
-    private ObjectProphecy $agencyService;
+    private ObjectProphecy $agencyFindOrCreateService;
     private ObjectProphecy $branchFindOrCreateService;
     private ObjectProphecy $interactionService;
     private ObjectProphecy $notificationService;
@@ -57,7 +57,7 @@ final class TenancyReviewServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->agencyService = $this->prophesize(AgencyService::class);
+        $this->agencyFindOrCreateService = $this->prophesize(AgencyFindOrCreateService::class);
         $this->branchFindOrCreateService = $this->prophesize(BranchFindOrCreateService::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
@@ -70,7 +70,7 @@ final class TenancyReviewServiceTest extends TestCase
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->tenancyReviewService = new TenancyReviewService(
-            $this->agencyService->reveal(),
+            $this->agencyFindOrCreateService->reveal(),
             $this->branchFindOrCreateService->reveal(),
             $this->interactionService->reveal(),
             $this->notificationService->reveal(),
@@ -244,7 +244,7 @@ final class TenancyReviewServiceTest extends TestCase
 
         $this->propertyRepository->findOnePublishedBySlug('propertyslug')->shouldBeCalledOnce()->willReturn($property);
 
-        $this->agencyService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
+        $this->agencyFindOrCreateService->findOrCreateByName('Test Agency Name')->shouldBeCalledOnce()->willReturn($agency);
 
         $this->branchFindOrCreateService->findOrCreate('Testerton', $agency)->shouldBeCalledOnce()->willReturn($branch);
 
