@@ -12,11 +12,11 @@ use App\Model\Branch\UpdateBranchInput;
 use App\Service\Agency\CreateService as AgencyCreateService;
 use App\Service\Agency\UpdateService as AgencyUpdateService;
 use App\Service\AgencyAdminService;
-use App\Service\AgencyService;
 use App\Service\Branch\BranchAdminService;
 use App\Service\Branch\BranchCreateService;
 use App\Service\Branch\BranchUpdateService;
 use App\Service\GoogleReCaptchaService;
+use App\Service\User\GetAgencyService as UserGetAgencyService;
 use App\Service\User\UserService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +34,7 @@ final class AgencyAdminController extends AppController
 
     public function __construct(
         private AgencyAdminService $agencyAdminService,
-        private AgencyService $agencyService,
+        private UserGetAgencyService $userGetAgencyService,
         private AgencyCreateService $agencyCreateService,
         private AgencyUpdateService $agencyUpdateService,
         private BranchAdminService $branchAdminService,
@@ -107,7 +107,7 @@ final class AgencyAdminController extends AppController
             throw new AccessDeniedHttpException($e->getMessage());
         }
 
-        $output = $this->agencyService->getAgencyForUser($this->getUserInterface());
+        $output = $this->userGetAgencyService->getAgencyForUser($this->getUserInterface());
 
         return $this->jsonResponse($output, Response::HTTP_OK);
     }

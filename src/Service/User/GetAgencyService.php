@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\User;
 
 use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Model\Agency\Flat;
-use App\Service\User\UserService;
 use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AgencyService
+class GetAgencyService
 {
     public function __construct(
         private UserService $userService,

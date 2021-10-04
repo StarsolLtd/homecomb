@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\User;
 
 use App\Entity\Agency;
 use App\Entity\User;
 use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Model\Agency\Flat;
-use App\Service\AgencyService;
+use App\Service\User\GetAgencyService;
 use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\AgencyService
- */
-final class AgencyServiceTest extends TestCase
+final class GetAgencyServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private AgencyService $agencyService;
+    private GetAgencyService $getAgencyService;
 
     private ObjectProphecy $userService;
     private ObjectProphecy $flatModelFactory;
@@ -30,15 +27,12 @@ final class AgencyServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
 
-        $this->agencyService = new AgencyService(
+        $this->getAgencyService = new GetAgencyService(
             $this->userService->reveal(),
             $this->flatModelFactory->reveal(),
         );
     }
 
-    /**
-     * @covers \App\Service\AgencyService::getAgencyForUser
-     */
     public function testGetAgencyForUser1(): void
     {
         $slug = 'testagencyslug';
@@ -54,12 +48,11 @@ final class AgencyServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($agencyModel);
 
-        $this->agencyService->getAgencyForUser($user);
+        $this->getAgencyService->getAgencyForUser($user);
     }
 
     /**
-     * @covers \App\Service\AgencyService::getAgencyForUser
-     * Test throws NotFoundException when user is not an agency admin
+     * Test throws NotFoundException when user is not an agency admin.
      */
     public function testGetAgencyForUser2(): void
     {
@@ -71,6 +64,6 @@ final class AgencyServiceTest extends TestCase
 
         $this->expectException(NotFoundException::class);
 
-        $this->agencyService->getAgencyForUser($user);
+        $this->getAgencyService->getAgencyForUser($user);
     }
 }
