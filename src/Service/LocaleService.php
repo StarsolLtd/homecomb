@@ -2,63 +2,21 @@
 
 namespace App\Service;
 
-use App\Entity\City;
-use App\Entity\District;
-use App\Entity\Locale\CityLocale;
-use App\Entity\Locale\DistrictLocale;
 use App\Entity\Locale\Locale;
 use App\Entity\TenancyReview;
 use App\Factory\LocaleFactory;
 use App\Model\Agency\ReviewsSummary;
 use App\Model\Locale\AgencyReviewsSummary;
 use App\Model\Locale\LocaleSearchResults;
-use App\Repository\Locale\CityLocaleRepository;
-use App\Repository\Locale\DistrictLocaleRepository;
 use App\Repository\Locale\LocaleRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
 class LocaleService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private LocaleFactory $localeFactory,
         private LocaleRepository $localeRepository,
-        private CityLocaleRepository $cityLocaleRepository,
-        private DistrictLocaleRepository $districtLocaleRepository
     ) {
-    }
-
-    public function findOrCreateByCity(City $city): CityLocale
-    {
-        $cityLocale = $this->cityLocaleRepository->findOneNullableByCity($city);
-
-        if (null !== $cityLocale) {
-            return $cityLocale;
-        }
-
-        $cityLocale = $this->localeFactory->createCityLocaleEntity($city);
-
-        $this->entityManager->persist($cityLocale);
-        $this->entityManager->flush();
-
-        return $cityLocale;
-    }
-
-    public function findOrCreateByDistrict(District $district): DistrictLocale
-    {
-        $districtLocale = $this->districtLocaleRepository->findOneNullableByDistrict($district);
-
-        if (null !== $districtLocale) {
-            return $districtLocale;
-        }
-
-        $districtLocale = $this->localeFactory->createDistrictLocaleEntity($district);
-
-        $this->entityManager->persist($districtLocale);
-        $this->entityManager->flush();
-
-        return $districtLocale;
     }
 
     public function search(string $query): LocaleSearchResults

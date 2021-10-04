@@ -7,7 +7,7 @@ use App\Entity\Locale\DistrictLocale;
 use App\Factory\DistrictFactory;
 use App\Repository\DistrictRepository;
 use App\Service\DistrictService;
-use App\Service\LocaleService;
+use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -26,20 +26,20 @@ final class DistrictServiceTest extends TestCase
 
     private ObjectProphecy $districtFactory;
     private ObjectProphecy $districtRepository;
-    private ObjectProphecy $localeService;
+    private ObjectProphecy $localeFindOrCreateService;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->districtFactory = $this->prophesize(DistrictFactory::class);
         $this->districtRepository = $this->prophesize(DistrictRepository::class);
-        $this->localeService = $this->prophesize(LocaleService::class);
+        $this->localeFindOrCreateService = $this->prophesize(LocaleFindOrCreateService::class);
 
         $this->districtService = new DistrictService(
             $this->entityManager->reveal(),
             $this->districtFactory->reveal(),
             $this->districtRepository->reveal(),
-            $this->localeService->reveal(),
+            $this->localeFindOrCreateService->reveal(),
         );
     }
 
@@ -94,7 +94,7 @@ final class DistrictServiceTest extends TestCase
         $districtLocale = $this->prophesize(DistrictLocale::class);
 
         $this->districtRepository->findOneBySlug('test-district-slug')->willReturn($district->reveal());
-        $this->localeService->findOrCreateByDistrict($district)->willReturn($districtLocale->reveal());
+        $this->localeFindOrCreateService->findOrCreateByDistrict($district)->willReturn($districtLocale->reveal());
         $districtLocale->getSlug()->shouldBeCalledOnce()->willReturn('test-locale-slug');
 
         $output = $this->districtService->getLocaleSlugByDistrictSlug('test-district-slug');

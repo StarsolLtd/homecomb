@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\District;
 use App\Factory\DistrictFactory;
 use App\Repository\DistrictRepository;
+use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DistrictService
@@ -13,7 +14,7 @@ class DistrictService
         private EntityManagerInterface $entityManager,
         private DistrictFactory $districtFactory,
         private DistrictRepository $districtRepository,
-        private LocaleService $localeService
+        private LocaleFindOrCreateService $localeFindOrCreateService
     ) {
     }
 
@@ -37,7 +38,7 @@ class DistrictService
     {
         $district = $this->districtRepository->findOneBySlug($districtSlug);
 
-        $locale = $this->localeService->findOrCreateByDistrict($district);
+        $locale = $this->localeFindOrCreateService->findOrCreateByDistrict($district);
 
         return $locale->getSlug();
     }
