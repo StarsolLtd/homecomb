@@ -9,7 +9,7 @@ use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class BranchUpdateService
+class UpdateService
 {
     public function __construct(
         private UserService $userService,

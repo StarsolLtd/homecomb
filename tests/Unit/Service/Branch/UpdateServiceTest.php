@@ -6,7 +6,7 @@ use App\Entity\Branch;
 use App\Entity\User;
 use App\Model\Branch\UpdateBranchInput;
 use App\Repository\BranchRepository;
-use App\Service\Branch\BranchUpdateService;
+use App\Service\Branch\UpdateService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
@@ -15,16 +15,13 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\Branch\BranchUpdateService
- */
-final class BranchUpdateServiceTest extends TestCase
+final class UpdateServiceTest extends TestCase
 {
     use ProphecyTrait;
     use EntityManagerTrait;
     use UserEntityFromInterfaceTrait;
 
-    private BranchUpdateService $branchService;
+    private UpdateService $branchService;
 
     private ObjectProphecy $entityManager;
     private ObjectProphecy $branchRepository;
@@ -35,16 +32,13 @@ final class BranchUpdateServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->branchRepository = $this->prophesize(BranchRepository::class);
 
-        $this->branchService = new BranchUpdateService(
+        $this->branchService = new UpdateService(
             $this->userService->reveal(),
             $this->entityManager->reveal(),
             $this->branchRepository->reveal()
         );
     }
 
-    /**
-     * @covers \App\Service\Branch\BranchUpdateService::updateBranch
-     */
     public function testUpdateBranch(): void
     {
         $slug = 'testbranchslug';
