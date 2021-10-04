@@ -75,7 +75,7 @@ final class CreateServiceTest extends TestCase
 
         list($input, $user) = $this->prophesizeSubmitReview();
 
-        $this->interactionService->record('Review', 45, $requestDetails, $user)
+        $this->interactionService->record(InteractionService::TYPE_TENANCY_REVIEW, 45, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
         $submitOutput = $this->createService->submitReview(

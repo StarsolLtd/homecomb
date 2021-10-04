@@ -45,7 +45,7 @@ class VoteService
 
         $this->entityManager->flush();
 
-        $this->interactionService->record('Vote', $vote->getId(), $requestDetails, $user);
+        $this->interactionService->record(InteractionService::TYPE_VOTE, $vote->getId(), $requestDetails, $user);
 
         switch ($input->getEntityName()) {
             case 'Comment':

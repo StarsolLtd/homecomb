@@ -73,7 +73,7 @@ final class FlagServiceTest extends TestCase
 
         $flag->getId()->shouldBeCalledOnce()->willReturn(234);
 
-        $this->interactionService->record('Flag', 234, $requestDetails, $user)
+        $this->interactionService->record(InteractionService::TYPE_FLAG, 234, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
         $output = $this->flagService->submitFlag($input->reveal(), $user->reveal(), $requestDetails->reveal());

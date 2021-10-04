@@ -57,7 +57,7 @@ class CreateService
 
         $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview);
 
-        $this->interactionService->record('Review', $tenancyReview->getId(), $requestDetails, $user);
+        $this->interactionService->record(InteractionService::TYPE_TENANCY_REVIEW, $tenancyReview->getId(), $requestDetails, $user);
 
         return new SubmitOutput(true);
     }

@@ -261,7 +261,7 @@ final class VoteServiceTest extends TestCase
 
         $vote->getId()->shouldBeCalledOnce()->willReturn(234);
 
-        $this->interactionService->record('Vote', 234, $requestDetails, $user)
+        $this->interactionService->record(InteractionService::TYPE_VOTE, 234, $requestDetails, $user)
             ->shouldBeCalledOnce();
 
         $output = $this->voteService->vote($input->reveal(), $user->reveal(), $requestDetails->reveal());

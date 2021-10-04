@@ -66,7 +66,7 @@ class SurveyService
         $this->entityManager->persist($answer);
         $this->entityManager->flush();
 
-        $this->interactionService->record('Answer', $answer->getId(), $requestDetails, $user);
+        $this->interactionService->record(InteractionService::TYPE_ANSWER, $answer->getId(), $requestDetails, $user);
 
         return new SubmitAnswerOutput(true);
     }

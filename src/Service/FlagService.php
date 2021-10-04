@@ -35,7 +35,7 @@ class FlagService
 
         $this->notificationService->sendFlagModerationNotification($flag);
 
-        $this->interactionService->record('Flag', $flag->getId(), $requestDetails, $user);
+        $this->interactionService->record(InteractionService::TYPE_FLAG, $flag->getId(), $requestDetails, $user);
 
         return new SubmitOutput(true);
     }

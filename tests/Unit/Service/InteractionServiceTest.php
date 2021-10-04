@@ -7,10 +7,12 @@ use App\Entity\Interaction\Interaction;
 use App\Entity\Survey\Answer;
 use App\Entity\TenancyReview;
 use App\Entity\User;
+use App\Entity\Vote\Vote;
 use App\Model\Interaction\RequestDetails;
 use App\Repository\FlagRepository;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
+use App\Repository\VoteRepository;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -34,6 +36,7 @@ final class InteractionServiceTest extends TestCase
     private ObjectProphecy $answerRepository;
     private ObjectProphecy $flagRepository;
     private ObjectProphecy $tenancyReviewRepository;
+    private ObjectProphecy $voteRepository;
 
     public function setUp(): void
     {
@@ -43,6 +46,7 @@ final class InteractionServiceTest extends TestCase
         $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->flagRepository = $this->prophesize(FlagRepository::class);
         $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->voteRepository = $this->prophesize(VoteRepository::class);
 
         $this->interactionService = new InteractionService(
             $this->entityManager->reveal(),
@@ -51,6 +55,7 @@ final class InteractionServiceTest extends TestCase
             $this->answerRepository->reveal(),
             $this->flagRepository->reveal(),
             $this->tenancyReviewRepository->reveal(),
+            $this->voteRepository->reveal(),
         );
     }
 
@@ -74,7 +79,7 @@ final class InteractionServiceTest extends TestCase
         $this->entityManager->persist(Argument::type(Interaction::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $this->interactionService->record('TenancyReview', 789, $requestDetails->reveal(), $user);
+        $this->interactionService->record(InteractionService::TYPE_TENANCY_REVIEW, 789, $requestDetails->reveal(), $user);
     }
 
     /**
@@ -97,7 +102,7 @@ final class InteractionServiceTest extends TestCase
         $this->entityManager->persist(Argument::type(Interaction::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $this->interactionService->record('Flag', 2020, $requestDetails->reveal(), $user);
+        $this->interactionService->record(InteractionService::TYPE_FLAG, 2020, $requestDetails->reveal(), $user);
     }
 
     /**
@@ -119,13 +124,35 @@ final class InteractionServiceTest extends TestCase
         $this->entityManager->persist(Argument::type(Interaction::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $this->interactionService->record('Answer', 2020, $requestDetails->reveal(), $user);
+        $this->interactionService->record(InteractionService::TYPE_ANSWER, 2020, $requestDetails->reveal(), $user);
+    }
+
+    /**
+     * Test successfully record a VoteInteraction.
+     */
+    public function testRecord4(): void
+    {
+        $user = new User();
+        $vote = $this->prophesize(Vote::class);
+        $requestDetails = $this->prophesize(RequestDetails::class);
+        $this->prophesizeRequestDetails($requestDetails);
+
+        $this->voteRepository->findOneById(2020)
+            ->shouldBeCalledOnce()
+            ->willReturn($vote);
+
+        $this->assertGetUserEntityOrNullFromInterface($user);
+
+        $this->entityManager->persist(Argument::type(Interaction::class))->shouldBeCalledOnce();
+        $this->entityManager->flush()->shouldBeCalledOnce();
+
+        $this->interactionService->record(InteractionService::TYPE_VOTE, 2020, $requestDetails->reveal(), $user);
     }
 
     /**
      * Test logs warning if entity not supported.
      */
-    public function testRecord4(): void
+    public function testRecord5(): void
     {
         $requestDetails = $this->prophesize(RequestDetails::class);
 
@@ -139,7 +166,7 @@ final class InteractionServiceTest extends TestCase
     /**
      * Test nothing happens if requestDetails is null.
      */
-    public function testRecord5(): void
+    public function testRecord6(): void
     {
         $this->assertEntityManagerUnused();
 
