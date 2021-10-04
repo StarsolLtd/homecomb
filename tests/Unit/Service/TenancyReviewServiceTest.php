@@ -12,12 +12,9 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetails;
-use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\SubmitInput;
-use App\Model\TenancyReview\View;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\TenancyReviewRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\InteractionService;
@@ -52,7 +49,6 @@ final class TenancyReviewServiceTest extends TestCase
     private ObjectProphecy $entityManager;
     private ObjectProphecy $postcodeRepository;
     private ObjectProphecy $propertyRepository;
-    private ObjectProphecy $reviewRepository;
     private ObjectProphecy $tenancyReviewFactory;
 
     public function setUp(): void
@@ -66,7 +62,6 @@ final class TenancyReviewServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->postcodeRepository = $this->prophesize(PostcodeRepository::class);
         $this->propertyRepository = $this->prophesize(PropertyRepository::class);
-        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->tenancyReviewService = new TenancyReviewService(
@@ -79,7 +74,6 @@ final class TenancyReviewServiceTest extends TestCase
             $this->entityManager->reveal(),
             $this->postcodeRepository->reveal(),
             $this->propertyRepository->reveal(),
-            $this->reviewRepository->reveal(),
             $this->tenancyReviewFactory->reveal(),
         );
     }
@@ -166,54 +160,6 @@ final class TenancyReviewServiceTest extends TestCase
         );
 
         $this->assertEquals(true, $submitOutput->isSuccess());
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::getViewById
-     */
-    public function testGetViewById1(): void
-    {
-        $entity = $this->prophesize(TenancyReview::class);
-        $view = $this->prophesize(View::class);
-
-        $this->reviewRepository->findOnePublishedById(56)
-            ->shouldBeCalledOnce()
-            ->willReturn($entity);
-
-        $this->tenancyReviewFactory->createViewFromEntity($entity)
-            ->shouldBeCalledOnce()
-            ->willReturn($view->reveal());
-
-        $output = $this->tenancyReviewService->getViewById(56);
-
-        $this->assertEquals($view->reveal(), $output);
-    }
-
-    /**
-     * @covers \App\Service\TenancyReviewService::getLatestGroup
-     */
-    public function testGetLatestGroup1(): void
-    {
-        $reviews = [
-            $this->prophesize(TenancyReview::class),
-            $this->prophesize(TenancyReview::class),
-            $this->prophesize(TenancyReview::class),
-        ];
-        $group = $this->prophesize(Group::class);
-
-        $this->reviewRepository->findLatest(3)
-            ->shouldBeCalledOnce()
-            ->willReturn($reviews);
-
-        $this->tenancyReviewFactory->createGroup('Latest Reviews', $reviews)
-            ->shouldBeCalledOnce()
-            ->willReturn($group);
-
-        $this->assertEntityManagerUnused();
-
-        $output = $this->tenancyReviewService->getLatestGroup();
-
-        $this->assertEquals($group->reveal(), $output);
     }
 
     private function prophesizeSubmitReview(): array

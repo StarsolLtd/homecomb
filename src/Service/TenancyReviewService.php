@@ -8,13 +8,10 @@ use App\Entity\TenancyReview;
 use App\Exception\UnexpectedValueException;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetails;
-use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\SubmitInput;
 use App\Model\TenancyReview\SubmitOutput;
-use App\Model\TenancyReview\View;
 use App\Repository\PostcodeRepository;
 use App\Repository\PropertyRepository;
-use App\Repository\TenancyReviewRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\BranchFindOrCreateService;
 use App\Service\TenancyReviewSolicitation\CompleteService;
@@ -36,7 +33,6 @@ class TenancyReviewService
         private EntityManagerInterface $entityManager,
         private PostcodeRepository $postcodeRepository,
         private PropertyRepository $propertyRepository,
-        private TenancyReviewRepository $tenancyReviewRepository,
         private TenancyReviewFactory $tenancyReviewFactory
     ) {
     }
@@ -127,19 +123,5 @@ class TenancyReviewService
         $this->entityManager->flush();
 
         return $locales;
-    }
-
-    public function getViewById(int $tenancyReviewId): View
-    {
-        $entity = $this->tenancyReviewRepository->findOnePublishedById($tenancyReviewId);
-
-        return $this->tenancyReviewFactory->createViewFromEntity($entity);
-    }
-
-    public function getLatestGroup(int $limit = 3): Group
-    {
-        $tenancyReviews = $this->tenancyReviewRepository->findLatest($limit);
-
-        return $this->tenancyReviewFactory->createGroup('Latest Reviews', $tenancyReviews);
     }
 }
