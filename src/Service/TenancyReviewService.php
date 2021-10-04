@@ -83,12 +83,6 @@ class TenancyReviewService
         return new SubmitOutput(true);
     }
 
-    public function publishReview(TenancyReview $tenancyReview): void
-    {
-        $tenancyReview->setPublished(true);
-        $this->entityManager->flush();
-    }
-
     /**
      * @return Collection<int, Locale>
      */

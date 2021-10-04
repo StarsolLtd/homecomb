@@ -85,18 +85,6 @@ final class TenancyReviewServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\TenancyReviewService::publishReview
-     */
-    public function testPublishReview1(): void
-    {
-        $tenancyReview = (new TenancyReview())->setPublished(false);
-
-        $this->tenancyReviewService->publishReview($tenancyReview);
-
-        $this->assertTrue($tenancyReview->isPublished());
-    }
-
-    /**
      * @covers \App\Service\TenancyReviewService::generateLocales
      */
     public function testGenerateLocales1(): void
