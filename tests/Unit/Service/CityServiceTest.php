@@ -7,7 +7,7 @@ use App\Entity\Locale\CityLocale;
 use App\Factory\CityFactory;
 use App\Repository\CityRepository;
 use App\Service\CityService;
-use App\Service\LocaleService;
+use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -24,23 +24,22 @@ final class CityServiceTest extends TestCase
 
     private CityService $cityService;
 
-    private ObjectProphecy $entityManager;
     private ObjectProphecy $cityFactory;
     private ObjectProphecy $cityRepository;
-    private ObjectProphecy $localeService;
+    private ObjectProphecy $localeFindOrCreateService;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->cityFactory = $this->prophesize(CityFactory::class);
         $this->cityRepository = $this->prophesize(CityRepository::class);
-        $this->localeService = $this->prophesize(LocaleService::class);
+        $this->localeFindOrCreateService = $this->prophesize(LocaleFindOrCreateService::class);
 
         $this->cityService = new CityService(
             $this->entityManager->reveal(),
             $this->cityFactory->reveal(),
             $this->cityRepository->reveal(),
-            $this->localeService->reveal(),
+            $this->localeFindOrCreateService->reveal(),
         );
     }
 
@@ -95,7 +94,7 @@ final class CityServiceTest extends TestCase
         $cityLocale = $this->prophesize(CityLocale::class);
 
         $this->cityRepository->findOneBySlug('test-city-slug')->willReturn($city->reveal());
-        $this->localeService->findOrCreateByCity($city)->willReturn($cityLocale->reveal());
+        $this->localeFindOrCreateService->findOrCreateByCity($city)->willReturn($cityLocale->reveal());
         $cityLocale->getSlug()->shouldBeCalledOnce()->willReturn('test-locale-slug');
 
         $output = $this->cityService->getLocaleSlugByCitySlug('test-city-slug');
