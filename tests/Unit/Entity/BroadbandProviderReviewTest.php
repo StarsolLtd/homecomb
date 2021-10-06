@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Tests\Unit\Entity\Review;
+namespace App\Tests\Unit\Entity;
 
-use App\Entity\Review\BroadbandProviderReview;
+use App\Entity\BroadbandProviderReview;
 use App\Entity\Vote\BroadbandProviderReviewVote;
-use App\Tests\Unit\Entity\AbstractEntityTestCase;
 
 final class BroadbandProviderReviewTest extends AbstractEntityTestCase
 {
@@ -24,14 +23,14 @@ final class BroadbandProviderReviewTest extends AbstractEntityTestCase
         $negativeVote2 = (new BroadbandProviderReviewVote())->setPositive(false);
         $negativeVote3 = (new BroadbandProviderReviewVote())->setPositive(false);
 
-        $BroadbandProviderReview = $this->getEntity()
+        $broadbandProviderReview = $this->getEntity()
             ->addVote($positiveVote1)
             ->addVote($negativeVote1)
             ->addVote($negativeVote2)
             ->addVote($negativeVote3)
         ;
 
-        $this->assertEquals(-2, $BroadbandProviderReview->getVotesScore());
+        $this->assertEquals(-2, $broadbandProviderReview->getVotesScore());
     }
 
     public function testGetPositiveVotesCount1(): void
@@ -41,14 +40,14 @@ final class BroadbandProviderReviewTest extends AbstractEntityTestCase
         $positiveVote3 = (new BroadbandProviderReviewVote())->setPositive(true);
         $negativeVote1 = (new BroadbandProviderReviewVote())->setPositive(false);
 
-        $BroadbandProviderReview = $this->getEntity()
+        $broadbandProviderReview = $this->getEntity()
             ->addVote($positiveVote1)
             ->addVote($positiveVote2)
             ->addVote($positiveVote3)
             ->addVote($negativeVote1)
         ;
 
-        $this->assertEquals(3, $BroadbandProviderReview->getPositiveVotesCount());
+        $this->assertEquals(3, $broadbandProviderReview->getPositiveVotesCount());
     }
 
     public function testGetNegativeVotesCount1(): void
@@ -58,14 +57,14 @@ final class BroadbandProviderReviewTest extends AbstractEntityTestCase
         $negativeVote2 = (new BroadbandProviderReviewVote())->setPositive(false);
         $negativeVote3 = (new BroadbandProviderReviewVote())->setPositive(false);
 
-        $BroadbandProviderReview = $this->getEntity()
+        $broadbandProviderReview = $this->getEntity()
             ->addVote($positiveVote1)
             ->addVote($negativeVote1)
             ->addVote($negativeVote2)
             ->addVote($negativeVote3)
         ;
 
-        $this->assertEquals(3, $BroadbandProviderReview->getNegativeVotesCount());
+        $this->assertEquals(3, $broadbandProviderReview->getNegativeVotesCount());
     }
 
     protected function getEntity(): BroadbandProviderReview

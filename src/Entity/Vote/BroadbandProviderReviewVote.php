@@ -2,7 +2,7 @@
 
 namespace App\Entity\Vote;
 
-use App\Entity\Review\BroadbandProviderReview;
+use App\Entity\BroadbandProviderReview;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class BroadbandProviderReviewVote extends Vote
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Review\BroadbandProviderReview")
+     * @ORM\OneToOne(targetEntity="App\Entity\BroadbandProviderReview")
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id")
      */
     private BroadbandProviderReview $broadbandProviderReview;

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Entity\Review;
+namespace App\Entity;
 
-use App\Entity\User;
+use App\Entity\Vote\BroadbandProviderReviewVote;
 use App\Entity\Vote\Vote;
-use App\Entity\VoteableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Exception\DeveloperException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -13,15 +12,10 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReviewRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="related_entity_name", type="string")
- * @ORM\DiscriminatorMap({
- *     "Locale" = "LocaleReview"
- * })
+ * @ORM\Entity(repositoryClass="App\Repository\BroadbandProviderRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=false)
  */
-abstract class Review
+class BroadbandProviderReview
 {
     use SoftDeleteableEntity;
     use TimestampableEntity;
@@ -32,18 +26,13 @@ abstract class Review
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected int $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private ?User $user = null;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $relatedEntityId;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -75,26 +64,65 @@ abstract class Review
      */
     private string $slug;
 
-    protected Collection $votes;
-
-    abstract public function addVote(Vote $vote): self;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BroadbandProvider")
+     * @ORM\JoinColumn(name="related_entity_id", referencedColumnName="id")
+     */
+    private BroadbandProvider $broadbandProvider;
 
     /**
-     * @return Collection<int, Vote>
+     * @ORM\ManyToOne(targetEntity="App\Entity\Postcode")
+     * @ORM\JoinColumn(name="postcode", referencedColumnName="id")
      */
-    public function getVotes(): Collection
-    {
-        return $this->votes;
-    }
+    private Postcode $postcode;
 
-    public function __construct()
-    {
-        $this->votes = new ArrayCollection();
-    }
+    /**
+     * @var Collection<int, Vote>
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote\BroadbandProviderReviewVote", mappedBy="broadbandProviderReview")
+     */
+    protected Collection $votes;
 
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            return $this;
+        }
+        if (!($vote instanceof BroadbandProviderReviewVote)) {
+            throw new DeveloperException('Only BroadbandProviderReviewVotes can be added to a BroadbandProviderReview');
+        }
+        $this->votes->add($vote);
+        $vote->setBroadbandProviderReview($this);
+
+        return $this;
+    }
+
+    public function getBroadbandProvider(): BroadbandProvider
+    {
+        return $this->broadbandProvider;
+    }
+
+    public function setBroadbandProvider(BroadbandProvider $broadbandProvider): self
+    {
+        $this->broadbandProvider = $broadbandProvider;
+
+        return $this;
+    }
+
+    public function getPostcode(): Postcode
+    {
+        return $this->postcode;
+    }
+
+    public function setPostcode(Postcode $postcode): self
+    {
+        $this->postcode = $postcode;
+
+        return $this;
     }
 
     public function getUser(): ?User
@@ -153,42 +181,6 @@ abstract class Review
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getRelatedEntityId(): int
-    {
-        return $this->relatedEntityId;
-    }
-
-    public function setRelatedEntityId(int $relatedEntityId): self
-    {
-        $this->relatedEntityId = $relatedEntityId;
-
-        return $this;
-    }
-
-    public function getOverallStars(): ?int
-    {
-        return $this->overallStars;
-    }
-
-    public function setOverallStars(?int $overallStars): self
-    {
-        $this->overallStars = $overallStars;
-
-        return $this;
-    }
-
-    public function isPublished(): bool
-    {
-        return $this->published;
-    }
-
-    public function setPublished(bool $published): self
-    {
-        $this->published = $published;
 
         return $this;
     }
