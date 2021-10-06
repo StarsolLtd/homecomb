@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Tests\Unit\Service\AgencyA;
+namespace App\Tests\Unit\Service\Agency;
 
 use App\Entity\Agency;
+use App\Factory\AgencyFactory;
 use App\Repository\AgencyRepository;
 use App\Service\Agency\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
-use App\Util\AgencyHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -20,18 +19,18 @@ final class FindOrCreateServiceTest extends TestCase
 
     private FindOrCreateService $findOrCreateService;
 
-    private ObjectProphecy $agencyHelper;
+    private ObjectProphecy $agencyFactory;
     private ObjectProphecy $agencyRepository;
 
     public function setUp(): void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->agencyHelper = $this->prophesize(AgencyHelper::class);
+        $this->agencyFactory = $this->prophesize(AgencyFactory::class);
         $this->agencyRepository = $this->prophesize(AgencyRepository::class);
 
         $this->findOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),
-            $this->agencyHelper->reveal(),
+            $this->agencyFactory->reveal(),
             $this->agencyRepository->reveal(),
         );
     }
@@ -39,17 +38,17 @@ final class FindOrCreateServiceTest extends TestCase
     public function testFindOrCreateByNameWhenNotExists(): void
     {
         $agencyName = 'Devon Homes';
+        $agency = $this->prophesize(Agency::class);
 
         $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn(null);
 
-        $this->agencyHelper->generateSlug(Argument::type(Agency::class))->shouldBeCalledOnce();
+        $this->agencyFactory->createEntityByName($agencyName)->shouldBeCalledOnce()->willReturn($agency);
 
-        $this->entityManager->persist(Argument::type(Agency::class))->shouldBeCalledOnce();
-        $this->entityManager->flush()->shouldBeCalledTimes(1);
+        $this->assertEntitiesArePersistedAndFlush([$agency]);
 
         $result = $this->findOrCreateService->findOrCreateByName($agencyName);
 
-        $this->assertEquals($agencyName, $result->getName());
+        $this->assertEquals($agency->reveal(), $result);
     }
 
     public function testFindOrCreateByNameWhenAlreadyExists(): void
