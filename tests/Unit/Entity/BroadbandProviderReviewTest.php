@@ -2,11 +2,16 @@
 
 namespace App\Tests\Unit\Entity;
 
+use App\Entity\BroadbandProvider;
 use App\Entity\BroadbandProviderReview;
+use App\Entity\Postcode;
 use App\Entity\Vote\BroadbandProviderReviewVote;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class BroadbandProviderReviewTest extends AbstractEntityTestCase
 {
+    use ProphecyTrait;
+
     protected array $values = [
         'author' => 'Jack Parnell',
         'title' => 'Test Title',
@@ -65,6 +70,26 @@ final class BroadbandProviderReviewTest extends AbstractEntityTestCase
         ;
 
         $this->assertEquals(3, $broadbandProviderReview->getNegativeVotesCount());
+    }
+
+    public function testGetBroadbandProvider1(): void
+    {
+        $broadbandProvider = $this->prophesize(BroadbandProvider::class);
+
+        $entity = $this->getEntity();
+        $entity->setBroadbandProvider($broadbandProvider->reveal());
+
+        $this->assertEquals($broadbandProvider->reveal(), $entity->getBroadbandProvider());
+    }
+
+    public function testGetPostcode1(): void
+    {
+        $postcode = $this->prophesize(Postcode::class);
+
+        $entity = $this->getEntity();
+        $entity->setPostcode($postcode->reveal());
+
+        $this->assertEquals($postcode->reveal(), $entity->getPostcode());
     }
 
     protected function getEntity(): BroadbandProviderReview

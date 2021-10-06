@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Vote\BroadbandProviderReviewVote;
-use App\Entity\Vote\Vote;
-use App\Exception\DeveloperException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -77,28 +76,19 @@ class BroadbandProviderReview
     private Postcode $postcode;
 
     /**
-     * @var Collection<int, Vote>
+     * @var Collection<int, BroadbandProviderReviewVote>
      * @ORM\OneToMany(targetEntity="App\Entity\Vote\BroadbandProviderReviewVote", mappedBy="broadbandProviderReview")
      */
     protected Collection $votes;
 
+    public function __construct()
+    {
+        $this->votes = new ArrayCollection();
+    }
+
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        if ($this->votes->contains($vote)) {
-            return $this;
-        }
-        if (!($vote instanceof BroadbandProviderReviewVote)) {
-            throw new DeveloperException('Only BroadbandProviderReviewVotes can be added to a BroadbandProviderReview');
-        }
-        $this->votes->add($vote);
-        $vote->setBroadbandProviderReview($this);
-
-        return $this;
     }
 
     public function getBroadbandProvider(): BroadbandProvider
@@ -181,6 +171,49 @@ class BroadbandProviderReview
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getOverallStars(): ?int
+    {
+        return $this->overallStars;
+    }
+
+    public function setOverallStars(?int $overallStars): self
+    {
+        $this->overallStars = $overallStars;
+
+        return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BroadbandProviderReviewVote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(BroadbandProviderReviewVote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            return $this;
+        }
+        $this->votes->add($vote);
+        $vote->setBroadbandProviderReview($this);
 
         return $this;
     }
