@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
+use App\Entity\BroadbandProvider;
 use App\Entity\City;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\District;
@@ -32,22 +33,32 @@ class TestFixtures extends AbstractDataFixtures
 
     public const TEST_AGENCY_1_SLUG = 'testerton';
     public const TEST_AGENCY_2_SLUG = 'checkerfield';
+
     public const TEST_BRANCH_101_SLUG = 'branch101slug';
     public const TEST_BRANCH_102_SLUG = 'branch102slug';
     public const TEST_BRANCH_201_SLUG = 'branch201slug';
+
+    public const TEST_BROADBAND_PROVIDER_1_SLUG = 'fastnet-broadband';
+
     public const TEST_CITY_KINGS_LYNN_SLUG = '8475b53127850aba';
     public const TEST_CITY_KINGSTON_UPON_THAMES_SLUG = 'e51ffa0e60d2772d';
     public const TEST_CITY_LOCALE_KINGS_LYNN_SLUG = 'test-kl-city-locale';
     public const TEST_CITY_LOCALE_KINGSTON_UPON_THAMES_SLUG = 'test-kut-city-locale';
+
     public const TEST_DISTRICT_ISLINGTON_SLUG = 'f9a1d092051730ae';
+
     public const TEST_LOCALE_SLUG = 'fakenham';
+
     public const TEST_REVIEW_SLUG_1 = 'review-1-slug';
+
     public const TEST_PROPERTY_1_SLUG = 'property-1-slug';
     public const TEST_PROPERTY_2_SLUG = 'property-2-slug';
     public const TEST_PROPERTY_3_SLUG = 'property-3-slug';
     public const TEST_PROPERTY_4_SLUG = 'property-4-slug';
     public const TEST_PROPERTY_5_SLUG = 'property-5-slug';
+
     public const TEST_REVIEW_SOLICITATION_CODE = '73d2d50d17e8c1bbb05b8fddb3918033f2daf589';
+
     public const TEST_SURVEY_SLUG = 'test-survey';
 
     public function __construct(
@@ -258,6 +269,7 @@ class TestFixtures extends AbstractDataFixtures
 
         $this->loadSurvey($manager);
         $this->loadLocale($manager, $tenancyReview);
+        $this->loadBroadbandProviders($manager);
 
         $manager->flush();
     }
@@ -357,6 +369,20 @@ class TestFixtures extends AbstractDataFixtures
             ->setPublished(true)
         ;
         $manager->persist($districtLocale);
+    }
+
+    private function loadBroadbandProviders(ObjectManager $manager): void
+    {
+        $fastnet = (new BroadbandProvider())
+            ->setName('Fastnet')
+            ->setSlug(self::TEST_BROADBAND_PROVIDER_1_SLUG)
+            ->setCountryCode('UK')
+            ->setPublished(true)
+        ;
+
+        $manager->persist($fastnet);
+
+        $this->addReference('broadband-provider-fastnet', $fastnet);
     }
 
     private function loadCities(ObjectManager $manager): void
