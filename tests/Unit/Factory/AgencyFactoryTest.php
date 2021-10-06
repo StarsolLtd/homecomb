@@ -76,4 +76,18 @@ final class AgencyFactoryTest extends TestCase
         $this->assertEquals('abcdef123456', $view->getSlug());
         $this->assertCount(2, $view->getBranches());
     }
+
+    public function testCreateEntityByName1(): void
+    {
+        $name = 'Devon Homes';
+
+        $this->agencyHelper->generateSlug(Argument::type(Agency::class))
+            ->shouldBeCalledOnce()
+            ->willReturn('test-agency-slug');
+
+        $agency = $this->agencyFactory->createEntityByName($name);
+
+        $this->assertEquals($name, $agency->getName());
+        $this->assertEquals('test-agency-slug', $agency->getSlug());
+    }
 }

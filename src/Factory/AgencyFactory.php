@@ -27,6 +27,16 @@ class AgencyFactory
         return $agency;
     }
 
+    public function createEntityByName(string $name): Agency
+    {
+        $agency = (new Agency())
+            ->setName($name);
+
+        $agency->setSlug($this->agencyHelper->generateSlug($agency));
+
+        return $agency;
+    }
+
     public function createViewFromEntity(Agency $agency): AgencyView
     {
         $branches = [];
