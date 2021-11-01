@@ -12,6 +12,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Repository\BroadbandProviderRepository;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
 use App\Service\BroadbandProviderReview\CreateService;
+use App\Service\InteractionService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,14 +29,15 @@ final class CreateServiceTest extends TestCase
 
     private ObjectProphecy $broadbandProviderReviewFactory;
     private ObjectProphecy $findOrCreateService;
+    private ObjectProphecy $interactionService;
     private ObjectProphecy $broadbandProviderRepository;
     private ObjectProphecy $userService;
-    private ObjectProphecy $entityManager;
 
     public function setUp(): void
     {
         $this->broadbandProviderReviewFactory = $this->prophesize(BroadbandProviderReviewFactory::class);
         $this->findOrCreateService = $this->prophesize(BroadbandProviderFindOrCreateService::class);
+        $this->interactionService = $this->prophesize(InteractionService::class);
         $this->broadbandProviderRepository = $this->prophesize(BroadbandProviderRepository::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
@@ -44,6 +46,7 @@ final class CreateServiceTest extends TestCase
             $this->broadbandProviderReviewFactory->reveal(),
             $this->findOrCreateService->reveal(),
             $this->broadbandProviderRepository->reveal(),
+            $this->interactionService->reveal(),
             $this->userService->reveal(),
             $this->entityManager->reveal(),
         );
@@ -57,6 +60,9 @@ final class CreateServiceTest extends TestCase
         $requestDetails = $this->prophesize(RequestDetails::class);
 
         list($input, $user) = $this->prophesizeSubmitReview();
+
+        $this->interactionService->record(InteractionService::TYPE_BROADBAND_PROVIDER_REVIEW, 77, $requestDetails, $user)
+            ->shouldBeCalledOnce();
 
         $submitOutput = $this->createService->submitReview(
             $input->reveal(),
@@ -105,6 +111,8 @@ final class CreateServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($broadbandProviderReview)
         ;
+
+        $broadbandProviderReview->getId()->shouldBeCalledOnce()->willReturn(77);
 
         $this->assertEntitiesArePersistedAndFlush([$broadbandProviderReview]);
 

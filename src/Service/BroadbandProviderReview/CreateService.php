@@ -9,6 +9,7 @@ use App\Model\BroadbandProviderReview\SubmitOutput;
 use App\Model\Interaction\RequestDetails;
 use App\Repository\BroadbandProviderRepository;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
+use App\Service\InteractionService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +20,7 @@ class CreateService
         private BroadbandProviderReviewFactory $broadbandProviderReviewFactory,
         private BroadbandProviderFindOrCreateService $findOrCreateService,
         private BroadbandProviderRepository $broadbandProviderRepository,
+        private InteractionService $interactionService,
         private UserService $userService,
         private EntityManagerInterface $entityManager,
     ) {
@@ -44,12 +46,12 @@ class CreateService
 
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $tenancyReview = $this->broadbandProviderReviewFactory->createEntity($submitInput, $broadbandProvider, $userEntity);
+        $review = $this->broadbandProviderReviewFactory->createEntity($submitInput, $broadbandProvider, $userEntity);
 
-        $this->entityManager->persist($tenancyReview);
+        $this->entityManager->persist($review);
         $this->entityManager->flush();
 
-        // TODO interaction, notification using $requestDetails
+        $this->interactionService->record(InteractionService::TYPE_BROADBAND_PROVIDER_REVIEW, $review->getId(), $requestDetails, $user);
 
         return new SubmitOutput(true);
     }

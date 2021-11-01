@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class InteractionService
 {
     public const TYPE_ANSWER = 'Answer';
+    public const TYPE_BROADBAND_PROVIDER_REVIEW = 'BroadbandProviderReview';
     public const TYPE_FLAG = 'Flag';
     public const TYPE_TENANCY_REVIEW = 'TenancyReview';
     public const TYPE_VOTE = 'Vote';
