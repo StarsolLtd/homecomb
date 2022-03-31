@@ -6,9 +6,8 @@ use App\Entity\Comment\Comment;
 use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
-use App\Model\Comment\SubmitInput;
+use App\Model\Comment\SubmitInputInterface;
 use App\Repository\TenancyReviewRepository;
-use function sprintf;
 
 class CommentFactory
 {
@@ -17,13 +16,14 @@ class CommentFactory
     ) {
     }
 
-    public function createEntityFromSubmitInput(SubmitInput $input, User $user): Comment
+    public function createEntityFromSubmitInput(SubmitInputInterface $input, User $user): Comment
     {
         $entityName = $input->getEntityName();
+        $entityId = $input->getEntityId();
 
-        switch ($input->getEntityName()) {
+        switch ($entityName) {
             case 'Review':
-                $tenancyReview = $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId());
+                $tenancyReview = $this->tenancyReviewRepository->findOnePublishedById($entityId);
                 $comment = new TenancyReviewComment();
                 $tenancyReview->addComment($comment);
                 break;
@@ -32,7 +32,7 @@ class CommentFactory
         }
 
         $comment
-            ->setRelatedEntityId($input->getEntityId())
+            ->setRelatedEntityId($entityId)
             ->setContent($input->getContent())
             ->setUser($user);
 

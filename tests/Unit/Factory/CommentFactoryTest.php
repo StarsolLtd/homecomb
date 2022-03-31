@@ -7,7 +7,7 @@ use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
-use App\Model\Comment\SubmitInput;
+use App\Model\Comment\SubmitInputInterface;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -38,20 +38,19 @@ final class CommentFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
-        $input = new SubmitInput(
-            'Review',
-            876,
-            'On behalf of my Agency I would like to say thank you for your review.',
-            null
-        );
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Review');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(876);
+        $input->getContent()->shouldBeCalledOnce()->willReturn('On behalf of my Agency I would like to say thank you for your review.');
+
         $user = new User();
         $tenancyReview = new TenancyReview();
 
-        $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId())
+        $this->tenancyReviewRepository->findOnePublishedById(876)
             ->shouldBeCalledOnce()
             ->willReturn($tenancyReview);
 
-        $comment = $this->commentFactory->createEntityFromSubmitInput($input, $user);
+        $comment = $this->commentFactory->createEntityFromSubmitInput($input->reveal(), $user);
 
         $this->assertInstanceOf(TenancyReviewComment::class, $comment);
         $this->assertEquals(876, $comment->getRelatedEntityId());
@@ -65,17 +64,14 @@ final class CommentFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput2(): void
     {
-        $input = new SubmitInput(
-            'Fondue',
-            876,
-            'On behalf of my Agency I would like to say thank you for your review.',
-            null
-        );
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Fondue');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(876);
         $user = new User();
 
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Fondue is not a valid comment related entity name.');
 
-        $this->commentFactory->createEntityFromSubmitInput($input, $user);
+        $this->commentFactory->createEntityFromSubmitInput($input->reveal(), $user);
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
 use App\Model\Comment\SubmitInput;
+use App\Model\Comment\SubmitInputInterface;
 use App\Service\CommentService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -52,7 +53,7 @@ final class CommentServiceTest extends TestCase
      */
     public function testSubmitComment1(): void
     {
-        $submitInput = $this->prophesize(SubmitInput::class);
+        $submitInput = $this->prophesize(SubmitInputInterface::class);
         $comment = $this->prophesize(Comment::class);
         $user = new User();
 

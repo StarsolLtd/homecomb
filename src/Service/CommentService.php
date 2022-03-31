@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
-use App\Model\Comment\SubmitInput;
+use App\Model\Comment\SubmitInputInterface;
 use App\Model\Comment\SubmitOutput;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +21,7 @@ class CommentService
     ) {
     }
 
-    public function submitComment(SubmitInput $submitInput, ?UserInterface $user): SubmitOutput
+    public function submitComment(SubmitInputInterface $submitInput, ?UserInterface $user): SubmitOutput
     {
         $userEntity = $this->userService->getEntityFromInterface($user);
 
