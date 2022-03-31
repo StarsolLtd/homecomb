@@ -7,6 +7,7 @@ use App\Exception\ConflictException;
 use App\Exception\UserException;
 use App\Factory\UserFactory;
 use App\Model\User\RegisterInput;
+use App\Model\User\RegisterInputInterface;
 use App\Repository\UserRepository;
 use App\Service\EmailService;
 use App\Service\User\RegistrationService;
@@ -55,11 +56,11 @@ final class RegistrationServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserRegistrationService::register
+     * @covers \App\Service\User\RegistrationService::register
      */
     public function testRegister1(): void
     {
-        $input = $this->prophesize(RegisterInput::class);
+        $input = $this->prophesize(RegisterInputInterface::class);
         $user = $this->prophesizeSendVerificationEmail();
 
         $input->getEmail()

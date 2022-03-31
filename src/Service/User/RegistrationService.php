@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Exception\UserException;
 use App\Factory\UserFactory;
-use App\Model\User\RegisterInput;
+use App\Model\User\RegisterInputInterface;
 use App\Repository\UserRepository;
 use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +24,7 @@ class RegistrationService
     ) {
     }
 
-    public function register(RegisterInput $input): User
+    public function register(RegisterInputInterface $input): User
     {
         $username = $input->getEmail();
         $this->registerCheckExisting($username);
