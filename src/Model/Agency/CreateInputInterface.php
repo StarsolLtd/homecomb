@@ -2,7 +2,7 @@
 
 namespace App\Model\Agency;
 
-interface CreateAgencyInputInterface
+interface CreateInputInterface
 {
     public function getAgencyName(): string;
 

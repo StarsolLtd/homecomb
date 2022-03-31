@@ -4,7 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Agency;
 use App\Model\Agency\AgencyView;
-use App\Model\Agency\CreateAgencyInputInterface;
+use App\Model\Agency\CreateInputInterface;
 use App\Util\AgencyHelper;
 
 class AgencyFactory
@@ -15,7 +15,7 @@ class AgencyFactory
     ) {
     }
 
-    public function createAgencyEntityFromCreateAgencyInputModel(CreateAgencyInputInterface $createInput): Agency
+    public function createAgencyEntityFromCreateAgencyInputModel(CreateInputInterface $createInput): Agency
     {
         $agency = (new Agency())
             ->setName($createInput->getAgencyName())

@@ -6,8 +6,8 @@ use App\Entity\Agency;
 use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
-use App\Model\Agency\CreateAgencyInput;
-use App\Model\Agency\CreateAgencyInputInterface;
+use App\Model\Agency\CreateInput;
+use App\Model\Agency\CreateInputInterface;
 use App\Service\Agency\CreateService;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
@@ -45,7 +45,7 @@ final class CreateServiceTest extends TestCase
 
     public function testCreateAgency(): void
     {
-        $createInput = $this->prophesize(CreateAgencyInputInterface::class);
+        $createInput = $this->prophesize(CreateInputInterface::class);
         $user = $this->prophesize(User::class);
         $agency = $this->prophesize(Agency::class);
 
@@ -71,7 +71,7 @@ final class CreateServiceTest extends TestCase
 
     public function testCreateAgencyThrowsConflictExceptionWhenUserIsAlreadyAgencyAdmin(): void
     {
-        $createAgencyInput = new CreateAgencyInput(
+        $createAgencyInput = new CreateInput(
             'Test Agency Name',
             'https://test.com/welcome',
             null,

@@ -5,7 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use App\Exception\ConflictException;
 use App\Exception\NotFoundException;
-use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\CreateInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateBranchInput;
 use App\Model\Branch\UpdateBranchInput;
@@ -62,8 +62,8 @@ final class AgencyAdminController extends AppController
         }
 
         try {
-            /** @var CreateAgencyInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), CreateAgencyInput::class, 'json');
+            /** @var CreateInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), CreateInput::class, 'json');
         } catch (Exception $e) {
             $this->addDeserializationFailedFlashMessage();
 

@@ -4,8 +4,8 @@ namespace App\Service\Agency;
 
 use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
-use App\Model\Agency\CreateAgencyInputInterface;
 use App\Model\Agency\CreateAgencyOutput;
+use App\Model\Agency\CreateInputInterface;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ class CreateService
     }
 
     public function createAgency(
-        CreateAgencyInputInterface $createAgencyInput,
+        CreateInputInterface $createInput,
         ?UserInterface $user
     ): CreateAgencyOutput {
         $user = $this->userService->getEntityFromInterface($user);
@@ -31,7 +31,7 @@ class CreateService
             throw new ConflictException('User is already an agency admin.');
         }
 
-        $agency = $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput);
+        $agency = $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createInput);
         $agency->addAdminUser($user);
 
         $this->entityManager->persist($agency);
