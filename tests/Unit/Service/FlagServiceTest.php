@@ -6,7 +6,7 @@ use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInput;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Service\FlagService;
 use App\Service\InteractionService;
 use App\Service\NotificationService;
@@ -59,7 +59,7 @@ final class FlagServiceTest extends TestCase
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
         $flag = $this->prophesize(TenancyReviewFlag::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityOrNullFromInterface($user);
 

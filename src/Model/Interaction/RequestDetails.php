@@ -2,7 +2,7 @@
 
 namespace App\Model\Interaction;
 
-class RequestDetails
+class RequestDetails implements RequestDetailsInterface
 {
     public function __construct(
         private ?string $sessionId = null,

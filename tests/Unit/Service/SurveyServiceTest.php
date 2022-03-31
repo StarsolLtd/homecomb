@@ -9,7 +9,7 @@ use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\View;
 use App\Repository\Survey\AnswerRepository;
@@ -105,7 +105,7 @@ final class SurveyServiceTest extends TestCase
         $existingAnswer = $this->prophesize(Answer::class);
         $answer = $this->prophesize(Answer::class);
         $question = $this->prophesize(Question::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $response = $this->prophesize(Response::class);
         $survey = $this->prophesize(Survey::class);
         $user = $this->prophesize(User::class);

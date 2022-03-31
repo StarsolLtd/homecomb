@@ -6,7 +6,7 @@ use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
@@ -43,7 +43,7 @@ class SurveyService
     public function answer(
         SubmitAnswerInput $input,
         ?UserInterface $user,
-        ?RequestDetails $requestDetails = null
+        ?RequestDetailsInterface $requestDetails = null
     ): SubmitAnswerOutput {
         $question = $this->questionRepository->findOnePublishedById($input->getQuestionId());
         $survey = $question->getSurvey();

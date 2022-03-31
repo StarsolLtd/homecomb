@@ -8,7 +8,7 @@ use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Factory\VoteFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Vote\SubmitInput;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
@@ -30,7 +30,7 @@ class VoteService
     public function vote(
         SubmitInput $input,
         ?UserInterface $user,
-        ?RequestDetails $requestDetails
+        ?RequestDetailsInterface $requestDetails
     ): SubmitOutput {
         $userEntity = $this->userService->getEntityFromInterface($user);
 

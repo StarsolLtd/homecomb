@@ -41,7 +41,7 @@ final class PropertyController extends AppController
 
         try {
             $propertySlug = $this->propertyService->determinePropertySlugFromVendorPropertyId((string) $vendorPropertyId);
-        } catch (DeveloperException | FailureException $e) {
+        } catch (DeveloperException|FailureException $e) {
             return $this->jsonResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

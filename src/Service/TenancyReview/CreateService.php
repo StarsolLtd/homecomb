@@ -3,7 +3,7 @@
 namespace App\Service\TenancyReview;
 
 use App\Factory\TenancyReviewFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\TenancyReview\SubmitInput;
 use App\Model\TenancyReview\SubmitOutput;
 use App\Repository\PropertyRepository;
@@ -34,7 +34,7 @@ class CreateService
     public function submitReview(
         SubmitInput $reviewInput,
         ?UserInterface $user,
-        ?RequestDetails $requestDetails = null
+        ?RequestDetailsInterface $requestDetails = null
     ): SubmitOutput {
         $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
 

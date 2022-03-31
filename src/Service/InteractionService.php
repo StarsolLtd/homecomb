@@ -7,7 +7,7 @@ use App\Entity\Interaction\FlagInteraction;
 use App\Entity\Interaction\Interaction;
 use App\Entity\Interaction\TenancyReviewInteraction;
 use App\Entity\Interaction\VoteInteraction;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepository;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
@@ -39,7 +39,7 @@ class InteractionService
     public function record(
         string $entityName,
         int $entityId,
-        ?RequestDetails $requestDetails,
+        ?RequestDetailsInterface $requestDetails,
         ?UserInterface $user = null
     ): void {
         if (null === $requestDetails) {

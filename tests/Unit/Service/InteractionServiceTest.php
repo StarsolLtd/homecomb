@@ -9,6 +9,7 @@ use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Entity\Vote\Vote;
 use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepository;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
@@ -66,7 +67,7 @@ final class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $tenancyReview = $this->prophesize(TenancyReview::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $this->prophesizeRequestDetails($requestDetails);
 
         $this->tenancyReviewRepository->findOneById(789)
@@ -89,7 +90,7 @@ final class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $flag = $this->prophesize(Flag::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $this->prophesizeRequestDetails($requestDetails);
 
         $this->flagRepository->findOneById(2020)
@@ -112,7 +113,7 @@ final class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $answer = $this->prophesize(Answer::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $this->prophesizeRequestDetails($requestDetails);
 
         $this->answerRepository->findOneById(2020)
@@ -134,7 +135,7 @@ final class InteractionServiceTest extends TestCase
     {
         $user = new User();
         $vote = $this->prophesize(Vote::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $this->prophesizeRequestDetails($requestDetails);
 
         $this->voteRepository->findOneById(2020)
@@ -154,7 +155,7 @@ final class InteractionServiceTest extends TestCase
      */
     public function testRecord5(): void
     {
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertEntityManagerUnused();
 

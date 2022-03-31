@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\BroadbandProviderReviewFactory;
 use App\Model\BroadbandProviderReview\SubmitInput;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\BroadbandProviderRepository;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
 use App\Service\BroadbandProviderReview\CreateService;
@@ -57,7 +57,7 @@ final class CreateServiceTest extends TestCase
      */
     public function testSubmitReview1(): void
     {
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         list($input, $user) = $this->prophesizeSubmitReview();
 
@@ -78,7 +78,7 @@ final class CreateServiceTest extends TestCase
      */
     public function testSubmitReview2(): void
     {
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
 

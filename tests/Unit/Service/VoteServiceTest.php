@@ -10,7 +10,7 @@ use App\Entity\Vote\CommentVote;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Factory\VoteFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Vote\SubmitInput;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
@@ -67,7 +67,7 @@ final class VoteServiceTest extends TestCase
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(TenancyReviewVote::class);
         $tenancyReview = $this->prophesize(TenancyReview::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
@@ -112,7 +112,7 @@ final class VoteServiceTest extends TestCase
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(CommentVote::class);
         $comment = $this->prophesize(Comment::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
@@ -157,7 +157,7 @@ final class VoteServiceTest extends TestCase
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(CommentVote::class);
         $comment = $this->prophesize(Comment::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
@@ -202,7 +202,7 @@ final class VoteServiceTest extends TestCase
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(LocaleReviewVote::class);
         $localeReview = $this->prophesize(LocaleReview::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
@@ -245,7 +245,7 @@ final class VoteServiceTest extends TestCase
         $input = $this->prophesize(SubmitInput::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(LocaleReviewVote::class);
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         $this->assertGetUserEntityFromInterface($user);
 

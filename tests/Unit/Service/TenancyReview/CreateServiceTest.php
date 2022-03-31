@@ -8,7 +8,7 @@ use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Factory\TenancyReviewFactory;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\TenancyReview\SubmitInput;
 use App\Repository\PropertyRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
@@ -71,7 +71,7 @@ final class CreateServiceTest extends TestCase
      */
     public function testSubmitReview1(): void
     {
-        $requestDetails = $this->prophesize(RequestDetails::class);
+        $requestDetails = $this->prophesize(RequestDetailsInterface::class);
 
         list($input, $user) = $this->prophesizeSubmitReview();
 

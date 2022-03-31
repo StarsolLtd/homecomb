@@ -6,7 +6,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\BroadbandProviderReviewFactory;
 use App\Model\BroadbandProviderReview\SubmitInput;
 use App\Model\BroadbandProviderReview\SubmitOutput;
-use App\Model\Interaction\RequestDetails;
+use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\BroadbandProviderRepository;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
 use App\Service\InteractionService;
@@ -29,7 +29,7 @@ class CreateService
     public function submitReview(
         SubmitInput $submitInput,
         ?UserInterface $user,
-        ?RequestDetails $requestDetails = null
+        ?RequestDetailsInterface $requestDetails = null
     ): SubmitOutput {
         $broadbandProviderSlug = $submitInput->getBroadbandProviderSlug();
         if (null !== $broadbandProviderSlug) {
