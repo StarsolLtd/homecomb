@@ -2,7 +2,7 @@
 
 namespace App\Model\TenancyReview;
 
-class SubmitInput
+class SubmitInput implements SubmitInputInterface
 {
     public function __construct(
         private string $propertySlug,

@@ -4,7 +4,7 @@ namespace App\Service\TenancyReview;
 
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Model\TenancyReview\SubmitInput;
+use App\Model\TenancyReview\SubmitInputInterface;
 use App\Model\TenancyReview\SubmitOutput;
 use App\Repository\PropertyRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
@@ -32,23 +32,23 @@ class CreateService
     }
 
     public function submitReview(
-        SubmitInput $reviewInput,
+        SubmitInputInterface $submitInput,
         ?UserInterface $user,
         ?RequestDetailsInterface $requestDetails = null
     ): SubmitOutput {
-        $property = $this->propertyRepository->findOnePublishedBySlug($reviewInput->getPropertySlug());
+        $property = $this->propertyRepository->findOnePublishedBySlug($submitInput->getPropertySlug());
 
-        $agencyName = $reviewInput->getAgencyName();
+        $agencyName = $submitInput->getAgencyName();
         $agency = $agencyName ? $this->agencyFindOrCreateService->findOrCreateByName($agencyName) : null;
-        $branchName = $reviewInput->getAgencyBranch();
+        $branchName = $submitInput->getAgencyBranch();
         $branch = $branchName ? $this->branchFindOrCreateService->findOrCreate($branchName, $agency) : null;
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $tenancyReview = $this->tenancyReviewFactory->createEntity($reviewInput, $property, $branch, $userEntity);
+        $tenancyReview = $this->tenancyReviewFactory->createEntity($submitInput, $property, $branch, $userEntity);
 
         $this->entityManager->persist($tenancyReview);
 
-        $code = $reviewInput->getCode();
+        $code = $submitInput->getCode();
         if (null !== $code) {
             $this->completeService->complete($code, $tenancyReview);
         }

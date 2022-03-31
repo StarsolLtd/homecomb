@@ -8,7 +8,7 @@ use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\Stars;
-use App\Model\TenancyReview\SubmitInput;
+use App\Model\TenancyReview\SubmitInputInterface;
 use App\Model\TenancyReview\View;
 use App\Util\ReviewHelper;
 use DateTime;
@@ -22,7 +22,7 @@ class TenancyReviewFactory
     }
 
     public function createEntity(
-        SubmitInput $input,
+        SubmitInputInterface $input,
         Property $property,
         ?Branch $branch,
         ?User $user
