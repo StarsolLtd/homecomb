@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\TenancyReviewSolicitation;
 use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Factory\TenancyReviewSolicitationFactory;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInputInterface;
 use App\Service\TenancyReviewSolicitation\CreateService;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
@@ -46,9 +46,8 @@ final class CreateServiceTest extends TestCase
 
     public function testCreateAndSend1(): void
     {
-        $input = $this->getValidCreateReviewSolicitationInput();
+        $input = $this->prophesize(CreateReviewSolicitationInputInterface::class);
         $user = $this->prophesize(User::class);
-
         $tenancyReviewSolicitation = $this->prophesize(TenancyReviewSolicitation::class);
 
         $this->assertGetUserEntityFromInterface($user);
@@ -61,21 +60,8 @@ final class CreateServiceTest extends TestCase
 
         $this->sendService->send($tenancyReviewSolicitation, $user)->shouldBeCalledOnce();
 
-        $output = $this->createService->createAndSend($input, $user->reveal());
+        $output = $this->createService->createAndSend($input->reveal(), $user->reveal());
 
         $this->assertTrue($output->isSuccess());
-    }
-
-    private function getValidCreateReviewSolicitationInput(): CreateReviewSolicitationInput
-    {
-        return new CreateReviewSolicitationInput(
-            'branchslug',
-            'propertyslug',
-            null,
-            'Jack',
-            'Harper',
-            'jack.harper@starsol.co.uk',
-            'SAMPLE'
-        );
     }
 }

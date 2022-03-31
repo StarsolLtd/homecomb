@@ -3,7 +3,7 @@
 namespace App\Service\TenancyReviewSolicitation;
 
 use App\Factory\TenancyReviewSolicitationFactory;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInputInterface;
 use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationOutput;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,8 +19,10 @@ class CreateService
     ) {
     }
 
-    public function createAndSend(CreateReviewSolicitationInput $input, ?UserInterface $user): CreateReviewSolicitationOutput
-    {
+    public function createAndSend(
+        CreateReviewSolicitationInputInterface $input,
+        ?UserInterface $user
+    ): CreateReviewSolicitationOutput {
         $user = $this->userService->getEntityFromInterface($user);
 
         $tenancyReviewSolicitation = $this->tenancyReviewSolicitationFactory->createEntityFromInput($input, $user);

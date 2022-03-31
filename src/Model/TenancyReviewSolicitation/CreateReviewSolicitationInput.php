@@ -2,7 +2,7 @@
 
 namespace App\Model\TenancyReviewSolicitation;
 
-class CreateReviewSolicitationInput
+class CreateReviewSolicitationInput implements CreateReviewSolicitationInputInterface
 {
     public function __construct(
         private string $branchSlug,
@@ -11,7 +11,7 @@ class CreateReviewSolicitationInput
         private string $recipientFirstName,
         private string $recipientLastName,
         private string $recipientEmail,
-        private string $captchaToken,
+        private ?string $captchaToken,
     ) {
     }
 
