@@ -4,7 +4,7 @@ namespace App\Service\Agency;
 
 use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
-use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\CreateAgencyInputInterface;
 use App\Model\Agency\CreateAgencyOutput;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
@@ -21,8 +21,10 @@ class CreateService
     ) {
     }
 
-    public function createAgency(CreateAgencyInput $createAgencyInput, ?UserInterface $user): CreateAgencyOutput
-    {
+    public function createAgency(
+        CreateAgencyInputInterface $createAgencyInput,
+        ?UserInterface $user
+    ): CreateAgencyOutput {
         $user = $this->userService->getEntityFromInterface($user);
 
         if (null !== $user->getAdminAgency()) {

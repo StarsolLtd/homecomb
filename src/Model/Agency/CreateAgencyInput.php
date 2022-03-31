@@ -2,7 +2,7 @@
 
 namespace App\Model\Agency;
 
-class CreateAgencyInput
+class CreateAgencyInput implements CreateAgencyInputInterface
 {
     public function __construct(
         private string $agencyName,

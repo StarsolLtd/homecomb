@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\CreateAgencyInputInterface;
 use App\Service\Agency\CreateService;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
@@ -44,32 +45,27 @@ final class CreateServiceTest extends TestCase
 
     public function testCreateAgency(): void
     {
-        $createAgencyInput = new CreateAgencyInput(
-            'Test Agency Name',
-            'https://test.com/welcome',
-            null,
-            null
-        );
-        $user = new User();
-        $agency = new Agency();
+        $createInput = $this->prophesize(CreateAgencyInputInterface::class);
+        $user = $this->prophesize(User::class);
+        $agency = $this->prophesize(Agency::class);
 
         $this->userService->getEntityFromInterface($user)
             ->shouldBeCalledOnce()
             ->willReturn($user);
 
-        $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createAgencyInput)
+        $this->agencyFactory->createAgencyEntityFromCreateAgencyInputModel($createInput)
             ->shouldBeCalledOnce()
             ->willReturn($agency);
+
+        $agency->addAdminUser($user)->shouldBeCalledOnce();
 
         $this->entityManager->persist($agency)->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
         $this->notificationService->sendAgencyModerationNotification($agency)->shouldBeCalledOnce();
 
-        $output = $this->createService->createAgency($createAgencyInput, $user);
+        $output = $this->createService->createAgency($createInput->reveal(), $user->reveal());
 
-        $this->assertContains($user, $agency->getAdminUsers());
-        $this->assertEquals($user->getAdminAgency(), $agency);
         $this->assertTrue($output->isSuccess());
     }
 
