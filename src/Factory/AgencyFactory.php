@@ -4,7 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Agency;
 use App\Model\Agency\AgencyView;
-use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\CreateInputInterface;
 use App\Util\AgencyHelper;
 
 class AgencyFactory
@@ -15,12 +15,12 @@ class AgencyFactory
     ) {
     }
 
-    public function createAgencyEntityFromCreateAgencyInputModel(CreateAgencyInput $createAgencyInput): Agency
+    public function createAgencyEntityFromCreateAgencyInputModel(CreateInputInterface $createInput): Agency
     {
         $agency = (new Agency())
-            ->setName($createAgencyInput->getAgencyName())
-            ->setPostcode($createAgencyInput->getPostcode())
-            ->setExternalUrl($createAgencyInput->getExternalUrl());
+            ->setName($createInput->getAgencyName())
+            ->setPostcode($createInput->getPostcode())
+            ->setExternalUrl($createInput->getExternalUrl());
 
         $agency->setSlug($this->agencyHelper->generateSlug($agency));
 

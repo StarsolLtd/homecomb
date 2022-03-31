@@ -6,7 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Factory\AgencyFactory;
 use App\Factory\FlatModelFactory;
-use App\Model\Agency\CreateAgencyInput;
+use App\Model\Agency\CreateInput;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Util\AgencyHelper;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ final class AgencyFactoryTest extends TestCase
 
     public function testCreateAgencyEntityFromCreateAgencyInputModel(): void
     {
-        $createAgencyInput = new CreateAgencyInput(
+        $createAgencyInput = new CreateInput(
             'Test Agency Name',
             'https://test.com/welcome',
             null,
