@@ -2,7 +2,7 @@
 
 namespace App\Model\User;
 
-class RegisterInput
+class RegisterInput implements RegisterInputInterface
 {
     public function __construct(
         private string $email,
