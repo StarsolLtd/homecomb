@@ -15,7 +15,7 @@ use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
-use App\Model\TenancyReview\SubmitInput;
+use App\Model\TenancyReview\SubmitInputInterface;
 use App\Model\TenancyReview\View;
 use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
@@ -154,7 +154,7 @@ final class TenancyReviewFactoryTest extends TestCase
         $branch = $this->prophesize(Branch::class);
         $user = $this->prophesize(User::class);
         $property = $this->prophesize(Property::class);
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
 
         $input->getReviewerName()
             ->shouldBeCalledOnce()

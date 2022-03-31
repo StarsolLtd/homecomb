@@ -9,7 +9,7 @@ use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Model\TenancyReview\SubmitInput;
+use App\Model\TenancyReview\SubmitInputInterface;
 use App\Repository\PropertyRepository;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\FindOrCreateService as BranchFindOrCreateService;
@@ -89,7 +89,7 @@ final class CreateServiceTest extends TestCase
 
     private function prophesizeSubmitReview(): array
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $user = $this->prophesize(User::class);
         $property = $this->prophesize(Property::class);
         $agency = $this->prophesize(Agency::class);
