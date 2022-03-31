@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\TenancyReviewSolicitation;
 use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Factory\TenancyReviewSolicitationFactory;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInputInterface;
+use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Service\TenancyReviewSolicitation\CreateService;
 use App\Service\TenancyReviewSolicitation\SendService;
 use App\Service\User\UserService;
@@ -46,7 +46,7 @@ final class CreateServiceTest extends TestCase
 
     public function testCreateAndSend1(): void
     {
-        $input = $this->prophesize(CreateReviewSolicitationInputInterface::class);
+        $input = $this->prophesize(CreateInputInterface::class);
         $user = $this->prophesize(User::class);
         $tenancyReviewSolicitation = $this->prophesize(TenancyReviewSolicitation::class);
 

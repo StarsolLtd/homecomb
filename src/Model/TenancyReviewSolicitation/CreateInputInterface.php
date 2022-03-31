@@ -2,7 +2,7 @@
 
 namespace App\Model\TenancyReviewSolicitation;
 
-interface CreateReviewSolicitationInputInterface
+interface CreateInputInterface
 {
     public function getBranchSlug(): string;
 

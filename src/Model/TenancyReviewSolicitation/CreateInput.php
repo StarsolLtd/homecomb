@@ -2,7 +2,7 @@
 
 namespace App\Model\TenancyReviewSolicitation;
 
-class CreateReviewSolicitationInput implements CreateReviewSolicitationInputInterface
+class CreateInput implements CreateInputInterface
 {
     public function __construct(
         private string $branchSlug,

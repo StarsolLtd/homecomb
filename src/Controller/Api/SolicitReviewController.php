@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use App\Exception\NotFoundException;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\TenancyReviewSolicitation\CreateInput;
 use App\Service\Branch\BranchAdminService;
 use App\Service\GoogleReCaptchaService;
 use App\Service\TenancyReviewSolicitation\CreateService as TenancyReviewSolicitationCreateService;
@@ -69,8 +69,8 @@ final class SolicitReviewController extends AppController
         }
 
         try {
-            /** @var CreateReviewSolicitationInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), CreateReviewSolicitationInput::class, 'json');
+            /** @var CreateInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), CreateInput::class, 'json');
         } catch (Exception $e) {
             $this->addDeserializationFailedFlashMessage();
 

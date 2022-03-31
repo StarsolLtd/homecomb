@@ -6,7 +6,7 @@ use App\Entity\TenancyReviewSolicitation;
 use App\Entity\User;
 use App\Exception\DeveloperException;
 use App\Exception\NotFoundException;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInputInterface;
+use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Model\TenancyReviewSolicitation\FormData;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\BranchRepository;
@@ -23,7 +23,7 @@ class TenancyReviewSolicitationFactory
     }
 
     public function createEntityFromInput(
-        CreateReviewSolicitationInputInterface $input,
+        CreateInputInterface $input,
         User $senderUser
     ): TenancyReviewSolicitation {
         $branch = $this->branchRepository->findOnePublishedBySlug($input->getBranchSlug());

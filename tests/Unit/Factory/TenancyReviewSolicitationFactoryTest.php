@@ -14,7 +14,7 @@ use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
-use App\Model\TenancyReviewSolicitation\CreateReviewSolicitationInput;
+use App\Model\TenancyReviewSolicitation\CreateInput;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +52,7 @@ final class TenancyReviewSolicitationFactoryTest extends TestCase
      */
     public function testCreateEntityFromInput1(): void
     {
-        $input = new CreateReviewSolicitationInput(
+        $input = new CreateInput(
             'branchslug',
             'propertyslug',
             null,
