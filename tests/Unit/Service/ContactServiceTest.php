@@ -2,7 +2,7 @@
 
 namespace App\Tests\Unit\Service;
 
-use App\Model\Contact\SubmitInput;
+use App\Model\Contact\SubmitInputInterface;
 use App\Service\ContactService;
 use App\Service\EmailService;
 use PHPUnit\Framework\TestCase;
@@ -36,11 +36,10 @@ final class ContactServiceTest extends TestCase
      */
     public function testSubmitContact1(): void
     {
-        $input = new SubmitInput(
-            'fiona.dutton@starsol.co.uk',
-            'Fiona Dutton',
-            'This is a test.'
-        );
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEmailAddress()->shouldBeCalledOnce()->willReturn('fiona.dutton@starsol.co.uk');
+        $input->getName()->shouldBeCalledOnce()->willReturn('Fiona Dutton');
+        $input->getMessage()->shouldBeCalledOnce()->willReturn('This is a test.');
 
         $this->emailService->process(
             'jack@starsol.co.uk',
@@ -54,7 +53,7 @@ final class ContactServiceTest extends TestCase
             ]
         )->shouldBeCalledOnce();
 
-        $output = $this->contactService->submitContact($input);
+        $output = $this->contactService->submitContact($input->reveal());
 
         $this->assertTrue($output->isSuccess());
     }

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Model\Contact\SubmitInput;
+use App\Model\Contact\SubmitInputInterface;
 use App\Model\Contact\SubmitOutput;
 
 class ContactService
@@ -14,7 +14,7 @@ class ContactService
     ) {
     }
 
-    public function submitContact(SubmitInput $submitInput): SubmitOutput
+    public function submitContact(SubmitInputInterface $submitInput): SubmitOutput
     {
         $this->emailService->process(
             $this->siteAdminEmail,
