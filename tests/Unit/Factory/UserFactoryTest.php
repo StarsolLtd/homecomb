@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\User;
 use App\Factory\UserFactory;
-use App\Model\User\RegisterInput;
+use App\Model\User\RegisterInputInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -30,18 +30,17 @@ final class UserFactoryTest extends TestCase
 
     public function testCreateEntityFromRegisterInput(): void
     {
-        $input = new RegisterInput(
-            'test.register@starsol.co.uk',
-            'Testa',
-            'Registrova',
-            'Password_1'
-        );
+        $input = $this->prophesize(RegisterInputInterface::class);
+        $input->getEmail()->shouldBeCalledOnce()->willReturn('test.register@starsol.co.uk');
+        $input->getFirstName()->shouldBeCalledOnce()->willReturn('Testa');
+        $input->getLastName()->shouldBeCalledOnce()->willReturn('Registrova');
+        $input->getPlainPassword()->shouldBeCalledOnce()->willReturn('Password_1');
 
         $this->userPasswordEncoder->encodePassword(Argument::type(User::class), 'Password_1')
             ->shouldBeCalledOnce()
             ->willReturn('encoded-password');
 
-        $user = $this->userFactory->createEntityFromRegisterInput($input);
+        $user = $this->userFactory->createEntityFromRegisterInput($input->reveal());
 
         $this->assertEquals('test.register@starsol.co.uk', $user->getEmail());
         $this->assertEquals('test.register@starsol.co.uk', $user->getUsername());

@@ -3,7 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\User;
-use App\Model\User\RegisterInput;
+use App\Model\User\RegisterInputInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFactory
@@ -13,7 +13,7 @@ class UserFactory
     ) {
     }
 
-    public function createEntityFromRegisterInput(RegisterInput $input): User
+    public function createEntityFromRegisterInput(RegisterInputInterface $input): User
     {
         $user = (new User())
             ->setEmail($input->getEmail())
