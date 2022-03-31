@@ -14,7 +14,7 @@ use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\Agency\Flat as FlatAgency;
 use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
-use App\Model\TenancyReviewSolicitation\CreateInput;
+use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use PHPUnit\Framework\TestCase;
@@ -52,15 +52,13 @@ final class TenancyReviewSolicitationFactoryTest extends TestCase
      */
     public function testCreateEntityFromInput1(): void
     {
-        $input = new CreateInput(
-            'branchslug',
-            'propertyslug',
-            null,
-            'Jack',
-            'Harper',
-            'jack.harper@starsol.co.uk',
-            'SAMPLE'
-        );
+        $input = $this->prophesize(CreateInputInterface::class);
+        $input->getBranchSlug()->shouldBeCalledOnce()->willReturn('branchslug');
+        $input->getPropertySlug()->shouldBeCalledOnce()->willReturn('propertyslug');
+        $input->getRecipientTitle()->shouldBeCalledOnce()->willReturn(null);
+        $input->getRecipientFirstName()->shouldBeCalledOnce()->willReturn('Jack');
+        $input->getRecipientLastName()->shouldBeCalledOnce()->willReturn('Harper');
+        $input->getRecipientEmail()->shouldBeCalledOnce()->willReturn('jack.harper@starsol.co.uk');
 
         $senderUser = new User();
         $agency = (new Agency())->addAdminUser($senderUser);
@@ -75,7 +73,7 @@ final class TenancyReviewSolicitationFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($property);
 
-        $entity = $this->tenancyReviewSolicitationFactory->createEntityFromInput($input, $senderUser);
+        $entity = $this->tenancyReviewSolicitationFactory->createEntityFromInput($input->reveal(), $senderUser);
 
         $this->assertEquals($branch, $entity->getBranch());
         $this->assertEquals($property, $entity->getProperty());
