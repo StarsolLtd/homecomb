@@ -9,7 +9,7 @@ use App\Entity\Flag\PropertyFlag;
 use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
-use App\Model\Flag\SubmitInput;
+use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
@@ -26,7 +26,7 @@ class FlagFactory
     ) {
     }
 
-    public function createEntityFromSubmitInput(SubmitInput $input, ?User $user): Flag
+    public function createEntityFromSubmitInput(SubmitInputInterface $input, ?User $user): Flag
     {
         $entityName = $input->getEntityName();
         $entityId = $input->getEntityId();

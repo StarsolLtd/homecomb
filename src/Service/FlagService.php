@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Factory\FlagFactory;
-use App\Model\Flag\SubmitInput;
+use App\Model\Flag\SubmitInputInterface;
 use App\Model\Flag\SubmitOutput;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Service\User\UserService;
@@ -22,7 +22,7 @@ class FlagService
     }
 
     public function submitFlag(
-        SubmitInput $submitInput,
+        SubmitInputInterface $submitInput,
         ?UserInterface $user,
         ?RequestDetailsInterface $requestDetails = null
     ): SubmitOutput {

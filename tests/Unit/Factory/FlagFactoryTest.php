@@ -13,7 +13,7 @@ use App\Entity\TenancyReview;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
-use App\Model\Flag\SubmitInput;
+use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepository;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
@@ -57,17 +57,20 @@ final class FlagFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
-        $input = new SubmitInput('Review', 789, 'This is spam');
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Review');
+        $input->getContent()->shouldBeCalledOnce()->willReturn('This is spam');
 
         $user = $this->prophesize(User::class);
         $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $this->reviewRepository->findOnePublishedById($input->getEntityId())
+        $this->reviewRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($tenancyReview);
 
         /** @var TenancyReviewFlag $flag */
-        $flag = $this->flagFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $flag = $this->flagFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(TenancyReviewFlag::class, $flag);
         $this->assertEquals($tenancyReview->reveal(), $flag->getTenancyReview());
@@ -81,17 +84,20 @@ final class FlagFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput2(): void
     {
-        $input = new SubmitInput('Agency', 789, 'Not a real agency');
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Agency');
+        $input->getContent()->shouldBeCalledOnce()->willReturn('Not a real agency');
 
         $user = $this->prophesize(User::class);
         $agency = $this->prophesize(Agency::class);
 
-        $this->agencyRepository->findOnePublishedById($input->getEntityId())
+        $this->agencyRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($agency);
 
         /** @var AgencyFlag $flag */
-        $flag = $this->flagFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $flag = $this->flagFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(AgencyFlag::class, $flag);
         $this->assertEquals($agency->reveal(), $flag->getAgency());
@@ -105,17 +111,20 @@ final class FlagFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput3(): void
     {
-        $input = new SubmitInput('Branch', 789, 'Agency does not have a branch here');
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Branch');
+        $input->getContent()->shouldBeCalledOnce()->willReturn('Agency does not have a branch here');
 
         $user = $this->prophesize(User::class);
         $branch = $this->prophesize(Branch::class);
 
-        $this->branchRepository->findOnePublishedById($input->getEntityId())
+        $this->branchRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($branch);
 
         /** @var BranchFlag $flag */
-        $flag = $this->flagFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $flag = $this->flagFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(BranchFlag::class, $flag);
         $this->assertEquals($branch->reveal(), $flag->getBranch());
@@ -129,21 +138,24 @@ final class FlagFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput4(): void
     {
-        $input = new SubmitInput('Property', 789, 'This property does not exist');
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Property');
+        $input->getContent()->shouldBeCalledOnce()->willReturn('Not a real agency');
 
         $user = $this->prophesize(User::class);
         $property = $this->prophesize(Property::class);
 
-        $this->propertyRepository->findOnePublishedById($input->getEntityId())
+        $this->propertyRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($property);
 
         /** @var PropertyFlag $flag */
-        $flag = $this->flagFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $flag = $this->flagFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(PropertyFlag::class, $flag);
         $this->assertEquals($property->reveal(), $flag->getProperty());
-        $this->assertEquals('This property does not exist', $flag->getContent());
+        $this->assertEquals('Not a real agency', $flag->getContent());
         $this->assertEquals($user->reveal(), $flag->getUser());
     }
 
@@ -153,10 +165,12 @@ final class FlagFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput5(): void
     {
-        $input = new SubmitInput('Chopsticks', 789, 'I find a fork easier');
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Chopsticks');
 
         $this->expectException(UnexpectedValueException::class);
 
-        $this->flagFactory->createEntityFromSubmitInput($input, null);
+        $this->flagFactory->createEntityFromSubmitInput($input->reveal(), null);
     }
 }
