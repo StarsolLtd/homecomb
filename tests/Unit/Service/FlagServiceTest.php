@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Factory\FlagFactory;
-use App\Model\Flag\SubmitInput;
+use App\Model\Flag\SubmitInputInterface;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Service\FlagService;
 use App\Service\InteractionService;
@@ -56,7 +56,7 @@ final class FlagServiceTest extends TestCase
      */
     public function testSubmitFlag1(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $user = $this->prophesize(User::class);
         $flag = $this->prophesize(TenancyReviewFlag::class);
         $requestDetails = $this->prophesize(RequestDetailsInterface::class);
