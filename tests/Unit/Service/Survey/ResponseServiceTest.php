@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Survey;
 
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
 use App\Entity\User;
 use App\Factory\Survey\ResponseFactory;
-use App\Service\ResponseService;
+use App\Service\Survey\ResponseService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
@@ -15,9 +15,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\ResponseService
- */
 final class ResponseServiceTest extends TestCase
 {
     use EntityManagerTrait;
@@ -42,9 +39,6 @@ final class ResponseServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\ResponseService::create
-     */
     public function testCreate1(): void
     {
         $response = $this->prophesize(Response::class);

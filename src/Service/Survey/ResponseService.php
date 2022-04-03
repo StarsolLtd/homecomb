@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Survey;
 
 use App\Entity\Survey\Response;
 use App\Entity\Survey\Survey;
