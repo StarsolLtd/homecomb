@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Factory\Review\LocaleReviewFactory;
-use App\Model\Review\SubmitLocaleReviewInput;
+use App\Model\Review\SubmitLocaleReviewInputInterface;
 use App\Model\Review\SubmitLocaleReviewOutput;
 use App\Repository\Locale\LocaleRepository;
 use App\Service\User\UserService;
@@ -21,13 +21,15 @@ class ReviewService
     ) {
     }
 
-    public function submitLocaleReview(SubmitLocaleReviewInput $submitInput, ?UserInterface $user): SubmitLocaleReviewOutput
-    {
+    public function submitLocaleReview(
+        SubmitLocaleReviewInputInterface $input,
+        ?UserInterface $user
+    ): SubmitLocaleReviewOutput {
         $userEntity = $this->userService->getUserEntityOrNullFromUserInterface($user);
 
-        $locale = $this->localeRepository->findOnePublishedBySlug($submitInput->getLocaleSlug());
+        $locale = $this->localeRepository->findOnePublishedBySlug($input->getLocaleSlug());
 
-        $localeReview = $this->localeReviewFactory->createEntity($submitInput, $locale, $userEntity);
+        $localeReview = $this->localeReviewFactory->createEntity($input, $locale, $userEntity);
 
         $this->entityManager->persist($localeReview);
         $this->entityManager->flush();

@@ -6,7 +6,7 @@ use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\Vote\LocaleReviewVote;
 use App\Factory\Review\LocaleReviewFactory;
-use App\Model\Review\SubmitLocaleReviewInput;
+use App\Model\Review\SubmitLocaleReviewInputInterface;
 use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
 use PHPUnit\Framework\TestCase;
@@ -38,22 +38,17 @@ final class LocaleReviewFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
-        $input = new SubmitLocaleReviewInput(
-            'fakenham',
-            'testcode',
-            'John Smith',
-            'john.smith@starsol.co.uk',
-            'There is a market place',
-            'I like living here, there is a Greggs.',
-            4,
-            'sample',
-        );
+        $input = $this->prophesize(SubmitLocaleReviewInputInterface::class);
+        $input->getReviewerName()->shouldBeCalledOnce()->willReturn('John Smith');
+        $input->getReviewTitle()->shouldBeCalledOnce()->willReturn('There is a market place');
+        $input->getReviewContent()->shouldBeCalledOnce()->willReturn('I like living here, there is a Greggs.');
+        $input->getOverallStars()->shouldBeCalledOnce()->willReturn(4);
 
         $locale = $this->prophesize(Locale::class);
 
         $this->reviewHelper->generateSlug(Argument::type(LocaleReview::class))->shouldBeCalledOnce()->willReturn('testslug');
 
-        $entity = $this->localeReviewFactory->createEntity($input, $locale->reveal());
+        $entity = $this->localeReviewFactory->createEntity($input->reveal(), $locale->reveal());
 
         $this->assertEquals($locale->reveal(), $entity->getLocale());
         $this->assertEquals('John Smith', $entity->getAuthor());

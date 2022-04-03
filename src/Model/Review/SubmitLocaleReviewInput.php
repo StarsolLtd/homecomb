@@ -2,7 +2,7 @@
 
 namespace App\Model\Review;
 
-class SubmitLocaleReviewInput
+class SubmitLocaleReviewInput implements SubmitLocaleReviewInputInterface
 {
     public function __construct(
         private string $localeSlug,
