@@ -9,7 +9,7 @@ use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Model\Vote\SubmitInput;
+use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
 use App\Service\User\UserService;
@@ -28,7 +28,7 @@ class VoteService
     }
 
     public function vote(
-        SubmitInput $input,
+        SubmitInputInterface $input,
         ?UserInterface $user,
         ?RequestDetailsInterface $requestDetails
     ): SubmitOutput {
@@ -65,7 +65,7 @@ class VoteService
         return new SubmitOutput(true);
     }
 
-    private function findExisting(SubmitInput $input, User $user): ?Vote
+    private function findExisting(SubmitInputInterface $input, User $user): ?Vote
     {
         switch ($input->getEntityName()) {
             case 'Comment':

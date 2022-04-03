@@ -11,7 +11,7 @@ use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Model\Vote\SubmitInput;
+use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\VoteRepository;
 use App\Service\InteractionService;
@@ -62,7 +62,7 @@ final class VoteServiceTest extends TestCase
      */
     public function testVote1(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(TenancyReviewVote::class);
@@ -107,7 +107,7 @@ final class VoteServiceTest extends TestCase
      */
     public function testVote2(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(CommentVote::class);
@@ -152,7 +152,7 @@ final class VoteServiceTest extends TestCase
      */
     public function testVote3(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(CommentVote::class);
@@ -197,7 +197,7 @@ final class VoteServiceTest extends TestCase
      */
     public function testVote4(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $output = $this->prophesize(SubmitOutput::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(LocaleReviewVote::class);
@@ -242,7 +242,7 @@ final class VoteServiceTest extends TestCase
      */
     public function testVote5(): void
     {
-        $input = $this->prophesize(SubmitInput::class);
+        $input = $this->prophesize(SubmitInputInterface::class);
         $user = $this->prophesize(User::class);
         $vote = $this->prophesize(LocaleReviewVote::class);
         $requestDetails = $this->prophesize(RequestDetailsInterface::class);

@@ -11,7 +11,7 @@ use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
-use App\Model\Vote\SubmitInput;
+use App\Model\Vote\SubmitInputInterface;
 use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\TenancyReviewRepository;
@@ -51,17 +51,20 @@ final class VoteFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput1(): void
     {
-        $input = new SubmitInput('TenancyReview', 789, false);
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('TenancyReview');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->isPositive()->shouldBeCalledOnce()->willReturn(false);
 
         $user = $this->prophesize(User::class);
         $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $this->tenancyReviewRepository->findOnePublishedById($input->getEntityId())
+        $this->tenancyReviewRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($tenancyReview);
 
         /** @var TenancyReviewVote $vote */
-        $vote = $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $vote = $this->voteFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(TenancyReviewVote::class, $vote);
         $this->assertEquals($tenancyReview->reveal(), $vote->getTenancyReview());
@@ -75,17 +78,20 @@ final class VoteFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput2(): void
     {
-        $input = new SubmitInput('Comment', 789, true);
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Comment');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->isPositive()->shouldBeCalledOnce()->willReturn(true);
 
         $user = $this->prophesize(User::class);
         $comment = $this->prophesize(Comment::class);
 
-        $this->commentRepository->findOnePublishedById($input->getEntityId())
+        $this->commentRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($comment);
 
         /** @var CommentVote $vote */
-        $vote = $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $vote = $this->voteFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(CommentVote::class, $vote);
         $this->assertEquals($comment->reveal(), $vote->getComment());
@@ -99,17 +105,20 @@ final class VoteFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput3(): void
     {
-        $input = new SubmitInput('LocaleReview', 789, true);
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('LocaleReview');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
+        $input->isPositive()->shouldBeCalledOnce()->willReturn(true);
 
         $user = $this->prophesize(User::class);
         $review = $this->prophesize(LocaleReview::class);
 
-        $this->reviewRepository->findOnePublishedById($input->getEntityId())
+        $this->reviewRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($review);
 
         /** @var LocaleReviewVote $vote */
-        $vote = $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $vote = $this->voteFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
 
         $this->assertInstanceOf(LocaleReviewVote::class, $vote);
         $this->assertEquals($review->reveal(), $vote->getLocaleReview());
@@ -123,13 +132,15 @@ final class VoteFactoryTest extends TestCase
      */
     public function testCreateEntityFromSubmitInput4(): void
     {
-        $input = new SubmitInput('Chopsticks', 789, true);
+        $input = $this->prophesize(SubmitInputInterface::class);
+        $input->getEntityName()->shouldBeCalledOnce()->willReturn('Chopsticks');
+        $input->getEntityId()->shouldBeCalledOnce()->willReturn(789);
 
         $user = $this->prophesize(User::class);
 
         $this->expectException(UnexpectedValueException::class);
 
-        $this->voteFactory->createEntityFromSubmitInput($input, $user->reveal());
+        $this->voteFactory->createEntityFromSubmitInput($input->reveal(), $user->reveal());
     }
 
     /**

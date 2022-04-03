@@ -12,7 +12,7 @@ use App\Entity\Vote\LocaleReviewVote;
 use App\Entity\Vote\TenancyReviewVote;
 use App\Entity\Vote\Vote;
 use App\Exception\UnexpectedValueException;
-use App\Model\Vote\SubmitInput;
+use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepository;
 use App\Repository\ReviewRepository;
@@ -28,7 +28,7 @@ class VoteFactory
     ) {
     }
 
-    public function createEntityFromSubmitInput(SubmitInput $input, User $user): Vote
+    public function createEntityFromSubmitInput(SubmitInputInterface $input, User $user): Vote
     {
         $entityName = $input->getEntityName();
         $entityId = $input->getEntityId();
