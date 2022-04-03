@@ -8,7 +8,7 @@ use App\Exception\NotFoundException;
 use App\Model\Agency\CreateInput;
 use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Branch\CreateInput as BranchCreateInput;
-use App\Model\Branch\UpdateBranchInput;
+use App\Model\Branch\UpdateInput as BranchUpdateInput;
 use App\Service\Agency\CreateService as AgencyCreateService;
 use App\Service\Agency\UpdateService as AgencyUpdateService;
 use App\Service\AgencyAdminService;
@@ -232,8 +232,8 @@ final class AgencyAdminController extends AppController
         }
 
         try {
-            /** @var UpdateBranchInput $input */
-            $input = $this->serializer->deserialize($request->getContent(), UpdateBranchInput::class, 'json');
+            /** @var BranchUpdateInput $input */
+            $input = $this->serializer->deserialize($request->getContent(), BranchUpdateInput::class, 'json');
         } catch (Exception $e) {
             $this->addDeserializationFailedFlashMessage();
 

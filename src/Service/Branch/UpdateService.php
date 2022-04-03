@@ -2,8 +2,8 @@
 
 namespace App\Service\Branch;
 
-use App\Model\Branch\UpdateBranchInput;
 use App\Model\Branch\UpdateBranchOutput;
+use App\Model\Branch\UpdateInputInterface;
 use App\Repository\BranchRepository;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,14 +18,14 @@ class UpdateService
     ) {
     }
 
-    public function updateBranch(string $slug, UpdateBranchInput $updateBranchInput, ?UserInterface $user): UpdateBranchOutput
+    public function updateBranch(string $slug, UpdateInputInterface $input, ?UserInterface $user): UpdateBranchOutput
     {
         $user = $this->userService->getEntityFromInterface($user);
 
         $branch = $this->branchRepository->findOneBySlugUserCanManage($slug, $user);
 
-        $branch->setTelephone($updateBranchInput->getTelephone())
-            ->setEmail($updateBranchInput->getEmail());
+        $branch->setTelephone($input->getTelephone())
+            ->setEmail($input->getEmail());
 
         $this->entityManager->flush();
 
