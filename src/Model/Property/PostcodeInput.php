@@ -2,7 +2,7 @@
 
 namespace App\Model\Property;
 
-class PostcodeInput
+class PostcodeInput implements PostcodeInputInterface
 {
     public function __construct(
         private string $postcode,
