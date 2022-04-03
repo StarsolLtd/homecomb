@@ -6,7 +6,7 @@ use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\User;
 use App\Model\Review\LocaleReviewView;
-use App\Model\Review\SubmitLocaleReviewInput;
+use App\Model\Review\SubmitLocaleReviewInputInterface;
 use App\Util\ReviewHelper;
 
 class LocaleReviewFactory
@@ -17,7 +17,7 @@ class LocaleReviewFactory
     }
 
     public function createEntity(
-        SubmitLocaleReviewInput $input,
+        SubmitLocaleReviewInputInterface $input,
         Locale $locale,
         ?User $user = null
     ): LocaleReview {

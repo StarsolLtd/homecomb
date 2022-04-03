@@ -6,7 +6,7 @@ use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
 use App\Entity\User;
 use App\Factory\Review\LocaleReviewFactory;
-use App\Model\Review\SubmitLocaleReviewInput;
+use App\Model\Review\SubmitLocaleReviewInputInterface;
 use App\Repository\Locale\LocaleRepository;
 use App\Service\NotificationService;
 use App\Service\ReviewService;
@@ -55,14 +55,14 @@ final class ReviewServiceTest extends TestCase
      */
     public function testSubmitReview1(): void
     {
-        $submitInput = $this->prophesize(SubmitLocaleReviewInput::class);
+        $input = $this->prophesize(SubmitLocaleReviewInputInterface::class);
         $localeReview = $this->prophesize(LocaleReview::class);
         $locale = $this->prophesize(Locale::class);
         $user = new User();
 
         $this->assertGetUserEntityOrNullFromInterface($user);
 
-        $submitInput->getLocaleSlug()
+        $input->getLocaleSlug()
             ->shouldBeCalledOnce()
             ->willReturn('test-slug');
 
@@ -70,7 +70,7 @@ final class ReviewServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($locale);
 
-        $this->localeReviewFactory->createEntity($submitInput, $locale, $user)
+        $this->localeReviewFactory->createEntity($input, $locale, $user)
             ->shouldBeCalledOnce()
             ->willReturn($localeReview);
 
@@ -78,7 +78,7 @@ final class ReviewServiceTest extends TestCase
 
         $this->notificationService->sendLocaleReviewModerationNotification($localeReview)->shouldBeCalledOnce();
 
-        $output = $this->reviewService->submitLocaleReview($submitInput->reveal(), $user);
+        $output = $this->reviewService->submitLocaleReview($input->reveal(), $user);
 
         $this->assertTrue($output->isSuccess());
     }
