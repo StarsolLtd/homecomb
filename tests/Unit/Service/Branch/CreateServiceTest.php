@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
-use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\CreateInput;
 use App\Repository\BranchRepository;
 use App\Service\Branch\CreateService;
 use App\Service\NotificationService;
@@ -111,9 +111,9 @@ final class CreateServiceTest extends TestCase
         $this->createService->createBranch($createBranchInput, $user);
     }
 
-    private function getValidCreateBranchInput(): CreateBranchInput
+    private function getValidCreateBranchInput(): CreateInput
     {
-        return new CreateBranchInput(
+        return new CreateInput(
             'Blakeney',
             '0700 100 200',
             null,

@@ -7,7 +7,7 @@ use App\Entity\Branch;
 use App\Entity\TenancyReview;
 use App\Factory\BranchFactory;
 use App\Factory\TenancyReviewFactory;
-use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\CreateInputInterface;
 use App\Model\TenancyReview\View;
 use App\Util\BranchHelper;
 use PHPUnit\Framework\TestCase;
@@ -43,12 +43,10 @@ final class BranchFactoryTest extends TestCase
      */
     public function testCreateEntityFromCreateBranchInput1(): void
     {
-        $createBranchInput = new CreateBranchInput(
-            'Test Branch Name',
-            '0700 100 200',
-            null,
-            'sample'
-        );
+        $input = $this->prophesize(CreateInputInterface::class);
+        $input->getBranchName()->shouldBeCalledOnce()->willReturn('Test Branch Name');
+        $input->getTelephone()->shouldBeCalledOnce()->willReturn('0700 100 200');
+        $input->getEmail()->shouldBeCalledOnce()->willReturn(null);
 
         $agency = $this->prophesize(Agency::class);
 
@@ -56,7 +54,7 @@ final class BranchFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
 
-        $branch = $this->branchFactory->createEntityFromCreateBranchInput($createBranchInput, $agency->reveal());
+        $branch = $this->branchFactory->createEntityFromCreateBranchInput($input->reveal(), $agency->reveal());
 
         $this->assertEquals($agency->reveal(), $branch->getAgency());
         $this->assertEquals('Test Branch Name', $branch->getName());

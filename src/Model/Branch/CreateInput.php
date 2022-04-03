@@ -2,7 +2,7 @@
 
 namespace App\Model\Branch;
 
-class CreateBranchInput
+class CreateInput implements CreateInputInterface
 {
     public function __construct(
         private string $branchName,
