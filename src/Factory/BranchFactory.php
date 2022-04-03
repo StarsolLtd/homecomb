@@ -6,7 +6,7 @@ use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Model\Branch\Agency as AgencyModel;
 use App\Model\Branch\Branch as BranchModel;
-use App\Model\Branch\CreateBranchInput;
+use App\Model\Branch\CreateInputInterface;
 use App\Model\Branch\View;
 use App\Util\BranchHelper;
 
@@ -18,7 +18,7 @@ class BranchFactory
     ) {
     }
 
-    public function createEntityFromCreateBranchInput(CreateBranchInput $input, Agency $agency): Branch
+    public function createEntityFromCreateBranchInput(CreateInputInterface $input, Agency $agency): Branch
     {
         $branch = (new Branch())
             ->setAgency($agency)
