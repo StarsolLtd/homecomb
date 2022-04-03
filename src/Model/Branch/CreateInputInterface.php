@@ -2,7 +2,7 @@
 
 namespace App\Model\Branch;
 
-interface Branch
+interface CreateInputInterface
 {
     public function getBranchName(): string;
 
