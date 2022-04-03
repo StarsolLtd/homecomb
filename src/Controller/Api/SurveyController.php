@@ -6,7 +6,7 @@ use App\Controller\AppController;
 use App\Exception\NotFoundException;
 use App\Factory\InteractionFactory;
 use App\Model\Survey\SubmitAnswerInput;
-use App\Service\SurveyService;
+use App\Service\Survey\SurveyService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

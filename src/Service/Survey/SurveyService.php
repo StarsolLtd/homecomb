@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Survey;
 
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
@@ -14,7 +14,8 @@ use App\Repository\Survey\AnswerRepository;
 use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
-use App\Service\Survey\ResponseService;
+use App\Service\InteractionService;
+use App\Service\SessionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

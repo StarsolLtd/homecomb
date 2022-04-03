@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\Survey;
 
 use App\Entity\Survey\Answer;
 use App\Entity\Survey\Question;
@@ -19,7 +19,7 @@ use App\Repository\Survey\SurveyRepository;
 use App\Service\InteractionService;
 use App\Service\SessionService;
 use App\Service\Survey\ResponseService;
-use App\Service\SurveyService;
+use App\Service\Survey\SurveyService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -75,9 +75,6 @@ final class SurveyServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\SurveyService::getViewBySlug
-     */
     public function testGetViewBySlug1(): void
     {
         $survey = $this->prophesize(Survey::class);
@@ -96,9 +93,6 @@ final class SurveyServiceTest extends TestCase
         $this->assertEquals($view->reveal(), $output);
     }
 
-    /**
-     * @covers \App\Service\SurveyService::answer
-     */
     public function testAnswer1(): void
     {
         $input = $this->prophesize(SubmitAnswerInput::class);
