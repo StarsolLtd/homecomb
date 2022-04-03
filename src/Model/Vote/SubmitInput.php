@@ -2,7 +2,7 @@
 
 namespace App\Model\Vote;
 
-class SubmitInput
+class SubmitInput implements SubmitInputInterface
 {
     public function __construct(
         private string $entityName,
