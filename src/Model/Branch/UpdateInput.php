@@ -2,7 +2,7 @@
 
 namespace App\Model\Branch;
 
-class UpdateBranchInput
+class UpdateInput implements UpdateInputInterface
 {
     public function __construct(
         private ?string $telephone = null,
