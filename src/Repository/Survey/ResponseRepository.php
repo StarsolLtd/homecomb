@@ -14,7 +14,7 @@ use function sprintf;
  * @method Response[]    findAll()
  * @method Response[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ResponseRepository extends ServiceEntityRepository
+final class ResponseRepository extends ServiceEntityRepository implements ResponseRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

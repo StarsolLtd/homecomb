@@ -4,7 +4,7 @@ namespace App\Service\BroadbandProvider;
 
 use App\Entity\BroadbandProvider;
 use App\Factory\BroadbandProviderFactory;
-use App\Repository\BroadbandProviderRepository;
+use App\Repository\BroadbandProviderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class FindOrCreateService
@@ -12,7 +12,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private BroadbandProviderFactory $broadbandProviderFactory,
-        private BroadbandProviderRepository $broadbandProviderRepository
+        private BroadbandProviderRepositoryInterface $broadbandProviderRepository
     ) {
     }
 

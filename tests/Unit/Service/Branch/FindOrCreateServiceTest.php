@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service\Branch;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\Branch\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
@@ -30,7 +30,7 @@ final class FindOrCreateServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->branchHelper = $this->prophesize(BranchHelper::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
 
         $this->branchFindOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),

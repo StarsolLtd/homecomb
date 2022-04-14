@@ -4,7 +4,7 @@ namespace App\Service\Branch;
 
 use App\Model\Branch\UpdateBranchOutput;
 use App\Model\Branch\UpdateInputInterface;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,7 +14,7 @@ class UpdateService
     public function __construct(
         private UserService $userService,
         private EntityManagerInterface $entityManager,
-        private BranchRepository $branchRepository
+        private BranchRepositoryInterface $branchRepository
     ) {
     }
 

@@ -14,7 +14,7 @@ use function sprintf;
  * @method Agency[]    findAll()
  * @method Agency[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AgencyRepository extends ServiceEntityRepository
+final class AgencyRepository extends ServiceEntityRepository implements AgencyRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

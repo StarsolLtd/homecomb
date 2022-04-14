@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method DistrictLocale[]    findAll()
  * @method DistrictLocale[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DistrictLocaleRepository extends ServiceEntityRepository
+final class DistrictLocaleRepository extends ServiceEntityRepository implements DistrictLocaleRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

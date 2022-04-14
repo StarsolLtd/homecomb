@@ -4,13 +4,13 @@ namespace App\Service\Agency;
 
 use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
-use App\Repository\AgencyRepository;
+use App\Repository\AgencyRepositoryInterface;
 
 class ViewService
 {
     public function __construct(
         private AgencyFactory $agencyFactory,
-        private AgencyRepository $agencyRepository
+        private AgencyRepositoryInterface $agencyRepository
     ) {
     }
 

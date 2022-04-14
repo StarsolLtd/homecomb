@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Property[]    findAll()
  * @method Property[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PropertyRepository extends ServiceEntityRepository
+final class PropertyRepository extends ServiceEntityRepository implements PropertyRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\Branch;
 use App\Entity\Branch;
 use App\Entity\User;
 use App\Model\Branch\UpdateInputInterface;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\Branch\UpdateService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -30,7 +30,7 @@ final class UpdateServiceTest extends TestCase
     {
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
 
         $this->branchService = new UpdateService(
             $this->userService->reveal(),

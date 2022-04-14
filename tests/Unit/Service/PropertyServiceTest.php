@@ -7,7 +7,7 @@ use App\Factory\PropertyFactory;
 use App\Model\Property\PropertySuggestion;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use App\Service\GetAddressService;
 use App\Service\PropertyService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -34,7 +34,7 @@ final class PropertyServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->propertyFactory = $this->prophesize(PropertyFactory::class);
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
         $this->getAddressService = $this->prophesize(GetAddressService::class);
 
         $this->propertyService = new PropertyService(

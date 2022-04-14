@@ -9,15 +9,15 @@ use App\Exception\NotFoundException;
 use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Model\TenancyReviewSolicitation\FormData;
 use App\Model\TenancyReviewSolicitation\View;
-use App\Repository\BranchRepository;
-use App\Repository\PropertyRepository;
+use App\Repository\BranchRepositoryInterface;
+use App\Repository\PropertyRepositoryInterface;
 use function sha1;
 
 class TenancyReviewSolicitationFactory
 {
     public function __construct(
-        private BranchRepository $branchRepository,
-        private PropertyRepository $propertyRepository,
+        private BranchRepositoryInterface $branchRepository,
+        private PropertyRepositoryInterface $propertyRepository,
         private FlatModelFactory $flatModelFactory
     ) {
     }

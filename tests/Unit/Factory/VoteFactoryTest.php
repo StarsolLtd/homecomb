@@ -12,9 +12,9 @@ use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Vote\SubmitInputInterface;
-use App\Repository\CommentRepository;
-use App\Repository\ReviewRepository;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\CommentRepositoryInterface;
+use App\Repository\ReviewRepositoryInterface;
+use App\Repository\TenancyReviewRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -34,9 +34,9 @@ final class VoteFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->commentRepository = $this->prophesize(CommentRepository::class);
-        $this->reviewRepository = $this->prophesize(ReviewRepository::class);
-        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->commentRepository = $this->prophesize(CommentRepositoryInterface::class);
+        $this->reviewRepository = $this->prophesize(ReviewRepositoryInterface::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
 
         $this->voteFactory = new VoteFactory(
             $this->commentRepository->reveal(),

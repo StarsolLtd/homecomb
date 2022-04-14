@@ -2,14 +2,14 @@
 
 namespace App\Service\Branch;
 
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\User\UserService;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class BranchAdminService
 {
     public function __construct(
-        private BranchRepository $branchRepository,
+        private BranchRepositoryInterface $branchRepository,
         private UserService $userService,
     ) {
     }

@@ -4,7 +4,7 @@ namespace App\Service\Agency;
 
 use App\Entity\Agency;
 use App\Factory\AgencyFactory;
-use App\Repository\AgencyRepository;
+use App\Repository\AgencyRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class FindOrCreateService
@@ -12,7 +12,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AgencyFactory $agencyFactory,
-        private AgencyRepository $agencyRepository
+        private AgencyRepositoryInterface $agencyRepository
     ) {
     }
 

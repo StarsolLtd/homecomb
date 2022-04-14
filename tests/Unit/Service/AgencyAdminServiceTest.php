@@ -10,7 +10,7 @@ use App\Factory\AgencyAdminFactory;
 use App\Factory\FlatModelFactory;
 use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\AgencyAdminService;
 use App\Service\User\UserService;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ final class AgencyAdminServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->agencyAdminFactory = $this->prophesize(AgencyAdminFactory::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
 
         $this->agencyAdminService = new AgencyAdminService(
             $this->userService->reveal(),

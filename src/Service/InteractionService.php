@@ -8,10 +8,10 @@ use App\Entity\Interaction\Interaction;
 use App\Entity\Interaction\TenancyReviewInteraction;
 use App\Entity\Interaction\VoteInteraction;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Repository\FlagRepository;
-use App\Repository\Survey\AnswerRepository;
-use App\Repository\TenancyReviewRepository;
-use App\Repository\VoteRepository;
+use App\Repository\FlagRepositoryInterface;
+use App\Repository\Survey\AnswerRepositoryInterface;
+use App\Repository\TenancyReviewRepositoryInterface;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -29,10 +29,10 @@ class InteractionService
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private UserService $userService,
-        private AnswerRepository $answerRepository,
-        private FlagRepository $flagRepository,
-        private TenancyReviewRepository $tenancyReviewRepository,
-        private VoteRepository $voteRepository,
+        private AnswerRepositoryInterface $answerRepository,
+        private FlagRepositoryInterface $flagRepository,
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
+        private VoteRepositoryInterface $voteRepository,
     ) {
     }
 

@@ -5,14 +5,14 @@ namespace App\Factory\Survey;
 use App\Entity\Survey\Answer;
 use App\Entity\Survey\Response;
 use App\Model\Survey\SubmitAnswerInput;
-use App\Repository\Survey\ChoiceRepository;
-use App\Repository\Survey\QuestionRepository;
+use App\Repository\Survey\ChoiceRepositoryInterface;
+use App\Repository\Survey\QuestionRepositoryInterface;
 
 class AnswerFactory
 {
     public function __construct(
-        private ChoiceRepository $choiceRepository,
-        private QuestionRepository $questionRepository
+        private ChoiceRepositoryInterface $choiceRepository,
+        private QuestionRepositoryInterface $questionRepository
     ) {
     }
 

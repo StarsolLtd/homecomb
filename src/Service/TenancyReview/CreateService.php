@@ -6,7 +6,7 @@ use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\TenancyReview\SubmitInputInterface;
 use App\Model\TenancyReview\SubmitOutput;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\FindOrCreateService as BranchFindOrCreateService;
 use App\Service\InteractionService;
@@ -26,7 +26,7 @@ class CreateService
         private CompleteService $completeService,
         private UserService $userService,
         private EntityManagerInterface $entityManager,
-        private PropertyRepository $propertyRepository,
+        private PropertyRepositoryInterface $propertyRepository,
         private TenancyReviewFactory $tenancyReviewFactory
     ) {
     }

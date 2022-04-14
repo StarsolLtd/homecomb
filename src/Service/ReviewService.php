@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInputInterface;
 use App\Model\Review\SubmitLocaleReviewOutput;
-use App\Repository\Locale\LocaleRepository;
+use App\Repository\Locale\LocaleRepositoryInterface;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,7 +16,7 @@ class ReviewService
         private EntityManagerInterface $entityManager,
         private NotificationService $notificationService,
         private LocaleReviewFactory $localeReviewFactory,
-        private LocaleRepository $localeRepository,
+        private LocaleRepositoryInterface $localeRepository,
         private UserService $userService
     ) {
     }

@@ -14,7 +14,7 @@ use function sprintf;
  * @method Choice[]    findAll()
  * @method Choice[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChoiceRepository extends ServiceEntityRepository
+final class ChoiceRepository extends ServiceEntityRepository implements ChoiceRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

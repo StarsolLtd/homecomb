@@ -4,13 +4,13 @@ namespace App\Service\TenancyReviewSolicitation;
 
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\View;
-use App\Repository\TenancyReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepositoryInterface;
 
 class ViewService
 {
     public function __construct(
         private TenancyReviewSolicitationFactory $tenancyReviewSolicitationFactory,
-        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
+        private TenancyReviewSolicitationRepositoryInterface $tenancyReviewSolicitationRepository,
     ) {
     }
 

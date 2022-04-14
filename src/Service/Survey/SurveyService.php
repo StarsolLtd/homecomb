@@ -10,10 +10,10 @@ use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
-use App\Repository\Survey\AnswerRepository;
-use App\Repository\Survey\QuestionRepository;
-use App\Repository\Survey\ResponseRepository;
-use App\Repository\Survey\SurveyRepository;
+use App\Repository\Survey\AnswerRepositoryInterface;
+use App\Repository\Survey\QuestionRepositoryInterface;
+use App\Repository\Survey\ResponseRepositoryInterface;
+use App\Repository\Survey\SurveyRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\SessionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,10 +28,10 @@ class SurveyService
         private SessionService $sessionService,
         private AnswerFactory $answerFactory,
         private SurveyFactory $surveyFactory,
-        private AnswerRepository $answerRepository,
-        private QuestionRepository $questionRepository,
-        private ResponseRepository $responseRepository,
-        private SurveyRepository $surveyRepository
+        private AnswerRepositoryInterface $answerRepository,
+        private QuestionRepositoryInterface $questionRepository,
+        private ResponseRepositoryInterface $responseRepository,
+        private SurveyRepositoryInterface $surveyRepository
     ) {
     }
 

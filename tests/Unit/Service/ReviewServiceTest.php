@@ -7,7 +7,7 @@ use App\Entity\Review\LocaleReview;
 use App\Entity\User;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInputInterface;
-use App\Repository\Locale\LocaleRepository;
+use App\Repository\Locale\LocaleRepositoryInterface;
 use App\Service\NotificationService;
 use App\Service\ReviewService;
 use App\Service\User\UserService;
@@ -38,7 +38,7 @@ final class ReviewServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->notificationService = $this->prophesize(NotificationService::class);
         $this->localeReviewFactory = $this->prophesize(LocaleReviewFactory::class);
-        $this->localeRepository = $this->prophesize(LocaleRepository::class);
+        $this->localeRepository = $this->prophesize(LocaleRepositoryInterface::class);
         $this->userService = $this->prophesize(UserService::class);
 
         $this->reviewService = new ReviewService(
@@ -50,9 +50,6 @@ final class ReviewServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\ReviewService::submitLocaleReview
-     */
     public function testSubmitReview1(): void
     {
         $input = $this->prophesize(SubmitLocaleReviewInputInterface::class);

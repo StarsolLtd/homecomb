@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Property;
 use App\Model\Property\PropertySuggestion;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use App\Service\GetAddressService;
 use App\Service\PropertyAutocompleteService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -28,7 +28,7 @@ final class PropertyAutocompleteServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
         $this->getAddressService = $this->prophesize(GetAddressService::class);
 
         $this->propertyAutocompleteService = new PropertyAutocompleteService(

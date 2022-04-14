@@ -13,7 +13,7 @@ use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
-use App\Repository\VoteRepository;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
 use App\Service\VoteService;
@@ -44,7 +44,7 @@ final class VoteServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
         $this->userService = $this->prophesize(UserService::class);
-        $this->voteRepository = $this->prophesize(VoteRepository::class);
+        $this->voteRepository = $this->prophesize(VoteRepositoryInterface::class);
         $this->voteFactory = $this->prophesize(VoteFactory::class);
 
         $this->voteService = new VoteService(

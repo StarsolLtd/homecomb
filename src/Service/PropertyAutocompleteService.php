@@ -3,12 +3,12 @@
 namespace App\Service;
 
 use App\Model\Property\PropertySuggestion;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 
 class PropertyAutocompleteService
 {
     public function __construct(
-        private PropertyRepository $propertyRepository,
+        private PropertyRepositoryInterface $propertyRepository,
         private GetAddressService $getAddressService
     ) {
     }

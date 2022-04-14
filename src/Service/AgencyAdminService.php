@@ -7,9 +7,8 @@ use App\Factory\AgencyAdminFactory;
 use App\Factory\FlatModelFactory;
 use App\Model\AgencyAdmin\Home;
 use App\Model\Branch\Flat as FlatBranch;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\User\UserService;
-use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AgencyAdminService
@@ -18,7 +17,7 @@ class AgencyAdminService
         private UserService $userService,
         private AgencyAdminFactory $agencyAdminFactory,
         private FlatModelFactory $flatModelFactory,
-        private BranchRepository $branchRepository,
+        private BranchRepositoryInterface $branchRepository,
     ) {
     }
 

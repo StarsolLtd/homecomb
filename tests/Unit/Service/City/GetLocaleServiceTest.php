@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service\City;
 
 use App\Entity\City;
 use App\Entity\Locale\CityLocale;
-use App\Repository\CityRepository;
+use App\Repository\CityRepositoryInterface;
 use App\Service\City\GetLocaleService;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -24,7 +24,7 @@ final class GetLocaleServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->cityRepository = $this->prophesize(CityRepository::class);
+        $this->cityRepository = $this->prophesize(CityRepositoryInterface::class);
         $this->localeFindOrCreateService = $this->prophesize(LocaleFindOrCreateService::class);
 
         $this->getLocaleService = new GetLocaleService(

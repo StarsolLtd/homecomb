@@ -17,7 +17,7 @@ use function sprintf;
  * @method Branch[]    findAll()
  * @method Branch[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BranchRepository extends ServiceEntityRepository
+final class BranchRepository extends ServiceEntityRepository implements BranchRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

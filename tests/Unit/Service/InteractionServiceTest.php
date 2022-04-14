@@ -10,10 +10,10 @@ use App\Entity\User;
 use App\Entity\Vote\Vote;
 use App\Model\Interaction\RequestDetails;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Repository\FlagRepository;
-use App\Repository\Survey\AnswerRepository;
-use App\Repository\TenancyReviewRepository;
-use App\Repository\VoteRepository;
+use App\Repository\FlagRepositoryInterface;
+use App\Repository\Survey\AnswerRepositoryInterface;
+use App\Repository\TenancyReviewRepositoryInterface;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -44,10 +44,10 @@ final class InteractionServiceTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->logger = $this->prophesize(LoggerInterface::class);
         $this->userService = $this->prophesize(UserService::class);
-        $this->answerRepository = $this->prophesize(AnswerRepository::class);
-        $this->flagRepository = $this->prophesize(FlagRepository::class);
-        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
-        $this->voteRepository = $this->prophesize(VoteRepository::class);
+        $this->answerRepository = $this->prophesize(AnswerRepositoryInterface::class);
+        $this->flagRepository = $this->prophesize(FlagRepositoryInterface::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
+        $this->voteRepository = $this->prophesize(VoteRepositoryInterface::class);
 
         $this->interactionService = new InteractionService(
             $this->entityManager->reveal(),

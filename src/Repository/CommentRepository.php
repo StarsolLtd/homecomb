@@ -14,7 +14,7 @@ use function sprintf;
  * @method Comment[]    findAll()
  * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommentRepository extends ServiceEntityRepository
+final class CommentRepository extends ServiceEntityRepository implements CommentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

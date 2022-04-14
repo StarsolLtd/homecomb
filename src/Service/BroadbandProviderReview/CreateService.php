@@ -7,7 +7,7 @@ use App\Factory\BroadbandProviderReviewFactory;
 use App\Model\BroadbandProviderReview\SubmitInput;
 use App\Model\BroadbandProviderReview\SubmitOutput;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Repository\BroadbandProviderRepository;
+use App\Repository\BroadbandProviderRepositoryInterface;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
@@ -19,7 +19,7 @@ class CreateService
     public function __construct(
         private BroadbandProviderReviewFactory $broadbandProviderReviewFactory,
         private BroadbandProviderFindOrCreateService $findOrCreateService,
-        private BroadbandProviderRepository $broadbandProviderRepository,
+        private BroadbandProviderRepositoryInterface $broadbandProviderRepository,
         private InteractionService $interactionService,
         private UserService $userService,
         private EntityManagerInterface $entityManager,
