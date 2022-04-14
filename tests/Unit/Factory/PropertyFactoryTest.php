@@ -15,7 +15,7 @@ use App\Model\City\City as CityModel;
 use App\Model\District\Flat as FlatDistrict;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
-use App\Service\CityService;
+use App\Service\City\FindOrCreateService as CityFindOrCreateService;
 use App\Service\DistrictService;
 use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,7 @@ final class PropertyFactoryTest extends TestCase
 
     private PropertyFactory $propertyFactory;
 
-    private ObjectProphecy $cityService;
+    private ObjectProphecy $cityFindOrCreateService;
     private ObjectProphecy $districtService;
     private ObjectProphecy $propertyHelper;
     private ObjectProphecy $cityFactory;
@@ -41,7 +41,7 @@ final class PropertyFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->cityService = $this->prophesize(CityService::class);
+        $this->cityFindOrCreateService = $this->prophesize(CityFindOrCreateService::class);
         $this->districtService = $this->prophesize(DistrictService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
         $this->cityFactory = $this->prophesize(CityFactory::class);
@@ -49,7 +49,7 @@ final class PropertyFactoryTest extends TestCase
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->propertyFactory = new PropertyFactory(
-            $this->cityService->reveal(),
+            $this->cityFindOrCreateService->reveal(),
             $this->districtService->reveal(),
             $this->propertyHelper->reveal(),
             $this->cityFactory->reveal(),
@@ -87,7 +87,7 @@ final class PropertyFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn('ccc5382816c1');
 
-        $this->cityService->findOrCreate('Cambridge', 'Cambridgeshire', 'UK')
+        $this->cityFindOrCreateService->findOrCreate('Cambridge', 'Cambridgeshire', 'UK')
             ->shouldBeCalledOnce()
             ->willReturn($city);
 
