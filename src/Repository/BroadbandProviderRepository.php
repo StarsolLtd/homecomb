@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method BroadbandProvider[]    findAll()
  * @method BroadbandProvider[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BroadbandProviderRepository extends ServiceEntityRepository
+final class BroadbandProviderRepository extends ServiceEntityRepository implements BroadbandProviderRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

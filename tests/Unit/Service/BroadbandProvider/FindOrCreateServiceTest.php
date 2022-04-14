@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service\BroadbandProvider;
 
 use App\Entity\BroadbandProvider;
 use App\Factory\BroadbandProviderFactory;
-use App\Repository\BroadbandProviderRepository;
+use App\Repository\BroadbandProviderRepositoryInterface;
 use App\Service\BroadbandProvider\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +28,7 @@ final class FindOrCreateServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->broadbandProviderFactory = $this->prophesize(BroadbandProviderFactory::class);
-        $this->broadbandProviderRepository = $this->prophesize(BroadbandProviderRepository::class);
+        $this->broadbandProviderRepository = $this->prophesize(BroadbandProviderRepositoryInterface::class);
 
         $this->findOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),

@@ -9,7 +9,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\BroadbandProviderReviewFactory;
 use App\Model\BroadbandProviderReview\SubmitInput;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Repository\BroadbandProviderRepository;
+use App\Repository\BroadbandProviderRepositoryInterface;
 use App\Service\BroadbandProvider\FindOrCreateService as BroadbandProviderFindOrCreateService;
 use App\Service\BroadbandProviderReview\CreateService;
 use App\Service\InteractionService;
@@ -38,7 +38,7 @@ final class CreateServiceTest extends TestCase
         $this->broadbandProviderReviewFactory = $this->prophesize(BroadbandProviderReviewFactory::class);
         $this->findOrCreateService = $this->prophesize(BroadbandProviderFindOrCreateService::class);
         $this->interactionService = $this->prophesize(InteractionService::class);
-        $this->broadbandProviderRepository = $this->prophesize(BroadbandProviderRepository::class);
+        $this->broadbandProviderRepository = $this->prophesize(BroadbandProviderRepositoryInterface::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
 
