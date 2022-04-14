@@ -7,7 +7,7 @@ use App\Entity\District;
 use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\DistrictLocale;
 use App\Factory\LocaleFactory;
-use App\Repository\Locale\CityLocaleRepository;
+use App\Repository\Locale\CityLocaleRepositoryInterface;
 use App\Repository\Locale\DistrictLocaleRepository;
 use App\Service\Locale\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -31,7 +31,7 @@ final class FindOrCreateServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
-        $this->cityLocaleRepository = $this->prophesize(CityLocaleRepository::class);
+        $this->cityLocaleRepository = $this->prophesize(CityLocaleRepositoryInterface::class);
         $this->districtLocaleRepository = $this->prophesize(DistrictLocaleRepository::class);
 
         $this->findOrCreateService = new FindOrCreateService(
