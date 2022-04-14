@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Review[]    findAll()
  * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReviewRepository extends ServiceEntityRepository
+final class ReviewRepository extends ServiceEntityRepository implements ReviewRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -15,7 +15,7 @@ use App\Exception\UnexpectedValueException;
 use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepositoryInterface;
-use App\Repository\ReviewRepository;
+use App\Repository\ReviewRepositoryInterface;
 use App\Repository\TenancyReviewRepository;
 use function sprintf;
 
@@ -23,7 +23,7 @@ class VoteFactory
 {
     public function __construct(
         private CommentRepositoryInterface $commentRepository,
-        private ReviewRepository $reviewRepository,
+        private ReviewRepositoryInterface $reviewRepository,
         private TenancyReviewRepository $tenancyReviewRepository
     ) {
     }
