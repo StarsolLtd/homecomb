@@ -11,7 +11,7 @@ use App\Factory\VoteFactory;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
-use App\Repository\VoteRepository;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,7 +22,7 @@ class VoteService
         private EntityManagerInterface $entityManager,
         private InteractionService $interactionService,
         private UserService $userService,
-        private VoteRepository $voteRepository,
+        private VoteRepositoryInterface $voteRepository,
         private VoteFactory $voteFactory
     ) {
     }

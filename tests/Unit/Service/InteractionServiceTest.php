@@ -13,7 +13,7 @@ use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepositoryInterface;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepositoryInterface;
-use App\Repository\VoteRepository;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -47,7 +47,7 @@ final class InteractionServiceTest extends TestCase
         $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->flagRepository = $this->prophesize(FlagRepositoryInterface::class);
         $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
-        $this->voteRepository = $this->prophesize(VoteRepository::class);
+        $this->voteRepository = $this->prophesize(VoteRepositoryInterface::class);
 
         $this->interactionService = new InteractionService(
             $this->entityManager->reveal(),

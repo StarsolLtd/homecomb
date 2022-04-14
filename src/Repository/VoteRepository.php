@@ -18,7 +18,7 @@ use function sprintf;
  * @method Vote[]    findAll()
  * @method Vote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VoteRepository extends ServiceEntityRepository
+final class VoteRepository extends ServiceEntityRepository implements VoteRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

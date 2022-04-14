@@ -11,7 +11,7 @@ use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepositoryInterface;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepositoryInterface;
-use App\Repository\VoteRepository;
+use App\Repository\VoteRepositoryInterface;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -32,7 +32,7 @@ class InteractionService
         private AnswerRepository $answerRepository,
         private FlagRepositoryInterface $flagRepository,
         private TenancyReviewRepositoryInterface $tenancyReviewRepository,
-        private VoteRepository $voteRepository,
+        private VoteRepositoryInterface $voteRepository,
     ) {
     }
 
