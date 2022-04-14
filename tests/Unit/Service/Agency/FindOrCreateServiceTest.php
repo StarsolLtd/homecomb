@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service\Agency;
 
 use App\Entity\Agency;
 use App\Factory\AgencyFactory;
-use App\Repository\AgencyRepository;
+use App\Repository\AgencyRepositoryInterface;
 use App\Service\Agency\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +26,7 @@ final class FindOrCreateServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->agencyFactory = $this->prophesize(AgencyFactory::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
+        $this->agencyRepository = $this->prophesize(AgencyRepositoryInterface::class);
 
         $this->findOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),

@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\Agency;
 use App\Entity\Agency;
 use App\Factory\AgencyFactory;
 use App\Model\Agency\AgencyView;
-use App\Repository\AgencyRepository;
+use App\Repository\AgencyRepositoryInterface;
 use App\Service\Agency\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,7 +23,7 @@ final class ViewServiceTest extends TestCase
     public function setUp(): void
     {
         $this->agencyFactory = $this->prophesize(AgencyFactory::class);
-        $this->agencyRepository = $this->prophesize(AgencyRepository::class);
+        $this->agencyRepository = $this->prophesize(AgencyRepositoryInterface::class);
 
         $this->getViewService = new ViewService(
             $this->agencyFactory->reveal(),

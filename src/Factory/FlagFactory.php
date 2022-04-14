@@ -10,7 +10,7 @@ use App\Entity\Flag\TenancyReviewFlag;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInputInterface;
-use App\Repository\AgencyRepository;
+use App\Repository\AgencyRepositoryInterface;
 use App\Repository\BranchRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
@@ -19,7 +19,7 @@ use function sprintf;
 class FlagFactory
 {
     public function __construct(
-        private AgencyRepository $agencyRepository,
+        private AgencyRepositoryInterface $agencyRepository,
         private BranchRepository $branchRepository,
         private PropertyRepository $propertyRepository,
         private TenancyReviewRepository $tenancyReviewRepository
