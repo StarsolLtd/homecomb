@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service\City;
 
 use App\Entity\City;
 use App\Factory\CityFactory;
-use App\Repository\CityRepository;
+use App\Repository\CityRepositoryInterface;
 use App\Service\City\FindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +26,7 @@ final class FindOrCreateServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->cityFactory = $this->prophesize(CityFactory::class);
-        $this->cityRepository = $this->prophesize(CityRepository::class);
+        $this->cityRepository = $this->prophesize(CityRepositoryInterface::class);
 
         $this->findOrCreateService = new FindOrCreateService(
             $this->entityManager->reveal(),

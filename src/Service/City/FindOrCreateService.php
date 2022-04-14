@@ -4,7 +4,7 @@ namespace App\Service\City;
 
 use App\Entity\City;
 use App\Factory\CityFactory;
-use App\Repository\CityRepository;
+use App\Repository\CityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class FindOrCreateService
@@ -12,7 +12,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private CityFactory $cityFactory,
-        private CityRepository $cityRepository,
+        private CityRepositoryInterface $cityRepository,
     ) {
     }
 
