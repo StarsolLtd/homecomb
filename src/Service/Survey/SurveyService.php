@@ -12,7 +12,7 @@ use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
 use App\Repository\Survey\AnswerRepositoryInterface;
 use App\Repository\Survey\QuestionRepositoryInterface;
-use App\Repository\Survey\ResponseRepository;
+use App\Repository\Survey\ResponseRepositoryInterface;
 use App\Repository\Survey\SurveyRepository;
 use App\Service\InteractionService;
 use App\Service\SessionService;
@@ -30,7 +30,7 @@ class SurveyService
         private SurveyFactory $surveyFactory,
         private AnswerRepositoryInterface $answerRepository,
         private QuestionRepositoryInterface $questionRepository,
-        private ResponseRepository $responseRepository,
+        private ResponseRepositoryInterface $responseRepository,
         private SurveyRepository $surveyRepository
     ) {
     }
