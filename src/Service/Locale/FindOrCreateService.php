@@ -8,7 +8,7 @@ use App\Entity\Locale\CityLocale;
 use App\Entity\Locale\DistrictLocale;
 use App\Factory\LocaleFactory;
 use App\Repository\Locale\CityLocaleRepositoryInterface;
-use App\Repository\Locale\DistrictLocaleRepository;
+use App\Repository\Locale\DistrictLocaleRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class FindOrCreateService
@@ -17,7 +17,7 @@ class FindOrCreateService
         private EntityManagerInterface $entityManager,
         private LocaleFactory $localeFactory,
         private CityLocaleRepositoryInterface $cityLocaleRepository,
-        private DistrictLocaleRepository $districtLocaleRepository
+        private DistrictLocaleRepositoryInterface $districtLocaleRepository
     ) {
     }
 
