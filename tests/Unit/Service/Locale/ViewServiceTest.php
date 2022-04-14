@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\Locale;
 use App\Entity\Locale\Locale;
 use App\Factory\LocaleFactory;
 use App\Model\Locale\View;
-use App\Repository\Locale\LocaleRepository;
+use App\Repository\Locale\LocaleRepositoryInterface;
 use App\Service\Locale\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,7 +23,7 @@ final class ViewServiceTest extends TestCase
     public function setUp(): void
     {
         $this->localeFactory = $this->prophesize(LocaleFactory::class);
-        $this->localeRepository = $this->prophesize(LocaleRepository::class);
+        $this->localeRepository = $this->prophesize(LocaleRepositoryInterface::class);
 
         $this->viewService = new ViewService(
             $this->localeFactory->reveal(),

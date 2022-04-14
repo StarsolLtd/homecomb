@@ -4,13 +4,13 @@ namespace App\Service\Locale;
 
 use App\Factory\LocaleFactory;
 use App\Model\Locale\LocaleSearchResults;
-use App\Repository\Locale\LocaleRepository;
+use App\Repository\Locale\LocaleRepositoryInterface;
 
 class SearchService
 {
     public function __construct(
         private LocaleFactory $localeFactory,
-        private LocaleRepository $localeRepository,
+        private LocaleRepositoryInterface $localeRepository,
     ) {
     }
 

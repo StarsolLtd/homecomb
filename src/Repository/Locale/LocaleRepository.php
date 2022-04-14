@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Locale[]    findAll()
  * @method Locale[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LocaleRepository extends ServiceEntityRepository
+final class LocaleRepository extends ServiceEntityRepository implements LocaleRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
