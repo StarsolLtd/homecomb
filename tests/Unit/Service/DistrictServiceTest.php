@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Entity\District;
 use App\Entity\Locale\DistrictLocale;
 use App\Factory\DistrictFactory;
-use App\Repository\DistrictRepository;
+use App\Repository\DistrictRepositoryInterface;
 use App\Service\DistrictService;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
@@ -32,7 +32,7 @@ final class DistrictServiceTest extends TestCase
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->districtFactory = $this->prophesize(DistrictFactory::class);
-        $this->districtRepository = $this->prophesize(DistrictRepository::class);
+        $this->districtRepository = $this->prophesize(DistrictRepositoryInterface::class);
         $this->localeFindOrCreateService = $this->prophesize(LocaleFindOrCreateService::class);
 
         $this->districtService = new DistrictService(
@@ -44,7 +44,6 @@ final class DistrictServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\DistrictService::findOrCreate
      * Test an entity is created and persisted when it does not already exist.
      */
     public function testFindOrCreate1(): void
@@ -67,7 +66,6 @@ final class DistrictServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\DistrictService::findOrCreate
      * Test that if the repository finds a record, that entity is returned.
      */
     public function testFindOrCreate2(): void
@@ -85,9 +83,6 @@ final class DistrictServiceTest extends TestCase
         $this->assertEquals($district->reveal(), $output);
     }
 
-    /**
-     * @covers \App\Service\DistrictService::getLocaleSlugByDistrictSlug
-     */
     public function testGetLocaleSlugByDistrictSlug1(): void
     {
         $district = $this->prophesize(District::class);

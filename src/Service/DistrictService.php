@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\District;
 use App\Factory\DistrictFactory;
-use App\Repository\DistrictRepository;
+use App\Repository\DistrictRepositoryInterface;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,7 +13,7 @@ class DistrictService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private DistrictFactory $districtFactory,
-        private DistrictRepository $districtRepository,
+        private DistrictRepositoryInterface $districtRepository,
         private LocaleFindOrCreateService $localeFindOrCreateService
     ) {
     }
