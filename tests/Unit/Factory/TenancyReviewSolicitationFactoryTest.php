@@ -16,7 +16,7 @@ use App\Model\Branch\Flat as FlatBranch;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Repository\BranchRepositoryInterface;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -37,7 +37,7 @@ final class TenancyReviewSolicitationFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
 
         $this->tenancyReviewSolicitationFactory = new TenancyReviewSolicitationFactory(

@@ -10,7 +10,7 @@ use App\Entity\User;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\TenancyReview\SubmitInputInterface;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use App\Service\Agency\FindOrCreateService as AgencyFindOrCreateService;
 use App\Service\Branch\FindOrCreateService as BranchFindOrCreateService;
 use App\Service\InteractionService;
@@ -50,7 +50,7 @@ final class CreateServiceTest extends TestCase
         $this->completeService = $this->prophesize(CompleteService::class);
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->createService = new CreateService(

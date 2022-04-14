@@ -10,14 +10,14 @@ use App\Model\TenancyReviewSolicitation\CreateInputInterface;
 use App\Model\TenancyReviewSolicitation\FormData;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\BranchRepositoryInterface;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use function sha1;
 
 class TenancyReviewSolicitationFactory
 {
     public function __construct(
         private BranchRepositoryInterface $branchRepository,
-        private PropertyRepository $propertyRepository,
+        private PropertyRepositoryInterface $propertyRepository,
         private FlatModelFactory $flatModelFactory
     ) {
     }

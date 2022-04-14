@@ -16,7 +16,7 @@ use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepositoryInterface;
 use App\Repository\BranchRepositoryInterface;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -40,7 +40,7 @@ final class FlagFactoryTest extends TestCase
     {
         $this->agencyRepository = $this->prophesize(AgencyRepositoryInterface::class);
         $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
-        $this->propertyRepository = $this->prophesize(PropertyRepository::class);
+        $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
         $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
         $this->flagFactory = new FlagFactory(

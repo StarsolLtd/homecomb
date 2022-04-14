@@ -6,7 +6,7 @@ use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
 use App\Model\Property\View;
-use App\Repository\PropertyRepository;
+use App\Repository\PropertyRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PropertyService
@@ -14,7 +14,7 @@ class PropertyService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private PropertyFactory $propertyFactory,
-        private PropertyRepository $propertyRepository,
+        private PropertyRepositoryInterface $propertyRepository,
         private GetAddressService $getAddressService
     ) {
     }
