@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method TenancyReviewSolicitation[]    findAll()
  * @method TenancyReviewSolicitation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TenancyReviewSolicitationRepository extends ServiceEntityRepository
+final class TenancyReviewSolicitationRepository extends ServiceEntityRepository implements TenancyReviewSolicitationRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

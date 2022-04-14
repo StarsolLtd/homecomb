@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service;
 use App\Entity\TenancyReview;
 use App\Entity\TenancyReviewSolicitation;
 use App\Exception\NotFoundException;
-use App\Repository\TenancyReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepositoryInterface;
 use App\Service\TenancyReviewSolicitation\CompleteService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -24,7 +24,7 @@ final class CompleteServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepository::class);
+        $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepositoryInterface::class);
         $this->logger = $this->prophesize(LoggerInterface::class);
 
         $this->tenancyReviewSolicitationService = new CompleteService(

@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\TenancyReviewSolicitation;
 use App\Entity\TenancyReviewSolicitation;
 use App\Factory\TenancyReviewSolicitationFactory;
 use App\Model\TenancyReviewSolicitation\View;
-use App\Repository\TenancyReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepositoryInterface;
 use App\Service\TenancyReviewSolicitation\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,7 +23,7 @@ final class ViewServiceTest extends TestCase
     public function setUp(): void
     {
         $this->tenancyReviewSolicitationFactory = $this->prophesize(TenancyReviewSolicitationFactory::class);
-        $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepository::class);
+        $this->tenancyReviewSolicitationRepository = $this->prophesize(TenancyReviewSolicitationRepositoryInterface::class);
 
         $this->tenancyReviewSolicitationService = new ViewService(
             $this->tenancyReviewSolicitationFactory->reveal(),

@@ -4,13 +4,13 @@ namespace App\Service\TenancyReviewSolicitation;
 
 use App\Entity\TenancyReview;
 use App\Exception\NotFoundException;
-use App\Repository\TenancyReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 class CompleteService
 {
     public function __construct(
-        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
+        private TenancyReviewSolicitationRepositoryInterface $tenancyReviewSolicitationRepository,
         private LoggerInterface $logger
     ) {
     }

@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Exception\NotFoundException;
-use App\Repository\TenancyReviewSolicitationRepository;
+use App\Repository\TenancyReviewSolicitationRepositoryInterface;
 use App\Service\TenancyReviewSolicitation\SendService;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -17,7 +17,7 @@ class SendReviewSolicitationEmail extends Command
     protected static $defaultName = 'email:review-solicitation';
 
     public function __construct(
-        private TenancyReviewSolicitationRepository $tenancyReviewSolicitationRepository,
+        private TenancyReviewSolicitationRepositoryInterface $tenancyReviewSolicitationRepository,
         private SendService $sendService,
     ) {
         parent::__construct();
