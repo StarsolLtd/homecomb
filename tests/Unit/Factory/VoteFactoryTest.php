@@ -12,7 +12,7 @@ use App\Entity\Vote\TenancyReviewVote;
 use App\Exception\UnexpectedValueException;
 use App\Factory\VoteFactory;
 use App\Model\Vote\SubmitInputInterface;
-use App\Repository\CommentRepository;
+use App\Repository\CommentRepositoryInterface;
 use App\Repository\ReviewRepository;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +34,7 @@ final class VoteFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->commentRepository = $this->prophesize(CommentRepository::class);
+        $this->commentRepository = $this->prophesize(CommentRepositoryInterface::class);
         $this->reviewRepository = $this->prophesize(ReviewRepository::class);
         $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
 
