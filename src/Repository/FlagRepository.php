@@ -14,7 +14,7 @@ use function sprintf;
  * @method Flag[]    findAll()
  * @method Flag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FlagRepository extends ServiceEntityRepository
+final class FlagRepository extends ServiceEntityRepository implements FlagRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

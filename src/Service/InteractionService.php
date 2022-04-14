@@ -8,7 +8,7 @@ use App\Entity\Interaction\Interaction;
 use App\Entity\Interaction\TenancyReviewInteraction;
 use App\Entity\Interaction\VoteInteraction;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Repository\FlagRepository;
+use App\Repository\FlagRepositoryInterface;
 use App\Repository\Survey\AnswerRepository;
 use App\Repository\TenancyReviewRepository;
 use App\Repository\VoteRepository;
@@ -30,7 +30,7 @@ class InteractionService
         private LoggerInterface $logger,
         private UserService $userService,
         private AnswerRepository $answerRepository,
-        private FlagRepository $flagRepository,
+        private FlagRepositoryInterface $flagRepository,
         private TenancyReviewRepository $tenancyReviewRepository,
         private VoteRepository $voteRepository,
     ) {
