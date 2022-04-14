@@ -4,7 +4,7 @@ namespace App\Service\Branch;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Util\BranchHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,7 +13,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private BranchHelper $branchHelper,
-        private BranchRepository $branchRepository
+        private BranchRepositoryInterface $branchRepository
     ) {
     }
 

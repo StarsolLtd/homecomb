@@ -11,7 +11,7 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepositoryInterface;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use function sprintf;
@@ -20,7 +20,7 @@ class FlagFactory
 {
     public function __construct(
         private AgencyRepositoryInterface $agencyRepository,
-        private BranchRepository $branchRepository,
+        private BranchRepositoryInterface $branchRepository,
         private PropertyRepository $propertyRepository,
         private TenancyReviewRepository $tenancyReviewRepository
     ) {

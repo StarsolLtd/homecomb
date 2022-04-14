@@ -15,7 +15,7 @@ use App\Exception\UnexpectedValueException;
 use App\Factory\FlagFactory;
 use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepositoryInterface;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Repository\PropertyRepository;
 use App\Repository\TenancyReviewRepository;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,7 @@ final class FlagFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->agencyRepository = $this->prophesize(AgencyRepositoryInterface::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
         $this->propertyRepository = $this->prophesize(PropertyRepository::class);
         $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
 

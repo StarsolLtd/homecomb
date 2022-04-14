@@ -9,7 +9,7 @@ use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateInput;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\Branch\CreateService;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
@@ -39,7 +39,7 @@ final class CreateServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->branchFactory = $this->prophesize(BranchFactory::class);
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
 
         $this->createService = new CreateService(
             $this->notificationService->reveal(),

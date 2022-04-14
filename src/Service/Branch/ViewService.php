@@ -4,13 +4,13 @@ namespace App\Service\Branch;
 
 use App\Factory\BranchFactory;
 use App\Model\Branch\View;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 
 class ViewService
 {
     public function __construct(
         private BranchFactory $branchFactory,
-        private BranchRepository $branchRepository
+        private BranchRepositoryInterface $branchRepository
     ) {
     }
 

@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Service\Branch;
 use App\Entity\Agency;
 use App\Entity\Branch;
 use App\Entity\User;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\Branch\BranchAdminService;
 use App\Service\User\UserService;
 use App\Tests\Unit\UserEntityFromInterfaceTrait;
@@ -28,7 +28,7 @@ final class BranchAdminServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->branchRepository = $this->prophesize(BranchRepository::class);
+        $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
         $this->userService = $this->prophesize(UserService::class);
 
         $this->branchAdminService = new BranchAdminService(

@@ -7,7 +7,7 @@ use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
 use App\Model\Branch\CreateBranchOutput;
 use App\Model\Branch\CreateInputInterface;
-use App\Repository\BranchRepository;
+use App\Repository\BranchRepositoryInterface;
 use App\Service\NotificationService;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +20,7 @@ class CreateService
         private UserService $userService,
         private EntityManagerInterface $entityManager,
         private BranchFactory $branchFactory,
-        private BranchRepository $branchRepository
+        private BranchRepositoryInterface $branchRepository
     ) {
     }
 
