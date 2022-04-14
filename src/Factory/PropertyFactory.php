@@ -7,7 +7,7 @@ use App\Exception\DeveloperException;
 use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
-use App\Service\CityService;
+use App\Service\City\FindOrCreateService as CityFindOrCreateService;
 use App\Service\DistrictService;
 use App\Util\PropertyHelper;
 use function json_decode;
@@ -17,7 +17,7 @@ class PropertyFactory
     private const COUNTRY_CODE = 'UK';
 
     public function __construct(
-        private CityService $cityService,
+        private CityFindOrCreateService $cityFindOrCreateService,
         private DistrictService $districtService,
         private PropertyHelper $propertyHelper,
         private CityFactory $cityFactory,
@@ -55,7 +55,7 @@ class PropertyFactory
 
         $property->setSlug($this->propertyHelper->generateSlug($property));
 
-        $city = $this->cityService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
+        $city = $this->cityFindOrCreateService->findOrCreate($addressCity, $addressCounty, self::COUNTRY_CODE);
         $property->setCity($city);
 
         if (null !== $addressDistrict) {

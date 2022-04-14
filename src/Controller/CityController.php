@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\CityService;
+use App\Service\City\GetLocaleService as CityGetLocaleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CityController extends AbstractController
 {
     public function __construct(
-        private CityService $cityService,
+        private CityGetLocaleService $cityGetLocaleService,
     ) {
     }
 
@@ -23,7 +23,7 @@ final class CityController extends AbstractController
      */
     public function viewBySlug(string $citySlug): Response
     {
-        $localeSlug = $this->cityService->getLocaleSlugByCitySlug($citySlug);
+        $localeSlug = $this->cityGetLocaleService->getLocaleSlugByCitySlug($citySlug);
 
         return $this->redirect('/l/'.$localeSlug, Response::HTTP_MOVED_PERMANENTLY);
     }

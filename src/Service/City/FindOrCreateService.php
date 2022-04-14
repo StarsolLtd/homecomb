@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\City;
 
 use App\Entity\City;
 use App\Factory\CityFactory;
 use App\Repository\CityRepository;
-use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CityService
+class FindOrCreateService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private CityFactory $cityFactory,
         private CityRepository $cityRepository,
-        private LocaleFindOrCreateService $localeFindOrCreateService,
     ) {
     }
 
@@ -32,14 +30,5 @@ class CityService
         $this->entityManager->flush();
 
         return $city;
-    }
-
-    public function getLocaleSlugByCitySlug(string $citySlug): string
-    {
-        $city = $this->cityRepository->findOneBySlug($citySlug);
-
-        $locale = $this->localeFindOrCreateService->findOrCreateByCity($city);
-
-        return $locale->getSlug();
     }
 }
