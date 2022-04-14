@@ -13,7 +13,7 @@ use App\Model\Survey\View;
 use App\Repository\Survey\AnswerRepositoryInterface;
 use App\Repository\Survey\QuestionRepositoryInterface;
 use App\Repository\Survey\ResponseRepositoryInterface;
-use App\Repository\Survey\SurveyRepository;
+use App\Repository\Survey\SurveyRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\SessionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +31,7 @@ class SurveyService
         private AnswerRepositoryInterface $answerRepository,
         private QuestionRepositoryInterface $questionRepository,
         private ResponseRepositoryInterface $responseRepository,
-        private SurveyRepository $surveyRepository
+        private SurveyRepositoryInterface $surveyRepository
     ) {
     }
 

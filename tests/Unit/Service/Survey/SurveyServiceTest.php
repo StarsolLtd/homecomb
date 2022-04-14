@@ -15,7 +15,7 @@ use App\Model\Survey\View;
 use App\Repository\Survey\AnswerRepositoryInterface;
 use App\Repository\Survey\QuestionRepositoryInterface;
 use App\Repository\Survey\ResponseRepositoryInterface;
-use App\Repository\Survey\SurveyRepository;
+use App\Repository\Survey\SurveyRepositoryInterface;
 use App\Service\InteractionService;
 use App\Service\SessionService;
 use App\Service\Survey\ResponseService;
@@ -59,7 +59,7 @@ final class SurveyServiceTest extends TestCase
         $this->answerRepository = $this->prophesize(AnswerRepositoryInterface::class);
         $this->questionRepository = $this->prophesize(QuestionRepositoryInterface::class);
         $this->responseRepository = $this->prophesize(ResponseRepositoryInterface::class);
-        $this->surveyRepository = $this->prophesize(SurveyRepository::class);
+        $this->surveyRepository = $this->prophesize(SurveyRepositoryInterface::class);
 
         $this->surveyService = new SurveyService(
             $this->entityManager->reveal(),

@@ -14,7 +14,7 @@ use function sprintf;
  * @method Survey[]    findAll()
  * @method Survey[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SurveyRepository extends ServiceEntityRepository
+final class SurveyRepository extends ServiceEntityRepository implements SurveyRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
