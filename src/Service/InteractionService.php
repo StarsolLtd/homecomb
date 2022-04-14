@@ -9,7 +9,7 @@ use App\Entity\Interaction\TenancyReviewInteraction;
 use App\Entity\Interaction\VoteInteraction;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepositoryInterface;
-use App\Repository\Survey\AnswerRepository;
+use App\Repository\Survey\AnswerRepositoryInterface;
 use App\Repository\TenancyReviewRepositoryInterface;
 use App\Repository\VoteRepositoryInterface;
 use App\Service\User\UserService;
@@ -29,7 +29,7 @@ class InteractionService
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private UserService $userService,
-        private AnswerRepository $answerRepository,
+        private AnswerRepositoryInterface $answerRepository,
         private FlagRepositoryInterface $flagRepository,
         private TenancyReviewRepositoryInterface $tenancyReviewRepository,
         private VoteRepositoryInterface $voteRepository,

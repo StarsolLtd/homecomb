@@ -10,7 +10,7 @@ use App\Model\Interaction\RequestDetailsInterface;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
-use App\Repository\Survey\AnswerRepository;
+use App\Repository\Survey\AnswerRepositoryInterface;
 use App\Repository\Survey\QuestionRepository;
 use App\Repository\Survey\ResponseRepository;
 use App\Repository\Survey\SurveyRepository;
@@ -28,7 +28,7 @@ class SurveyService
         private SessionService $sessionService,
         private AnswerFactory $answerFactory,
         private SurveyFactory $surveyFactory,
-        private AnswerRepository $answerRepository,
+        private AnswerRepositoryInterface $answerRepository,
         private QuestionRepository $questionRepository,
         private ResponseRepository $responseRepository,
         private SurveyRepository $surveyRepository
