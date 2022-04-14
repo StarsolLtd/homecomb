@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\City;
 
 use App\Repository\CityRepository;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 
-class CityService
+class GetLocaleService
 {
     public function __construct(
         private CityRepository $cityRepository,
