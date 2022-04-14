@@ -14,7 +14,7 @@ use function sprintf;
  * @method Question[]    findAll()
  * @method Question[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuestionRepository extends ServiceEntityRepository
+final class QuestionRepository extends ServiceEntityRepository implements QuestionRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

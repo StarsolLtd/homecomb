@@ -9,7 +9,7 @@ use App\Entity\Survey\Response;
 use App\Factory\Survey\AnswerFactory;
 use App\Model\Survey\SubmitAnswerInput;
 use App\Repository\Survey\ChoiceRepositoryInterface;
-use App\Repository\Survey\QuestionRepository;
+use App\Repository\Survey\QuestionRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -30,7 +30,7 @@ final class AnswerFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->choiceRepository = $this->prophesize(ChoiceRepositoryInterface::class);
-        $this->questionRepository = $this->prophesize(QuestionRepository::class);
+        $this->questionRepository = $this->prophesize(QuestionRepositoryInterface::class);
 
         $this->answerFactory = new AnswerFactory(
             $this->choiceRepository->reveal(),
