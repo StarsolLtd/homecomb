@@ -7,12 +7,12 @@ use App\Entity\Comment\TenancyReviewComment;
 use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Model\Comment\SubmitInputInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 
 class CommentFactory
 {
     public function __construct(
-        private TenancyReviewRepository $tenancyReviewRepository
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
     ) {
     }
 

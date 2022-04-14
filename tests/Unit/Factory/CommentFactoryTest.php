@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\UnexpectedValueException;
 use App\Factory\CommentFactory;
 use App\Model\Comment\SubmitInputInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -26,7 +26,7 @@ final class CommentFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
 
         $this->commentFactory = new CommentFactory(
             $this->tenancyReviewRepository->reveal(),

@@ -10,7 +10,7 @@ use App\Entity\Interaction\VoteInteraction;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepositoryInterface;
 use App\Repository\Survey\AnswerRepository;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use App\Repository\VoteRepository;
 use App\Service\User\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +31,7 @@ class InteractionService
         private UserService $userService,
         private AnswerRepository $answerRepository,
         private FlagRepositoryInterface $flagRepository,
-        private TenancyReviewRepository $tenancyReviewRepository,
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
         private VoteRepository $voteRepository,
     ) {
     }

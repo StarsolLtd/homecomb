@@ -16,7 +16,7 @@ use App\Model\Vote\SubmitInputInterface;
 use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepositoryInterface;
 use App\Repository\ReviewRepositoryInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use function sprintf;
 
 class VoteFactory
@@ -24,7 +24,7 @@ class VoteFactory
     public function __construct(
         private CommentRepositoryInterface $commentRepository,
         private ReviewRepositoryInterface $reviewRepository,
-        private TenancyReviewRepository $tenancyReviewRepository
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
     ) {
     }
 

@@ -12,7 +12,7 @@ use App\Model\Interaction\RequestDetails;
 use App\Model\Interaction\RequestDetailsInterface;
 use App\Repository\FlagRepositoryInterface;
 use App\Repository\Survey\AnswerRepository;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use App\Repository\VoteRepository;
 use App\Service\InteractionService;
 use App\Service\User\UserService;
@@ -46,7 +46,7 @@ final class InteractionServiceTest extends TestCase
         $this->userService = $this->prophesize(UserService::class);
         $this->answerRepository = $this->prophesize(AnswerRepository::class);
         $this->flagRepository = $this->prophesize(FlagRepositoryInterface::class);
-        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
         $this->voteRepository = $this->prophesize(VoteRepository::class);
 
         $this->interactionService = new InteractionService(

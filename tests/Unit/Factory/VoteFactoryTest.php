@@ -14,7 +14,7 @@ use App\Factory\VoteFactory;
 use App\Model\Vote\SubmitInputInterface;
 use App\Repository\CommentRepositoryInterface;
 use App\Repository\ReviewRepositoryInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -36,7 +36,7 @@ final class VoteFactoryTest extends TestCase
     {
         $this->commentRepository = $this->prophesize(CommentRepositoryInterface::class);
         $this->reviewRepository = $this->prophesize(ReviewRepositoryInterface::class);
-        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
 
         $this->voteFactory = new VoteFactory(
             $this->commentRepository->reveal(),

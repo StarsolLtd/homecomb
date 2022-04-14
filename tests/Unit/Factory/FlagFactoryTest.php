@@ -17,7 +17,7 @@ use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepositoryInterface;
 use App\Repository\BranchRepositoryInterface;
 use App\Repository\PropertyRepositoryInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -34,20 +34,20 @@ final class FlagFactoryTest extends TestCase
     private ObjectProphecy $agencyRepository;
     private ObjectProphecy $branchRepository;
     private ObjectProphecy $propertyRepository;
-    private ObjectProphecy $reviewRepository;
+    private ObjectProphecy $tenancyReviewRepository;
 
     public function setUp(): void
     {
         $this->agencyRepository = $this->prophesize(AgencyRepositoryInterface::class);
         $this->branchRepository = $this->prophesize(BranchRepositoryInterface::class);
         $this->propertyRepository = $this->prophesize(PropertyRepositoryInterface::class);
-        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->tenancyReviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
 
         $this->flagFactory = new FlagFactory(
             $this->agencyRepository->reveal(),
             $this->branchRepository->reveal(),
             $this->propertyRepository->reveal(),
-            $this->reviewRepository->reveal(),
+            $this->tenancyReviewRepository->reveal(),
         );
     }
 
@@ -65,7 +65,7 @@ final class FlagFactoryTest extends TestCase
         $user = $this->prophesize(User::class);
         $tenancyReview = $this->prophesize(TenancyReview::class);
 
-        $this->reviewRepository->findOnePublishedById(789)
+        $this->tenancyReviewRepository->findOnePublishedById(789)
             ->shouldBeCalledOnce()
             ->willReturn($tenancyReview);
 

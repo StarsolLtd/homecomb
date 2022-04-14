@@ -5,12 +5,12 @@ namespace App\Service\TenancyReview;
 use App\Factory\TenancyReviewFactory;
 use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\View;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 
 class ViewService
 {
     public function __construct(
-        private TenancyReviewRepository $tenancyReviewRepository,
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
         private TenancyReviewFactory $tenancyReviewFactory
     ) {
     }

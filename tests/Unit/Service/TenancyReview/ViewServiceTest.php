@@ -6,7 +6,7 @@ use App\Entity\TenancyReview;
 use App\Factory\TenancyReviewFactory;
 use App\Model\TenancyReview\Group;
 use App\Model\TenancyReview\View;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use App\Service\TenancyReview\ViewService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,7 +23,7 @@ final class ViewServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->reviewRepository = $this->prophesize(TenancyReviewRepository::class);
+        $this->reviewRepository = $this->prophesize(TenancyReviewRepositoryInterface::class);
         $this->tenancyReviewFactory = $this->prophesize(TenancyReviewFactory::class);
 
         $this->viewService = new ViewService(

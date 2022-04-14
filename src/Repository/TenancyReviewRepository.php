@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method TenancyReview[]    findAll()
  * @method TenancyReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TenancyReviewRepository extends ServiceEntityRepository
+final class TenancyReviewRepository extends ServiceEntityRepository implements TenancyReviewRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

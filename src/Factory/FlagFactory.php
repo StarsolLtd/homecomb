@@ -13,7 +13,7 @@ use App\Model\Flag\SubmitInputInterface;
 use App\Repository\AgencyRepositoryInterface;
 use App\Repository\BranchRepositoryInterface;
 use App\Repository\PropertyRepositoryInterface;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 
 class FlagFactory
 {
@@ -21,7 +21,7 @@ class FlagFactory
         private AgencyRepositoryInterface $agencyRepository,
         private BranchRepositoryInterface $branchRepository,
         private PropertyRepositoryInterface $propertyRepository,
-        private TenancyReviewRepository $tenancyReviewRepository
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
     ) {
     }
 

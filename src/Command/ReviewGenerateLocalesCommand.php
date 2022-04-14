@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Exception\NotFoundException;
-use App\Repository\TenancyReviewRepository;
+use App\Repository\TenancyReviewRepositoryInterface;
 use App\Service\TenancyReview\GenerateLocalesService;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -12,12 +12,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ReviewGenerateLocalesCommand extends Command
+final class ReviewGenerateLocalesCommand extends Command
 {
     protected static $defaultName = 'review:generate-locales';
 
     public function __construct(
-        private TenancyReviewRepository $tenancyReviewRepository,
+        private TenancyReviewRepositoryInterface $tenancyReviewRepository,
         private GenerateLocalesService $generateLocalesService,
     ) {
         parent::__construct();
