@@ -40,46 +40,46 @@ final class FindOrCreateServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\BranchFindOrCreateService::findOrCreate
+     * Test findOrCreate, without agency, where branch already exists.
      */
-    public function testFindOrCreateWithoutAgencyWhereBranchAlreadyExists(): void
+    public function testFindOrCreate1(): void
     {
-        $branch = new Branch();
+        $branch = $this->prophesize(Branch::class);
 
         $this->branchRepository->findOneByNameWithoutAgencyOrNull('Test Name', null)
             ->shouldBeCalledOnce()
-            ->willReturn($branch);
+            ->willReturn($branch->reveal());
 
         $output = $this->branchFindOrCreateService->findOrCreate('Test Name', null);
 
-        $this->assertEquals($branch, $output);
+        $this->assertEquals($branch->reveal(), $output);
         $this->assertEntityManagerUnused();
     }
 
     /**
-     * @covers \App\Service\BranchFindOrCreateService::findOrCreate
+     * Test findOrCreate, with agency, where branch already exists.
      */
-    public function testFindOrCreateWhereBranchAlreadyExists(): void
+    public function testFindOrCreate2(): void
     {
-        $branch = new Branch();
-        $agency = new Agency();
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
 
         $this->branchRepository->findOneByNameAndAgencyOrNull('Test Name', $agency)
             ->shouldBeCalledOnce()
-            ->willReturn($branch);
+            ->willReturn($branch->reveal());
 
-        $output = $this->branchFindOrCreateService->findOrCreate('Test Name', $agency);
+        $output = $this->branchFindOrCreateService->findOrCreate('Test Name', $agency->reveal());
 
-        $this->assertEquals($branch, $output);
+        $this->assertEquals($branch->reveal(), $output);
         $this->assertEntityManagerUnused();
     }
 
     /**
-     * @covers \App\Service\BranchFindOrCreateService::findOrCreate
+     * Test findOrCreate where branch does not exist.
      */
     public function testFindOrCreateWhereBranchDoesNotExists(): void
     {
-        $agency = new Agency();
+        $agency = $this->prophesize(Agency::class);
 
         $this->branchRepository->findOneByNameAndAgencyOrNull('Test Name', $agency)
             ->shouldBeCalledOnce()
@@ -92,9 +92,9 @@ final class FindOrCreateServiceTest extends TestCase
         $this->entityManager->persist(Argument::type(Branch::class))->shouldBeCalledOnce();
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $output = $this->branchFindOrCreateService->findOrCreate('Test Name', $agency);
+        $output = $this->branchFindOrCreateService->findOrCreate('Test Name', $agency->reveal());
 
         $this->assertEquals('Test Name', $output->getName());
-        $this->assertEquals($agency, $output->getAgency());
+        $this->assertEquals($agency->reveal(), $output->getAgency());
     }
 }

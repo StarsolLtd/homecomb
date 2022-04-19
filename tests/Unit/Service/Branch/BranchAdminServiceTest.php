@@ -13,13 +13,12 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\Branch\BranchAdminTest
- */
 final class BranchAdminServiceTest extends TestCase
 {
     use ProphecyTrait;
     use UserEntityFromInterfaceTrait;
+
+    private const TEST_SLUG = 'branch-slug';
 
     private BranchAdminService $branchAdminService;
 
@@ -38,8 +37,7 @@ final class BranchAdminServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\Branch\BranchAdminTest::isUserBranchAdmin
-     * Test returns true when the user's admin agency ID matches the branch's agency ID
+     * Test returns true when the user's admin agency ID matches the branch's agency ID.
      */
     public function testIsUserBranchAdmin1(): void
     {
@@ -53,20 +51,19 @@ final class BranchAdminServiceTest extends TestCase
         $branchAgency->getId()->shouldBeCalled()->willReturn(42);
         $agency->getId()->shouldBeCalled()->willReturn(42);
 
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
+        $this->branchRepository->findOnePublishedBySlug(self::TEST_SLUG)
             ->shouldBeCalled()
             ->willReturn($branch);
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $output = $this->branchAdminService->isUserBranchAdmin('branchslug', $user->reveal());
+        $output = $this->branchAdminService->isUserBranchAdmin(self::TEST_SLUG, $user->reveal());
 
         $this->assertTrue($output);
     }
 
     /**
-     * @covers \App\Service\Branch\BranchAdminTest::isUserBranchAdmin
-     * Test returns false when the user's admin agency ID does not match the branch's agency ID
+     * Test returns false when the user's admin agency ID does not match the branch's agency ID.
      */
     public function testIsUserBranchAdmin2(): void
     {
@@ -80,20 +77,19 @@ final class BranchAdminServiceTest extends TestCase
         $branchAgency->getId()->shouldBeCalled()->willReturn(42);
         $agency->getId()->shouldBeCalled()->willReturn(88);
 
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
+        $this->branchRepository->findOnePublishedBySlug(self::TEST_SLUG)
             ->shouldBeCalled()
             ->willReturn($branch);
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $output = $this->branchAdminService->isUserBranchAdmin('branchslug', $user->reveal());
+        $output = $this->branchAdminService->isUserBranchAdmin(self::TEST_SLUG, $user->reveal());
 
         $this->assertFalse($output);
     }
 
     /**
-     * @covers \App\Service\Branch\BranchAdminTest::isUserBranchAdmin
-     * Test returns false when the user is not an agency admin
+     * Test returns false when the user is not an agency admin.
      */
     public function testIsUserBranchAdmin3(): void
     {
@@ -103,14 +99,13 @@ final class BranchAdminServiceTest extends TestCase
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $output = $this->branchAdminService->isUserBranchAdmin('branchslug', $user->reveal());
+        $output = $this->branchAdminService->isUserBranchAdmin(self::TEST_SLUG, $user->reveal());
 
         $this->assertFalse($output);
     }
 
     /**
-     * @covers \App\Service\Branch\BranchAdminTest::isUserBranchAdmin
-     * Test returns false when the branch is not associated with an agency
+     * Test returns false when the branch is not associated with an agency.
      */
     public function testIsUserBranchAdmin4(): void
     {
@@ -121,13 +116,13 @@ final class BranchAdminServiceTest extends TestCase
         $user->getAdminAgency()->shouldBeCalled()->willReturn($agency);
         $branch->getAgency()->shouldBeCalled()->willReturn(null);
 
-        $this->branchRepository->findOnePublishedBySlug('branchslug')
+        $this->branchRepository->findOnePublishedBySlug(self::TEST_SLUG)
             ->shouldBeCalled()
             ->willReturn($branch);
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $output = $this->branchAdminService->isUserBranchAdmin('branchslug', $user->reveal());
+        $output = $this->branchAdminService->isUserBranchAdmin(self::TEST_SLUG, $user->reveal());
 
         $this->assertFalse($output);
     }

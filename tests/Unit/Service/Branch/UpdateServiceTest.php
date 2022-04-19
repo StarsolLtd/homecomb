@@ -23,7 +23,6 @@ final class UpdateServiceTest extends TestCase
 
     private UpdateService $branchService;
 
-    private ObjectProphecy $entityManager;
     private ObjectProphecy $branchRepository;
 
     public function setUp(): void
