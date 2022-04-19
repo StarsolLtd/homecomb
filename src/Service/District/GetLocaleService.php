@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\District;
 
 use App\Repository\DistrictRepositoryInterface;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 
-class DistrictService
+class GetLocaleService
 {
     public function __construct(
         private DistrictRepositoryInterface $districtRepository,
@@ -17,8 +17,6 @@ class DistrictService
     {
         $district = $this->districtRepository->findOneBySlug($districtSlug);
 
-        $locale = $this->localeFindOrCreateService->findOrCreateByDistrict($district);
-
-        return $locale->getSlug();
+        return $this->localeFindOrCreateService->findOrCreateByDistrict($district)->getSlug();
     }
 }

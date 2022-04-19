@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Service\District;
 
 use App\Entity\District;
 use App\Entity\Locale\DistrictLocale;
 use App\Repository\DistrictRepositoryInterface;
-use App\Service\DistrictService;
+use App\Service\District\GetLocaleService;
 use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use App\Tests\Unit\EntityManagerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class DistrictServiceTest extends TestCase
+final class GetLocaleServiceTest extends TestCase
 {
     use EntityManagerTrait;
     use ProphecyTrait;
 
-    private DistrictService $districtService;
+    private GetLocaleService $getLocaleService;
 
     private ObjectProphecy $districtRepository;
     private ObjectProphecy $localeFindOrCreateService;
@@ -27,7 +27,7 @@ final class DistrictServiceTest extends TestCase
         $this->districtRepository = $this->prophesize(DistrictRepositoryInterface::class);
         $this->localeFindOrCreateService = $this->prophesize(LocaleFindOrCreateService::class);
 
-        $this->districtService = new DistrictService(
+        $this->getLocaleService = new GetLocaleService(
             $this->districtRepository->reveal(),
             $this->localeFindOrCreateService->reveal(),
         );
@@ -42,7 +42,7 @@ final class DistrictServiceTest extends TestCase
         $this->localeFindOrCreateService->findOrCreateByDistrict($district)->willReturn($districtLocale->reveal());
         $districtLocale->getSlug()->shouldBeCalledOnce()->willReturn('test-locale-slug');
 
-        $output = $this->districtService->getLocaleSlugByDistrictSlug('test-district-slug');
+        $output = $this->getLocaleService->getLocaleSlugByDistrictSlug('test-district-slug');
 
         $this->assertEquals('test-locale-slug', $output);
     }
