@@ -35,7 +35,10 @@ final class FindOrCreateServiceTest extends TestCase
         );
     }
 
-    public function testFindOrCreateByNameWhenNotExists(): void
+    /**
+     * Test findOrCreateByName when agency does not already exist.
+     */
+    public function testFindOrCreateByName1(): void
     {
         $agencyName = 'Devon Homes';
         $agency = $this->prophesize(Agency::class);
@@ -51,11 +54,15 @@ final class FindOrCreateServiceTest extends TestCase
         $this->assertEquals($agency->reveal(), $result);
     }
 
-    public function testFindOrCreateByNameWhenAlreadyExists(): void
+    /**
+     * Test findOrCreateByName when agency already exists.
+     */
+    public function testFindOrCreateByName2(): void
     {
         $agencyName = 'Cornwall Homes';
 
-        $agency = (new Agency())->setName($agencyName);
+        $agency = $this->prophesize(Agency::class);
+        $agency->getName()->shouldBeCalledOnce()->willReturn($agencyName);
 
         $this->agencyRepository->findOneBy(['name' => $agencyName])->shouldBeCalledOnce()->willReturn($agency);
 

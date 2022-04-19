@@ -20,6 +20,8 @@ final class UpdateServiceTest extends TestCase
     use ProphecyTrait;
     use EntityManagerTrait;
 
+    private const TEST_SLUG = 'test-agency-slug';
+
     private UpdateService $updateService;
 
     private ObjectProphecy $userService;
@@ -35,59 +37,67 @@ final class UpdateServiceTest extends TestCase
         );
     }
 
-    public function testUpdateAgency(): void
+    public function testUpdateAgency1(): void
     {
-        $slug = 'testagencyslug';
-
         $input = $this->prophesize(UpdateInputInterface::class);
-        $input->getExternalUrl()->shouldBeCalledOnce()->willReturn('https://updated.com/here');
-        $input->getPostcode()->shouldBeCalledOnce()->willReturn('NR21 4SF');
 
-        $user = new User();
-        $agency = (new Agency())->setSlug($slug)->addAdminUser($user);
+        $user = $this->prophesize(User::class);
+        $agency = $this->prophesize(Agency::class);
 
         $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
 
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn($agency);
+
+        $agency->getSlug()->shouldBeCalledOnce()->willReturn(self::TEST_SLUG);
+
+        $input->getExternalUrl()->shouldBeCalledOnce()->willReturn('https://updated.com/here');
+        $input->getPostcode()->shouldBeCalledOnce()->willReturn('NR21 4SF');
+
+        $agency->setExternalUrl('https://updated.com/here')->shouldBeCalledOnce()->willReturn($agency);
+        $agency->setPostcode('NR21 4SF')->shouldBeCalledOnce()->willReturn($agency);
+
         $this->entityManager->flush()->shouldBeCalledOnce();
 
-        $output = $this->updateService->updateAgency($slug, $input->reveal(), $user);
+        $output = $this->updateService->updateAgency(self::TEST_SLUG, $input->reveal(), $user->reveal());
 
-        $this->assertEquals('https://updated.com/here', $agency->getExternalUrl());
-        $this->assertEquals('NR21 4SF', $agency->getPostcode());
         $this->assertTrue($output->isSuccess());
     }
 
-    public function testUpdateAgencyThrowsExceptionWhenUserNotAgencyAdmin(): void
+    /**
+     * Test updateAgency throws exception when user is not agency admin.
+     */
+    public function testUpdateAgency2(): void
     {
-        $slug = 'testagencyslug';
-
         $input = $this->prophesize(UpdateInputInterface::class);
 
-        $user = new User();
+        $user = $this->prophesize(User::class);
 
         $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
 
         $this->expectException(NotFoundException::class);
         $this->assertEntityManagerUnused();
 
-        $this->updateService->updateAgency($slug, $input->reveal(), $user);
+        $this->updateService->updateAgency(self::TEST_SLUG, $input->reveal(), $user->reveal());
     }
 
-    public function testUpdateAgencyThrowsExceptionWhenUserAdminOfDifferentAgency(): void
+    /**
+     * Test update agency throws exception when user is admin of different agency.
+     */
+    public function testUpdateAgency3(): void
     {
-        $slug = 'testagencyslug';
-
         $input = $this->prophesize(UpdateInputInterface::class);
-
-        $user = new User();
-        $agency = (new Agency())->setSlug($slug);
-        $differentAgency = (new Agency())->setSlug('different')->addAdminUser($user);
+        $user = $this->prophesize(User::class);
+        $agency = $this->prophesize(Agency::class);
 
         $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn($agency);
+
+        $agency->getSlug()->shouldBeCalledOnce()->willReturn(self::TEST_SLUG);
 
         $this->expectException(ForbiddenException::class);
         $this->assertEntityManagerUnused();
 
-        $this->updateService->updateAgency($slug, $input->reveal(), $user);
+        $this->updateService->updateAgency('different', $input->reveal(), $user->reveal());
     }
 }
