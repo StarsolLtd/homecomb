@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\District;
 
 use App\Entity\District;
 use App\Factory\DistrictFactory;
 use App\Repository\DistrictRepositoryInterface;
-use App\Service\Locale\FindOrCreateService as LocaleFindOrCreateService;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DistrictService
+class FindOrCreateService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private DistrictFactory $districtFactory,
         private DistrictRepositoryInterface $districtRepository,
-        private LocaleFindOrCreateService $localeFindOrCreateService
     ) {
     }
 
@@ -32,14 +30,5 @@ class DistrictService
         $this->entityManager->flush();
 
         return $district;
-    }
-
-    public function getLocaleSlugByDistrictSlug(string $districtSlug): string
-    {
-        $district = $this->districtRepository->findOneBySlug($districtSlug);
-
-        $locale = $this->localeFindOrCreateService->findOrCreateByDistrict($district);
-
-        return $locale->getSlug();
     }
 }
