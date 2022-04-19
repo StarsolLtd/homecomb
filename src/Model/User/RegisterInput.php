@@ -9,7 +9,7 @@ class RegisterInput implements RegisterInputInterface
         private string $firstName,
         private string $lastName,
         private string $plainPassword,
-        private ?string $captchaToken = null
+        private ?string $captchaToken = null,
     ) {
     }
 

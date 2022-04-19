@@ -8,7 +8,7 @@ class Stars
         private ?int $overall,
         private ?int $property,
         private ?int $agency,
-        private ?int $landlord
+        private ?int $landlord,
     ) {
     }
 

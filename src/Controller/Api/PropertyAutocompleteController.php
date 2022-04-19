@@ -12,8 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class PropertyAutocompleteController extends AppController
 {
-    use VerifyCaptchaTrait;
-
     public function __construct(
         private PropertyAutocompleteService $propertyAutocompleteService,
     ) {

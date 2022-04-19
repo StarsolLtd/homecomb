@@ -9,7 +9,7 @@ class Group
      */
     public function __construct(
         private string $title,
-        private array $tenancyReviews
+        private array $tenancyReviews,
     ) {
     }
 
