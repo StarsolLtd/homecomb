@@ -10,7 +10,7 @@ class ViewService
 {
     public function __construct(
         private BranchFactory $branchFactory,
-        private BranchRepositoryInterface $branchRepository
+        private BranchRepositoryInterface $branchRepository,
     ) {
     }
 

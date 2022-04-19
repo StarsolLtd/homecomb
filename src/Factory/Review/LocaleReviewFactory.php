@@ -12,7 +12,7 @@ use App\Util\ReviewHelper;
 class LocaleReviewFactory
 {
     public function __construct(
-        private ReviewHelper $reviewHelper
+        private ReviewHelper $reviewHelper,
     ) {
     }
 

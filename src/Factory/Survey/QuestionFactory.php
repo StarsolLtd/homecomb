@@ -8,7 +8,7 @@ use App\Model\Survey\Question as QuestionModel;
 class QuestionFactory
 {
     public function __construct(
-        private ChoiceFactory $choiceFactory
+        private ChoiceFactory $choiceFactory,
     ) {
     }
 

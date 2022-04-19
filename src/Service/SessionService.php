@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class SessionService
 {
     public function __construct(
-        private SessionInterface $session
+        private SessionInterface $session,
     ) {
     }
 

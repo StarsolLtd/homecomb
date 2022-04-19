@@ -18,7 +18,7 @@ class TenancyReviewSolicitationFactory
     public function __construct(
         private BranchRepositoryInterface $branchRepository,
         private PropertyRepositoryInterface $propertyRepository,
-        private FlatModelFactory $flatModelFactory
+        private FlatModelFactory $flatModelFactory,
     ) {
     }
 

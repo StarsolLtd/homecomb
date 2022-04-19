@@ -13,7 +13,7 @@ final class UserController extends AppController
 {
     public function __construct(
         private UserService $userService,
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
     ) {
     }
 

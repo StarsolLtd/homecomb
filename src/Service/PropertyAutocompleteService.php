@@ -9,7 +9,7 @@ class PropertyAutocompleteService
 {
     public function __construct(
         private PropertyRepositoryInterface $propertyRepository,
-        private GetAddressService $getAddressService
+        private GetAddressService $getAddressService,
     ) {
     }
 

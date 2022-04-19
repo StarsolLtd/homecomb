@@ -11,7 +11,7 @@ use App\Util\BroadbandProviderReviewHelper;
 class BroadbandProviderReviewFactory
 {
     public function __construct(
-        private BroadbandProviderReviewHelper $broadbandProviderReviewHelper
+        private BroadbandProviderReviewHelper $broadbandProviderReviewHelper,
     ) {
     }
 

@@ -10,7 +10,7 @@ class GoogleReCaptchaService
 
     public function __construct(
         private bool $checkNotRobot,
-        private ReCaptcha $reCaptcha
+        private ReCaptcha $reCaptcha,
     ) {
     }
 

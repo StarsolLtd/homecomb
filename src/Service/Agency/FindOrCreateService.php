@@ -12,7 +12,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AgencyFactory $agencyFactory,
-        private AgencyRepositoryInterface $agencyRepository
+        private AgencyRepositoryInterface $agencyRepository,
     ) {
     }
 

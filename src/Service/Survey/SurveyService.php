@@ -31,7 +31,7 @@ class SurveyService
         private AnswerRepositoryInterface $answerRepository,
         private QuestionRepositoryInterface $questionRepository,
         private ResponseRepositoryInterface $responseRepository,
-        private SurveyRepositoryInterface $surveyRepository
+        private SurveyRepositoryInterface $surveyRepository,
     ) {
     }
 

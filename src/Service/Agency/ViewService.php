@@ -10,7 +10,7 @@ class ViewService
 {
     public function __construct(
         private AgencyFactory $agencyFactory,
-        private AgencyRepositoryInterface $agencyRepository
+        private AgencyRepositoryInterface $agencyRepository,
     ) {
     }
 

@@ -14,7 +14,7 @@ class UpdateService
     public function __construct(
         private UserService $userService,
         private EntityManagerInterface $entityManager,
-        private BranchRepositoryInterface $branchRepository
+        private BranchRepositoryInterface $branchRepository,
     ) {
     }
 

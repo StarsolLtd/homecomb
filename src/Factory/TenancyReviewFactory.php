@@ -17,7 +17,7 @@ class TenancyReviewFactory
 {
     public function __construct(
         private FlatModelFactory $flatModelFactory,
-        private ReviewHelper $reviewHelper
+        private ReviewHelper $reviewHelper,
     ) {
     }
 

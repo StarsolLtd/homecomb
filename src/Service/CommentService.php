@@ -17,7 +17,7 @@ class CommentService
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private CommentFactory $commentFactory,
-        private UserService $userService
+        private UserService $userService,
     ) {
     }
 

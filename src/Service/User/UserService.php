@@ -26,7 +26,7 @@ class UserService
             return $user;
         }
 
-        return $this->userRepository->loadUserByUsername($user->getUsername()) ?? null;
+        return $this->userRepository->loadUserByUsername($user->getUsername());
     }
 
     public function getEntityFromInterface(?UserInterface $user): User

@@ -18,7 +18,7 @@ class EmailService
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private MailerInterface $mailer,
-        private EmailFactory $emailFactory
+        private EmailFactory $emailFactory,
     ) {
     }
 

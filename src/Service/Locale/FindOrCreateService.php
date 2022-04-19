@@ -17,7 +17,7 @@ class FindOrCreateService
         private EntityManagerInterface $entityManager,
         private LocaleFactory $localeFactory,
         private CityLocaleRepositoryInterface $cityLocaleRepository,
-        private DistrictLocaleRepositoryInterface $districtLocaleRepository
+        private DistrictLocaleRepositoryInterface $districtLocaleRepository,
     ) {
     }
 

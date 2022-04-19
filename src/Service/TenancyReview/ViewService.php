@@ -11,7 +11,7 @@ class ViewService
 {
     public function __construct(
         private TenancyReviewRepositoryInterface $tenancyReviewRepository,
-        private TenancyReviewFactory $tenancyReviewFactory
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
     }
 

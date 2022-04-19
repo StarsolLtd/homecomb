@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFactory
 {
     public function __construct(
-        private UserPasswordEncoderInterface $userPasswordEncoder
+        private UserPasswordEncoderInterface $userPasswordEncoder,
     ) {
     }
 

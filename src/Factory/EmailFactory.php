@@ -16,7 +16,7 @@ class EmailFactory
         ?int $type = null,
         ?User $senderUser = null,
         ?User $recipientUser = null,
-        ?Email $resendOfEmail = null
+        ?Email $resendOfEmail = null,
     ): Email {
         return (new Email())
             ->setSender($from)

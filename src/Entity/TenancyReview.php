@@ -149,11 +149,8 @@ class TenancyReview
     public function getAgency(): ?Agency
     {
         $branch = $this->getBranch();
-        if (null === $branch) {
-            return null;
-        }
 
-        return $branch->getAgency();
+        return $branch?->getAgency();
     }
 
     public function getBranch(): ?Branch

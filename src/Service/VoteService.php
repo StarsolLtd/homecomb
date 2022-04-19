@@ -23,7 +23,7 @@ class VoteService
         private InteractionService $interactionService,
         private UserService $userService,
         private VoteRepositoryInterface $voteRepository,
-        private VoteFactory $voteFactory
+        private VoteFactory $voteFactory,
     ) {
     }
 
