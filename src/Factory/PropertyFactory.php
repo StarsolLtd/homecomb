@@ -8,9 +8,8 @@ use App\Model\Property\PostcodeProperties;
 use App\Model\Property\VendorProperty;
 use App\Model\Property\View;
 use App\Service\City\FindOrCreateService as CityFindOrCreateService;
-use App\Service\DistrictService;
+use App\Service\District\FindOrCreateService as DistrictFindOrCreateService;
 use App\Util\PropertyHelper;
-use function json_decode;
 
 class PropertyFactory
 {
@@ -18,7 +17,7 @@ class PropertyFactory
 
     public function __construct(
         private CityFindOrCreateService $cityFindOrCreateService,
-        private DistrictService $districtService,
+        private DistrictFindOrCreateService $districtFindOrCreateService,
         private PropertyHelper $propertyHelper,
         private CityFactory $cityFactory,
         private FlatModelFactory $flatModelFactory,
@@ -59,7 +58,7 @@ class PropertyFactory
         $property->setCity($city);
 
         if (null !== $addressDistrict) {
-            $district = $this->districtService->findOrCreate($addressDistrict, $addressCounty, self::COUNTRY_CODE);
+            $district = $this->districtFindOrCreateService->findOrCreate($addressDistrict, $addressCounty, self::COUNTRY_CODE);
             $property->setDistrict($district);
         }
 

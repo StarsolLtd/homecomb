@@ -16,7 +16,7 @@ use App\Model\District\Flat as FlatDistrict;
 use App\Model\Property\VendorProperty;
 use App\Model\TenancyReview\View;
 use App\Service\City\FindOrCreateService as CityFindOrCreateService;
-use App\Service\DistrictService;
+use App\Service\District\FindOrCreateService as DistrictFindOrCreateService;
 use App\Util\PropertyHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -33,7 +33,7 @@ final class PropertyFactoryTest extends TestCase
     private PropertyFactory $propertyFactory;
 
     private ObjectProphecy $cityFindOrCreateService;
-    private ObjectProphecy $districtService;
+    private ObjectProphecy $districtFindOrCreateService;
     private ObjectProphecy $propertyHelper;
     private ObjectProphecy $cityFactory;
     private ObjectProphecy $flatModelFactory;
@@ -42,7 +42,7 @@ final class PropertyFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->cityFindOrCreateService = $this->prophesize(CityFindOrCreateService::class);
-        $this->districtService = $this->prophesize(DistrictService::class);
+        $this->districtFindOrCreateService = $this->prophesize(DistrictFindOrCreateService::class);
         $this->propertyHelper = $this->prophesize(PropertyHelper::class);
         $this->cityFactory = $this->prophesize(CityFactory::class);
         $this->flatModelFactory = $this->prophesize(FlatModelFactory::class);
@@ -50,7 +50,7 @@ final class PropertyFactoryTest extends TestCase
 
         $this->propertyFactory = new PropertyFactory(
             $this->cityFindOrCreateService->reveal(),
-            $this->districtService->reveal(),
+            $this->districtFindOrCreateService->reveal(),
             $this->propertyHelper->reveal(),
             $this->cityFactory->reveal(),
             $this->flatModelFactory->reveal(),
@@ -91,7 +91,7 @@ final class PropertyFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($city);
 
-        $this->districtService->findOrCreate('City of Cambridge', 'Cambridgeshire', 'UK')
+        $this->districtFindOrCreateService->findOrCreate('City of Cambridge', 'Cambridgeshire', 'UK')
             ->shouldBeCalledOnce()
             ->willReturn($district);
 
