@@ -7,7 +7,7 @@ use App\Entity\Survey\Choice;
 use App\Entity\Survey\Question;
 use App\Entity\Survey\Response;
 use App\Factory\Survey\AnswerFactory;
-use App\Model\Survey\SubmitAnswerInput;
+use App\Model\Survey\SubmitAnswerInputInterface;
 use App\Repository\Survey\ChoiceRepositoryInterface;
 use App\Repository\Survey\QuestionRepositoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -15,9 +15,6 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Factory\Survey\AnswerFactory
- */
 final class AnswerFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -34,13 +31,10 @@ final class AnswerFactoryTest extends TestCase
 
         $this->answerFactory = new AnswerFactory(
             $this->choiceRepository->reveal(),
-            $this->questionRepository->reveal()
+            $this->questionRepository->reveal(),
         );
     }
 
-    /**
-     * @covers \App\Factory\Survey\AnswerFactory::createEntityFromSubmitInput
-     */
     public function testCreateEntityFromSubmitInput1(): void
     {
         $choice = $this->prophesize(Choice::class);
@@ -58,16 +52,15 @@ final class AnswerFactoryTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($choice);
 
-        $input = new SubmitAnswerInput(
-            55,
-            'It is yummy',
-            75,
-            3
-        );
+        $input = $this->prophesize(SubmitAnswerInputInterface::class);
+        $input->getQuestionId()->shouldBeCalledOnce()->willReturn(55);
+        $input->getContent()->shouldBeCalledOnce()->willReturn('It is yummy');
+        $input->getChoiceId()->shouldBeCalledOnce()->willReturn(75);
+        $input->getRating()->shouldBeCalledOnce()->willReturn(3);
 
         $response = $this->prophesize(Response::class);
 
-        $entity = $this->answerFactory->createEntityFromSubmitInput($input, $response->reveal());
+        $entity = $this->answerFactory->createEntityFromSubmitInput($input->reveal(), $response->reveal());
 
         $this->assertEquals($question->reveal(), $entity->getQuestion());
         $this->assertEquals($response->reveal(), $entity->getResponse());

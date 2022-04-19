@@ -7,7 +7,7 @@ use App\Entity\Survey\Response;
 use App\Factory\Survey\AnswerFactory;
 use App\Factory\Survey\SurveyFactory;
 use App\Model\Interaction\RequestDetailsInterface;
-use App\Model\Survey\SubmitAnswerInput;
+use App\Model\Survey\SubmitAnswerInputInterface;
 use App\Model\Survey\SubmitAnswerOutput;
 use App\Model\Survey\View;
 use App\Repository\Survey\AnswerRepositoryInterface;
@@ -43,7 +43,7 @@ class SurveyService
     }
 
     public function answer(
-        SubmitAnswerInput $input,
+        SubmitAnswerInputInterface $input,
         ?UserInterface $user,
         ?RequestDetailsInterface $requestDetails = null
     ): SubmitAnswerOutput {
