@@ -6,7 +6,6 @@ use App\Entity\Agency;
 use App\Entity\User;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
-use App\Model\Agency\UpdateAgencyInput;
 use App\Model\Agency\UpdateInputInterface;
 use App\Service\Agency\UpdateService;
 use App\Service\User\UserService;
@@ -61,11 +60,8 @@ final class UpdateServiceTest extends TestCase
     public function testUpdateAgencyThrowsExceptionWhenUserNotAgencyAdmin(): void
     {
         $slug = 'testagencyslug';
-        $updateAgencyInput = new UpdateAgencyInput(
-            'https://updated.com/here',
-            'NR21 4SF',
-            'SAMPLE'
-        );
+
+        $input = $this->prophesize(UpdateInputInterface::class);
 
         $user = new User();
 
@@ -74,17 +70,14 @@ final class UpdateServiceTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->assertEntityManagerUnused();
 
-        $this->updateService->updateAgency($slug, $updateAgencyInput, $user);
+        $this->updateService->updateAgency($slug, $input->reveal(), $user);
     }
 
     public function testUpdateAgencyThrowsExceptionWhenUserAdminOfDifferentAgency(): void
     {
         $slug = 'testagencyslug';
-        $updateAgencyInput = new UpdateAgencyInput(
-            'https://updated.com/here',
-            'NR21 4SF',
-            'SAMPLE'
-        );
+
+        $input = $this->prophesize(UpdateInputInterface::class);
 
         $user = new User();
         $agency = (new Agency())->setSlug($slug);
@@ -95,6 +88,6 @@ final class UpdateServiceTest extends TestCase
         $this->expectException(ForbiddenException::class);
         $this->assertEntityManagerUnused();
 
-        $this->updateService->updateAgency($slug, $updateAgencyInput, $user);
+        $this->updateService->updateAgency($slug, $input->reveal(), $user);
     }
 }

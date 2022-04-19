@@ -2,7 +2,7 @@
 
 namespace App\Model\Agency;
 
-class UpdateAgencyInput implements UpdateInputInterface
+class UpdateInput implements UpdateInputInterface
 {
     public function __construct(
         private ?string $externalUrl = null,
