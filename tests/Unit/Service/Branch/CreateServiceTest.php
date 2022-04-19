@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Exception\ForbiddenException;
 use App\Factory\BranchFactory;
-use App\Model\Branch\CreateInput;
+use App\Model\Branch\CreateInputInterface;
 use App\Repository\BranchRepositoryInterface;
 use App\Service\Branch\CreateService;
 use App\Service\NotificationService;
@@ -29,7 +29,6 @@ final class CreateServiceTest extends TestCase
     private CreateService $createService;
 
     private ObjectProphecy $notificationService;
-    private ObjectProphecy $entityManager;
     private ObjectProphecy $branchFactory;
     private ObjectProphecy $branchRepository;
 
@@ -50,74 +49,85 @@ final class CreateServiceTest extends TestCase
         );
     }
 
-    public function testCreateBranch(): void
+    public function testCreateBranch1(): void
     {
-        $createBranchInput = $this->getValidCreateBranchInput();
-        $agency = new Agency();
-        $user = (new User())->setAdminAgency($agency);
-        $branch = new Branch();
+        $input = $this->prophesize(CreateInputInterface::class);
+
+        $agency = $this->prophesize(Agency::class);
+        $branch = $this->prophesize(Branch::class);
+        $user = $this->prophesize(User::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $this->branchRepository->findOneByNameAndAgencyOrNull($createBranchInput->getBranchName(), $agency)
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn($agency);
+
+        $input->getBranchName()->shouldBeCalledOnce()->willReturn('Blakeney');
+
+        $this->branchRepository->findOneByNameAndAgencyOrNull('Blakeney', $agency)
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
-        $this->branchFactory->createEntityFromCreateBranchInput($createBranchInput, $agency)
+        $this->branchFactory->createEntityFromCreateBranchInput($input, $agency)
             ->shouldBeCalledOnce()
             ->willReturn($branch);
 
-        $this->entityManager->persist($branch)->shouldBeCalledOnce();
-        $this->entityManager->flush()->shouldBeCalledOnce();
+        $this->assertEntitiesArePersistedAndFlush([$branch]);
 
         $this->notificationService->sendBranchModerationNotification($branch)->shouldBeCalledOnce();
 
-        $output = $this->createService->createBranch($createBranchInput, $user);
+        $output = $this->createService->createBranch($input->reveal(), $user->reveal());
 
         $this->assertTrue($output->isSuccess());
     }
 
-    public function testCreateBranchThrowsConflictExceptionIfAlreadyExists(): void
+    /**
+     * Test createBranch throws a ConflictException if it already exists.
+     */
+    public function testCreateBranch2(): void
     {
-        $createBranchInput = $this->getValidCreateBranchInput();
-        $agency = new Agency();
-        $user = (new User())->setAdminAgency($agency);
-        $existingBranch = new Branch();
+        $input = $this->prophesize(CreateInputInterface::class);
+
+        $agency = $this->prophesize(Agency::class);
+        $user = $this->prophesize(User::class);
+        $existingBranch = $this->prophesize(Branch::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
-        $this->branchRepository->findOneByNameAndAgencyOrNull($createBranchInput->getBranchName(), $agency)
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn($agency);
+
+        $input->getBranchName()->shouldBeCalledOnce()->willReturn('Blakeney');
+
+        $this->branchRepository->findOneByNameAndAgencyOrNull('Blakeney', $agency)
             ->shouldBeCalledOnce()
             ->willReturn($existingBranch);
 
         $this->expectException(ConflictException::class);
+        $this->expectExceptionMessage('A branch with the name Blakeney already exists for this agency.');
 
         $this->assertEntityManagerUnused();
 
-        $this->createService->createBranch($createBranchInput, $user);
+        $this->createService->createBranch($input->reveal(), $user->reveal());
     }
 
+    /**
+     * Test createBranch throws a ForbiddenException is the user is not agency admin.
+     */
     public function testCreateBranchThrowsForbiddenExceptionIfUserNotAgencyAdmin(): void
     {
-        $createBranchInput = $this->getValidCreateBranchInput();
-        $user = (new User())->setEmail('not.agency.admin@starsol.co.uk');
+        $input = $this->prophesize(CreateInputInterface::class);
+        $user = $this->prophesize(User::class);
 
         $this->assertGetUserEntityFromInterface($user);
 
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn(null);
+
+        $user->getUsername()->shouldBeCalledOnce()->willReturn('not.agency.admin@starsol.co.uk');
+
         $this->expectException(ForbiddenException::class);
+        $this->expectExceptionMessage('Logged in user not.agency.admin@starsol.co.uk is not the admin of an agency.');
 
         $this->assertEntityManagerUnused();
 
-        $this->createService->createBranch($createBranchInput, $user);
-    }
-
-    private function getValidCreateBranchInput(): CreateInput
-    {
-        return new CreateInput(
-            'Blakeney',
-            '0700 100 200',
-            null,
-            'sample'
-        );
+        $this->createService->createBranch($input->reveal(), $user->reveal());
     }
 }
