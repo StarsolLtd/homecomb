@@ -33,7 +33,7 @@ final class ViewServiceTest extends TestCase
 
     public function testGetViewBySlug1(): void
     {
-        $agency = new Agency();
+        $agency = $this->prophesize(Agency::class);
         $agencyView = $this->prophesize(AgencyView::class);
 
         $this->agencyRepository->findOnePublishedBySlug('agencyslug')
