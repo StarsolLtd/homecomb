@@ -9,7 +9,7 @@ class GetLocaleService
 {
     public function __construct(
         private DistrictRepositoryInterface $districtRepository,
-        private LocaleFindOrCreateService $localeFindOrCreateService
+        private LocaleFindOrCreateService $localeFindOrCreateService,
     ) {
     }
 

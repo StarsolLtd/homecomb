@@ -65,7 +65,7 @@ class Survey
 
     public function __toString(): string
     {
-        return (string) $this->getTitle();
+        return $this->getTitle();
     }
 
     public function getId(): int

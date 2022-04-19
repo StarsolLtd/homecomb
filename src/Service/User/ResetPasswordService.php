@@ -12,7 +12,7 @@ class ResetPasswordService
 {
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EmailService $emailService
+        private EmailService $emailService,
     ) {
     }
 

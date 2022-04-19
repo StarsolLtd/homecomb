@@ -26,7 +26,7 @@ final class VoteController extends AppController
         private GoogleReCaptchaService $googleReCaptchaService,
         private VoteService $voteService,
         protected InteractionFactory $interactionFactory,
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
     ) {
     }
 

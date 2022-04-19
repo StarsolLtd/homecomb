@@ -25,7 +25,7 @@ final class TenancyReviewController extends AppController
         private CreateService $createService,
         private ViewService $viewService,
         protected InteractionFactory $interactionFactory,
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
     ) {
     }
 

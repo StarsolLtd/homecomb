@@ -24,7 +24,7 @@ class BranchAdminService
 
         $branch = $this->branchRepository->findOnePublishedBySlug($branchSlug);
         $branchAgency = $branch->getAgency();
-        if (null == $branchAgency) {
+        if (null === $branchAgency) {
             return false;
         }
         if ($branchAgency->getId() !== $agency->getId()) {

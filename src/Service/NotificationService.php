@@ -29,7 +29,7 @@ class NotificationService
         private CrudUrlGenerator $crudUrlGenerator,
         LoggerInterface $appLogger,
         private MailerInterface $mailer,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
     ) {
         $this->logger = $appLogger;
     }

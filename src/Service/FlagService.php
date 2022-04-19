@@ -17,7 +17,7 @@ class FlagService
         private InteractionService $interactionService,
         private NotificationService $notificationService,
         private UserService $userService,
-        private FlagFactory $flagFactory
+        private FlagFactory $flagFactory,
     ) {
     }
 

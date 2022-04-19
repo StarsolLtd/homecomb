@@ -27,7 +27,7 @@ class CreateService
         private UserService $userService,
         private EntityManagerInterface $entityManager,
         private PropertyRepositoryInterface $propertyRepository,
-        private TenancyReviewFactory $tenancyReviewFactory
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
     }
 

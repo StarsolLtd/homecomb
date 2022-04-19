@@ -110,7 +110,7 @@ class Locale
 
     public function __toString(): string
     {
-        return (string) $this->getName();
+        return $this->getName();
     }
 
     public function getId(): ?int

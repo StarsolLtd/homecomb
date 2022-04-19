@@ -17,7 +17,7 @@ class GetAddressService
         private LoggerInterface $logger,
         private HttpClientInterface $client,
         private PropertyFactory $propertyFactory,
-        private string $getAddressApiKey = 'q_FWAe-wfUGroLwns-12gQ29280' // TODO how to inject this from secret
+        private string $getAddressApiKey = 'q_FWAe-wfUGroLwns-12gQ29280', // TODO how to inject this from secret
     ) {
     }
 

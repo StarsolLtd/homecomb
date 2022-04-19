@@ -7,7 +7,6 @@ use App\Exception\DeveloperException;
 use App\Exception\FailureException;
 use App\Exception\NotFoundException;
 use App\Service\PropertyService;
-use App\Service\User\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class PropertyController extends AppController
 {
-    use VerifyCaptchaTrait;
-
     public function __construct(
         private PropertyService $propertyService,
-        private UserService $userService,
         protected SerializerInterface $serializer,
     ) {
     }

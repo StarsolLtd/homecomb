@@ -15,7 +15,7 @@ class PropertyService
         private EntityManagerInterface $entityManager,
         private PropertyFactory $propertyFactory,
         private PropertyRepositoryInterface $propertyRepository,
-        private GetAddressService $getAddressService
+        private GetAddressService $getAddressService,
     ) {
     }
 

@@ -20,7 +20,7 @@ class RegistrationService
         private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
         private VerifyEmailHelperInterface $verifyEmailHelper,
-        private EmailService $emailService
+        private EmailService $emailService,
     ) {
     }
 

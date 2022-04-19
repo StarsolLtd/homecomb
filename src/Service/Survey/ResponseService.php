@@ -14,7 +14,7 @@ class ResponseService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserService $userService,
-        private ResponseFactory $responseFactory
+        private ResponseFactory $responseFactory,
     ) {
     }
 

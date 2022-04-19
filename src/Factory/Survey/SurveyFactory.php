@@ -8,7 +8,7 @@ use App\Model\Survey\View as View;
 class SurveyFactory
 {
     public function __construct(
-        private QuestionFactory $questionFactory
+        private QuestionFactory $questionFactory,
     ) {
     }
 

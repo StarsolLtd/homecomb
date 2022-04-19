@@ -13,7 +13,7 @@ class FindOrCreateService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private BranchHelper $branchHelper,
-        private BranchRepositoryInterface $branchRepository
+        private BranchRepositoryInterface $branchRepository,
     ) {
     }
 

@@ -17,8 +17,6 @@ class GetLocaleService
     {
         $city = $this->cityRepository->findOneBySlug($citySlug);
 
-        $locale = $this->localeFindOrCreateService->findOrCreateByCity($city);
-
-        return $locale->getSlug();
+        return $this->localeFindOrCreateService->findOrCreateByCity($city)->getSlug();
     }
 }

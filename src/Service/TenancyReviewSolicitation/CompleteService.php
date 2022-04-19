@@ -11,7 +11,7 @@ class CompleteService
 {
     public function __construct(
         private TenancyReviewSolicitationRepositoryInterface $tenancyReviewSolicitationRepository,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     ) {
     }
 

@@ -17,7 +17,7 @@ class ReviewService
         private NotificationService $notificationService,
         private LocaleReviewFactory $localeReviewFactory,
         private LocaleRepositoryInterface $localeRepository,
-        private UserService $userService
+        private UserService $userService,
     ) {
     }
 

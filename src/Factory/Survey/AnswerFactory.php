@@ -12,7 +12,7 @@ class AnswerFactory
 {
     public function __construct(
         private ChoiceRepositoryInterface $choiceRepository,
-        private QuestionRepositoryInterface $questionRepository
+        private QuestionRepositoryInterface $questionRepository,
     ) {
     }
 

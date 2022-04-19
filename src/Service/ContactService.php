@@ -10,7 +10,7 @@ class ContactService
     public function __construct(
         private EmailService $emailService,
         private string $siteName,
-        private string $siteAdminEmail
+        private string $siteAdminEmail,
     ) {
     }
 

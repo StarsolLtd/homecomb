@@ -86,7 +86,7 @@ class Question
 
     public function __toString(): string
     {
-        return (string) $this->getContent();
+        return $this->getContent();
     }
 
     public function getId(): int

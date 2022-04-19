@@ -21,7 +21,7 @@ class PropertyFactory
         private PropertyHelper $propertyHelper,
         private CityFactory $cityFactory,
         private FlatModelFactory $flatModelFactory,
-        private TenancyReviewFactory $tenancyReviewFactory
+        private TenancyReviewFactory $tenancyReviewFactory,
     ) {
     }
 

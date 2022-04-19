@@ -14,7 +14,7 @@ final class TenancyReviewSolicitationController extends AppController
 {
     public function __construct(
         private ViewService $getViewService,
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
     ) {
     }
 

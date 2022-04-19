@@ -20,7 +20,7 @@ class CreateService
         private UserService $userService,
         private EntityManagerInterface $entityManager,
         private BranchFactory $branchFactory,
-        private BranchRepositoryInterface $branchRepository
+        private BranchRepositoryInterface $branchRepository,
     ) {
     }
 

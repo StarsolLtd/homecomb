@@ -97,7 +97,7 @@ class TenancyReviewSolicitation
 
     public function setSenderUser(User $senderUser): self
     {
-        if (null == $senderUser->getAdminAgency()) {
+        if (null === $senderUser->getAdminAgency()) {
             throw new LogicException('Attempted to set TenancyReviewSolicitation SenderUser as User that is not an agency admin.');
         }
 
