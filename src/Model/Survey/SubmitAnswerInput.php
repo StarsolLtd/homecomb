@@ -2,7 +2,7 @@
 
 namespace App\Model\Survey;
 
-class SubmitAnswerInput
+class SubmitAnswerInput implements SubmitAnswerInputInterface
 {
     public function __construct(
         private int $questionId,

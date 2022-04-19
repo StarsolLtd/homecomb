@@ -4,7 +4,7 @@ namespace App\Factory\Survey;
 
 use App\Entity\Survey\Answer;
 use App\Entity\Survey\Response;
-use App\Model\Survey\SubmitAnswerInput;
+use App\Model\Survey\SubmitAnswerInputInterface;
 use App\Repository\Survey\ChoiceRepositoryInterface;
 use App\Repository\Survey\QuestionRepositoryInterface;
 
@@ -16,7 +16,7 @@ class AnswerFactory
     ) {
     }
 
-    public function createEntityFromSubmitInput(SubmitAnswerInput $input, Response $response): Answer
+    public function createEntityFromSubmitInput(SubmitAnswerInputInterface $input, Response $response): Answer
     {
         $question = $this->questionRepository->findOnePublishedById($input->getQuestionId());
 
@@ -27,8 +27,10 @@ class AnswerFactory
             ->setRating($input->getRating())
         ;
 
-        $choice = null !== $input->getChoiceId()
-            ? $this->choiceRepository->findOnePublishedById($input->getChoiceId())
+        $choiceId = $input->getChoiceId();
+
+        $choice = null !== $choiceId
+            ? $this->choiceRepository->findOnePublishedById($choiceId)
             : null;
 
         if ($choice) {
