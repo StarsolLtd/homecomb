@@ -6,7 +6,6 @@ use App\Entity\Agency;
 use App\Entity\User;
 use App\Exception\ConflictException;
 use App\Factory\AgencyFactory;
-use App\Model\Agency\CreateInput;
 use App\Model\Agency\CreateInputInterface;
 use App\Service\Agency\CreateService;
 use App\Service\NotificationService;
@@ -43,7 +42,7 @@ final class CreateServiceTest extends TestCase
         );
     }
 
-    public function testCreateAgency(): void
+    public function testCreateAgency1(): void
     {
         $createInput = $this->prophesize(CreateInputInterface::class);
         $user = $this->prophesize(User::class);
@@ -69,24 +68,22 @@ final class CreateServiceTest extends TestCase
         $this->assertTrue($output->isSuccess());
     }
 
-    public function testCreateAgencyThrowsConflictExceptionWhenUserIsAlreadyAgencyAdmin(): void
+    /**
+     * Test createAgency method throws a ConflictException when the user is already an agency admin.
+     */
+    public function testCreateAgency2(): void
     {
-        $createAgencyInput = new CreateInput(
-            'Test Agency Name',
-            'https://test.com/welcome',
-            null,
-            null
-        );
-        $agency = new Agency();
-        $user = (new User())->setAdminAgency($agency);
+        $input = $this->prophesize(CreateInputInterface::class);
+        $user = $this->prophesize(User::class);
+        $agency = $this->prophesize(Agency::class);
 
-        $this->userService->getEntityFromInterface($user)
-            ->shouldBeCalledOnce()
-            ->willReturn($user);
+        $this->userService->getEntityFromInterface($user)->shouldBeCalledOnce()->willReturn($user);
+
+        $user->getAdminAgency()->shouldBeCalledOnce()->willReturn($agency);
 
         $this->expectException(ConflictException::class);
         $this->assertEntityManagerUnused();
 
-        $this->createService->createAgency($createAgencyInput, $user);
+        $this->createService->createAgency($input->reveal(), $user->reveal());
     }
 }
