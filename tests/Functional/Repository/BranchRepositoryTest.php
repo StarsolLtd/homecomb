@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Repository;
+namespace App\Tests\Functional\Repository;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Branch;
@@ -26,7 +26,7 @@ final class BranchRepositoryTest extends KernelTestCase
         $this->repository = $this->entityManager->getRepository(Branch::class);
     }
 
-    public function testFindOnePublishedBySlug()
+    public function testFindOnePublishedBySlug(): void
     {
         $branch = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_BRANCH_101_SLUG);
 
@@ -35,7 +35,7 @@ final class BranchRepositoryTest extends KernelTestCase
         $this->assertTrue($branch->isPublished());
     }
 
-    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()
+    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists(): void
     {
         $this->expectException(NotFoundException::class);
 

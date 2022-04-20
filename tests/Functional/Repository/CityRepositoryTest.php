@@ -30,7 +30,7 @@ final class CityRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\CityRepository::findOneByUnique
      */
-    public function testFindOneByUnique1()
+    public function testFindOneByUnique1(): void
     {
         $city = $this->repository->findOneByUnique('Cambridge', 'Cambridgeshire', 'UK');
 
@@ -42,7 +42,7 @@ final class CityRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\CityRepository::findOneByUnique
      */
-    public function testFindOneByUnique2()
+    public function testFindOneByUnique2(): void
     {
         $city = $this->repository->findOneByUnique('Xanadu', 'Nonexistentshire', 'UK');
 

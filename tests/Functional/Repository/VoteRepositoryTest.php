@@ -53,7 +53,7 @@ final class VoteRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\VoteRepository::findOneTenancyReviewVoteByUserAndEntity
      */
-    public function testFindOneReviewVoteByUserAndEntity1()
+    public function testFindOneReviewVoteByUserAndEntity1(): void
     {
         $vote = $this->voteRepository->findOneTenancyReviewVoteByUserAndEntity($this->userFixture, $this->tenancyReviewFixture->getId());
 
@@ -66,7 +66,7 @@ final class VoteRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\VoteRepository::findOneCommentVoteByUserAndEntity
      */
-    public function testFindOneCommentVoteByUserAndEntity1()
+    public function testFindOneCommentVoteByUserAndEntity1(): void
     {
         $vote = $this->voteRepository->findOneCommentVoteByUserAndEntity($this->userFixture, $this->commentFixture->getId());
 
@@ -83,7 +83,7 @@ final class VoteRepositoryTest extends KernelTestCase
         unset($this->entityManager, $this->voteRepository);
     }
 
-    private function createFixtures()
+    private function createFixtures(): void
     {
         $this->commentFixture = $this->commentRepository->findLastPublished();
         $this->tenancyReviewFixture = $this->reviewRepository->findLastPublished();

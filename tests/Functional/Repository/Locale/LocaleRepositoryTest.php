@@ -28,9 +28,9 @@ final class LocaleRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\LocaleRepository::findOneByUnique
+     * @covers \App\Repository\Locale\LocaleRepository::findOnePublishedBySlug
      */
-    public function testFindOnePublishedBySlug()
+    public function testFindOnePublishedBySlug(): void
     {
         $locale = $this->repository->findOnePublishedBySlug('fakenham');
 
@@ -40,10 +40,10 @@ final class LocaleRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\LocaleRepository::findBySearchQuery
+     * @covers \App\Repository\Locale\LocaleRepository::findBySearchQuery
      * Test a lower case search returns a result where the first letter is capitalised.
      */
-    public function testFindBySearchQuery1()
+    public function testFindBySearchQuery1(): void
     {
         $results = $this->repository->findBySearchQuery('faken');
 
@@ -52,10 +52,10 @@ final class LocaleRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\LocaleRepository::findBySearchQuery
+     * @covers \App\Repository\Locale\LocaleRepository::findBySearchQuery
      * Test multiple results are returned when there are multiple results.
      */
-    public function testFindBySearchQuery2()
+    public function testFindBySearchQuery2(): void
     {
         $results = $this->repository->findBySearchQuery('King');
 
@@ -65,10 +65,10 @@ final class LocaleRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\LocaleRepository::findBySearchQuery
+     * @covers \App\Repository\Locale\LocaleRepository::findBySearchQuery
      * Test a search query is trimmed.
      */
-    public function testFindBySearchQuery3()
+    public function testFindBySearchQuery3(): void
     {
         $results = $this->repository->findBySearchQuery("\tIslington ");
 
@@ -77,10 +77,10 @@ final class LocaleRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Repository\LocaleRepository::findBySearchQuery
+     * @covers \App\Repository\Locale\LocaleRepository::findBySearchQuery
      * Test no results are returned when there are no matches.
      */
-    public function testFindBySearchQuery4()
+    public function testFindBySearchQuery4(): void
     {
         $results = $this->repository->findBySearchQuery('Cluj-Napoca');
 

@@ -36,7 +36,7 @@ final class DistrictLocaleRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\Locale\DistrictLocaleRepository::findOneNullableByDistrict
      */
-    public function testFindOneNullableByDistrict1()
+    public function testFindOneNullableByDistrict1(): void
     {
         /** @var DistrictRepository $districtRepository */
         $districtRepository = $this->entityManager->getRepository(District::class);
@@ -54,7 +54,7 @@ final class DistrictLocaleRepositoryTest extends KernelTestCase
      * @covers \App\Repository\Locale\DistrictLocaleRepository::findOneNullableByDistrict
      * Test returns null when district does not have a locale in the database.
      */
-    public function testFindOneNullableByDistrict2()
+    public function testFindOneNullableByDistrict2(): void
     {
         $district = (new District())->setName('Rivierenbuurt')->setCountryCode('NL');
 
@@ -67,7 +67,7 @@ final class DistrictLocaleRepositoryTest extends KernelTestCase
      * @covers \App\Repository\Locale\DistrictLocaleRepository::findOneNullableByDistrict
      * Test returns null for a District that does not exist, with matching properties to a City that does exist.
      */
-    public function testFindOneNullableByDistrict3()
+    public function testFindOneNullableByDistrict3(): void
     {
         /** @var CityLocaleRepository $cityLocaleRepository */
         $cityLocaleRepository = $this->entityManager->getRepository(CityLocale::class);

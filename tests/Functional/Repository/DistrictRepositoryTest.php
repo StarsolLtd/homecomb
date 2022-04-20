@@ -30,7 +30,7 @@ final class DistrictRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\DistrictRepository::findOneByUnique
      */
-    public function testFindOneByUnique1()
+    public function testFindOneByUnique1(): void
     {
         $district = $this->repository->findOneByUnique('East Cambridgeshire', 'Cambridgeshire', 'UK');
 
@@ -42,7 +42,7 @@ final class DistrictRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\DistrictRepository::findOneByUnique
      */
-    public function testFindOneByUnique2()
+    public function testFindOneByUnique2(): void
     {
         $district = $this->repository->findOneByUnique('Xanadu', 'Nonexistentshire', 'UK');
 

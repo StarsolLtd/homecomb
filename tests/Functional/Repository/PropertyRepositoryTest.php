@@ -30,7 +30,7 @@ final class PropertyRepositoryTest extends KernelTestCase
         $this->repository = $this->entityManager->getRepository(Property::class);
     }
 
-    public function testFindOnePublishedBySlug()
+    public function testFindOnePublishedBySlug(): void
     {
         $property = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_PROPERTY_1_SLUG);
 
@@ -39,7 +39,7 @@ final class PropertyRepositoryTest extends KernelTestCase
         $this->assertTrue($property->isPublished());
     }
 
-    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()
+    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -49,7 +49,7 @@ final class PropertyRepositoryTest extends KernelTestCase
     /**
      * Test one result is found when there should only be one result. Found by addressLine1.
      */
-    public function testFindBySearchQuery1()
+    public function testFindBySearchQuery1(): void
     {
         $properties = $this->repository->findBySearchQuery('Tester');
         $this->assertCount(1, $properties);
@@ -60,7 +60,7 @@ final class PropertyRepositoryTest extends KernelTestCase
     /**
      * Test multiple properties are found when there are multiple results. Found by postcode.
      */
-    public function testFindBySearchQuery2()
+    public function testFindBySearchQuery2(): void
     {
         $properties = $this->repository->findBySearchQuery('PE31 8RP');
         $this->assertCount(3, $properties);
@@ -72,7 +72,7 @@ final class PropertyRepositoryTest extends KernelTestCase
     /**
      * Test results set is limited when it exceed $maxResults.
      */
-    public function testFindBySearchQuery3()
+    public function testFindBySearchQuery3(): void
     {
         $properties = $this->repository->findBySearchQuery('PE31 8RP', 2);
         $this->assertCount(2, $properties);
@@ -81,16 +81,16 @@ final class PropertyRepositoryTest extends KernelTestCase
     /**
      * Test results set is empty when there should be no results.
      */
-    public function testFindBySearchQuery4()
+    public function testFindBySearchQuery4(): void
     {
         $properties = $this->repository->findBySearchQuery('The Clangers Moon Base');
         $this->assertCount(0, $properties);
     }
 
     /**
-     * @covers \App\Repository\PropertyRepository::testFindPublishedByCity1
+     * @covers \App\Repository\PropertyRepository::findPublishedByCity
      */
-    public function testFindPublishedByCity1()
+    public function testFindPublishedByCity1(): void
     {
         $cityRepository = $this->entityManager->getRepository(City::class);
         $city = $cityRepository->findOneBy(['name' => "King's Lynn"]);
