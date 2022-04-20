@@ -7,7 +7,6 @@ use App\Entity\BroadbandProviderReview;
 use App\Entity\User;
 use App\Factory\BroadbandProviderReviewFactory;
 use App\Model\BroadbandProviderReview\SubmitInput;
-use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\BroadbandProviderReviewHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -17,7 +16,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 final class BroadbandProviderReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
-    use SetIdByReflectionTrait;
 
     private BroadbandProviderReviewFactory $broadbandProviderReviewFactory;
 

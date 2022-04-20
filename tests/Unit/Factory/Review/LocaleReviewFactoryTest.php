@@ -4,10 +4,8 @@ namespace App\Tests\Unit\Factory\Review;
 
 use App\Entity\Locale\Locale;
 use App\Entity\Review\LocaleReview;
-use App\Entity\Vote\LocaleReviewVote;
 use App\Factory\Review\LocaleReviewFactory;
 use App\Model\Review\SubmitLocaleReviewInputInterface;
-use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -20,7 +18,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 final class LocaleReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
-    use SetIdByReflectionTrait;
 
     private LocaleReviewFactory $localeReviewFactory;
 
@@ -33,10 +30,7 @@ final class LocaleReviewFactoryTest extends TestCase
         $this->localeReviewFactory = new LocaleReviewFactory($this->reviewHelper->reveal());
     }
 
-    /**
-     * @covers \App\Factory\Review\LocaleReviewFactory::createEntity
-     */
-    public function testCreateEntityFromSubmitInput1(): void
+    public function testCreateEntity1(): void
     {
         $input = $this->prophesize(SubmitLocaleReviewInputInterface::class);
         $input->getReviewerName()->shouldBeCalledOnce()->willReturn('John Smith');
@@ -59,26 +53,21 @@ final class LocaleReviewFactoryTest extends TestCase
         $this->assertCount(0, $entity->getVotes());
     }
 
-    /**
-     * @covers \App\Factory\Review\LocaleReviewFactory::createViewFromEntity
-     */
     public function testCreateViewFromEntity1(): void
     {
-        $positiveVote = (new LocaleReviewVote())->setPositive(true);
+        $localeReview = $this->prophesize(LocaleReview::class);
+        $localeReview->getId()->shouldBeCalledOnce()->willReturn(125);
+        $localeReview->getSlug()->shouldBeCalledOnce()->willReturn('test-slug');
+        $localeReview->getAuthor()->shouldBeCalledOnce()->willReturn('John Smith');
+        $localeReview->getTitle()->shouldBeCalledOnce()->willReturn('There is a market place');
+        $localeReview->getContent()->shouldBeCalledOnce()->willReturn('I like living here, there is a Greggs.');
+        $localeReview->getOverallStars()->shouldBeCalledOnce()->willReturn(4);
+        $localeReview->getCreatedAt()->shouldBeCalledOnce()->willReturn(new \DateTime('2020-02-02 12:00:00'));
+        $localeReview->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(1);
+        $localeReview->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(0);
+        $localeReview->getVotesScore()->shouldBeCalledOnce()->willReturn(1);
 
-        $localeReview = (new LocaleReview())
-            ->setSlug('test-slug')
-            ->setAuthor('John Smith')
-            ->setTitle('There is a market place')
-            ->setContent('I like living here, there is a Greggs.')
-            ->setOverallStars(4)
-            ->setCreatedAt(new \DateTime('2020-02-02 12:00:00'))
-            ->addVote($positiveVote)
-        ;
-
-        $this->setIdByReflection($localeReview, 125);
-
-        $view = $this->localeReviewFactory->createViewFromEntity($localeReview);
+        $view = $this->localeReviewFactory->createViewFromEntity($localeReview->reveal());
 
         $this->assertEquals(125, $view->getId());
         $this->assertEquals('test-slug', $view->getSlug());
