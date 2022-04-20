@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Repository;
+namespace App\Tests\Functional\Repository;
 
 use App\DataFixtures\TestFixtures;
 use App\Entity\Agency;
@@ -26,7 +26,7 @@ final class AgencyRepositoryTest extends KernelTestCase
         $this->repository = $this->entityManager->getRepository(Agency::class);
     }
 
-    public function testFindOnePublishedBySlug()
+    public function testFindOnePublishedBySlug(): void
     {
         $agency = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_AGENCY_1_SLUG);
 
@@ -35,7 +35,7 @@ final class AgencyRepositoryTest extends KernelTestCase
         $this->assertTrue($agency->isPublished());
     }
 
-    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()
+    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists(): void
     {
         $this->expectException(NotFoundException::class);
 

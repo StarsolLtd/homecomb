@@ -30,7 +30,7 @@ final class ReviewRepositoryTest extends KernelTestCase
      * @covers \App\Repository\ReviewRepository::findOnePublishedById
      * Test successfully finds a review it exists.
      */
-    public function testFindOnePublishedById1()
+    public function testFindOnePublishedById1(): void
     {
         $review = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_REVIEW_SLUG_1);
 
@@ -43,7 +43,7 @@ final class ReviewRepositoryTest extends KernelTestCase
      * @covers \App\Repository\ReviewRepository::findOnePublishedById
      * Test a NotFoundException is thrown when no such review exists.
      */
-    public function testFindOnePublishedById2()
+    public function testFindOnePublishedById2(): void
     {
         $this->expectException(NotFoundException::class);
 

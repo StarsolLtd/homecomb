@@ -33,7 +33,7 @@ final class CityLocaleRepositoryTest extends KernelTestCase
     /**
      * @covers \App\Repository\Locale\CityLocaleRepository::findOneNullableByCity
      */
-    public function testFindOneNullableByCity1()
+    public function testFindOneNullableByCity1(): void
     {
         /** @var CityRepository $cityRepository */
         $cityRepository = $this->entityManager->getRepository(City::class);
@@ -51,7 +51,7 @@ final class CityLocaleRepositoryTest extends KernelTestCase
      * @covers \App\Repository\Locale\CityLocaleRepository::findOneNullableByCity
      * Test returns null when city does not have a locale in the database.
      */
-    public function testFindOneNullableByCity2()
+    public function testFindOneNullableByCity2(): void
     {
         $city = (new City())->setName('Amsterdam')->setCountryCode('NL');
 

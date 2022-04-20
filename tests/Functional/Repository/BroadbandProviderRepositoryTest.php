@@ -26,7 +26,7 @@ final class BroadbandProviderRepositoryTest extends KernelTestCase
         $this->repository = $this->entityManager->getRepository(BroadbandProvider::class);
     }
 
-    public function testFindOnePublishedBySlug()
+    public function testFindOnePublishedBySlug(): void
     {
         $broadbandProvider = $this->repository->findOnePublishedBySlug(TestFixtures::TEST_BROADBAND_PROVIDER_1_SLUG);
 
@@ -35,7 +35,7 @@ final class BroadbandProviderRepositoryTest extends KernelTestCase
         $this->assertTrue($broadbandProvider->isPublished());
     }
 
-    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists()
+    public function testFindOnePublishedBySlugThrowsExceptionWhenNotExists(): void
     {
         $this->expectException(NotFoundException::class);
 
