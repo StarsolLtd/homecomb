@@ -16,9 +16,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\PropertyService
- */
 final class PropertyServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -45,24 +42,12 @@ final class PropertyServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\PropertyService::getViewBySlug
-     */
     public function testGetViewBySlug(): void
     {
-        $property = (new Property());
-        $view = new View(
-            'propertyslug',
-            '33 Bateman Street',
-            '',
-            'Cambridge',
-            'CB4 5TW',
-            [],
-            52.19547,
-            0.1283
-        );
+        $property = $this->prophesize(Property::class);
+        $view = $this->prophesize(View::class);
 
-        $this->propertyRepository->findOnePublishedBySlug('propertyslug')
+        $this->propertyRepository->findOnePublishedBySlug('property-slug')
             ->shouldBeCalledOnce()
             ->willReturn($property);
 
@@ -70,44 +55,42 @@ final class PropertyServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn($view);
 
-        $view = $this->propertyService->getViewBySlug('propertyslug');
+        $result = $this->propertyService->getViewBySlug('property-slug');
 
-        $this->assertEquals('propertyslug', $view->getSlug());
-        $this->assertCount(0, $view->getTenancyReviews());
+        $this->assertEquals($view->reveal(), $result);
     }
 
     /**
-     * @covers \App\Service\PropertyService::determinePropertySlugFromVendorPropertyId
-     * Test where property already exists
+     * Test determinePropertySlugFromVendorPropertyId method where property already exists.
      */
     public function testDeterminePropertySlugFromVendorPropertyId1(): void
     {
-        $property = (new Property())->setSlug('propertyslug');
+        $property = $this->prophesize(Property::class);
+        $property->getSlug()->shouldBeCalledOnce()->willReturn('property-slug');
 
-        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendorpropertyid')
+        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendor-property-id')
             ->shouldBeCalledOnce()
             ->willReturn($property);
 
-        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendorpropertyid');
+        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendor-property-id');
 
-        $this->assertEquals('propertyslug', $output);
+        $this->assertEquals('property-slug', $output);
         $this->assertEntityManagerUnused();
     }
 
     /**
-     * @covers \App\Service\PropertyService::determinePropertySlugFromVendorPropertyId
-     * Test where property does not exist
+     * Test determinePropertySlugFromVendorPropertyId method where property does not exist.
      */
     public function testDeterminePropertySlugFromVendorPropertyId2(): void
     {
         $property = $this->prophesize(Property::class);
         $vendorPropertyModel = $this->prophesize(VendorProperty::class);
 
-        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendorpropertyid')
+        $this->propertyRepository->findOneByVendorPropertyIdOrNull('vendor-property-id')
             ->shouldBeCalledOnce()
             ->willReturn(null);
 
-        $this->getAddressService->getAddress('vendorpropertyid')
+        $this->getAddressService->getAddress('vendor-property-id')
             ->shouldBeCalled()
             ->willReturn($vendorPropertyModel);
 
@@ -117,17 +100,16 @@ final class PropertyServiceTest extends TestCase
 
         $property->getSlug()
             ->shouldBeCalled()
-            ->willReturn('propertyslug');
+            ->willReturn('property-slug');
 
-        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendorpropertyid');
+        $output = $this->propertyService->determinePropertySlugFromVendorPropertyId('vendor-property-id');
 
-        $this->assertEquals('propertyslug', $output);
+        $this->assertEquals('property-slug', $output);
         $this->assertEntitiesArePersistedAndFlush([$property]);
     }
 
     /**
-     * @covers \App\Service\PropertyService::determinePropertySlugFromAddress
-     * Test where property already exists
+     * Test determinePropertySlugFromAddress method where property already exists.
      */
     public function testDeterminePropertySlugFromAddress1(): void
     {
@@ -139,17 +121,17 @@ final class PropertyServiceTest extends TestCase
 
         $property->getSlug()
             ->shouldBeCalledOnce()
-            ->willReturn('testslug');
+            ->willReturn('test-slug');
 
         $output = $this->propertyService->determinePropertySlugFromAddress('181 Victoria Road', 'CB4 3LF');
 
-        $this->assertEquals('testslug', $output);
+        $this->assertEquals('test-slug', $output);
         $this->assertEntityManagerUnused();
     }
 
     /**
-     * @covers \App\Service\PropertyService::determinePropertySlugFromAddress
-     * Test where there is no an existing property, and no suggestions would be found via the API
+     * Test determinePropertySlugFromAddress where there is no an existing property, and no suggestions would be found
+     * via the API.
      */
     public function testDeterminePropertySlugFromAddress2(): void
     {
@@ -167,8 +149,8 @@ final class PropertyServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\PropertyService::determinePropertySlugFromAddress
-     * Test where there is no an existing property, and one is successfully suggested by the API
+     * Test determinePropertySlugFromAddress where there is no an existing property, and one is successfully
+     * suggested by the API.
      */
     public function testDeterminePropertySlugFromAddress3(): void
     {
@@ -184,9 +166,9 @@ final class PropertyServiceTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn([$suggestion]);
 
-        $suggestion->getVendorId()->shouldBeCalledOnce()->willReturn('testvendorpropertyid');
+        $suggestion->getVendorId()->shouldBeCalledOnce()->willReturn('test-vendor-property-id');
 
-        $this->getAddressService->getAddress('testvendorpropertyid')
+        $this->getAddressService->getAddress('test-vendor-property-id')
             ->shouldBeCalledOnce()
             ->willReturn($vendorProperty);
 
@@ -196,10 +178,10 @@ final class PropertyServiceTest extends TestCase
 
         $this->assertEntitiesArePersistedAndFlush([$property]);
 
-        $property->getSlug()->shouldBeCalledOnce()->willReturn('newpropertyslug');
+        $property->getSlug()->shouldBeCalledOnce()->willReturn('new-property-slug');
 
         $output = $this->propertyService->determinePropertySlugFromAddress('10101 Nowhere Lane', 'NR99 9ZZ');
 
-        $this->assertEquals('newpropertyslug', $output);
+        $this->assertEquals('new-property-slug', $output);
     }
 }
