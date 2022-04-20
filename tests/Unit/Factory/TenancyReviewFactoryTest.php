@@ -4,11 +4,10 @@ namespace App\Tests\Unit\Factory;
 
 use App\Entity\Agency;
 use App\Entity\Branch;
-use App\Entity\Comment\TenancyReviewComment;
+use App\Entity\Comment\Comment;
 use App\Entity\Property;
 use App\Entity\TenancyReview;
 use App\Entity\User;
-use App\Entity\Vote\TenancyReviewVote;
 use App\Factory\FlatModelFactory;
 use App\Factory\TenancyReviewFactory;
 use App\Model\Agency\Flat as FlatAgency;
@@ -17,7 +16,6 @@ use App\Model\Comment\Flat as FlatComment;
 use App\Model\Property\Flat as FlatProperty;
 use App\Model\TenancyReview\SubmitInputInterface;
 use App\Model\TenancyReview\View;
-use App\Tests\Unit\SetIdByReflectionTrait;
 use App\Util\ReviewHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,13 +24,9 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Factory\TenancyReviewFactory
- */
 final class TenancyReviewFactoryTest extends TestCase
 {
     use ProphecyTrait;
-    use SetIdByReflectionTrait;
 
     private TenancyReviewFactory $tenancyReviewFactory;
 
@@ -50,55 +44,58 @@ final class TenancyReviewFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Factory\TenancyReviewFactory::createViewFromEntity
-     */
     public function testCreateViewFromEntity(): void
     {
-        $branch = (new Branch());
-        $agency = (new Agency())->addBranch($branch);
-        $property = (new Property());
-        $comment = (new TenancyReviewComment())->setPublished(true);
+        $branch = $this->prophesize(Branch::class);
+        $agency = $this->prophesize(Agency::class);
+        $property = $this->prophesize(Property::class);
 
-        $flatBranch = (new FlatBranch('branchslug', 'Test Branch Name'));
-        $flatAgency = (new FlatAgency('agencyslug', 'Test Agency Name'));
-        $flatProperty = (new FlatProperty('propertyslug', '123 Test Street', 'CB4 3LF'));
-        $flatComment = (new FlatComment(77, 'Beatrice Whisk', 'We are glad you liked it', new DateTime()));
+        $publishedComment = $this->prophesize(Comment::class);
+        $publishedCommentsCollection = (new ArrayCollection());
+        $publishedCommentsCollection->add($publishedComment->reveal());
 
-        $this->flatModelFactory->getAgencyFlatModel($agency)
-            ->shouldBeCalledOnce()
-            ->willReturn($flatAgency);
-        $this->flatModelFactory->getBranchFlatModel($branch)
-            ->shouldBeCalledOnce()
-            ->willReturn($flatBranch);
-        $this->flatModelFactory->getPropertyFlatModel($property)
-            ->shouldBeCalledOnce()
-            ->willReturn($flatProperty);
-        $this->flatModelFactory->getCommentFlatModel($comment)
-            ->shouldBeCalledOnce()
-            ->willReturn($flatComment);
+        $flatBranch = $this->prophesize(FlatBranch::class);
+        $flatBranch->getName()->shouldBeCalledOnce()->willReturn('Test Branch Name');
 
-        $positiveVote = (new TenancyReviewVote())->setPositive(true);
+        $flatAgency = $this->prophesize(FlatAgency::class);
+        $flatAgency->getName()->shouldBeCalledOnce()->willReturn('Test Agency Name');
+        $flatAgency->getLogoImageFilename()->shouldBeCalledOnce()->willReturn(null);
 
-        $tenancyReview = (new TenancyReview())
-            ->setBranch($branch)
-            ->setProperty($property)
-            ->setAuthor('Gina Gee')
-            ->setStart(new DateTime('2018-03-01'))
-            ->setEnd(new DateTime('2020-10-01'))
-            ->setTitle('Test Title')
-            ->setContent('I lived here, it was nice.')
-            ->setOverallStars(4)
-            ->setLandlordStars(3)
-            ->setAgencyStars(null)
-            ->setPropertyStars(5)
-            ->setCreatedAt(new DateTime('2020-02-02 12:00:00'))
-            ->addComment($comment)
-            ->addVote($positiveVote)
-        ;
-        $this->setIdByReflection($tenancyReview, 789);
+        $flatProperty = $this->prophesize(FlatProperty::class);
+        $flatProperty->getAddressLine1()->shouldBeCalledOnce()->willReturn('123 Test Street');
 
-        $view = $this->tenancyReviewFactory->createViewFromEntity($tenancyReview);
+        $flatComment = $this->prophesize(FlatComment::class);
+        $flatComment->getContent()->shouldBeCalledOnce()->willReturn('We are glad you liked it');
+
+        $this->flatModelFactory->getAgencyFlatModel($agency)->shouldBeCalledOnce()->willReturn($flatAgency);
+
+        $this->flatModelFactory->getBranchFlatModel($branch)->shouldBeCalledOnce()->willReturn($flatBranch);
+
+        $this->flatModelFactory->getPropertyFlatModel($property)->shouldBeCalledOnce()->willReturn($flatProperty);
+
+        $this->flatModelFactory->getCommentFlatModel($publishedComment)->shouldBeCalledOnce()->willReturn($flatComment);
+
+        $tenancyReview = $this->prophesize(TenancyReview::class);
+        $tenancyReview->getPublishedComments()->shouldBeCalledOnce()->willReturn($publishedCommentsCollection);
+        $tenancyReview->getId()->shouldBeCalledOnce()->willReturn(789);
+        $tenancyReview->getBranch()->shouldBeCalledOnce()->willReturn($branch);
+        $tenancyReview->getAgency()->shouldBeCalledOnce()->willReturn($agency);
+        $tenancyReview->getProperty()->shouldBeCalledOnce()->willReturn($property);
+        $tenancyReview->getAuthor()->shouldBeCalledOnce()->willReturn('Gina Gee');
+        $tenancyReview->getStart()->shouldBeCalledOnce()->willReturn(new DateTime('2018-03-01'));
+        $tenancyReview->getEnd()->shouldBeCalledOnce()->willReturn(new DateTime('2020-10-01'));
+        $tenancyReview->getTitle()->shouldBeCalledOnce()->willReturn('Test Title');
+        $tenancyReview->getContent()->shouldBeCalledOnce()->willReturn('I lived here, it was nice.');
+        $tenancyReview->getOverallStars()->shouldBeCalledOnce()->willReturn(4);
+        $tenancyReview->getLandlordStars()->shouldBeCalledOnce()->willReturn(3);
+        $tenancyReview->getAgencyStars()->shouldBeCalledOnce()->willReturn(null);
+        $tenancyReview->getPropertyStars()->shouldBeCalledOnce()->willReturn(5);
+        $tenancyReview->getCreatedAt()->shouldBeCalledOnce()->willReturn(new DateTime('2020-02-02 12:00:00'));
+        $tenancyReview->getPositiveVotesCount()->shouldBeCalledOnce()->willReturn(1);
+        $tenancyReview->getNegativeVotesCount()->shouldBeCalledOnce()->willReturn(0);
+        $tenancyReview->getVotesScore()->shouldBeCalledOnce()->willReturn(1);
+
+        $view = $this->tenancyReviewFactory->createViewFromEntity($tenancyReview->reveal());
 
         $this->assertEquals('Test Branch Name', $view->getBranch()->getName());
         $this->assertEquals('Test Agency Name', $view->getAgency()->getName());
@@ -122,9 +119,6 @@ final class TenancyReviewFactoryTest extends TestCase
         $this->assertEquals(1, $view->getVotesScore());
     }
 
-    /**
-     * @covers \App\Factory\TenancyReviewFactory::createGroup
-     */
     public function testCreateGroup1(): void
     {
         $property = $this->prophesize(Property::class);
@@ -146,9 +140,6 @@ final class TenancyReviewFactoryTest extends TestCase
         $this->assertInstanceOf(View::class, $output->getTenancyReviews()[1]);
     }
 
-    /**
-     * @covers \App\Factory\TenancyReviewFactory::createEntity
-     */
     public function testCreateEntity1(): void
     {
         $branch = $this->prophesize(Branch::class);
