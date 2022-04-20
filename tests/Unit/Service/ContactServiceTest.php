@@ -27,7 +27,7 @@ final class ContactServiceTest extends TestCase
         $this->contactService = new ContactService(
             $this->emailService->reveal(),
             'HomeComb',
-            'jack@starsol.co.uk'
+            'jack@starsol.co.uk',
         );
     }
 

@@ -6,7 +6,6 @@ use App\Entity\Survey\Survey;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function sprintf;
 
 /**
  * @method Survey|null find($id, $lockMode = null, $lockVersion = null)

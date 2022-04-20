@@ -4,7 +4,6 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\DataFixtures\TestFixtures;
 use App\Repository\Survey\QuestionRepository;
-use function json_decode;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

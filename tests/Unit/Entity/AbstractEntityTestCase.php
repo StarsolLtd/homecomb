@@ -30,7 +30,7 @@ abstract class AbstractEntityTestCase extends TestCase
         }
     }
 
-    protected function setId($entity, $id)
+    protected function setId($entity, $id): void
     {
         $class = new ReflectionClass($entity);
         $property = $class->getProperty('id');

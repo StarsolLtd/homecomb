@@ -4,8 +4,6 @@ namespace App\Util;
 
 use App\Entity\Branch;
 use App\Exception\DeveloperException;
-use function md5;
-use function substr;
 
 class BranchHelper
 {

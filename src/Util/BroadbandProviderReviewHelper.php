@@ -3,8 +3,6 @@
 namespace App\Util;
 
 use App\Entity\BroadbandProviderReview;
-use function md5;
-use function substr;
 
 class BroadbandProviderReviewHelper
 {

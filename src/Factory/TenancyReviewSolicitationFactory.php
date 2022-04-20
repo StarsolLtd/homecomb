@@ -11,7 +11,6 @@ use App\Model\TenancyReviewSolicitation\FormData;
 use App\Model\TenancyReviewSolicitation\View;
 use App\Repository\BranchRepositoryInterface;
 use App\Repository\PropertyRepositoryInterface;
-use function sha1;
 
 class TenancyReviewSolicitationFactory
 {

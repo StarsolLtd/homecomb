@@ -5,7 +5,6 @@ namespace App\Tests\Functional\Controller\Api;
 use App\DataFixtures\TestFixtures;
 use App\Model\Property\PropertySuggestion;
 use App\Service\GetAddressService;
-use function json_decode;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

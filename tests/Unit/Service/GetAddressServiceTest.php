@@ -6,7 +6,6 @@ use App\Exception\FailureException;
 use App\Factory\PropertyFactory;
 use App\Model\Property\PostcodeProperties;
 use App\Service\GetAddressService;
-use function file_get_contents;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -39,7 +38,7 @@ final class GetAddressServiceTest extends TestCase
             $this->logger->reveal(),
             $this->client->reveal(),
             $this->propertyFactory->reveal(),
-            'sample'
+            'sample',
         );
     }
 

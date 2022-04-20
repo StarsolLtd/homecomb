@@ -6,7 +6,6 @@ use App\Entity\Agency;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function sprintf;
 
 /**
  * @method Agency|null find($id, $lockMode = null, $lockVersion = null)

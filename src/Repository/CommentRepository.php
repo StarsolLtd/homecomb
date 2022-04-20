@@ -6,7 +6,6 @@ use App\Entity\Comment\Comment;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function sprintf;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)

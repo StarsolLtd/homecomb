@@ -34,7 +34,6 @@ final class RegistrationServiceTest extends TestCase
 
     private ObjectProphecy $userFactory;
     private ObjectProphecy $userRepository;
-    private ObjectProphecy $entityManager;
     private ObjectProphecy $verifyEmailHelper;
     private ObjectProphecy $emailService;
 
