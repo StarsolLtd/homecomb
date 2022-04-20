@@ -31,7 +31,7 @@ final class SearchServiceTest extends TestCase
         );
     }
 
-    public function testSearch1()
+    public function testSearch1(): void
     {
         $results = $this->prophesize(ArrayCollection::class);
         $localeSearchResults = $this->prophesize(LocaleSearchResults::class);

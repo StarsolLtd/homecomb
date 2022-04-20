@@ -45,7 +45,7 @@ final class FindOrCreateServiceTest extends TestCase
     /**
      * Test a pre-existing CityLocale is returned.
      */
-    public function testFindOrCreateByCity1()
+    public function testFindOrCreateByCity1(): void
     {
         $city = $this->prophesize(City::class);
         $cityLocale = $this->prophesize(CityLocale::class);
@@ -62,7 +62,7 @@ final class FindOrCreateServiceTest extends TestCase
     /**
      * Test a CityLocale is created if one does not already exist.
      */
-    public function testFindOrCreateByCity2()
+    public function testFindOrCreateByCity2(): void
     {
         $city = $this->prophesize(City::class);
         $cityLocale = $this->prophesize(CityLocale::class);
@@ -81,7 +81,7 @@ final class FindOrCreateServiceTest extends TestCase
     /**
      * Test a pre-existing DistrictLocale is returned.
      */
-    public function testFindOrCreateByDistrict1()
+    public function testFindOrCreateByDistrict1(): void
     {
         $district = $this->prophesize(District::class);
         $districtLocale = $this->prophesize(DistrictLocale::class);
@@ -98,7 +98,7 @@ final class FindOrCreateServiceTest extends TestCase
     /**
      * Test a DistrictLocale is created if one does not already exist.
      */
-    public function testFindOrCreateByDistrict2()
+    public function testFindOrCreateByDistrict2(): void
     {
         $district = $this->prophesize(District::class);
         $districtLocale = $this->prophesize(DistrictLocale::class);

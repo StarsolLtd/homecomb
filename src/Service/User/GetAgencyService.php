@@ -5,7 +5,6 @@ namespace App\Service\User;
 use App\Exception\NotFoundException;
 use App\Factory\FlatModelFactory;
 use App\Model\Agency\Flat;
-use function sprintf;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class GetAgencyService

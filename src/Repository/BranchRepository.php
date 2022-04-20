@@ -9,7 +9,6 @@ use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
-use function sprintf;
 
 /**
  * @method Branch|null find($id, $lockMode = null, $lockVersion = null)

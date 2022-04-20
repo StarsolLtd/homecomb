@@ -17,7 +17,6 @@ use App\Model\Vote\SubmitOutput;
 use App\Repository\CommentRepositoryInterface;
 use App\Repository\ReviewRepositoryInterface;
 use App\Repository\TenancyReviewRepositoryInterface;
-use function sprintf;
 
 class VoteFactory
 {

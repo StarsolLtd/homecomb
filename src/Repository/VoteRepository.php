@@ -10,7 +10,6 @@ use App\Entity\Vote\Vote;
 use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function sprintf;
 
 /**
  * @method Vote|null find($id, $lockMode = null, $lockVersion = null)
