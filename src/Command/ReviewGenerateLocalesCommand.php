@@ -39,7 +39,7 @@ final class ReviewGenerateLocalesCommand extends Command
         $arg1Type = gettype($tenancyReviewId);
         if ('string' === $arg1Type) {
             $tenancyReviewId = (int) $tenancyReviewId;
-        } elseif ('int' !== $arg1Type) {
+        } elseif ('integer' !== $arg1Type) {
             throw new RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 

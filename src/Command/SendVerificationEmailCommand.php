@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class SendVerificationEmail extends Command
+class SendVerificationEmailCommand extends Command
 {
     protected static $defaultName = 'email:verification';
 
@@ -39,7 +39,7 @@ class SendVerificationEmail extends Command
         $arg1Type = gettype($userId);
         if ('string' === $arg1Type) {
             $userId = (int) $userId;
-        } elseif ('int' !== $arg1Type) {
+        } elseif ('integer' !== $arg1Type) {
             throw new RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 
@@ -54,12 +54,12 @@ class SendVerificationEmail extends Command
         $sent = $this->userRegistrationService->sendVerificationEmail($user);
 
         if ($sent) {
-            $io->success(sprintf('Email sent.'));
+            $io->success('Email sent.');
 
             return Command::SUCCESS;
         }
 
-        $io->warning(sprintf('Email not sent.'));
+        $io->warning('Email not sent.');
 
         return Command::FAILURE;
     }

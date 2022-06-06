@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class SendReviewSolicitationEmail extends Command
+class SendReviewSolicitationEmailCommand extends Command
 {
     protected static $defaultName = 'email:review-solicitation';
 
@@ -39,7 +39,7 @@ class SendReviewSolicitationEmail extends Command
         $arg1Type = gettype($tenancyReviewSolicitationId);
         if ('string' === $arg1Type) {
             $tenancyReviewSolicitationId = (int) $tenancyReviewSolicitationId;
-        } elseif ('int' !== $arg1Type) {
+        } elseif ('integer' !== $arg1Type) {
             throw new RuntimeException('Invalid type of arg1: '.$arg1Type);
         }
 
