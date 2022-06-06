@@ -11,12 +11,11 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use RuntimeException;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Tester\CommandTester;
 
 final class SendReviewSolicitationEmailCommandTest extends TestCase
 {
+    use CommandTestTrait;
     use ProphecyTrait;
 
     private int $id = 234;
@@ -25,8 +24,6 @@ final class SendReviewSolicitationEmailCommandTest extends TestCase
 
     private ObjectProphecy $tenancyReviewSolicitationRepository;
     private ObjectProphecy $sendService;
-
-    private CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -38,10 +35,7 @@ final class SendReviewSolicitationEmailCommandTest extends TestCase
             $this->sendService->reveal(),
         );
 
-        $application = new Application();
-        $application->add($this->command);
-        $command = $application->find('email:review-solicitation');
-        $this->commandTester = new CommandTester($command);
+        $this->setupCommandTester('email:review-solicitation');
     }
 
     /**
