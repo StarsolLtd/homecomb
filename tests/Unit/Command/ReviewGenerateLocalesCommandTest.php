@@ -13,12 +13,11 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use RuntimeException;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Tester\CommandTester;
 
 final class ReviewGenerateLocalesCommandTest extends TestCase
 {
+    use CommandTestTrait;
     use ProphecyTrait;
 
     private int $reviewId = 234;
@@ -27,8 +26,6 @@ final class ReviewGenerateLocalesCommandTest extends TestCase
 
     private ObjectProphecy $tenancyReviewRepository;
     private ObjectProphecy $generateLocalesService;
-
-    private CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -40,10 +37,7 @@ final class ReviewGenerateLocalesCommandTest extends TestCase
             $this->generateLocalesService->reveal(),
         );
 
-        $application = new Application();
-        $application->add($this->command);
-        $command = $application->find('review:generate-locales');
-        $this->commandTester = new CommandTester($command);
+        $this->setupCommandTester('review:generate-locales');
     }
 
     /**
