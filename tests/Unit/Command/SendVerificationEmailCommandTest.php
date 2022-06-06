@@ -10,6 +10,7 @@ use App\Service\User\RegistrationService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use RuntimeException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -52,7 +53,7 @@ final class SendVerificationEmailCommandTest extends TestCase
 
         $this->registrationService->sendVerificationEmail($user)->shouldBeCalledOnce()->willReturn(true);
 
-        $result = $this->commandTester->execute(['arg1' => $this->userId]);
+        $result = $this->commandTester->execute(['arg1' => (string) $this->userId]);
 
         $this->assertEquals(Command::SUCCESS, $result);
 
@@ -92,6 +93,17 @@ final class SendVerificationEmailCommandTest extends TestCase
 
         $this->assertStringContainsString('Sending verification email for user '.$this->userId, $display);
         $this->assertStringContainsString('Email not sent.', $display);
+    }
+
+    /**
+     * Test an exception is thrown when argument type is invalid.
+     */
+    public function testExecute4(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid type of arg1: boolean');
+
+        $this->commandTester->execute(['arg1' => true]);
     }
 
     private function prophesizeReturnUser(): ObjectProphecy
