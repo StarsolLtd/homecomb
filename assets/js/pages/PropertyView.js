@@ -165,15 +165,15 @@ export default class PropertyView extends Component {
 
                         {this.state.city.localeReviews.map(
                           ({
-                             id,
-                             slug,
-                             author,
-                             title,
-                             content,
-                             overallStars,
-                             createdAt,
-                             positiveVotes
-                           }) => (
+                            id,
+                            slug,
+                            author,
+                            title,
+                            content,
+                            overallStars,
+                            createdAt,
+                            positiveVotes
+                          }) => (
                             <LocaleReview
                               {...this.props}
                               key={slug}
