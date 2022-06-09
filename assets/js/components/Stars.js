@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Rating from 'react-rating'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +16,11 @@ const Stars = (props) => {
       />
     </div>
   )
+}
+
+Stars.propTypes = {
+  label: PropTypes.string,
+  score: PropTypes.number
 }
 
 export default Stars

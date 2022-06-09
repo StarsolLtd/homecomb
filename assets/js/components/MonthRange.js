@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 
 const MonthRange = (props) => {
@@ -17,6 +18,11 @@ const MonthRange = (props) => {
       }
     </span>
   )
+}
+
+MonthRange.propTypes = {
+  start: PropTypes.string,
+  end: PropTypes.string
 }
 
 export default MonthRange
