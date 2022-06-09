@@ -17,9 +17,6 @@ clear-docker:
 composer-install:
 	docker exec -it homecomb_php_1 composer install --no-interaction
 
-npm-install-force:
-	docker exec -it homecomb_php_1 bash -c "npm install --force"
-
 pull:
 	docker-compose pull
 
@@ -96,9 +93,6 @@ e2e-tenancy-review:
 e2e-update-agency:
 	PANTHER_NO_HEADLESS=1 vendor/bin/phpunit --no-coverage tests/E2E/UpdateAgency.php
 
-npm-test:
-	docker exec -it homecomb_php_1 bash -c "npm test"
-
 php-analyse:
 	make php-cs-fixer phpstan
 
@@ -155,6 +149,15 @@ load-fixtures:
 dump:
 	docker exec -it homecomb_php_1 php bin/console server:dump
 
+npm-install-force:
+	docker exec -it homecomb_php_1 npm install --force
+
+npm-rebuild-node-sass:
+	docker exec -it homecomb_php_1 npm rebuild node-sass --force
+
+npm-test:
+	docker exec -it homecomb_php_1 npm test
+
 yarn-build:
 	docker exec -it homecomb_php_1 yarn encore dev
 
@@ -162,9 +165,9 @@ yarn-watch:
 	docker exec -it homecomb_php_1 yarn encore dev --watch
 
 js-cleanup:
-	rm -rf ./.cache
-	rm -rf ./node_modules
-	yarn cache clean
+	docker exec -it homecomb_php_1 rm -rf ./.cache
+	docker exec -it homecomb_php_1 rm -rf ./node_modules
+	docker exec -it homecomb_php_1 yarn cache clean
 
 clear-env-local:
 	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/.env.local"
