@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import ReviewStars from './ReviewStars'
 import Moment from 'react-moment'
 import ReviewOptions from './ReviewOptions'
@@ -11,93 +12,135 @@ import '../../styles/review.scss'
 import MonthRange from './MonthRange'
 import Vote from './Vote'
 
-export default class Review extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
-      showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
-      showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
-      showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
-      showVote: this.props.hasOwnProperty('showVote') ? this.props.showVote : true
-    }
-  }
+const Review = (props) => {
+  return (
+    <div className={'review pt-4 pb-4 ' + props.className}>
+      {props.showOptions &&
+        <div className="dropdown float-right review-options">
+          <ReviewOptions reviewId={props.id} {...props} />
+        </div>
+      }
 
-  render () {
-    return (
-            <div className={'review pt-4 pb-4 ' + this.props.className}>
-                {this.state.showOptions &&
-                    <div className="dropdown float-right review-options">
-                        <ReviewOptions reviewId={this.props.id} {...this.props} />
-                    </div>
+      <div>
+        <p className="mb-3">
+          <FontAwesomeIcon icon={faUser} className="text-primary"/>
+          {' '}<span className="author">{props.author}</span>
+          {' '}reviewed their tenancy <MonthRange start={props.start} end={props.end}/>
+          {props.property && props.showProperty &&
+            <span>&nbsp;at <Link
+              to={'/property/' + props.property.slug}>{props.property.addressLine1}, {props.property.postcode}</Link></span>
+          }
+          <span className="review-date">
+              <br/>Date of review:
+              <Moment format="Do MMM YYYY" className="date">{props.createdAt}</Moment>
+            </span>
+        </p>
+      </div>
+
+      <div>
+        <h3>{props.title}</h3>
+
+        <p>{props.content}</p>
+
+        {props.branch && props.showBranch &&
+          <p>
+            {props.agency && props.showAgency &&
+              <Fragment>
+                Agency:&nbsp;
+                {props.agency.published &&
+                  <Link to={'/agency/' + props.agency.slug + '#'} className="agency-name">{props.agency.name}</Link>
                 }
-
-                <div>
-                    <p className="mb-3">
-                        <FontAwesomeIcon icon={faUser} className="text-primary" />
-                        {' '}<span className="author">{this.props.author}</span>
-                        {' '}reviewed their tenancy <MonthRange start={this.props.start} end={this.props.end} />
-                        {this.props.property && this.state.showProperty &&
-                            <span>&nbsp;at <Link to={'/property/' + this.props.property.slug}>{this.props.property.addressLine1}, {this.props.property.postcode}</Link></span>
-                        }
-                        <span className="review-date"><br />Date of review: <Moment format="Do MMM YYYY" className="date">{this.props.createdAt}</Moment></span>
-                    </p>
-                </div>
-
-                <div>
-                    <h3>{this.props.title}</h3>
-
-                    <p>{this.props.content}</p>
-
-                    {this.props.branch && this.state.showBranch &&
-                    <p>
-                        {this.props.agency && this.state.showAgency &&
-                        <Fragment>
-                            Agency:&nbsp;
-                            {this.props.agency.published &&
-                            <Link to={'/agency/' + this.props.agency.slug + '#'} className="agency-name">{this.props.agency.name}</Link>
-                            }
-                            {!this.props.agency.published &&
-                            <span className="agency-name">{this.props.agency.name}</span>
-                            }
-                            <br/>
-                        </Fragment>
-                        }
-                        Branch:&nbsp;
-                        {this.props.branch.published &&
-                            <Link to={'/branch/' + this.props.branch.slug + '#'} className="branch-name">{this.props.branch.name}</Link>
-                        }
-                        {!this.props.branch.published &&
-                            <span className="branch-name">{this.props.branch.name}</span>
-                        }
-                        <br />
-                    </p>
-                    }
-                </div>
-
-                <ReviewStars
-                    overall={this.props.stars.overall}
-                    agency={this.props.stars.agency}
-                    landlord={this.props.stars.landlord}
-                    property={this.props.stars.property}
-                />
-
-                {this.state.showVote &&
-                    <Vote
-                        className="mt-3"
-                        entityName="TenancyReview"
-                        entityId={this.props.id}
-                        positiveTerm="Helpful"
-                        positiveVotes={this.props.positiveVotes}
-                    />
+                {!props.agency.published &&
+                  <span className="agency-name">{props.agency.name}</span>
                 }
+                <br/>
+              </Fragment>
+            }
+            Branch:&nbsp;
+            {props.branch.published &&
+              <Link to={'/branch/' + props.branch.slug + '#'} className="branch-name">{props.branch.name}</Link>
+            }
+            {!props.branch.published &&
+              <span className="branch-name">{props.branch.name}</span>
+            }
+            <br/>
+          </p>
+        }
+      </div>
 
-                {this.props.comments && this.props.comments.map(
-                  ({ id, author, content, createdAt }) => (
-                        <Comment key={id} author={author} createdAt={createdAt} content={content} />
-                  )
-                )}
-            </div>
-    )
+      <ReviewStars
+        overall={props.stars.overall}
+        agency={props.stars.agency}
+        landlord={props.stars.landlord}
+        property={props.stars.property}
+      />
+
+      {props.showVote &&
+        <Vote
+          className="mt-3"
+          entityName="TenancyReview"
+          entityId={props.id}
+          positiveTerm="Helpful"
+          positiveVotes={props.positiveVotes}
+        />
+      }
+
+      {props.comments && props.comments.map(
+        ({ id, author, content, createdAt }) => (
+          <Comment key={id} author={author} createdAt={createdAt} content={content}/>
+        )
+      )}
+    </div>
+  )
+}
+
+Review.propTypes = {
+  showProperty: PropTypes.bool,
+  showBranch: PropTypes.bool,
+  showAgency: PropTypes.bool,
+  showOptions: PropTypes.bool,
+  showVote: PropTypes.bool,
+  className: PropTypes.string,
+  id: PropTypes.string,
+  author: PropTypes.string,
+  start: PropTypes.string,
+  end: PropTypes.string,
+  property: PropTypes.object,
+  createdAt: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  branch: PropTypes.shape({
+    slug: PropTypes.string,
+    name: PropTypes.string,
+    published: PropTypes.bool
+  }),
+  agency: PropTypes.shape({
+    slug: PropTypes.string,
+    name: PropTypes.string,
+    published: PropTypes.bool
+  }),
+  stars: PropTypes.shape({
+    overall: PropTypes.number,
+    agency: PropTypes.number,
+    landlord: PropTypes.number,
+    property: PropTypes.number
+  }),
+  positiveVotes: PropTypes.number,
+  comments: PropTypes.object
+}
+
+Review.defaultProps = {
+  showProperty: true,
+  showBranch: true,
+  showAgency: true,
+  showOptions: true,
+  showVote: true,
+  stars: {
+    overall: 0,
+    agency: 0,
+    landlord: 0,
+    property: 0
   }
 }
+
+export default Review
