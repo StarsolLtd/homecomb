@@ -1,31 +1,30 @@
-import React, {Fragment} from 'react';
-import ReviewStars from "./ReviewStars";
-import Moment from 'react-moment';
-import ReviewOptions from "./ReviewOptions";
-import { HashLink as Link } from "react-router-hash-link";
-import Comment from "./Comment";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Fragment } from 'react'
+import ReviewStars from './ReviewStars'
+import Moment from 'react-moment'
+import ReviewOptions from './ReviewOptions'
+import { HashLink as Link } from 'react-router-hash-link'
+import Comment from './Comment'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import '../../styles/review.scss';
-import MonthRange from "./MonthRange";
-import Vote from "./Vote";
+import '../../styles/review.scss'
+import MonthRange from './MonthRange'
+import Vote from './Vote'
 
 export default class Review extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
-            showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
-            showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
-            showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
-            showVote: this.props.hasOwnProperty('showVote') ? this.props.showVote : true,
-        };
+  constructor (props) {
+    super(props)
+    this.state = {
+      showProperty: this.props.hasOwnProperty('showProperty') ? this.props.showProperty : true,
+      showBranch: this.props.hasOwnProperty('showBranch') ? this.props.showBranch : true,
+      showAgency: this.props.hasOwnProperty('showAgency') ? this.props.showAgency : true,
+      showOptions: this.props.hasOwnProperty('showOptions') ? this.props.showOptions : true,
+      showVote: this.props.hasOwnProperty('showVote') ? this.props.showVote : true
     }
+  }
 
-    render() {
-        return (
+  render () {
+    return (
             <div className={'review pt-4 pb-4 ' + this.props.className}>
                 {this.state.showOptions &&
                     <div className="dropdown float-right review-options">
@@ -94,11 +93,11 @@ export default class Review extends React.Component {
                 }
 
                 {this.props.comments && this.props.comments.map(
-                    ({ id, author, content, createdAt }) => (
+                  ({ id, author, content, createdAt }) => (
                         <Comment key={id} author={author} createdAt={createdAt} content={content} />
-                    )
+                  )
                 )}
             </div>
-        );
-    }
+    )
+  }
 }

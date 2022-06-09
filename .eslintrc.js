@@ -19,6 +19,8 @@ module.exports = {
     'react'
   ],
   rules: {
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    'no-prototype-builtins': 'off',
+    'no-void': 'off'
   }
 }
