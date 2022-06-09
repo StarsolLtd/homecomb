@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import { Button } from 'reactstrap'
 
@@ -38,16 +38,16 @@ export default class Vote extends React.Component {
       <Button onClick={this.handleVote} className={buttonClassName}>
         <FontAwesomeIcon icon={faThumbsUp} className="text-primary"/> {this.props.positiveTerm}
         {this.state.positiveVotes > 0 &&
-          <Fragment>
+          <>
             {' '}
             <span className="positive-votes">{this.state.positiveVotes}</span>
-          </Fragment>
+          </>
         }
         {this.state.isSubmitting &&
-          <Fragment>
+          <>
             {' '}
             <LoadingSpinner className="loading-spinner-small"/>
-          </Fragment>
+          </>
         }
       </Button>
     )

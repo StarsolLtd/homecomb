@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Container, Col, Row, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap'
 import Review from '../components/Review'
 import RatedAgencies from '../components/RatedAgencies'
@@ -95,12 +95,12 @@ export default class LocaleView extends React.Component {
                     ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.slug} />, curr])}
 
                     {this.state.localeReviews.length === 0 &&
-                      <Fragment>
+                      <>
                         <hr />
                         <p>
                           There are no reviews of {this.state.name} yet.
                         </p>
-                      </Fragment>
+                      </>
                     }
                   </div>
                   <div className="tab-pane container" id="tenancy-reviews-pane">
@@ -129,12 +129,12 @@ export default class LocaleView extends React.Component {
                     ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.id} />, curr])}
 
                     {this.state.tenancyReviews.length === 0 &&
-                      <Fragment>
+                      <>
                         <hr />
                         <p>
                           There are no tenant reviews yet for {this.state.name}.
                         </p>
-                      </Fragment>
+                      </>
                     }
                   </div>
                 </div>

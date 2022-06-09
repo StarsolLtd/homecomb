@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ReviewStars from './ReviewStars'
 import Moment from 'react-moment'
@@ -45,7 +45,7 @@ const Review = (props) => {
         {props.branch && props.showBranch &&
           <p>
             {props.agency && props.showAgency &&
-              <Fragment>
+              <>
                 Agency:&nbsp;
                 {props.agency.published &&
                   <Link to={'/agency/' + props.agency.slug + '#'} className="agency-name">{props.agency.name}</Link>
@@ -54,7 +54,7 @@ const Review = (props) => {
                   <span className="agency-name">{props.agency.name}</span>
                 }
                 <br/>
-              </Fragment>
+              </>
             }
             Branch:&nbsp;
             {props.branch.published &&

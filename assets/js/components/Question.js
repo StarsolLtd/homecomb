@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { AvFeedback, AvForm, AvGroup, AvInput, AvRadio, AvRadioGroup } from 'availity-reactstrap-validation'
 import { Button, FormText, Label, Progress } from 'reactstrap'
 
@@ -28,7 +28,7 @@ export default class Question extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <>
         {this.props.visible &&
           <div className="question" id={'question' + this.props.sortOrder}>
             <p>
@@ -90,7 +90,7 @@ export default class Question extends React.Component {
             <a className="question-skip" onClick={this.forward}>Skip {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}</a>
           </div>
         }
-      </Fragment>
+      </>
     )
   }
 

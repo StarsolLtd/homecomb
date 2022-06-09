@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-
+import React from 'react'
 import { Button, FormGroup, FormText, Label } from 'reactstrap'
 import { AvForm, AvGroup, AvInput, AvFeedback, AvCheckboxGroup, AvCheckbox } from 'availity-reactstrap-validation'
 import Rating from 'react-rating'
@@ -239,7 +238,7 @@ export default class ReviewTenancyForm extends React.Component {
             </AvGroup>
           }
           {!this.state.fixedBranch &&
-            <Fragment>
+            <>
               <AvGroup>
                 <Label for="agencyName">Agency company name</Label>
                 <AvInput
@@ -264,7 +263,7 @@ export default class ReviewTenancyForm extends React.Component {
                   Example: Coventry. Leave blank if unknown or private landlord.
                 </FormText>
               </AvGroup>
-            </Fragment>
+            </>
           }
           <AvGroup>
             <Label for="reviewTitle">Review title</Label>

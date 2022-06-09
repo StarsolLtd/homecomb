@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Container, Col, Row } from 'reactstrap'
 import ReviewTenancyForm from '../components/ReviewTenancyForm'
 import DataLoader from '../components/DataLoader'
@@ -39,7 +39,7 @@ export default class CreateReview extends React.Component {
           customFileNotFound={ReviewSolicitationNotFound}
         />
         {this.state.loaded &&
-          <Fragment>
+          <>
             <Row>
               <Col md="12" className="page-title">
                 <h1>Hello {this.state.reviewerFirstName}!</h1>
@@ -72,7 +72,7 @@ export default class CreateReview extends React.Component {
                 />
               </Col>
             </Row>
-          </Fragment>
+          </>
         }
       </Container>
     )

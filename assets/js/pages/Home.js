@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropertyAutocomplete from '../components/PropertyAutocomplete'
 import TextLogo from '../components/TextLogo'
 import { Col, Container, Form, FormGroup, Label, Row } from 'reactstrap'
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <>
         <Row id="home-background" className="no-gutters w-100">
           <Header className="bg-gradient-primary fixed-top" />
           <Col id="home" className="align-self-center text-center mt-7 mb-5">
@@ -93,7 +93,7 @@ export default class Home extends React.Component {
             </Container>
           </Col>
         </Row>
-      </Fragment>
+      </>
     )
   }
 }

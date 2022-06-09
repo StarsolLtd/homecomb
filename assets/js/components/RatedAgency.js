@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { HashLink as Link } from 'react-router-hash-link'
 
@@ -20,7 +20,7 @@ const RatedAgency = (props) => {
           <a href={'/agency/' + props.agencySlug}>{props.agencyName}</a><br/>
           Average rating: {props.meanRating} stars from {props.ratedCount} review
           {props.ratedCount > 1 &&
-            <Fragment>s</Fragment>
+            <>s</>
           }
         </p>
       </div>

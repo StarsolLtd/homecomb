@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Label, FormText, Button, Container } from 'reactstrap'
 import DataLoader from '../../components/DataLoader'
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation'
@@ -34,7 +34,7 @@ export default class UpdateBranch extends React.Component {
           loadComponentData={this.loadData}
         />
         {this.state.loaded &&
-          <Fragment>
+          <>
             <h1>Update {this.state.name}</h1>
             <AvForm onValidSubmit={this.handleValidSubmit}>
               <AvGroup>
@@ -62,7 +62,7 @@ export default class UpdateBranch extends React.Component {
                 Update your branch details
               </Button>
             </AvForm>
-          </Fragment>
+          </>
         }
       </Container>
     )
