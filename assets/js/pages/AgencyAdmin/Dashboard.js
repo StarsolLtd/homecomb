@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Row, Col } from 'reactstrap'
 import DataLoader from '../../components/DataLoader'
 import ReactTable from 'react-table-v6'
@@ -16,7 +16,7 @@ export default class Dashboard extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <>
         <DataLoader
           url='/api/verified/dashboard'
           loadComponentData={this.loadData}
@@ -57,7 +57,7 @@ export default class Dashboard extends React.Component {
             </Row>
           </div>
         }
-      </Fragment>
+      </>
     )
   }
 

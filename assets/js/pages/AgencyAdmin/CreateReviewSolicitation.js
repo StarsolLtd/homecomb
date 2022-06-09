@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Container, Label, Button, FormText } from 'reactstrap'
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation'
 import InputProperty from '../../components/InputProperty'
@@ -55,7 +55,7 @@ export default class CreateReviewSolicitation extends React.Component {
           loadComponentData={this.loadData}
         />
         {this.state.loaded &&
-          <Fragment>
+          <>
             <h1>Request a review for {this.state.agency.name}</h1>
             <p>
               If you would like to request one of your tenant&apos;s review their tenancy with you, please complete
@@ -120,7 +120,7 @@ export default class CreateReviewSolicitation extends React.Component {
                 Request review
               </Button>
             </AvForm>
-          </Fragment>
+          </>
         }
       </Container>
     )

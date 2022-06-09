@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import { Button, Container, Col, Row, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import Review from '../components/Review'
 import ReviewTenancyForm from '../components/ReviewTenancyForm'
@@ -109,14 +109,14 @@ export default class PropertyView extends Component {
                 ).reduce((prev, curr) => [prev, <hr key={'hr_' + prev.id} />, curr])}
 
                 {this.state.tenancyReviews.length === 0 &&
-                  <Fragment>
+                  <>
                     <p className="mt-3">
                       There are no tenant reviews yet for this property.
                     </p>
                     <hr />
                     <h5 className="mb-4">Search for another property address</h5>
                     <PropertyAutocomplete prependSearchIcon={true}/>
-                  </Fragment>
+                  </>
                 }
               </Col>
             </Row>

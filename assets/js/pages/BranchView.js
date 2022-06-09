@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from 'reactstrap'
 import Review from '../components/Review'
 import DataLoader from '../components/DataLoader'
@@ -22,7 +22,7 @@ export default class BranchView extends React.Component {
           loadComponentData={this.loadData}
         />
         {this.state.loaded &&
-          <Fragment>
+          <>
             <Row>
               <Breadcrumb className="w-100">
                 <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
@@ -77,7 +77,7 @@ export default class BranchView extends React.Component {
                 </p>
               </Col>
             </Row>
-          </Fragment>
+          </>
         }
       </Container>
     )

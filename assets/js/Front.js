@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import About from './pages/About'
@@ -37,7 +37,7 @@ export default class Front extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <>
         <Switch>
           <Route
             render={({ location }) => ['/'].includes(location.pathname)
@@ -86,7 +86,7 @@ export default class Front extends React.Component {
         </Switch>
 
         <FooterLarge user={this.state.user}/>
-      </Fragment>
+      </>
     )
   }
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Col, Container, Progress, Row } from 'reactstrap'
 import DataLoader from '../components/DataLoader'
 import Constants from '../Constants'
@@ -56,7 +56,7 @@ export default class Survey extends React.Component {
                     )
                   )}
                   {this.state.currentQuestion > this.state.questions.length &&
-                    <Fragment>
+                    <>
                       <p>
                         All questions answered
                       </p>
@@ -68,7 +68,7 @@ export default class Survey extends React.Component {
                       />
                       <hr />
                       <SurveyCompletedThankYou />
-                    </Fragment>
+                    </>
                   }
                 </Col>
               </Row>

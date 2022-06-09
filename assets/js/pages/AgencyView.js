@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import AgencyBranch from '../components/AgencyBranch'
 import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from 'reactstrap'
 import DataLoader from '../components/DataLoader'
@@ -19,7 +19,7 @@ export default class AgencyView extends React.Component {
           loadComponentData={this.loadData}
         />
         {this.state.loaded &&
-          <Fragment>
+          <>
             <Row>
               <Breadcrumb className="w-100">
                 <BreadcrumbItem><Link to="/#">{Constants.SITE_NAME}</Link></BreadcrumbItem>
@@ -41,7 +41,7 @@ export default class AgencyView extends React.Component {
                 )}
               </Col>
             </Row>
-          </Fragment>
+          </>
         }
       </Container>
     )

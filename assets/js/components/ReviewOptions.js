@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import {
   Button,
@@ -31,7 +31,7 @@ export default class ReviewOptions extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <>
         <UncontrolledButtonDropdown className="mb-2 mr-2">
           <DropdownToggle color="light">
             &hellip;
@@ -78,7 +78,7 @@ export default class ReviewOptions extends React.Component {
             </AvForm>
           </LoadingOverlay>
         </Modal>
-      </Fragment>
+      </>
     )
   }
 
