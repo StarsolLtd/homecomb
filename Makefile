@@ -164,6 +164,10 @@ yarn-build:
 yarn-watch:
 	docker exec -it homecomb_php_1 yarn encore dev --watch
 
+js-lint-fix:
+	npx eslint assets/js/ --fix
+	npx eslint __tests__/ --fix
+
 js-cleanup:
 	docker exec -it homecomb_php_1 rm -rf ./.cache
 	docker exec -it homecomb_php_1 rm -rf ./node_modules

@@ -1,37 +1,41 @@
-import React from 'react';
-import { Container } from 'reactstrap';
-import FlashMessages from "../layout/FlashMessages";
-import {addFlashMessage, fetchFlashMessages} from '../utils/FlashMessagesUtil.js'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Container } from 'reactstrap'
+import FlashMessages from '../layout/FlashMessages'
+import { addFlashMessage, fetchFlashMessages } from '../utils/FlashMessagesUtil.js'
 
 export default class View extends React.Component {
+  state = {
+    flashMessages: [],
+    flashMessagesFetching: false
+  }
 
-    state = {
-        flashMessages: [],
-        flashMessagesFetching: false,
-    };
+  constructor (props) {
+    super(props)
 
-    constructor(props) {
-        super(props);
+    this.addFlashMessage = addFlashMessage.bind(this)
+    this.fetchFlashMessages = fetchFlashMessages.bind(this)
+  }
 
-        this.addFlashMessage = addFlashMessage.bind(this)
-        this.fetchFlashMessages = fetchFlashMessages.bind(this)
-    }
+  componentDidMount () {
+    this.fetchFlashMessages()
+  }
 
-    componentDidMount() {
-        this.fetchFlashMessages();
-    }
+  render () {
+    const Content = this.props.content
+    return (
+      <Container>
+        <FlashMessages messages={this.state.flashMessages}/>
+        <Content
+            {...this.props}
+            addFlashMessage={this.addFlashMessage}
+            fetchFlashMessages={this.fetchFlashMessages}
+        />
+      </Container>
+    )
+  }
+}
 
-    render() {
-        const Content = this.props.content;
-        return (
-            <Container>
-                <FlashMessages messages={this.state.flashMessages} />
-                <Content
-                    {...this.props}
-                    addFlashMessage={this.addFlashMessage}
-                    fetchFlashMessages={this.fetchFlashMessages}
-                />
-            </Container>
-        );
-    }
+View.propTypes = {
+  content: PropTypes.string
 }
