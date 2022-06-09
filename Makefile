@@ -161,6 +161,11 @@ yarn-build:
 yarn-watch:
 	docker exec -it homecomb_php_1 yarn encore dev --watch
 
+js-cleanup:
+	rm -rf ./.cache
+	rm -rf ./node_modules
+	yarn cache clean
+
 clear-env-local:
 	docker exec -it homecomb_php_1 bash -c "rm -f /var/www/.env.local"
 
