@@ -5,7 +5,7 @@ const FlashMessages = (props) => {
   return (
     <Fragment>
       {props.messages.map(
-        ({key, context, content}) => (
+        ({ key, context, content }) => (
           <Alert key={key} color={context} className="alert-dismissible fade show">
             {content}
             <button type="button" className="close" data-dismiss="alert" aria-label="Close">

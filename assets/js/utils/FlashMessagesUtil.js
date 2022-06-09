@@ -8,6 +8,7 @@ export function fetchFlashMessages (scrollTo = true) {
       response => {
         this.setState({ flashMessagesFetching: false })
         if (!response.ok) {
+          /* eslint-disable-next-line prefer-promise-reject-errors */
           return Promise.reject('Error: ' + response.status)
         }
         return response.json()

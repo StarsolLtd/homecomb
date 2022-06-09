@@ -31,7 +31,7 @@ class LatestReviews extends React.Component {
             />
             {this.state.loaded &&
               this.state.tenancyReviews.map(
-                ({id, author, start, end, title, content, property, branch, agency, stars, createdAt}) => (
+                ({ id, author, start, end, title, content, property, branch, agency, stars, createdAt }) => (
                   <Col key={id} lg={4} md={6} sm={12} className="d-flex">
                     <Col md={12} className="bg-white rounded shadow-sm pl-3 pr-4 m-1">
                       <Review
