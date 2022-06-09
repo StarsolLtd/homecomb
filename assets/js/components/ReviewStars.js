@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Stars from './Stars'
 
 const ReviewStars = (props) => {
@@ -18,6 +19,13 @@ const ReviewStars = (props) => {
       }
     </div>
   )
+}
+
+ReviewStars.propTypes = {
+  overall: PropTypes.number,
+  agency: PropTypes.number,
+  landlord: PropTypes.number,
+  property: PropTypes.number
 }
 
 export default ReviewStars

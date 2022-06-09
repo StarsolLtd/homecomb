@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -13,6 +14,15 @@ const Address = (props) => {
       </a>
     </div>
   )
+}
+
+Address.propTypes = {
+  handleClick: PropTypes.func,
+  addressLine1: PropTypes.string,
+  addressLine2: PropTypes.string,
+  addressLine3: PropTypes.string,
+  city: PropTypes.string,
+  postcode: PropTypes.string
 }
 
 export default Address

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { HashLink as Link } from 'react-router-hash-link'
 
 const RatedAgency = (props) => {
@@ -25,6 +26,14 @@ const RatedAgency = (props) => {
       </div>
     </div>
   )
+}
+
+RatedAgency.propTypes = {
+  agencyLogoImageFilename: PropTypes.string,
+  agencySlug: PropTypes.string,
+  agencyName: PropTypes.string,
+  meanRating: PropTypes.number,
+  ratedCount: PropTypes.number
 }
 
 export default RatedAgency

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { HashLink as Link } from 'react-router-hash-link'
 
 const AgencyBranch = (props) => {
@@ -13,6 +14,13 @@ const AgencyBranch = (props) => {
       }
     </div>
   )
+}
+
+AgencyBranch.propTypes = {
+  slug: PropTypes.string,
+  name: PropTypes.string,
+  telephone: PropTypes.string,
+  email: PropTypes.string
 }
 
 export default AgencyBranch

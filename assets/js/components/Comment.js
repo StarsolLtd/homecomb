@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,6 +20,12 @@ const Comment = (props) => {
       </p>
     </div>
   )
+}
+
+Comment.propTypes = {
+  author: PropTypes.string,
+  createdAt: PropTypes.string,
+  content: PropTypes.string
 }
 
 export default Comment
