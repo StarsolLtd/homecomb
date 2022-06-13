@@ -1,106 +1,38 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import { AvFeedback, AvForm, AvGroup, AvInput, AvRadio, AvRadioGroup } from 'availity-reactstrap-validation'
 import { Button, FormText, Label, Progress } from 'reactstrap'
 
 import '../../styles/question.scss'
 import Scale from './Scale'
 
-export default class Question extends React.Component {
-  state = {
-    content: '',
-    rating: null,
-    isFormSubmitting: false
-  }
+const Question = (props) => {
+  const [content, setContent] = useState('')
+  const [rating, setRating] = useState(null)
 
-  handleChange = (event) => {
+  const questionForm = useRef(null)
+
+  const handleChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
 
-    this.setState({
-      [name]: value
-    })
+    switch (target.name) {
+      case 'content':
+        setContent(value)
+        break
+    }
   }
 
-  handleRatingChange = (value) => {
-    this.setState({ rating: value })
+  const handleRatingChange = (value) => {
+    setRating(value)
   }
 
-  render () {
-    return (
-      <>
-        {this.props.visible &&
-          <div className="question" id={'question' + this.props.sortOrder}>
-            <p>
-              Question {this.props.sortOrder} of {this.props.totalQuestions}
-            </p>
-            <Progress
-              min={1}
-              max={this.props.totalQuestions + 1}
-              value={this.props.sortOrder}
-              color="primary"
-            />
-            <hr />
-            <Label for="content"><h2>{this.props.content}</h2></Label>
-            <AvForm className="question-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-              {this.props.type === 'free' &&
-                <AvGroup>
-                  <AvInput
-                    type="textarea"
-                    name="content"
-                    value={this.state.content}
-                    placeholder="Enter your answer"
-                    required
-                    onChange={this.handleChange}
-                  />
-                  <AvFeedback>Please enter your answer.</AvFeedback>
-                  <FormText>
-                    {this.props.help}
-                  </FormText>
-                </AvGroup>
-              }
-              {this.props.type === 'choice' &&
-                <AvRadioGroup inline name="choiceId" required errorMessage="Please choose an answer">
-                  {this.props.choices.map(
-                    ({ id, name }) => (
-                      <AvRadio
-                        key={id}
-                        label={name}
-                        value={id}
-                      />
-                    )
-                  )}
-                </AvRadioGroup>
-              }
-              {this.props.type === 'scale5' &&
-                <Scale
-                  {...this.props}
-                  max={5}
-                  rating={this.state.rating}
-                  handleRatingChange={this.handleRatingChange}
-                />
-              }
-              <Button className="question-form-submit mb-3" color="primary" size="lg">
-                Submit {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}
-              </Button>
-            </AvForm>
-            {this.props.sortOrder > 1 &&
-              <a className="question-back" onClick={this.back}>Back</a>
-            }
-            <a className="question-skip" onClick={this.forward}>Skip {this.props.totalQuestions === this.props.sortOrder && ' and Complete'}</a>
-          </div>
-        }
-      </>
-    )
-  }
-
-  handleValidSubmit = (event, values) => {
-    this.setState({ isFormSubmitting: true })
+  const handleValidSubmit = (event, values) => {
     const payload = {
-      questionId: this.props.questionId,
+      questionId: props.questionId,
       choiceId: values.choiceId,
       content: values.content,
-      rating: this.state.rating
+      rating
     }
 
     fetch('/api/s/answer', {
@@ -109,7 +41,6 @@ export default class Question extends React.Component {
     })
       .then(
         response => {
-          this.setState({ isFormSubmitting: false })
           if (!response.ok) {
             /* eslint-disable-next-line prefer-promise-reject-errors */
             return Promise.reject('Error: ' + response.status)
@@ -118,16 +49,100 @@ export default class Question extends React.Component {
         }
       )
       .then((data) => {
-        this.forward()
+        forward()
       })
       .catch(err => console.error('Error:', err))
   }
 
-  back = () => {
-    this.props.back(this.props.sortOrder)
+  const back = () => {
+    props.back(props.sortOrder)
   }
 
-  forward = () => {
-    this.props.forward(this.props.sortOrder)
+  const forward = () => {
+    props.forward(props.sortOrder)
   }
+
+  return (
+    <>
+      {props.visible &&
+        <div className="question" id={'question' + props.sortOrder}>
+          <p>
+            Question {props.sortOrder} of {props.totalQuestions}
+          </p>
+          <Progress
+            min={1}
+            max={props.totalQuestions + 1}
+            value={props.sortOrder}
+            color="primary"
+          />
+          <hr />
+          <Label for="content"><h2>{props.content}</h2></Label>
+          <AvForm className="question-form" onValidSubmit={handleValidSubmit} ref={questionForm}>
+            {props.type === 'free' &&
+              <AvGroup>
+                <AvInput
+                  type="textarea"
+                  name="content"
+                  value={content}
+                  placeholder="Enter your answer"
+                  required
+                  onChange={handleChange}
+                />
+                <AvFeedback>Please enter your answer.</AvFeedback>
+                <FormText>
+                  {props.help}
+                </FormText>
+              </AvGroup>
+            }
+            {props.type === 'choice' &&
+              <AvRadioGroup inline name="choiceId" required errorMessage="Please choose an answer">
+                {props.choices.map(
+                  ({ id, name }) => (
+                    <AvRadio
+                      key={id}
+                      label={name}
+                      value={id}
+                    />
+                  )
+                )}
+              </AvRadioGroup>
+            }
+            {props.type === 'scale5' &&
+              <Scale
+                {...props}
+                max={5}
+                rating={rating}
+                handleRatingChange={handleRatingChange}
+              />
+            }
+            <Button className="question-form-submit mb-3" color="primary" size="lg">
+              Submit {props.totalQuestions === props.sortOrder && ' and Complete'}
+            </Button>
+          </AvForm>
+          {props.sortOrder > 1 &&
+            <a className="question-back" onClick={back}>Back</a>
+          }
+          <a className="question-skip" onClick={forward}>Skip {props.totalQuestions === props.sortOrder && ' and Complete'}</a>
+        </div>
+      }
+    </>
+  )
 }
+
+Question.defaultProps = {
+  content: '',
+  rating: null,
+  isFormSubmitting: false
+}
+
+Question.propTypes = {
+  visible: PropTypes.bool,
+  content: PropTypes.string,
+  type: PropTypes.string,
+  totalQuestions: PropTypes.number,
+  sortOrder: PropTypes.number,
+  back: PropTypes.func,
+  forward: PropTypes.func
+}
+
+export default Question

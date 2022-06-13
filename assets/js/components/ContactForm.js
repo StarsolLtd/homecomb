@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import { Button, Label } from 'reactstrap'
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation'
 import LoadingOverlay from 'react-loading-overlay'
@@ -122,6 +123,11 @@ const ContactForm = (props) => {
       </AvForm>
     </LoadingOverlay>
   )
+}
+
+ContactForm.propTypes = {
+  addFlashMessage: PropTypes.func,
+  fetchFlashMessages: PropTypes.func
 }
 
 export default ContactForm
