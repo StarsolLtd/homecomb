@@ -44,13 +44,7 @@ export default class ReviewOptions extends React.Component {
           <ModalHeader toggle={this.toggleFlagModal}>Report inappropriate content</ModalHeader>
           <LoadingOverlay
             active={this.state.isFormSubmitting}
-            styles={{
-              overlay: (base) => ({
-                ...base,
-                background: '#fff',
-                opacity: 0.5
-              })
-            }}
+            styles={Constants.LOADING_OVERLAY_STYLE}
             spinner={<Loader active type='ball-triangle-path'/>}
           >
             <AvForm className="flag-review-form" onValidSubmit={this.handleFlagReviewSubmit}>

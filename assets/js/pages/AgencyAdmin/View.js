@@ -30,30 +30,24 @@ class View extends React.Component {
     const Content = this.props.content
 
     return (
-            <Container>
-                <FlashMessages messages={this.state.flashMessages} />
-                <LoadingOverlay
-                    active={this.state.isFormSubmitting}
-                    styles={{
-                      overlay: (base) => ({
-                        ...base,
-                        background: '#fff',
-                        opacity: 0.5
-                      })
-                    }}
-                    spinner={<Loader active type='ball-triangle-path' />}
-                >
-                    <Content
-                        addFlashMessage={this.addFlashMessage}
-                        fetchFlashMessages={this.fetchFlashMessages}
-                        submit={this.submit}
-                        {...this.props}
-                    />
-                </LoadingOverlay>
-                {this.state.redirectToUrl &&
-                    <Redirect to={this.state.redirectToUrl} />
-                }
-            </Container>
+      <Container>
+        <FlashMessages messages={this.state.flashMessages}/>
+        <LoadingOverlay
+          active={this.state.isFormSubmitting}
+          styles={Constants.LOADING_OVERLAY_STYLE}
+          spinner={<Loader active type='ball-triangle-path'/>}
+        >
+          <Content
+            addFlashMessage={this.addFlashMessage}
+            fetchFlashMessages={this.fetchFlashMessages}
+            submit={this.submit}
+            {...this.props}
+          />
+        </LoadingOverlay>
+        {this.state.redirectToUrl &&
+          <Redirect to={this.state.redirectToUrl}/>
+        }
+      </Container>
     )
   }
 

@@ -46,13 +46,7 @@ class ReviewLocaleForm extends React.Component {
     return (
       <LoadingOverlay
         active={this.state.isFormSubmitting}
-        styles={{
-          overlay: (base) => ({
-            ...base,
-            background: '#fff',
-            opacity: 0.5
-          })
-        }}
+        styles={Constants.LOADING_OVERLAY_STYLE}
         spinner={<Loader active type='ball-triangle-path' />}
       >
         <AvForm id="review-locale-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
