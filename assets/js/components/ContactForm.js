@@ -76,13 +76,7 @@ const ContactForm = (props) => {
   return (
     <LoadingOverlay
       active={isFormSubmitting}
-      styles={{
-        overlay: (base) => ({
-          ...base,
-          background: '#fff',
-          opacity: 0.5
-        })
-      }}
+      styles={Constants.LOADING_OVERLAY_STYLE}
       spinner={<Loader active type='ball-triangle-path' />}
     >
       <AvForm id="contact-form" onValidSubmit={handleValidSubmit} ref={contactForm}>
