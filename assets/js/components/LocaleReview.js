@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReviewStars from './ReviewStars'
 import Moment from 'react-moment'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -7,44 +8,55 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../../styles/review.scss'
 import Vote from './Vote'
 
-export default class LocaleReview extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      /* eslint-disable-next-line no-prototype-builtins */
-      showVote: this.props.hasOwnProperty('showVote') ? this.props.showVote : true
-    }
-  }
-
-  render () {
-    return (
-      <div className={'review pt-4 pb-4 ' + this.props.className}>
-        <div>
-          <p className="mb-3">
-            <FontAwesomeIcon icon={faUser} className="text-primary"/>
-            {' '}<span className="author">{this.props.author}</span>
-            <span className="review-date"><br/>Date of review:
-              <Moment format="Do MMM YYYY" className="date">{this.props.createdAt}</Moment>
-            </span>
-          </p>
-        </div>
-
-        <h3>{this.props.title}</h3>
-
-        <p>{this.props.content}</p>
-
-        <ReviewStars overall={this.props.overallStars}/>
-
-        {this.state.showVote &&
-          <Vote
-            className="mt-3"
-            entityName="LocaleReview"
-            entityId={this.props.id}
-            positiveTerm="Helpful"
-            positiveVotes={this.props.positiveVotes}
-          />
-        }
+const LocaleReview = (props) => {
+  return (
+    <div className={'review pt-4 pb-4 ' + props.className}>
+      <div>
+        <p className="mb-3">
+          <FontAwesomeIcon icon={faUser} className="text-primary"/>
+          {' '}<span className="author">{props.author}</span>
+          <span className="review-date"><br/>Date of review:
+            <Moment format="Do MMM YYYY" className="date">{props.createdAt}</Moment>
+          </span>
+        </p>
       </div>
-    )
-  }
+
+      <h3>{props.title}</h3>
+
+      <p>{props.content}</p>
+
+      <ReviewStars overall={props.overallStars}/>
+
+      {props.showVote &&
+        <Vote
+          className="mt-3"
+          entityName="LocaleReview"
+          entityId={props.id}
+          positiveTerm="Helpful"
+          positiveVotes={props.positiveVotes}
+        />
+      }
+    </div>
+  )
 }
+
+LocaleReview.propTypes = {
+  id: PropTypes.number,
+  slug: PropTypes.string,
+  className: PropTypes.string,
+  author: PropTypes.string,
+  createdAt: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  overallStars: PropTypes.number,
+  positiveVotes: PropTypes.number,
+  showVote: PropTypes.bool
+}
+
+LocaleReview.defaultProps = {
+  showVote: true,
+  overallStars: 0,
+  positiveVotes: 0
+}
+
+export default LocaleReview
