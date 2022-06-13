@@ -1,105 +1,45 @@
-import React from 'react'
-
-import {
-  Button, Label
-} from 'reactstrap'
+import React, { useRef, useState } from 'react'
+import { Button, Label } from 'reactstrap'
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation'
 import LoadingOverlay from 'react-loading-overlay'
 import Loader from 'react-loaders'
-import { Redirect } from 'react-router-dom'
 import Constants from '../Constants'
 
-export default class ContactForm extends React.Component {
-  state = {
-    emailAddress: '',
-    name: '',
-    message: '',
-    agreeTerms: false,
-    isFormSubmitting: false,
-    redirectToUrl: null
-  }
+const ContactForm = (props) => {
+  const [emailAddress, setEmailAddress] = useState('')
+  const [name, setName] = useState('')
+  const [message, setMessage] = useState('')
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false)
 
-  handleChange = (event) => {
+  const contactForm = useRef(null)
+
+  const handleChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
 
-    this.setState({
-      [name]: value
-    })
-  }
-
-  render () {
-    if (this.state.redirectToUrl) {
-      return (<Redirect to={this.state.redirectToUrl} />)
+    switch (target.name) {
+      case 'emailAddress':
+        setEmailAddress(value)
+        break
+      case 'name':
+        setName(value)
+        break
+      case 'message':
+        setMessage(value)
+        break
     }
-    return (
-      <LoadingOverlay
-        active={this.state.isFormSubmitting}
-        styles={{
-          overlay: (base) => ({
-            ...base,
-            background: '#fff',
-            opacity: 0.5
-          })
-        }}
-        spinner={<Loader active type='ball-triangle-path' />}
-      >
-        <AvForm id="contact-form" onValidSubmit={this.handleValidSubmit} ref={c => (this.form = c)}>
-          <AvGroup>
-            <Label for="email">Your email</Label>
-            <AvInput
-              type="email"
-              name="emailAddress"
-              required
-              onChange={this.handleChange}
-              placeholder="Enter your email address"
-              value={this.state.emailAddress}
-            />
-            <AvFeedback>Please enter a valid email address, example: jane.doe@gmail.com</AvFeedback>
-          </AvGroup>
-          <AvGroup>
-            <Label for="name">Your name</Label>
-            <AvInput
-              type="text"
-              name="name"
-              required
-              onChange={this.handleChange}
-              placeholder="Enter your name"
-              value={this.state.name}
-            />
-            <AvFeedback>Please enter your name.</AvFeedback>
-          </AvGroup>
-          <AvGroup>
-            <Label for="message">Your message</Label>
-            <AvInput
-              type="textarea"
-              name="message"
-              required
-              onChange={this.handleChange}
-              placeholder="Enter your message"
-              value={this.state.message}
-            />
-            <AvFeedback>Please enter your message.</AvFeedback>
-          </AvGroup>
-          <Button id="register-form-submit" color="primary" size="lg" className="mt-4">
-            Contact us
-          </Button>
-        </AvForm>
-      </LoadingOverlay>
-    )
   }
 
-  handleValidSubmit = () => {
-    this.setState({ isFormSubmitting: true })
+  const handleValidSubmit = (res) => {
+    setIsFormSubmitting(true)
+
     const payload = {
-      emailAddress: this.state.emailAddress,
-      name: this.state.name,
-      message: this.state.message,
+      emailAddress,
+      name,
+      message,
       captchaToken: null
     }
 
-    const component = this
     /* eslint-disable-next-line no-undef */
     grecaptcha.ready(function () {
       /* eslint-disable-next-line no-undef */
@@ -111,12 +51,13 @@ export default class ContactForm extends React.Component {
         })
           .then(
             response => {
-              component.setState({ isFormSubmitting: false })
+              setIsFormSubmitting(false)
+
               if (!response.ok) {
                 if (response.status === 500) {
-                  component.props.addFlashMessage('error', 'Sorry, something went wrong with your request.')
+                  props.addFlashMessage('error', 'Sorry, something went wrong with your request.')
                 }
-                component.props.fetchFlashMessages()
+                props.fetchFlashMessages()
                 /* eslint-disable-next-line prefer-promise-reject-errors */
                 return Promise.reject('Error: ' + response.status)
               }
@@ -124,15 +65,63 @@ export default class ContactForm extends React.Component {
             }
           )
           .then((data) => {
-            component.clearForm()
-            component.props.fetchFlashMessages()
+            props.fetchFlashMessages()
+            contactForm.current.reset()
           })
           .catch(err => console.error('Error:', err))
       })
     })
   }
 
-  clearForm () {
-    this.form && this.form.reset()
-  }
+  return (
+    <LoadingOverlay
+      active={isFormSubmitting}
+      styles={Constants.LOADING_OVERLAY_STYLE}
+      spinner={<Loader active type='ball-triangle-path' />}
+    >
+      <AvForm id="contact-form" onValidSubmit={handleValidSubmit} ref={contactForm}>
+        <AvGroup>
+          <Label for="email">Your email</Label>
+          <AvInput
+            type="email"
+            name="emailAddress"
+            required
+            onChange={handleChange}
+            placeholder="Enter your email address"
+            value={emailAddress}
+          />
+          <AvFeedback>Please enter a valid email address, example: jane.doe@gmail.com</AvFeedback>
+        </AvGroup>
+        <AvGroup>
+          <Label for="name">Your name</Label>
+          <AvInput
+            type="text"
+            name="name"
+            required
+            onChange={handleChange}
+            placeholder="Enter your name"
+            value={name}
+          />
+          <AvFeedback>Please enter your name.</AvFeedback>
+        </AvGroup>
+        <AvGroup>
+          <Label for="message">Your message</Label>
+          <AvInput
+            type="textarea"
+            name="message"
+            required
+            onChange={handleChange}
+            placeholder="Enter your message"
+            value={message}
+          />
+          <AvFeedback>Please enter your message.</AvFeedback>
+        </AvGroup>
+        <Button id="register-form-submit" color="primary" size="lg" className="mt-4">
+          Contact us
+        </Button>
+      </AvForm>
+    </LoadingOverlay>
+  )
 }
+
+export default ContactForm
