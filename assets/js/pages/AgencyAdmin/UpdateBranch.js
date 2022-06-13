@@ -1,91 +1,99 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Label, FormText, Button, Container } from 'reactstrap'
 import DataLoader from '../../components/DataLoader'
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation'
 
-export default class UpdateBranch extends React.Component {
-  state = {
-    name: '',
-    telephone: '',
-    email: '',
-    loaded: false
+const UpdateBranch = (props) => {
+  const [name, setName] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [email, setEmail] = useState('')
+  const [loaded, setLoaded] = useState(false)
+
+  const loadData = (data) => {
+    setName(data.name)
+    setTelephone(data.telephone)
+    setEmail(data.email)
+    setLoaded(true)
   }
 
-  constructor (props) {
-    super(props)
-    this.submit = this.props.submit
-  }
-
-  handleChange = (event) => {
+  const handleChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
 
-    this.setState({
-      [name]: value
-    })
-  }
-
-  render () {
-    return (
-      <Container>
-        <DataLoader
-          url={'/api/verified/branch/' + this.props.computedMatch.params.slug}
-          loadComponentData={this.loadData}
-        />
-        {this.state.loaded &&
-          <>
-            <h1>Update {this.state.name}</h1>
-            <AvForm onValidSubmit={this.handleValidSubmit}>
-              <AvGroup>
-                <Label for="name">Branch name</Label>
-                <AvInput name="name" value={this.state.name} disabled />
-                <FormText>
-                  If you would like to change your branch name, please contact us.
-                </FormText>
-              </AvGroup>
-              <AvGroup>
-                <Label for="telephone">Telephone</Label>
-                <AvInput name="telephone" value={this.state.telephone} placeholder="Branch telephone number" onChange={this.handleChange} />
-                <FormText>
-                  Optional. The telephone number of this branch. We will publish this.
-                </FormText>
-              </AvGroup>
-              <AvGroup>
-                <Label for="email">Email Address</Label>
-                <AvInput name="email" value={this.state.email} placeholder="Example: branch@youragency.com" onChange={this.handleChange} />
-                <FormText>
-                  Optional. The email address of this branch. We will publish this.
-                </FormText>
-              </AvGroup>
-              <Button color="primary">
-                Update your branch details
-              </Button>
-            </AvForm>
-          </>
-        }
-      </Container>
-    )
-  }
-
-  loadData = (data) => {
-    this.setState({
-      name: data.name,
-      telephone: data.telephone,
-      email: data.email,
-      loaded: true
-    })
-  }
-
-  handleValidSubmit = () => {
-    const payload = {
-      telephone: this.state.telephone,
-      email: this.state.email
+    switch (target.name) {
+      case 'name':
+        setName(value)
+        break
+      case 'telephone':
+        setTelephone(value)
+        break
+      case 'email':
+        setEmail(value)
+        break
     }
-    this.submit(
+  }
+
+  const handleValidSubmit = () => {
+    const payload = {
+      telephone,
+      email
+    }
+    props.submit(
       payload,
-      '/api/verified/branch/' + this.props.computedMatch.params.slug,
+      '/api/verified/branch/' + props.computedMatch.params.slug,
       'PUT'
     )
   }
+
+  return (
+    <Container>
+      <DataLoader
+        url={'/api/verified/branch/' + props.computedMatch.params.slug}
+        loadComponentData={loadData}
+      />
+      {loaded &&
+        <>
+          <h1>Update {name}</h1>
+          <AvForm onValidSubmit={handleValidSubmit}>
+            <AvGroup>
+              <Label for="name">Branch name</Label>
+              <AvInput name="name" value={name} disabled />
+              <FormText>
+                If you would like to change your branch name, please contact us.
+              </FormText>
+            </AvGroup>
+            <AvGroup>
+              <Label for="telephone">Telephone</Label>
+              <AvInput name="telephone" value={telephone} placeholder="Branch telephone number" onChange={handleChange} />
+              <FormText>
+                Optional. The telephone number of this branch. We will publish this.
+              </FormText>
+            </AvGroup>
+            <AvGroup>
+              <Label for="email">Email Address</Label>
+              <AvInput name="email" value={email} placeholder="Example: branch@youragency.com" onChange={handleChange} />
+              <FormText>
+                Optional. The email address of this branch. We will publish this.
+              </FormText>
+            </AvGroup>
+            <Button color="primary">
+              Update your branch details
+            </Button>
+          </AvForm>
+        </>
+      }
+    </Container>
+  )
 }
+
+UpdateBranch.propTypes = {
+  submit: PropTypes.func,
+  computedMatch: PropTypes.shape({
+    params: PropTypes.shape({
+      slug: PropTypes.string
+    })
+  })
+}
+
+export default UpdateBranch
