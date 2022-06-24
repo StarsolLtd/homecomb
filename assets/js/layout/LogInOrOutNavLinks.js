@@ -1,36 +1,40 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Login from '../modals/Login'
+import PropTypes from 'prop-types'
 
-export default class LogInOurOutNavLinks extends Component {
-  state = {
-    showLoginModal: false
+const LogInOurOutNavLinks = (props) => {
+  const [loginModalVisible, setLoginModalVisible] = useState(false)
+
+  const hideLoginModal = () => {
+    setLoginModalVisible(false)
   }
 
-  hideLoginModal = () => {
-    this.setState({ showLoginModal: false })
+  const showLoginModal = () => {
+    setLoginModalVisible(true)
   }
 
-  showLoginModal = () => {
-    this.setState({ showLoginModal: true })
-  }
+  return (
+    <>
+      {loginModalVisible &&
+        <Login hideLoginModal={hideLoginModal} />
+      }
 
-  render () {
-    return (
-      <>
-        {this.state.showLoginModal &&
-          <Login hideLoginModal={this.hideLoginModal} />
-        }
-
-        {this.props.user &&
-          <li><a href="/logout" className={this.props.className}>Log Out</a></li>
-        }
-        {!this.props.user &&
-          <>
-            <li><a onClick={this.showLoginModal} className={this.props.className}>Log In</a></li>
-            <li><a href="/register" className={this.props.className + ' register-link'}>Register</a></li>
-          </>
-        }
-      </>
-    )
-  }
+      {props.user &&
+        <li><a href="/logout" className={props.className}>Log Out</a></li>
+      }
+      {!props.user &&
+        <>
+          <li><a onClick={showLoginModal} className={props.className}>Log In</a></li>
+          <li><a href="/register" className={props.className + ' register-link'}>Register</a></li>
+        </>
+      }
+    </>
+  )
 }
+
+LogInOurOutNavLinks.propTypes = {
+  className: PropTypes.string,
+  user: PropTypes.object
+}
+
+export default LogInOurOutNavLinks
