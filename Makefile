@@ -125,6 +125,10 @@ php-test-unit:
 php-test-unit-coverage:
 	docker exec -it homecomb_php_1 vendor/bin/phpunit --coverage-html var/tests/coverage tests/Unit
 
+php-test-unit-coverage-changed:
+	docker exec -it homecomb_php_1 vendor/bin/phpunit --coverage-xml var/tests/coverage tests/Unit
+	docker exec -it homecomb_php_1 php .github/coverage.php
+
 php-test-end:
 	make clear-env-local load-fixtures
 
@@ -209,4 +213,3 @@ phpmd-naming:
 
 phpmd-unused-code:
 	docker exec -it homecomb_php_1 php vendor/bin/phpmd src/ text rulesets/unusedcode.xml
-

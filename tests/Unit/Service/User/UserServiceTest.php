@@ -13,9 +13,6 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @covers \App\Service\UserService
- */
 final class UserServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -36,9 +33,6 @@ final class UserServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\User\UserService::getFlatModelFromUserInterface
-     */
     public function testGetFlatModelFromUserInterface1(): void
     {
         $user = (new User())->setEmail('jack@starsol.co.uk');
@@ -52,7 +46,6 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\User\UserService::getFlatModelFromUserInterface
      * Test returns null when user is null
      */
     public function testGetFlatModelFromUserInterface2(): void
@@ -63,7 +56,6 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\User\UserService::getUserEntityOrNullFromUserInterface
      * Test gets user entity from repository when $user is not already an entity but does implement UserInterface
      */
     public function testGetUserEntityOrNullFromUserInterface1(): void
@@ -83,7 +75,6 @@ final class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\User\UserService::getEntityFromInterface
      * Test returns null when $user is null
      */
     public function testGetEntityFromInterface1(): void
