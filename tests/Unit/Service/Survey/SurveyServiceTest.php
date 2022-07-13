@@ -27,9 +27,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @covers \App\Service\SurveyService
- */
 final class SurveyServiceTest extends TestCase
 {
     use EntityManagerTrait;

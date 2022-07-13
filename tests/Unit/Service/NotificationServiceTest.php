@@ -2,9 +2,11 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Controller\Admin\BranchCrudController;
 use App\Controller\Admin\FlagCrudController;
 use App\Controller\Admin\LocaleReviewCrudController;
 use App\Controller\Admin\TenancyReviewCrudController;
+use App\Entity\Branch;
 use App\Entity\Flag\Flag;
 use App\Entity\Review\LocaleReview;
 use App\Entity\TenancyReview;
@@ -23,9 +25,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-/**
- * @covers \App\Service\NotificationService
- */
 final class NotificationServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -54,9 +53,6 @@ final class NotificationServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\NotificationService::sendLocaleReviewModerationNotification
-     */
     public function testLocaleSendReviewModerationNotification(): void
     {
         $LocaleReview = $this->prophesize(LocaleReview::class);
@@ -84,9 +80,6 @@ final class NotificationServiceTest extends TestCase
         $this->notificationService->sendLocaleReviewModerationNotification($LocaleReview->reveal());
     }
 
-    /**
-     * @covers \App\Service\NotificationService::sendTenancyReviewModerationNotification
-     */
     public function testTenancySendReviewModerationNotification(): void
     {
         $tenancyReview = $this->prophesize(TenancyReview::class);
@@ -114,9 +107,6 @@ final class NotificationServiceTest extends TestCase
         $this->notificationService->sendTenancyReviewModerationNotification($tenancyReview->reveal());
     }
 
-    /**
-     * @covers \App\Service\NotificationService::sendFlagModerationNotification
-     */
     public function testFlagReviewModerationNotification(): void
     {
         $flag = $this->prophesize(Flag::class);
@@ -143,5 +133,34 @@ final class NotificationServiceTest extends TestCase
         $this->loggerMock->info('Email sent to gina@starsol.co.uk')->shouldBeCalledOnce();
 
         $this->notificationService->sendFlagModerationNotification($flag->reveal());
+    }
+
+    public function testSendBranchModerationNotification(): void
+    {
+        $branch = $this->prophesize(Branch::class);
+
+        $branch->getId()->shouldBeCalledOnce()->willReturn(77);
+
+        $crudUrlBuilder = $this->prophesize(CrudUrlBuilder::class);
+        $this->crudUrlGeneratorMock->build()->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setController(BranchCrudController::class)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setAction(Action::EDIT)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->setEntityId(77)->shouldBeCalledOnce()->willReturn($crudUrlBuilder);
+        $crudUrlBuilder->generateUrl()->shouldBeCalledOnce()->willReturn('http://homecomb/test');
+
+        $user = $this->prophesize(User::class);
+
+        $this->userRepositoryMock
+            ->findUsersWithRole('ROLE_MODERATOR')
+            ->shouldBeCalledOnce()
+            ->willReturn([$user]);
+
+        $user->getEmail()->shouldBeCalledOnce()->willReturn('test@starsol.co.uk');
+
+        $this->mailerMock->send(Argument::type(Email::class))->shouldBeCalledOnce();
+
+        $this->loggerMock->info('Email sent to test@starsol.co.uk')->shouldBeCalledOnce();
+
+        $this->notificationService->sendBranchModerationNotification($branch->reveal());
     }
 }

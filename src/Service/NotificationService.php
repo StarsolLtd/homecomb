@@ -23,6 +23,8 @@ use Symfony\Component\Mime\Email;
 
 class NotificationService
 {
+    private const FROM_ADDRESS = 'mailer@homecomb.co.uk';
+
     private LoggerInterface $logger;
 
     public function __construct(
@@ -131,7 +133,7 @@ class NotificationService
         $to = $moderator->getEmail();
 
         $email = (new Email())
-            ->from('mailer@homecomb.co.uk')
+            ->from(self::FROM_ADDRESS)
             ->to($to)
             ->subject($subject)
             ->text($text);

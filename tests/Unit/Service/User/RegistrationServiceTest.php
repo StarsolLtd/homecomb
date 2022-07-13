@@ -22,9 +22,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-/**
- * @covers \App\Service\UserRegistrationService
- */
 final class RegistrationServiceTest extends TestCase
 {
     use ProphecyTrait;
@@ -54,9 +51,6 @@ final class RegistrationServiceTest extends TestCase
         );
     }
 
-    /**
-     * @covers \App\Service\User\RegistrationService::register
-     */
     public function testRegister1(): void
     {
         $input = $this->prophesize(RegisterInputInterface::class);
@@ -84,7 +78,6 @@ final class RegistrationServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserRegistrationService::register
      * Test throws ConflictException if already exists
      */
     public function testRegister2(): void
@@ -107,9 +100,6 @@ final class RegistrationServiceTest extends TestCase
         $this->assertEntityManagerUnused();
     }
 
-    /**
-     * @covers \App\Service\UserRegistrationService::registerFromGoogleUser
-     */
     public function testRegisterFromGoogleUser1(): void
     {
         $googleUser = $this->prophesize(GoogleUser::class);
@@ -136,7 +126,6 @@ final class RegistrationServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserRegistrationService::registerFromGoogleUser
      * Test throws ConflictException if already exists
      */
     public function testRegisterFromGoogleUser2(): void
@@ -158,7 +147,6 @@ final class RegistrationServiceTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\UserRegistrationService::registerFromGoogleUser
      * Test throws UserException if email is null
      */
     public function testRegisterFromGoogleUser3(): void
@@ -174,9 +162,6 @@ final class RegistrationServiceTest extends TestCase
         $this->assertEntityManagerUnused();
     }
 
-    /**
-     * @covers \App\Service\UserRegistrationService::sendVerificationEmail
-     */
     public function testSendVerificationEmail1(): void
     {
         $user = $this->prophesizeSendVerificationEmail();
