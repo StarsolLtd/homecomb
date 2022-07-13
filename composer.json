@@ -6,7 +6,6 @@
     "require": {
         "php": "^8.0",
         "ext-ctype": "*",
-        "ext-dom": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "doctrine/annotations": "^1.11",
